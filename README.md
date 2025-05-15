@@ -40,15 +40,15 @@ Add to CmakeLists.txt
 // Fetch this library
 include(FetchContent)
 FetchContent_Declare(
-  JT808ProtocolCPP
+  JT808Protocol
   GIT_REPOSITORY https://github.com/bienxanh1901/JT808ProtocolCPP.git
   GIT_TAG        <release tag>
 )
 
-FetchContent_MakeAvailable(JT808ProtocolCPP)
+FetchContent_MakeAvailable(JT808Protocol)
 
 ...
 
 // Link library
-target_link_libraries(myapp PRIVATE JT808ProtocolCPP)
+target_link_libraries(myapp PRIVATE JT808Protocol)
 ```
