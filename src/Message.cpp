@@ -141,34 +141,49 @@ bool Message::parseBody(const std::vector<uint8_t>& data)
         break;
     case TerminalRegistration:
         m_body.reset(new MessageBody::TerminalRegistration());
+        break;
     case TerminalAuthentication:
         m_body.reset(new MessageBody::TerminalAuthentication());
+        break;
     case TerminalParameterQueryResponse:
         m_body.reset(new MessageBody::TerminalParameterQueryResponse());
+        break;
     case TerminalPropertiesQueryResponse:
         m_body.reset(new MessageBody::TerminalPropertiesQueryResponse());
+        break;
     case TerminalUpgradePackageResult:
         m_body.reset(new MessageBody::TerminalUpgradePackageResult());
+        break;
     case LocationInformationReport:
         m_body.reset(new MessageBody::LocationInformationReport());
+        break;
     case LocationInformationQueryResponse:
         m_body.reset(new MessageBody::LocationInformationQueryResponse());
+        break;
     case SubPackageRetransmissionRequest:
         m_body.reset(new MessageBody::SubPackageRetransmissionRequest());
+        break;
     case TerminalRegistrationResponse:
         m_body.reset(new MessageBody::TerminalRegistrationResponse());
+        break;
     case TerminalParameterSetting:
         m_body.reset(new MessageBody::TerminalParameterSetting());
+        break;
     case TerminalControl:
         m_body.reset(new MessageBody::TerminalControl());
+        break;
     case TerminalSpecificParameterQuery:
         m_body.reset(new MessageBody::TerminalParameterQuery());
+        break;
     case TerminalUpgradePackage:
         m_body.reset(new MessageBody::TerminalUpgradePackage());
+        break;
     case TemporaryLocationTrackingControl:
         m_body.reset(new MessageBody::TemporaryLocationTrackingControl());
+        break;
     case ManualAlarmConfirmation:
         m_body.reset(new MessageBody::ManualAlarmConfirmation());
+        break;
     case TerminalHeartBeat:
     case TerminalParameterQuery:
     case TerminalLogout:
@@ -176,6 +191,7 @@ bool Message::parseBody(const std::vector<uint8_t>& data)
     case LocationInformationQuery:
     default:
         m_body.reset(new MessageBody::MessageBodyBase());
+        break;
     }
 
     m_body->parse(body);
