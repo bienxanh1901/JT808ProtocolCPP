@@ -17,14 +17,12 @@ if (JT808_TEST)
   FetchContent_MakeAvailable(googletest)
 endif(JT808_TEST)
 
-
-
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
-
-file(GLOB HEADERS "include/*/*.h" "include/*/*/*.h" "include/*/*/*/*.h")
 file(GLOB SOURCES "src/*.cpp")
 
-add_library(${PROJECT_NAME} ${HEADERS} ${SOURCES})
+set(JT808_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(${JT808_INCLUDE_DIR})
+
+add_library(${PROJECT_NAME} ${SOURCES})
 
 if (JT808_TEST)
   message("Configure Unit tests")
@@ -32,8 +30,12 @@ if (JT808_TEST)
   add_subdirectory(tests)
 endif(JT808_TEST)
 
+target_include_directories(${PROJECT_NAME} PUBLIC
+  "$<BUILD_INTERFACE:${JT808_INCLUDE_DIR}>"
+  "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}>")
+
 include(GNUInstallDirs)
 install(TARGETS ${PROJECT_NAME}
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
