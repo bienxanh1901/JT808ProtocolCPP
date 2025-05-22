@@ -11,7 +11,7 @@ namespace JT808::MessageBody {
 class TextMessageDispatch : public MessageBodyBase
 {
 public:
-    typedef union {
+    union Flag {
         struct
         {
             uint8_t sos : 1;
@@ -23,7 +23,7 @@ public:
             uint8_t reserverd2 : 2;
         } bits;
         uint8_t value;
-    } Flag;
+    };
 
     TextMessageDispatch() = default;
     TextMessageDispatch(Flag flag, const std::string& text);

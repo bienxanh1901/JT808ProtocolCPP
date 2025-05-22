@@ -11,7 +11,7 @@ namespace JT808::Utils {
 /**
  * @brief ProtocolEscapeFlags
  */
-typedef enum
+enum
 {
     ProtocolSign = 0x7E,
     ProtocolEscape = 0x7D,
@@ -19,15 +19,15 @@ typedef enum
     ProtocolEscapeEscape = 0x01,
 } ProtocolEscapeFlags;
 
-typedef union {
+union U32Array {
     uint32_t value;
     uint8_t array[4];
-} U32Array;
+};
 
-typedef union {
+union U16Array {
     uint16_t value;
     uint8_t array[2];
-} U16Array;
+};
 
 uint16_t endianSwap16(const uint16_t& val);
 

@@ -8,7 +8,7 @@ namespace JT808::MessageBody {
 /**
  * @brief TerminalType
  */
-typedef union {
+union TerminalType {
     struct
     {
         uint16_t isPassengerVehicle : 1;
@@ -21,9 +21,9 @@ typedef union {
         uint16_t reserved2 : 8;
     } bits;
     uint16_t value;
-} TerminalType;
+};
 
-typedef union {
+union GNSSProperties {
     struct
     {
         uint8_t isGPSSupported : 1;
@@ -33,9 +33,9 @@ typedef union {
         uint8_t reserved : 4;
     } bits;
     uint8_t value;
-} GNSSProperties;
+};
 
-typedef union {
+union CommunicationModuleProperties {
     struct
     {
         uint8_t isGPRSSupported : 1;
@@ -48,7 +48,7 @@ typedef union {
         uint8_t isOtherSupported : 1;
     } bits;
     uint8_t value;
-} CommunicationModuleProperties;
+};
 
 }
 
