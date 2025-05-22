@@ -63,5 +63,7 @@ void appendU32(uint32_t val, std::vector<uint8_t>& data);
 
 void appendBCD(const std::string val, std::vector<uint8_t>& data);
 
+void appendGBK(const std::string val, std::vector<uint8_t>& data);
+
 }
 #endif // UTILS_H

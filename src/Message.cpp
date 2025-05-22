@@ -1,24 +1,8 @@
 #include "JT808/Message.h"
 #include "JT808/BCD.h"
+#include "JT808/MessageBody/MessageBodyFactory.h"
 #include "JT808/MessageIds.h"
 #include "JT808/Utils.h"
-
-#include "JT808/MessageBody/GeneralResponse.h"
-#include "JT808/MessageBody/LocationInformationQueryResponse.h"
-#include "JT808/MessageBody/LocationInformationReport.h"
-#include "JT808/MessageBody/ManualAlarmConfirmation.h"
-#include "JT808/MessageBody/SubPackageRetransmissionRequest.h"
-#include "JT808/MessageBody/TemporaryLocationTrackingControl.h"
-#include "JT808/MessageBody/TerminalAuthentication.h"
-#include "JT808/MessageBody/TerminalControl.h"
-#include "JT808/MessageBody/TerminalParameterQuery.h"
-#include "JT808/MessageBody/TerminalParameterQueryResponse.h"
-#include "JT808/MessageBody/TerminalParameterSetting.h"
-#include "JT808/MessageBody/TerminalPropertiesQueryResponse.h"
-#include "JT808/MessageBody/TerminalRegistration.h"
-#include "JT808/MessageBody/TerminalRegistrationResponse.h"
-#include "JT808/MessageBody/TerminalUpgradePackage.h"
-#include "JT808/MessageBody/TerminalUpgradePackageResult.h"
 
 #define MINIMUM_MSG_SIZE 15
 #define MSG_HEADER_POS 1
@@ -134,65 +118,7 @@ bool Message::parseBody(const std::vector<uint8_t>& data)
 
     body.assign(data.begin() + pos, data.begin() + pos + m_header.bodyProps.bits.len);
 
-    switch (m_header.msgID) {
-    case TerminalGeneralResponse:
-    case PlatformGeneralResponse:
-        m_body.reset(new MessageBody::GeneralResponse());
-        break;
-    case TerminalRegistration:
-        m_body.reset(new MessageBody::TerminalRegistration());
-        break;
-    case TerminalAuthentication:
-        m_body.reset(new MessageBody::TerminalAuthentication());
-        break;
-    case TerminalParameterQueryResponse:
-        m_body.reset(new MessageBody::TerminalParameterQueryResponse());
-        break;
-    case TerminalPropertiesQueryResponse:
-        m_body.reset(new MessageBody::TerminalPropertiesQueryResponse());
-        break;
-    case TerminalUpgradePackageResult:
-        m_body.reset(new MessageBody::TerminalUpgradePackageResult());
-        break;
-    case LocationInformationReport:
-        m_body.reset(new MessageBody::LocationInformationReport());
-        break;
-    case LocationInformationQueryResponse:
-        m_body.reset(new MessageBody::LocationInformationQueryResponse());
-        break;
-    case SubPackageRetransmissionRequest:
-        m_body.reset(new MessageBody::SubPackageRetransmissionRequest());
-        break;
-    case TerminalRegistrationResponse:
-        m_body.reset(new MessageBody::TerminalRegistrationResponse());
-        break;
-    case TerminalParameterSetting:
-        m_body.reset(new MessageBody::TerminalParameterSetting());
-        break;
-    case TerminalControl:
-        m_body.reset(new MessageBody::TerminalControl());
-        break;
-    case TerminalSpecificParameterQuery:
-        m_body.reset(new MessageBody::TerminalParameterQuery());
-        break;
-    case TerminalUpgradePackage:
-        m_body.reset(new MessageBody::TerminalUpgradePackage());
-        break;
-    case TemporaryLocationTrackingControl:
-        m_body.reset(new MessageBody::TemporaryLocationTrackingControl());
-        break;
-    case ManualAlarmConfirmation:
-        m_body.reset(new MessageBody::ManualAlarmConfirmation());
-        break;
-    case TerminalHeartBeat:
-    case TerminalParameterQuery:
-    case TerminalLogout:
-    case TerminalPropertiesQuery:
-    case LocationInformationQuery:
-    default:
-        m_body.reset(new MessageBody::MessageBodyBase());
-        break;
-    }
+    m_body = MessageBody::MessageBodyFactory::create(MessageIds(m_header.msgID));
 
     m_body->parse(body);
 

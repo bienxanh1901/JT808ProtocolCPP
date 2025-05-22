@@ -17,12 +17,14 @@ if (JT808_TEST)
   FetchContent_MakeAvailable(googletest)
 endif(JT808_TEST)
 
+file(GLOB HEADERS "include/*/*.h" "include/*/*/*.h" "include/*/*/*/*.h")
+
 file(GLOB SOURCES "src/*.cpp")
 
 set(JT808_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 include_directories(${JT808_INCLUDE_DIR})
 
-add_library(${PROJECT_NAME} ${SOURCES})
+add_library(${PROJECT_NAME} ${HEADERS} ${SOURCES})
 
 if (JT808_TEST)
   message("Configure Unit tests")

@@ -5,29 +5,30 @@ namespace JT808 {
 typedef enum
 {
     // Terminal
-    TerminalGeneralResponse = 0x0001,
-    TerminalHeartBeat = 0x0002,
-    TerminalLogout = 0x0003,
-    TerminalRegistration = 0x0100,
-    TerminalAuthentication = 0x0102,
-    TerminalParameterQueryResponse = 0x0104,
-    TerminalPropertiesQueryResponse = 0x0107,
-    TerminalUpgradePackageResult = 0x0108,
-    LocationInformationReport = 0x0200,
-    LocationInformationQueryResponse = 0x0201,
+    TerminalGeneralResponseMsgId = 0x0001,
+    TerminalHeartBeatMsgId = 0x0002,
+    TerminalLogoutMsgId = 0x0003,
+    TerminalRegistrationMsgId = 0x0100,
+    TerminalAuthenticationMsgId = 0x0102,
+    TerminalParameterQueryResponseMsgId = 0x0104,
+    TerminalPropertiesQueryResponseMsgId = 0x0107,
+    TerminalUpgradePackageResultMsgId = 0x0108,
+    LocationInformationReportMsgId = 0x0200,
+    LocationInformationQueryResponseMsgId = 0x0201,
     // Platform
-    PlatformGeneralResponse = 0x8001,
-    SubPackageRetransmissionRequest = 0x8003,
-    TerminalRegistrationResponse = 0x8100,
-    TerminalParameterSetting = 0x8103,
-    TerminalParameterQuery = 0x8104,
-    TerminalControl = 0x8105,
-    TerminalSpecificParameterQuery = 0x8106,
-    TerminalPropertiesQuery = 0x8107,
-    TerminalUpgradePackage = 0x8108,
-    LocationInformationQuery = 0x8201,
-    TemporaryLocationTrackingControl = 0x8202,
-    ManualAlarmConfirmation = 0x8203
+    PlatformGeneralResponseMsgId = 0x8001,
+    SubPackageRetransmissionRequestMsgId = 0x8003,
+    TerminalRegistrationResponseMsgId = 0x8100,
+    TerminalParameterSettingMsgId = 0x8103,
+    TerminalParameterQueryMsgId = 0x8104,
+    TerminalControlMsgId = 0x8105,
+    TerminalSpecificParameterQueryMsgId = 0x8106,
+    TerminalPropertiesQueryMsgId = 0x8107,
+    TerminalUpgradePackageMsgId = 0x8108,
+    LocationInformationQueryMsgId = 0x8201,
+    TemporaryLocationTrackingControlMsgId = 0x8202,
+    ManualAlarmConfirmationMsgId = 0x8203,
+    TextMessageDispatchMsgId = 0x8300
 } MessageIds;
 }
 #endif // MESSAGEIDS_H
