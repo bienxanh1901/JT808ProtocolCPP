@@ -95,7 +95,7 @@ std::string gbkEncode(const std::string& data)
 
     if (iconv(encoder, &inPtr, &inBytesLeft, &outPtr, &outBytesLeft) != -1) {
         *outPtr = '\0';
-        result.assign(gbkBuffer.data(), gbkBuffer.size());
+        result.assign(gbkBuffer.data(), gbkBuffer.size() - outBytesLeft);
     }
 
     iconv_close(encoder);
@@ -124,7 +124,7 @@ std::string gbkDecode(const std::string& data)
 
     if (iconv(decoder, &inPtr, &inBytesLeft, &outPtr, &outBytesLeft) != -1) {
         *outPtr = '\0';
-        result.assign(utf8Buffer.data(), utf8Buffer.size());
+        result.assign(utf8Buffer.data(), utf8Buffer.size() - outBytesLeft - 1);
     }
 
     iconv_close(decoder);
@@ -219,6 +219,12 @@ void appendBCD(const std::string val, std::vector<uint8_t>& data)
 {
     std::vector<uint8_t> bcd = BCD::fromString(val);
     data.insert(data.end(), bcd.begin(), bcd.end());
+}
+
+void appendGBK(const std::string val, std::vector<uint8_t>& data)
+{
+    std::string gbk = gbkEncode(val);
+    data.insert(data.end(), gbk.begin(), gbk.end());
 }
 
 }
