@@ -12,7 +12,7 @@ using ExtraInfo = std::map<uint8_t, std::vector<uint8_t>>;
 /**
  * @brief LocationAdditionalInformationIds
  */
-typedef enum
+enum LocationExtraIds
 {
     MileageExtraId = 0x01,
     FuelMeterExtraId = 0x01,
@@ -30,33 +30,33 @@ typedef enum
     GNSSSatelliteNumberExtraId = 0x31,
     CustomInfoLengthExtraId = 0xE0,
     PositioningStatusExtraId = 0xEE,
-} LocationExtraIds;
+};
 
 /**
  * @brief LocationTypes
  */
-typedef enum
+enum LocationTypes
 {
     UnknownLocationType = 0,
     CircleAreaLocationType = 1,
     RectangleAreaLocationType = 2,
     PolygonAreaLocationType = 3,
     RouteLocationType = 4
-} LocationTypes;
+};
 
 /**
  * @brief InOutAreaDirectionTypes
  */
-typedef enum
+enum InOutAreaDirectionTypes
 {
     InAreaDirectionType = 0,
     OutAreaDirectionType = 1
-} InOutAreaDirectionTypes;
+};
 
 /**
  * @brief AlarmFlags
  */
-typedef union {
+union AlarmFlags {
     struct
     {
         uint32_t sos : 1;
@@ -91,12 +91,12 @@ typedef union {
         uint32_t doorOpen : 1;
     } bits;
     uint32_t value;
-} AlarmFlags;
+};
 
 /**
  * @brief StatusFlags
  */
-typedef union {
+union StatusFlags {
     struct
     {
         uint32_t isAccOn : 1;
@@ -122,12 +122,12 @@ typedef union {
         uint32_t reserved2 : 10;
     } bits;
     uint32_t value;
-} StatusFlags;
+};
 
 /**
  * @brief ExtendedVehicleSignalFlags
  */
-typedef union {
+union ExtendedVehicleSignalFlags {
     struct
     {
         uint32_t lowBeam : 1;
@@ -148,12 +148,12 @@ typedef union {
         uint32_t reserved : 17;
     } bits;
     uint32_t value;
-} ExtendedVehicleSignalFlags;
+};
 
 /**
  * @brief IOStatusFlags
  */
-typedef union {
+union IOStatusFlags {
     struct
     {
         uint16_t deepSleep : 1;
@@ -161,7 +161,7 @@ typedef union {
         uint16_t reserved : 14;
     } bits;
     uint16_t value;
-} IOStatusFlags;
+};
 
 }
 #endif // LOCATIONINFORMATION_H

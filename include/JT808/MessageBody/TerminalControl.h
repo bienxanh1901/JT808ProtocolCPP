@@ -16,7 +16,7 @@ public:
     /**
      * @brief Commands
      */
-    typedef enum
+    enum Commands
     {
         WirelessUpgrade = 1,
         ServerConnect = 2,
@@ -25,16 +25,16 @@ public:
         TerminalFactoryReset = 5,
         DataCommunicationOff = 6,
         WirelessCommunicationOff = 7
-    } Commands;
+    };
 
     /**
      * @brief ConnectionControlFlags
      */
-    typedef enum
+    enum ConnectionControlFlags
     {
         SpecificPlatformServer = 0,
         DefaultPlatformServer = 1
-    } ConnectionControlFlags;
+    };
 
     TerminalControl() = default;
     TerminalControl(Commands command, const std::string& param = "");

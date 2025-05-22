@@ -2,7 +2,7 @@
 #define MESSAGEIDS_H
 
 namespace JT808 {
-typedef enum
+enum MessageIds
 {
     // Terminal
     TerminalGeneralResponseMsgId = 0x0001,
@@ -15,6 +15,7 @@ typedef enum
     TerminalUpgradePackageResultMsgId = 0x0108,
     LocationInformationReportMsgId = 0x0200,
     LocationInformationQueryResponseMsgId = 0x0201,
+    EventReportMsgId = 0x0301,
     // Platform
     PlatformGeneralResponseMsgId = 0x8001,
     SubPackageRetransmissionRequestMsgId = 0x8003,
@@ -28,7 +29,8 @@ typedef enum
     LocationInformationQueryMsgId = 0x8201,
     TemporaryLocationTrackingControlMsgId = 0x8202,
     ManualAlarmConfirmationMsgId = 0x8203,
-    TextMessageDispatchMsgId = 0x8300
-} MessageIds;
+    TextMessageDispatchMsgId = 0x8300,
+    EventSettingMsgId = 0x8301
+};
 }
 #endif // MESSAGEIDS_H

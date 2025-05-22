@@ -23,11 +23,11 @@ public:
      * When bit 10th is 1, message body is encrypted using RSA algorithm
      * Other are reserved.
      */
-    typedef enum
+    enum EncryptAlgorithms
     {
         NoEncryptAlgorithm = 0, // BITSET: 000
         RSAEncryptAlgorithm = 1, // BITSET: 001
-    } EncryptAlgorithms;
+    };
 
     /**
      * @brief MessageBodyTypes
@@ -35,11 +35,11 @@ public:
      * If this bit is 1, message body is long message,
      * otherwise message body is short message
      */
-    typedef enum
+    enum BodyTypes
     {
         ShortBodyType = 0,
         LongBodyType = 1
-    } BodyTypes;
+    };
 
     /**
      * @brief PackageEncapsulation
@@ -47,14 +47,14 @@ public:
      *      fragTotal: Total number of sub messages
      *      fragSN: Message Package Serial Number
      */
-    typedef union {
+    union PackageEncapsulation {
         struct
         {
             uint16_t fragTotal;
             uint16_t fragSN;
         } data;
         uint32_t rawData;
-    } PackageEncapsulation;
+    };
 
     /**
      * @brief BodyProperties
@@ -64,7 +64,7 @@ public:
      *      segment: MessageBodyTypes
      *      reserve: reserved bits
      */
-    typedef union {
+    union BodyProperties {
         struct
         {
             uint16_t len : 10;
@@ -73,7 +73,7 @@ public:
             uint16_t reserve : 2;
         } bits;
         uint16_t value;
-    } BodyProperties;
+    };
 
     /**
      * @brief JT808 Message Header
@@ -84,14 +84,14 @@ public:
      *      msgSN: Message Serial Number
      *      pkgEncap: PackageEncapsulation
      */
-    typedef struct
+    struct Header
     {
         uint16_t msgID;
         BodyProperties bodyProps;
         std::string phone;
         uint16_t msgSN;
         PackageEncapsulation pkgEncap;
-    } Header;
+    };
 
     Message();
     Message(const Header& header, std::unique_ptr<MessageBody::MessageBodyBase> body);

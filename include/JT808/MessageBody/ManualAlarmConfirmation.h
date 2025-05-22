@@ -7,7 +7,7 @@
 
 namespace JT808::MessageBody {
 
-typedef union {
+union ManualAlarmConfirmationTypes {
     struct
     {
         uint32_t sos : 1;
@@ -23,7 +23,7 @@ typedef union {
         uint32_t reserved4 : 3;
     } bits;
     uint32_t value;
-} ManualAlarmConfirmationTypes;
+};
 
 class ManualAlarmConfirmation : public SequenceMessageBodyBase
 {

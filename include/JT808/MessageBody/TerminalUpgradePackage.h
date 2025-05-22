@@ -12,12 +12,12 @@ namespace JT808::MessageBody {
 /**
  * @brief UpgradeTypes
  */
-typedef enum
+enum UpgradeTypes
 {
     Terminal = 0,
     ICCardReader = 12,
     BDSModule = 52
-} UpgradeTypes;
+};
 
 /**
  * @brief The TerminalUpgradePackage class

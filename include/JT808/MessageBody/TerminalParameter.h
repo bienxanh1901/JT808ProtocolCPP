@@ -15,7 +15,7 @@ using TerminalParameters = std::map<uint32_t, std::vector<uint8_t>>;
 /**
  * @brief TerminalParameterIds
  */
-typedef enum
+enum
 {
     HeartBeatInterval = 0x0001,
     TCPMsgResponseTimeout = 0x0002,
@@ -117,7 +117,7 @@ typedef enum
 /**
  * @brief LocationReportStrategies
  */
-typedef enum
+enum
 {
     RegularReportStrategy = 0x00,
     DistanceReportStrategy = 0x01,
@@ -127,7 +127,7 @@ typedef enum
 /**
  * @brief LocationReportingMethods
  */
-typedef enum
+enum
 {
     ACCBasedMethod = 0x00,
     Login_ACCBasedMethod = 0x01,
@@ -136,7 +136,7 @@ typedef enum
 /**
  * @brief PhoneAnswerStrategies
  */
-typedef enum
+enum
 {
     AutomaticallyAnswer = 0,
     ACCOnAutomaticallyAnswer = 1, // Manually while ACC is OFF
@@ -145,7 +145,7 @@ typedef enum
 /**
  * @brief GNSSBaudrates
  */
-typedef enum
+enum
 {
     GNSSBRT4800 = 0x00,
     GNSSBRT9600 = 0x01,
@@ -158,7 +158,7 @@ typedef enum
 /**
  * @brief GNSSOutputFrequences
  */
-typedef enum
+enum
 {
     GNSSFreq500ms = 0x00,
     GNSSFreq1000ms = 0x01,
@@ -170,7 +170,7 @@ typedef enum
 /**
  * @brief GNSSDataUploadModes
  */
-typedef enum
+enum
 {
     LocalStorageMode = 0x00,
     TimeIntervalMode = 0x01,
@@ -183,7 +183,7 @@ typedef enum
 /**
  * @brief CollisionAlertParam
  */
-typedef union {
+union {
     uint8_t time;
     uint8_t acceleration;
 } CollisionAlertParam;

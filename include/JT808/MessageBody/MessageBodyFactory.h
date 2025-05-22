@@ -2,6 +2,8 @@
 #define MESSAGEBODYFACTORY_H
 
 #include "JT808//MessageBody/MessageBodyBase.h"
+#include "JT808/MessageBody/EventReport.h"
+#include "JT808/MessageBody/EventSetting.h"
 #include "JT808/MessageBody/GeneralResponse.h"
 #include "JT808/MessageBody/LocationInformationQueryResponse.h"
 #include "JT808/MessageBody/LocationInformationReport.h"
@@ -58,6 +60,8 @@ public:
              [] { return std::make_unique<TemporaryLocationTrackingControl>(); }},
             {ManualAlarmConfirmationMsgId, [] { return std::make_unique<ManualAlarmConfirmation>(); }},
             {TextMessageDispatchMsgId, [] { return std::make_unique<TextMessageDispatch>(); }},
+            {EventSettingMsgId, [] { return std::make_unique<EventSetting>(); }},
+            {EventReportMsgId, [] { return std::make_unique<EventReport>(); }},
         };
 
         auto it = factoryMap.find(id);
