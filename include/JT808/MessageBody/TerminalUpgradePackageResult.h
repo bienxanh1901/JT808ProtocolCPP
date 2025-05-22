@@ -15,12 +15,12 @@ public:
     /**
      * @brief UpgradeResults
      */
-    typedef enum
+    enum UpgradeResults
     {
         Succeeded = 0,
         Failed = 1,
         Canceled = 2
-    } UpgradeResults;
+    };
 
     TerminalUpgradePackageResult() = default;
     TerminalUpgradePackageResult(UpgradeTypes type, UpgradeResults result);

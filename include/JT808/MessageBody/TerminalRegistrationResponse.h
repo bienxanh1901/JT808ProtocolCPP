@@ -16,14 +16,14 @@ public:
     /**
      * @brief RegistrationResponseResults
      */
-    typedef enum
+    enum ResponseResults
     {
         Succeeded = 0,
         VehicleExisted = 1,
         VehicleNotFound = 2,
         TerminalExisted = 3,
         TerminalNotFound = 4,
-    } ResponseResults;
+    };
 
     TerminalRegistrationResponse() = default;
     TerminalRegistrationResponse(uint16_t seq, ResponseResults result, const std::string& authCode = "");

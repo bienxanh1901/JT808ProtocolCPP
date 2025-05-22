@@ -10,7 +10,7 @@ namespace JT808::MessageBody {
 /**
  * @brief LicensePlateColors
  */
-typedef enum
+enum LicensePlateColors
 {
     NoLicensePlate = 0,
     Blue = 1,
@@ -19,7 +19,7 @@ typedef enum
     White = 4,
     Green = 5,
     Other = 9
-} LicensePlateColors;
+};
 
 /**
  * @brief The TerminalRegistration class

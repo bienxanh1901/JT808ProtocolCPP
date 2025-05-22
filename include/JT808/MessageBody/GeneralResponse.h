@@ -12,14 +12,14 @@ namespace JT808::MessageBody {
 class GeneralResponse : public SequenceMessageBodyBase
 {
 public:
-    typedef enum
+    enum ResponseResults
     {
         Succeeded = 0x00,
         Failed = 0x01,
         IncorrectInformation = 0x02,
         NotSupporting = 0x03,
         AlarmProcessingConfirmation = 0x04,
-    } ResponseResults;
+    };
 
     GeneralResponse() = default;
     GeneralResponse(uint16_t seq, uint16_t id, ResponseResults result);
