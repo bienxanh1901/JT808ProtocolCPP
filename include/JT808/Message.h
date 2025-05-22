@@ -106,6 +106,7 @@ public:
     void setHeader(const Header& newHeader);
 
 private:
+    using MethodPtr = void (Message::*)();
     void validateChecksum(uint8_t checksum);
     bool parseHeader(const std::vector<uint8_t>& data);
     bool parseBody(const std::vector<uint8_t>& data);
