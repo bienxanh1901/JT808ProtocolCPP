@@ -2,8 +2,6 @@
 #define TERMINALREGISTRATION_H
 
 #include "MessageBodyBase.h"
-#include <cstdint>
-#include <string>
 
 namespace JT808::MessageBody {
 

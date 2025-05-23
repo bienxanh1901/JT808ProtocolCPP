@@ -5,9 +5,14 @@
 #include "JT808/MessageBody/EventReport.h"
 #include "JT808/MessageBody/EventSetting.h"
 #include "JT808/MessageBody/GeneralResponse.h"
+#include "JT808/MessageBody/InformationService.h"
+#include "JT808/MessageBody/InformationServiceCancel.h"
+#include "JT808/MessageBody/InformationServiceMenuSetting.h"
 #include "JT808/MessageBody/LocationInformationQueryResponse.h"
 #include "JT808/MessageBody/LocationInformationReport.h"
 #include "JT808/MessageBody/ManualAlarmConfirmation.h"
+#include "JT808/MessageBody/QuestionDispatch.h"
+#include "JT808/MessageBody/QuestionResponse.h"
 #include "JT808/MessageBody/SubPackageRetransmissionRequest.h"
 #include "JT808/MessageBody/TemporaryLocationTrackingControl.h"
 #include "JT808/MessageBody/TerminalAuthentication.h"
@@ -22,8 +27,6 @@
 #include "JT808/MessageBody/TerminalUpgradePackageResult.h"
 #include "JT808/MessageBody/TextMessageDispatch.h"
 #include "JT808/MessageIds.h"
-#include "QuestionDispatch.h"
-#include "QuestionResponse.h"
 
 #include <functional>
 #include <memory>
@@ -66,6 +69,9 @@ public:
             {EventReportMsgId, [] { return std::make_unique<EventReport>(); }},
             {QuestionDispatchMsgId, [] { return std::make_unique<QuestionDispatch>(); }},
             {QuestionResponseMsgId, [] { return std::make_unique<QuestionResponse>(); }},
+            {InformationServiceMenuSettingMsgId, [] { return std::make_unique<InformationServiceMenuSetting>(); }},
+            {InformationServiceCancelMsgId, [] { return std::make_unique<InformationServiceCancel>(); }},
+            {InformationServiceMsgId, [] { return std::make_unique<InformationService>(); }},
         };
 
         auto it = factoryMap.find(id);

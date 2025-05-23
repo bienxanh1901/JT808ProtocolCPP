@@ -4,9 +4,6 @@
 #include "MessageBodyBase.h"
 #include "TerminalUpgradePackage.h"
 
-#include <cstdint>
-#include <vector>
-
 namespace JT808::MessageBody {
 
 class TerminalUpgradePackageResult : public MessageBodyBase

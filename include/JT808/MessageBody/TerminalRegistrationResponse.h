@@ -2,8 +2,6 @@
 #define TERMINALREGISTRATIONRESPONSE_H
 
 #include "SequenceMessageBodyBase.h"
-#include <cstdint>
-#include <string>
 
 namespace JT808::MessageBody {
 
