@@ -45,6 +45,8 @@ std::string gbkEncode(const std::string& data);
 
 std::string gbkDecode(const std::string& data);
 
+std::string gbkDecode(const uint8_t* data, int size);
+
 void printHexArray(const std::vector<uint8_t>& data, std::ostream& out);
 
 void printHexArray(const uint8_t* data, int size, std::ostream& out);
