@@ -43,7 +43,9 @@ enum MessageIds
     SettingCircleAreaMsgId = 0x8600,
     DeletingCircleAreaMsgId = 0x8601,
     SettingRectangleAreaMsgId = 0x8602,
-    DeletingRectangleAreaMsgId = 0x8603
+    DeletingRectangleAreaMsgId = 0x8603,
+    SettingPolygonAreaMsgId = 0x8604,
+    DeletingPolygonAreaMsgId = 0x8605
 };
 }
 #endif // MESSAGEIDS_H
