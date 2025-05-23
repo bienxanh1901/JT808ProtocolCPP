@@ -1,21 +1,20 @@
-#include "JT808/MessageBody/DeletingCircleArea.h"
-#include "JT808/BCD.h"
+#include "JT808/MessageBody/DeletingAreaRoute.h"
 
 namespace JT808::MessageBody {
 
-DeletingCircleArea::DeletingCircleArea(const std::vector<uint16_t>& ids)
+DeletingAreaRoute::DeletingAreaRoute(const std::vector<uint16_t>& ids)
     : MessageBodyBase()
     , m_length(ids.size())
     , m_ids(ids)
 {
 }
 
-void DeletingCircleArea::parse(const std::vector<uint8_t>& data)
+void DeletingAreaRoute::parse(const std::vector<uint8_t>& data)
 {
     parse(data.data(), data.size());
 }
 
-void DeletingCircleArea::parse(const uint8_t* data, int size)
+void DeletingAreaRoute::parse(const uint8_t* data, int size)
 {
     int pos = 0;
     m_length = data[pos++];
@@ -28,7 +27,7 @@ void DeletingCircleArea::parse(const uint8_t* data, int size)
     setIsValid(true);
 }
 
-std::vector<uint8_t> DeletingCircleArea::package()
+std::vector<uint8_t> DeletingAreaRoute::package()
 {
     std::vector<uint8_t> result;
 
@@ -41,27 +40,27 @@ std::vector<uint8_t> DeletingCircleArea::package()
     return result;
 }
 
-bool DeletingCircleArea::operator==(const DeletingCircleArea& other)
+bool DeletingAreaRoute::operator==(const DeletingAreaRoute& other)
 {
     return m_length == other.m_length && m_ids == other.m_ids;
 }
 
-uint8_t DeletingCircleArea::length() const
+uint8_t DeletingAreaRoute::length() const
 {
     return m_length;
 }
 
-void DeletingCircleArea::setLength(uint8_t newLength)
+void DeletingAreaRoute::setLength(uint8_t newLength)
 {
     m_length = newLength;
 }
 
-std::vector<uint16_t> DeletingCircleArea::ids() const
+std::vector<uint16_t> DeletingAreaRoute::ids() const
 {
     return m_ids;
 }
 
-void DeletingCircleArea::setIds(const std::vector<uint16_t>& newIds)
+void DeletingAreaRoute::setIds(const std::vector<uint16_t>& newIds)
 {
     m_ids = newIds;
 }

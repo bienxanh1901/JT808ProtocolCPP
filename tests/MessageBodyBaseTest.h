@@ -21,7 +21,7 @@ protected:
         delete m_body;
     }
 
-    void TestParse()
+    virtual void TestParse()
     {
         T body;
         body.parse(m_rawData);
@@ -30,7 +30,7 @@ protected:
         EXPECT_TRUE(m_body->operator==(body));
     }
 
-    void TestPackage()
+    virtual void TestPackage()
     {
         std::vector<uint8_t> result = m_body->package();
 

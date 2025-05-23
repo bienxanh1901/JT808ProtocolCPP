@@ -3,7 +3,7 @@
 
 #include "JT808//MessageBody/MessageBodyBase.h"
 #include "JT808/MessageBody/CallbackPhone.h"
-#include "JT808/MessageBody/DeletingCircleArea.h"
+#include "JT808/MessageBody/DeletingAreaRoute.h"
 #include "JT808/MessageBody/EventReport.h"
 #include "JT808/MessageBody/EventSetting.h"
 #include "JT808/MessageBody/GeneralResponse.h"
@@ -16,7 +16,7 @@
 #include "JT808/MessageBody/PhoneBookSetting.h"
 #include "JT808/MessageBody/QuestionDispatch.h"
 #include "JT808/MessageBody/QuestionResponse.h"
-#include "JT808/MessageBody/SettingCircleArea.h"
+#include "JT808/MessageBody/SettingArea.h"
 #include "JT808/MessageBody/SubPackageRetransmissionRequest.h"
 #include "JT808/MessageBody/TemporaryLocationTrackingControl.h"
 #include "JT808/MessageBody/TerminalAuthentication.h"
@@ -82,8 +82,10 @@ public:
             {PhoneBookSettingMsgId, [] { return std::make_unique<PhoneBookSetting>(); }},
             {VehicleControlMsgId, [] { return std::make_unique<VehicleControl>(); }},
             {VehicleControlResponseMsgId, [] { return std::make_unique<VehicleControlResponse>(); }},
-            {SettingCircleAreaMsgId, [] { return std::make_unique<SettingCircleArea>(); }},
-            {DeletingCircleAreaMsgId, [] { return std::make_unique<DeletingCircleArea>(); }},
+            {SettingCircleAreaMsgId, [] { return std::make_unique<SettingArea>(CircleArea); }},
+            {DeletingCircleAreaMsgId, [] { return std::make_unique<DeletingAreaRoute>(); }},
+            {SettingRectangleAreaMsgId, [] { return std::make_unique<SettingArea>(RectangleArea); }},
+            {DeletingRectangleAreaMsgId, [] { return std::make_unique<DeletingAreaRoute>(); }},
         };
 
         auto it = factoryMap.find(id);

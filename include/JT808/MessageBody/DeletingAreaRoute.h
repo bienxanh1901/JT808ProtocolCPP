@@ -1,22 +1,19 @@
-#ifndef DELETINGCIRCLEAREA_H
-#define DELETINGCIRCLEAREA_H
+#ifndef DeletingAreaRouteROUTE_H
+#define DeletingAreaRouteROUTE_H
 
 #include "MessageBodyBase.h"
 
 namespace JT808::MessageBody {
 
-class DeletingCircleArea : public MessageBodyBase
+class DeletingAreaRoute : public MessageBodyBase
 {
 public:
-    DeletingCircleArea() = default;
-    DeletingCircleArea(const std::vector<uint16_t>& ids);
+    DeletingAreaRoute() = default;
+    DeletingAreaRoute(const std::vector<uint16_t>& ids);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
-    bool operator==(const DeletingCircleArea& other);
-
-    uint16_t seq() const;
-    void setSeq(uint16_t newSeq);
+    bool operator==(const DeletingAreaRoute& other);
 
     uint8_t length() const;
     void setLength(uint8_t newLength);
@@ -29,4 +26,4 @@ private:
 };
 
 }
-#endif // DELETINGCIRCLEAREA_H
+#endif // DeletingAreaRouteROUTE_H
