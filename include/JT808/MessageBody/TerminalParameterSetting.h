@@ -4,9 +4,6 @@
 #include "MessageBodyBase.h"
 #include "TerminalParameter.h"
 
-#include <cstdint>
-#include <vector>
-
 namespace JT808::MessageBody {
 
 class TerminalParameterSetting : public MessageBodyBase

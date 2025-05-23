@@ -3,9 +3,6 @@
 
 #include "SequenceMessageBodyBase.h"
 
-#include <cstdint>
-#include <vector>
-
 namespace JT808::MessageBody {
 
 class QuestionResponse : public SequenceMessageBodyBase

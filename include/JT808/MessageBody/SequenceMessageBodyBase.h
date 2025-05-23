@@ -2,7 +2,6 @@
 #define SEQUENCEMESSAGEBODYBASE_H
 
 #include "MessageBodyBase.h"
-#include <cstdint>
 
 namespace JT808::MessageBody {
 

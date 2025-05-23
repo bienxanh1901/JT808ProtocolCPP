@@ -3,8 +3,6 @@
 
 #include "SequenceMessageBodyBase.h"
 
-#include <cstdint>
-
 namespace JT808::MessageBody {
 
 union ManualAlarmConfirmationTypes {

@@ -3,9 +3,6 @@
 
 #include "LocationInformationReport.h"
 
-#include <cstdint>
-#include <vector>
-
 namespace JT808::MessageBody {
 
 class LocationInformationQueryResponse : public LocationInformationReport
