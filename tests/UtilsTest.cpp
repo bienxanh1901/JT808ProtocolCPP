@@ -82,6 +82,16 @@ TEST(UtilsTest, gbkEncodeDecode)
     EXPECT_STREQ(output.c_str(), input.c_str());
 }
 
+TEST(UtilsTest, gbkDecode2)
+{
+    std::string input("你好");
+    uint8_t expectedOutput[4] = {0xC4, 0xE3, 0xBA, 0xC3};
+
+    std::string output = gbkDecode(expectedOutput, sizeof(expectedOutput));
+
+    EXPECT_STREQ(output.c_str(), input.c_str());
+}
+
 TEST(UtilsTest, escape)
 {
     std::vector<uint8_t> data = escape(unescapedData);

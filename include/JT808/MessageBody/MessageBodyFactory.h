@@ -22,6 +22,8 @@
 #include "JT808/MessageBody/TerminalUpgradePackageResult.h"
 #include "JT808/MessageBody/TextMessageDispatch.h"
 #include "JT808/MessageIds.h"
+#include "QuestionDispatch.h"
+#include "QuestionResponse.h"
 
 #include <functional>
 #include <memory>
@@ -62,6 +64,8 @@ public:
             {TextMessageDispatchMsgId, [] { return std::make_unique<TextMessageDispatch>(); }},
             {EventSettingMsgId, [] { return std::make_unique<EventSetting>(); }},
             {EventReportMsgId, [] { return std::make_unique<EventReport>(); }},
+            {QuestionDispatchMsgId, [] { return std::make_unique<QuestionDispatch>(); }},
+            {QuestionResponseMsgId, [] { return std::make_unique<QuestionResponse>(); }},
         };
 
         auto it = factoryMap.find(id);

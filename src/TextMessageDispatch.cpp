@@ -20,8 +20,7 @@ void TextMessageDispatch::parse(const uint8_t* data, int size)
 
     m_flag.value = data[pos++];
 
-    std::string text(data + pos, data + size);
-    m_text = Utils::gbkDecode(text);
+    m_text = Utils::gbkDecode(data + pos, size - pos);
 
     setIsValid(true);
 }
