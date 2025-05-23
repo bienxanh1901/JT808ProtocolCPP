@@ -42,8 +42,7 @@ void TerminalPropertiesQueryResponse::parse(const uint8_t* data, int size)
     m_id.assign(data + pos, data + pos + 7);
     pos += 7;
 
-    std::vector<uint8_t> iccid(data + pos, data + pos + 10);
-    m_iccid = BCD::toString(iccid);
+    m_iccid = BCD::toString(data + pos, 10);
     pos += 10;
 
     m_hwVersionLen = data[pos++];

@@ -93,10 +93,7 @@ bool Message::parseHeader(const std::vector<uint8_t>& data)
     // Message ID
     m_header.msgID = data[MSG_ID_POS] * 256 + data[MSG_ID_POS + MSG_ID_SIZE - 1];
     m_header.bodyProps.value = data[BODY_PROPS_POS] * 256 + data[BODY_PROPS_POS + BODY_PROPS_SIZE - 1];
-
-    std::vector<uint8_t> phone(data.begin() + PHONE_POS, data.begin() + PHONE_POS + PHONE_SIZE);
-    m_header.phone = BCD::toString(phone);
-
+    m_header.phone = BCD::toString(data.data() + PHONE_POS, PHONE_SIZE);
     m_header.msgSN = data[MSG_SN_POS] * 256 + data[MSG_SN_POS + MSG_SN_SIZE - 1];
 
     if (m_header.bodyProps.bits.segment == 1 && data.size() - MINIMUM_MSG_SIZE - m_header.bodyProps.bits.len == 4) {

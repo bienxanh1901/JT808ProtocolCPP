@@ -40,6 +40,9 @@ enum MessageIds
     CallbackPhoneMsgId = 0x8400,
     PhoneBookSettingMsgId = 0x8401,
     VehicleControlMsgId = 0x8500,
+    SettingCircleAreaMsgId = 0x8600,
+    DeletingCircleAreaMsgId = 0x8601,
+
 };
 }
 #endif // MESSAGEIDS_H
