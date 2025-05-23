@@ -2,7 +2,7 @@
 
 namespace JT808::MessageBody {
 
-EventSetting::EventSetting(SettingTypes type, const std::vector<Event>& events)
+EventSetting::EventSetting(AreaSettingTypes type, const std::vector<Event>& events)
     : MessageBodyBase()
     , m_type(type)
     , m_length(events.size())
@@ -20,7 +20,7 @@ void EventSetting::parse(const uint8_t* data, int size)
     int pos = 0;
     Event event = {0};
 
-    m_type = SettingTypes(data[pos++]);
+    m_type = AreaSettingTypes(data[pos++]);
 
     if (m_type > DeleteAllEvents) {
         m_length = data[pos++];
@@ -73,12 +73,12 @@ bool EventSetting::operator==(const EventSetting& other)
     return true;
 }
 
-EventSetting::SettingTypes EventSetting::type() const
+EventSetting::AreaSettingTypes EventSetting::type() const
 {
     return m_type;
 }
 
-void EventSetting::setType(SettingTypes newType)
+void EventSetting::setType(AreaSettingTypes newType)
 {
     m_type = newType;
 }

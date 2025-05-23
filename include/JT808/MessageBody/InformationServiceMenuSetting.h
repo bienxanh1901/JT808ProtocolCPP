@@ -8,7 +8,7 @@ namespace JT808::MessageBody {
 class InformationServiceMenuSetting : public MessageBodyBase
 {
 public:
-    enum SettingType
+    enum AreaSettingType
     {
         DeleteAllItem = 0,
         UpgradeMenu,
@@ -29,21 +29,21 @@ public:
     };
 
     InformationServiceMenuSetting() = default;
-    InformationServiceMenuSetting(SettingType type, const std::vector<MenuItem>& menus);
+    InformationServiceMenuSetting(AreaSettingType type, const std::vector<MenuItem>& menus);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
     bool operator==(const InformationServiceMenuSetting& other);
 
-    SettingType type() const;
-    void setType(SettingType newType);
+    AreaSettingType type() const;
+    void setType(AreaSettingType newType);
     uint8_t length() const;
     void setLength(uint8_t newLength);
     std::vector<MenuItem> menus() const;
     void setMenus(const std::vector<MenuItem>& newMenus);
 
 private:
-    SettingType m_type = DeleteAllItem;
+    AreaSettingType m_type = DeleteAllItem;
     uint8_t m_length = 0;
     std::vector<MenuItem> m_menus;
 };

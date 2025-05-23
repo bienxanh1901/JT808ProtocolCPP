@@ -2,7 +2,7 @@
 
 namespace JT808::MessageBody {
 
-InformationServiceMenuSetting::InformationServiceMenuSetting(SettingType type, const std::vector<MenuItem>& menus)
+InformationServiceMenuSetting::InformationServiceMenuSetting(AreaSettingType type, const std::vector<MenuItem>& menus)
     : MessageBodyBase()
     , m_type(type)
     , m_length(menus.size())
@@ -19,7 +19,7 @@ void InformationServiceMenuSetting::parse(const uint8_t* data, int size)
 {
     int pos = 0;
     MenuItem item = {0};
-    m_type = SettingType(data[pos++]);
+    m_type = AreaSettingType(data[pos++]);
 
     m_length = data[pos++];
 
@@ -65,12 +65,12 @@ bool InformationServiceMenuSetting::operator==(const InformationServiceMenuSetti
     return true;
 }
 
-InformationServiceMenuSetting::SettingType InformationServiceMenuSetting::type() const
+InformationServiceMenuSetting::AreaSettingType InformationServiceMenuSetting::type() const
 {
     return m_type;
 }
 
-void InformationServiceMenuSetting::setType(SettingType newType)
+void InformationServiceMenuSetting::setType(AreaSettingType newType)
 {
     m_type = newType;
 }
