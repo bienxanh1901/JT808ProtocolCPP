@@ -8,7 +8,7 @@ namespace JT808::MessageBody {
 class PhoneBookSetting : public MessageBodyBase
 {
 public:
-    enum SettingType
+    enum AreaSettingType
     {
         DeleteAllContacts = 0,
         UpdatePhoneBook,
@@ -39,21 +39,21 @@ public:
     };
 
     PhoneBookSetting() = default;
-    PhoneBookSetting(SettingType type, const std::vector<ContactItem>& contacts);
+    PhoneBookSetting(AreaSettingType type, const std::vector<ContactItem>& contacts);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
     bool operator==(const PhoneBookSetting& other);
 
-    SettingType type() const;
-    void setType(SettingType newType);
+    AreaSettingType type() const;
+    void setType(AreaSettingType newType);
     uint8_t length() const;
     void setLength(uint8_t newLength);
     std::vector<ContactItem> contacts() const;
     void setContacts(const std::vector<ContactItem>& newContacts);
 
 private:
-    SettingType m_type = DeleteAllContacts;
+    AreaSettingType m_type = DeleteAllContacts;
     uint8_t m_length = 0;
     std::vector<ContactItem> m_contacts;
 };

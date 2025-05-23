@@ -2,7 +2,7 @@
 
 namespace JT808::MessageBody {
 
-PhoneBookSetting::PhoneBookSetting(SettingType type, const std::vector<ContactItem>& contacts)
+PhoneBookSetting::PhoneBookSetting(AreaSettingType type, const std::vector<ContactItem>& contacts)
     : MessageBodyBase()
     , m_type(type)
     , m_length(contacts.size())
@@ -19,7 +19,7 @@ void PhoneBookSetting::parse(const uint8_t* data, int size)
 {
     int pos = 0;
     ContactItem item = {0};
-    m_type = SettingType(data[pos++]);
+    m_type = AreaSettingType(data[pos++]);
     m_length = data[pos++];
 
     for (int i = 0; i < m_length; i++) {
@@ -69,12 +69,12 @@ bool PhoneBookSetting::operator==(const PhoneBookSetting& other)
     return true;
 }
 
-PhoneBookSetting::SettingType PhoneBookSetting::type() const
+PhoneBookSetting::AreaSettingType PhoneBookSetting::type() const
 {
     return m_type;
 }
 
-void PhoneBookSetting::setType(SettingType newType)
+void PhoneBookSetting::setType(AreaSettingType newType)
 {
     m_type = newType;
 }

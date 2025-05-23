@@ -42,7 +42,8 @@ enum MessageIds
     VehicleControlMsgId = 0x8500,
     SettingCircleAreaMsgId = 0x8600,
     DeletingCircleAreaMsgId = 0x8601,
-
+    SettingRectangleAreaMsgId = 0x8602,
+    DeletingRectangleAreaMsgId = 0x8603
 };
 }
 #endif // MESSAGEIDS_H
