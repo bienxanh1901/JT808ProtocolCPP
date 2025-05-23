@@ -131,6 +131,13 @@ std::string gbkDecode(const std::string& data)
     return result;
 }
 
+std::string gbkDecode(const uint8_t* data, int size)
+{
+    std::string tmp(data, data + size);
+
+    return gbkDecode(tmp);
+}
+
 void printHexArray(const uint8_t* data, int size, std::ostream& out)
 {
     out << "[";

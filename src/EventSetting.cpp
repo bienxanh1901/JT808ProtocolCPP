@@ -29,8 +29,7 @@ void EventSetting::parse(const uint8_t* data, int size)
             event.id = data[pos++];
             event.length = data[pos++];
             if (event.length > 0) {
-                std::string content(data + pos, data + pos + event.length);
-                event.content = Utils::gbkDecode(content);
+                event.content = Utils::gbkDecode(data + pos, event.length);
                 pos += event.length;
             }
             m_events.push_back(event);

@@ -19,7 +19,7 @@ public:
             uint8_t terminalDisplay : 1;
             uint8_t terminalTTS : 1;
             uint8_t advDisplay : 1;
-            uint8_t : 1;
+            uint8_t navOrCANFaultCodeInfo : 1; // 0 navigation information, 1 CAN Fault Code
             uint8_t reserverd2 : 2;
         } bits;
         uint8_t value;

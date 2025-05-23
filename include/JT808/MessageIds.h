@@ -16,6 +16,7 @@ enum MessageIds
     LocationInformationReportMsgId = 0x0200,
     LocationInformationQueryResponseMsgId = 0x0201,
     EventReportMsgId = 0x0301,
+    QuestionResponseMsgId = 0x0302,
     // Platform
     PlatformGeneralResponseMsgId = 0x8001,
     SubPackageRetransmissionRequestMsgId = 0x8003,
@@ -30,7 +31,8 @@ enum MessageIds
     TemporaryLocationTrackingControlMsgId = 0x8202,
     ManualAlarmConfirmationMsgId = 0x8203,
     TextMessageDispatchMsgId = 0x8300,
-    EventSettingMsgId = 0x8301
+    EventSettingMsgId = 0x8301,
+    QuestionDispatchMsgId = 0x8302
 };
 }
 #endif // MESSAGEIDS_H
