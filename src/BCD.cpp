@@ -58,4 +58,22 @@ std::string toString(const std::vector<uint8_t>& src)
     return result;
 }
 
+std::string toString(const uint8_t* data, int size)
+{
+    std::string result("");
+    uint8_t tmp = 0;
+    for (int i = 0; i < size; i++) {
+        tmp = toHex(data[i]);
+
+        if (i == 0 && tmp <= 9) {
+            result.push_back(digitToChar(tmp));
+        } else {
+            result.push_back(digitToChar(tmp / 10));
+            result.push_back(digitToChar(tmp % 10));
+        }
+    }
+
+    return result;
+}
+
 }
