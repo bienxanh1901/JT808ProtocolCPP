@@ -51,8 +51,7 @@ void LocationInformationReport::parse(const uint8_t* data, int size)
     m_bearing = Utils::endianSwap16(data + pos);
     pos += sizeof(m_bearing);
 
-    const std::vector<uint8_t> time(data + pos, data + pos + 6);
-    m_time = BCD::toString(time);
+    m_time = BCD::toString(data + pos, 6);
     pos += 6;
 
     if (size > pos) {

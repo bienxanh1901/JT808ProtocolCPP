@@ -10,6 +10,7 @@ uint8_t fromHex(const uint8_t& src);
 std::vector<uint8_t> fromString(const std::string& src);
 uint8_t toHex(const uint8_t& src);
 std::string toString(const std::vector<uint8_t>& src);
+std::string toString(const uint8_t* data, int size);
 
 }
 
