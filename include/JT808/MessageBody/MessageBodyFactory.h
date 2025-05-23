@@ -2,6 +2,7 @@
 #define MESSAGEBODYFACTORY_H
 
 #include "JT808//MessageBody/MessageBodyBase.h"
+#include "JT808/MessageBody/CallbackPhone.h"
 #include "JT808/MessageBody/EventReport.h"
 #include "JT808/MessageBody/EventSetting.h"
 #include "JT808/MessageBody/GeneralResponse.h"
@@ -11,6 +12,7 @@
 #include "JT808/MessageBody/LocationInformationQueryResponse.h"
 #include "JT808/MessageBody/LocationInformationReport.h"
 #include "JT808/MessageBody/ManualAlarmConfirmation.h"
+#include "JT808/MessageBody/PhoneBookSetting.h"
 #include "JT808/MessageBody/QuestionDispatch.h"
 #include "JT808/MessageBody/QuestionResponse.h"
 #include "JT808/MessageBody/SubPackageRetransmissionRequest.h"
@@ -72,6 +74,8 @@ public:
             {InformationServiceMenuSettingMsgId, [] { return std::make_unique<InformationServiceMenuSetting>(); }},
             {InformationServiceCancelMsgId, [] { return std::make_unique<InformationServiceCancel>(); }},
             {InformationServiceMsgId, [] { return std::make_unique<InformationService>(); }},
+            {CallbackPhoneMsgId, [] { return std::make_unique<CallbackPhone>(); }},
+            {PhoneBookSettingMsgId, [] { return std::make_unique<PhoneBookSetting>(); }},
         };
 
         auto it = factoryMap.find(id);

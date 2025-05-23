@@ -36,6 +36,8 @@ enum MessageIds
     QuestionDispatchMsgId = 0x8302,
     InformationServiceMenuSettingMsgId = 0x8303,
     InformationServiceMsgId = 0x8304,
+    CallbackPhoneMsgId = 0x8400,
+    PhoneBookSettingMsgId = 0x8401
 };
 }
 #endif // MESSAGEIDS_H
