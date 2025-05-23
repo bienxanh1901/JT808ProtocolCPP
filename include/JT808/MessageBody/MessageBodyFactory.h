@@ -28,6 +28,8 @@
 #include "JT808/MessageBody/TerminalUpgradePackage.h"
 #include "JT808/MessageBody/TerminalUpgradePackageResult.h"
 #include "JT808/MessageBody/TextMessageDispatch.h"
+#include "JT808/MessageBody/VehicleControl.h"
+#include "JT808/MessageBody/VehicleControlResponse.h"
 #include "JT808/MessageIds.h"
 
 #include <functional>
@@ -76,6 +78,8 @@ public:
             {InformationServiceMsgId, [] { return std::make_unique<InformationService>(); }},
             {CallbackPhoneMsgId, [] { return std::make_unique<CallbackPhone>(); }},
             {PhoneBookSettingMsgId, [] { return std::make_unique<PhoneBookSetting>(); }},
+            {VehicleControlMsgId, [] { return std::make_unique<VehicleControl>(); }},
+            {VehicleControlResponseMsgId, [] { return std::make_unique<VehicleControlResponse>(); }},
         };
 
         auto it = factoryMap.find(id);

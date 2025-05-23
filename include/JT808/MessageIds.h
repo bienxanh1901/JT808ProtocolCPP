@@ -18,6 +18,7 @@ enum MessageIds
     EventReportMsgId = 0x0301,
     QuestionResponseMsgId = 0x0302,
     InformationServiceCancelMsgId = 0x0303,
+    VehicleControlResponseMsgId = 0x0500,
     // Platform
     PlatformGeneralResponseMsgId = 0x8001,
     SubPackageRetransmissionRequestMsgId = 0x8003,
@@ -37,7 +38,8 @@ enum MessageIds
     InformationServiceMenuSettingMsgId = 0x8303,
     InformationServiceMsgId = 0x8304,
     CallbackPhoneMsgId = 0x8400,
-    PhoneBookSettingMsgId = 0x8401
+    PhoneBookSettingMsgId = 0x8401,
+    VehicleControlMsgId = 0x8500,
 };
 }
 #endif // MESSAGEIDS_H
