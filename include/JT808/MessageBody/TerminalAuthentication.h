@@ -2,7 +2,6 @@
 #define TERMINALAUTHENTICATION_H
 
 #include "MessageBodyBase.h"
-#include <string>
 
 namespace JT808::MessageBody {
 

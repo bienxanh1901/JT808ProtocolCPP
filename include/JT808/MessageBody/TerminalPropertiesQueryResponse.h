@@ -4,10 +4,6 @@
 #include "MessageBodyBase.h"
 #include "TerminalProperties.h"
 
-#include <cstdint>
-#include <string>
-#include <vector>
-
 namespace JT808::MessageBody {
 
 /**

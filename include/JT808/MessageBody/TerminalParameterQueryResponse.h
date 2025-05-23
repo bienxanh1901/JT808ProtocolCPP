@@ -3,8 +3,6 @@
 
 #include "TerminalParameter.h"
 #include "TerminalParameterSetting.h"
-#include <cstdint>
-#include <vector>
 
 namespace JT808::MessageBody {
 

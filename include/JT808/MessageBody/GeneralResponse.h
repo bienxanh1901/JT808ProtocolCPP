@@ -2,7 +2,6 @@
 #define GENERALRESPONSE_H
 
 #include "SequenceMessageBodyBase.h"
-#include <cstdint>
 
 namespace JT808::MessageBody {
 
