@@ -1,38 +1,39 @@
 #ifndef MESSAGEBODYFACTORY_H
 #define MESSAGEBODYFACTORY_H
 
-#include "JT808//MessageBody/MessageBodyBase.h"
-#include "JT808/MessageBody/CallbackPhone.h"
-#include "JT808/MessageBody/DeletingAreaRoute.h"
-#include "JT808/MessageBody/EventReport.h"
-#include "JT808/MessageBody/EventSetting.h"
-#include "JT808/MessageBody/GeneralResponse.h"
-#include "JT808/MessageBody/InformationService.h"
-#include "JT808/MessageBody/InformationServiceCancel.h"
-#include "JT808/MessageBody/InformationServiceMenuSetting.h"
-#include "JT808/MessageBody/LocationInformationQueryResponse.h"
-#include "JT808/MessageBody/LocationInformationReport.h"
-#include "JT808/MessageBody/ManualAlarmConfirmation.h"
-#include "JT808/MessageBody/PhoneBookSetting.h"
-#include "JT808/MessageBody/QuestionDispatch.h"
-#include "JT808/MessageBody/QuestionResponse.h"
-#include "JT808/MessageBody/SettingArea.h"
-#include "JT808/MessageBody/SubPackageRetransmissionRequest.h"
-#include "JT808/MessageBody/TemporaryLocationTrackingControl.h"
-#include "JT808/MessageBody/TerminalAuthentication.h"
-#include "JT808/MessageBody/TerminalControl.h"
-#include "JT808/MessageBody/TerminalParameterQuery.h"
-#include "JT808/MessageBody/TerminalParameterQueryResponse.h"
-#include "JT808/MessageBody/TerminalParameterSetting.h"
-#include "JT808/MessageBody/TerminalPropertiesQueryResponse.h"
-#include "JT808/MessageBody/TerminalRegistration.h"
-#include "JT808/MessageBody/TerminalRegistrationResponse.h"
-#include "JT808/MessageBody/TerminalUpgradePackage.h"
-#include "JT808/MessageBody/TerminalUpgradePackageResult.h"
-#include "JT808/MessageBody/TextMessageDispatch.h"
-#include "JT808/MessageBody/VehicleControl.h"
-#include "JT808/MessageBody/VehicleControlResponse.h"
+#include "CallbackPhone.h"
+#include "DeletingAreaRoute.h"
+#include "EventReport.h"
+#include "EventSetting.h"
+#include "GeneralResponse.h"
+#include "InformationService.h"
+#include "InformationServiceCancel.h"
+#include "InformationServiceMenuSetting.h"
 #include "JT808/MessageIds.h"
+#include "LocationInformationQueryResponse.h"
+#include "LocationInformationReport.h"
+#include "ManualAlarmConfirmation.h"
+#include "MessageBodyBase.h"
+#include "PhoneBookSetting.h"
+#include "QuestionDispatch.h"
+#include "QuestionResponse.h"
+#include "SettingArea.h"
+#include "SettingPolygonArea.h"
+#include "SubPackageRetransmissionRequest.h"
+#include "TemporaryLocationTrackingControl.h"
+#include "TerminalAuthentication.h"
+#include "TerminalControl.h"
+#include "TerminalParameterQuery.h"
+#include "TerminalParameterQueryResponse.h"
+#include "TerminalParameterSetting.h"
+#include "TerminalPropertiesQueryResponse.h"
+#include "TerminalRegistration.h"
+#include "TerminalRegistrationResponse.h"
+#include "TerminalUpgradePackage.h"
+#include "TerminalUpgradePackageResult.h"
+#include "TextMessageDispatch.h"
+#include "VehicleControl.h"
+#include "VehicleControlResponse.h"
 
 #include <functional>
 #include <memory>
@@ -86,6 +87,8 @@ public:
             {DeletingCircleAreaMsgId, [] { return std::make_unique<DeletingAreaRoute>(); }},
             {SettingRectangleAreaMsgId, [] { return std::make_unique<SettingArea>(RectangleArea); }},
             {DeletingRectangleAreaMsgId, [] { return std::make_unique<DeletingAreaRoute>(); }},
+            {SettingPolygonAreaMsgId, [] { return std::make_unique<SettingPolygonArea>(); }},
+            {DeletingPolygonAreaMsgId, [] { return std::make_unique<DeletingAreaRoute>(); }},
         };
 
         auto it = factoryMap.find(id);
