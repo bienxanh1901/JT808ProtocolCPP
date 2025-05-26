@@ -5,7 +5,7 @@ namespace JT808::MessageBody {
 
 SettingPolygonArea::SettingPolygonArea(uint32_t id, AreaProperties flag, const std::string& startTime,
                                        const std::string& endTime, uint16_t maxSpeed, uint8_t overspeedDuration,
-                                       const std::vector<Point> points)
+                                       const std::vector<Point>& points)
     : MessageBodyBase()
     , m_id(id)
     , m_flag(flag)
