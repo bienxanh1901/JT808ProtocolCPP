@@ -3,10 +3,10 @@
 #include "MessageBodyBaseTest.h"
 
 namespace JT808::MessageBody {
-class SettingRectangleAreaTest : public MessageBodyBaseTest<SettingArea>
+class SettingRectangularAreaTest : public MessageBodyBaseTest<SettingArea>
 {
 protected:
-    ~SettingRectangleAreaTest() override { }
+    ~SettingRectangularAreaTest() override { }
 
     void SetUp() override
     {
@@ -26,7 +26,7 @@ protected:
                                       .rbLng = 1076569743,
                                       .maxSpeed = 80,
                                       .overspeedDuration = 30}};
-        m_body = new SettingArea(RectangleArea, AppendArea, areas);
+        m_body = new SettingArea(RectangularArea, AppendArea, areas);
         m_rawData = {0x1,  0x2,  0x0,  0x0,  0x0,  0x0,  0x0,  0x1,  0x0,  0xa4, 0x1c, 0xa9, 0x3f, 0x92, 0x90, 0xf,
                      0x0,  0xa5, 0xa3, 0x49, 0x40, 0x2b, 0x26, 0x8f, 0x25, 0x5,  0x1,  0x0,  0x0,  0x0,  0x25, 0x5,
                      0x31, 0x0,  0x0,  0x0,  0x0,  0x0,  0x0,  0x1,  0x0,  0x2,  0x0,  0xa4, 0x1c, 0xa9, 0x3f, 0x92,
@@ -35,7 +35,7 @@ protected:
 
     void TestParse() override
     {
-        SettingArea body(RectangleArea);
+        SettingArea body(RectangularArea);
         body.parse(m_rawData);
 
         EXPECT_TRUE(body.isValid());
@@ -43,12 +43,12 @@ protected:
     }
 };
 
-TEST_F(SettingRectangleAreaTest, TestParseSuccess)
+TEST_F(SettingRectangularAreaTest, TestParseSuccess)
 {
     TestParse();
 }
 
-TEST_F(SettingRectangleAreaTest, TestPackage)
+TEST_F(SettingRectangularAreaTest, TestPackage)
 {
     TestPackage();
 }

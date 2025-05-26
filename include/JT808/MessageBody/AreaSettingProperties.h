@@ -8,8 +8,8 @@ namespace JT808::MessageBody {
 
 enum AreaType
 {
-    CircleArea,
-    RectangleArea,
+    CircularArea,
+    RectangularArea,
     PolygonArea
 };
 
@@ -43,11 +43,11 @@ struct AreaItem
 {
     uint32_t id = 0;
     AreaProperties flag = {0};
-    // for Circle Area
+    // for Circular Area
     uint32_t centerLat = 0;
     uint32_t centerLng = 0;
     uint32_t radius = 0;
-    // For Rectangle Area
+    // For Rectangular Area
     uint32_t ltLat = 0;
     uint32_t ltLng = 0;
     uint32_t rbLat = 0;
