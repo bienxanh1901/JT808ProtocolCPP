@@ -14,6 +14,7 @@
 #include "InformationServiceCancel.h"
 #include "InformationServiceMenuSetting.h"
 #include "JT808/MessageIds.h"
+#include "LocationDataBulkUpload.h"
 #include "LocationInformationQueryResponse.h"
 #include "LocationInformationReport.h"
 #include "ManualAlarmConfirmation.h"
@@ -101,6 +102,7 @@ public:
             {DrivingRecordParameterCommandMsgId, [] { return std::make_unique<DrivingRecordCommand>(); }},
             {ElectronicWaybillReportMsgId, [] { return std::make_unique<ElectronicWaybillReport>(); }},
             {DriverIdentityInformationReportMsgId, [] { return std::make_unique<DriverIdentityInformationReport>(); }},
+            {LocationDataBulkUploadMsgId, [] { return std::make_unique<LocationDataBulkUpload>(); }},
         };
 
         auto it = factoryMap.find(id);

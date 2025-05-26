@@ -3,10 +3,10 @@
 namespace JT808::MessageBody {
 
 VehicleControlResponse::VehicleControlResponse(uint16_t seq, const AlarmFlags& alarm, const StatusFlags& status,
-                                               uint32_t latitude, uint32_t longitude, uint16_t altitude, uint16_t speed,
+                                               uint32_t lat, uint32_t lng, uint16_t alt, uint16_t speed,
                                                uint16_t bearing, const std::string& time, const ExtraInfo& extra)
     : m_seq(seq)
-    , LocationInformationReport(alarm, status, latitude, longitude, altitude, speed, bearing, time, extra)
+    , LocationInformationReport(alarm, status, lat, lng, alt, speed, bearing, time, extra)
 {
 }
 
