@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <map>
+#include <string>
 #include <vector>
 
 namespace JT808::MessageBody {
@@ -18,6 +19,7 @@ enum LocationExtraIds
     FuelMeterExtraId = 0x01,
     DrivingRecordSpeedExtraId = 0x02,
     AlarmCountExtraId = 0x03,
+    ManualAlarmConfirmationId = 0x04,
     // 0x05 - 0x10 are reserved
     OverSpeedAlarmExtraId = 0x11,
     InOutAlarmExtraId = 0x12,
@@ -101,8 +103,8 @@ union StatusFlags {
     {
         uint32_t isAccOn : 1;
         uint32_t isPositioning : 1;
-        uint32_t SNLatitude : 1;
-        uint32_t EWLongitude : 1;
+        uint32_t SNLat : 1;
+        uint32_t EWLng : 1;
         uint32_t isStoped : 1;
         uint32_t isLocationEncrypted : 1;
         uint32_t reserved : 2;
@@ -161,6 +163,45 @@ union IOStatusFlags {
         uint16_t reserved : 14;
     } bits;
     uint16_t value;
+};
+
+struct LocationInformation
+{
+    AlarmFlags alarm = {0};
+    StatusFlags status = {0};
+    uint32_t lat = 0;
+    uint32_t lng = 0;
+    uint16_t alt = 0;
+    uint16_t speed = 0;
+    uint16_t bearing = 0;
+    std::string time;
+    ExtraInfo extra;
+
+    LocationInformation() {};
+
+    LocationInformation(const AlarmFlags& alarm, const StatusFlags& status, uint32_t lat, uint32_t lng, uint16_t alt,
+                        uint16_t speed, uint16_t bearing, const std::string& time, const ExtraInfo& extra = {})
+        : alarm(alarm)
+        , status(status)
+        , lat(lat)
+        , lng(lng)
+        , alt(alt)
+        , speed(speed)
+        , bearing(bearing)
+        , time(time)
+        , extra(extra)
+    {
+    }
+
+    bool operator==(const LocationInformation& other) const
+    {
+        return alarm.value == other.alarm.value && status.value == other.status.value && lat == other.lat
+            && lng == other.lng && alt == other.alt && speed == other.speed && bearing == other.bearing
+            && time == other.time && extra == other.extra;
+    }
+
+    void parse(const uint8_t* data, int size);
+    std::vector<uint8_t> package();
 };
 
 }

@@ -22,6 +22,7 @@ enum MessageIds
     DrivingRecordDataUploadMsgId = 0x0700,
     ElectronicWaybillReportMsgId = 0x0701,
     DriverIdentityInformationReportMsgId = 0x0702,
+    LocationDataBulkUploadMsgId = 0x0704,
     // Platform
     PlatformGeneralResponseMsgId = 0x8001,
     SubPackageRetransmissionRequestMsgId = 0x8003,
