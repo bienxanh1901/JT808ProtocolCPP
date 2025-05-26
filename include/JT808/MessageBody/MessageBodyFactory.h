@@ -3,6 +3,7 @@
 
 #include "CallbackPhone.h"
 #include "DeletingAreaRoute.h"
+#include "DriverIdentityInformationReport.h"
 #include "DrivingRecordCommand.h"
 #include "DrivingRecordDataUpload.h"
 #include "ElectronicWaybillReport.h"
@@ -99,6 +100,7 @@ public:
             {DrivingRecordDataUploadMsgId, [] { return std::make_unique<DrivingRecordDataUpload>(); }},
             {DrivingRecordParameterCommandMsgId, [] { return std::make_unique<DrivingRecordCommand>(); }},
             {ElectronicWaybillReportMsgId, [] { return std::make_unique<ElectronicWaybillReport>(); }},
+            {DriverIdentityInformationReportMsgId, [] { return std::make_unique<DriverIdentityInformationReport>(); }},
         };
 
         auto it = factoryMap.find(id);
