@@ -38,8 +38,8 @@ enum LocationExtraIds
 enum LocationTypes
 {
     UnknownLocationType = 0,
-    CircleAreaLocationType = 1,
-    RectangleAreaLocationType = 2,
+    CirclularAreaLocationType = 1,
+    RectangularAreaLocationType = 2,
     PolygonAreaLocationType = 3,
     RouteLocationType = 4
 };

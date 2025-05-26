@@ -9,7 +9,7 @@ namespace JT808::MessageBody {
 class SettingArea : public MessageBodyBase
 {
 public:
-    SettingArea(AreaType areaType = CircleArea);
+    SettingArea(AreaType areaType = CircularArea);
     SettingArea(AreaType areaType, AreaSettingType type, const std::vector<AreaItem>& areas);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
@@ -24,7 +24,7 @@ public:
     void setAreas(const std::vector<AreaItem>& newAreas);
 
 private:
-    AreaType m_areaType = CircleArea;
+    AreaType m_areaType = CircularArea;
     AreaSettingType m_type = UpgradeArea;
     uint8_t m_length = 0;
     std::vector<AreaItem> m_areas;
