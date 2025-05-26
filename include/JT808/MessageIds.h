@@ -23,6 +23,7 @@ enum MessageIds
     ElectronicWaybillReportMsgId = 0x0701,
     DriverIdentityInformationReportMsgId = 0x0702,
     LocationDataBulkUploadMsgId = 0x0704,
+    CANBusDataUploadMsgId = 0x0705,
     // Platform
     PlatformGeneralResponseMsgId = 0x8001,
     SubPackageRetransmissionRequestMsgId = 0x8003,
