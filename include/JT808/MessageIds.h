@@ -19,7 +19,8 @@ enum MessageIds
     QuestionResponseMsgId = 0x0302,
     InformationServiceCancelMsgId = 0x0303,
     VehicleControlResponseMsgId = 0x0500,
-    DrivingRecordDataUploadMsgId = 0x80700,
+    DrivingRecordDataUploadMsgId = 0x0700,
+    ElectronicWaybillReportMsgId = 0x0701,
     // Platform
     PlatformGeneralResponseMsgId = 0x8001,
     SubPackageRetransmissionRequestMsgId = 0x8003,

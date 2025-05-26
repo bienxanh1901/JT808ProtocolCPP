@@ -5,6 +5,7 @@
 #include "DeletingAreaRoute.h"
 #include "DrivingRecordCommand.h"
 #include "DrivingRecordDataUpload.h"
+#include "ElectronicWaybillReport.h"
 #include "EventReport.h"
 #include "EventSetting.h"
 #include "GeneralResponse.h"
@@ -97,6 +98,7 @@ public:
             {DrivingRecordDataCollectionCommandMsgId, [] { return std::make_unique<DrivingRecordCommand>(); }},
             {DrivingRecordDataUploadMsgId, [] { return std::make_unique<DrivingRecordDataUpload>(); }},
             {DrivingRecordParameterCommandMsgId, [] { return std::make_unique<DrivingRecordCommand>(); }},
+            {ElectronicWaybillReportMsgId, [] { return std::make_unique<ElectronicWaybillReport>(); }},
         };
 
         auto it = factoryMap.find(id);
