@@ -21,6 +21,7 @@ enum MessageIds
     VehicleControlResponseMsgId = 0x0500,
     DrivingRecordDataUploadMsgId = 0x0700,
     ElectronicWaybillReportMsgId = 0x0701,
+    DriverIdentityInformationReportMsgId = 0x0702,
     // Platform
     PlatformGeneralResponseMsgId = 0x8001,
     SubPackageRetransmissionRequestMsgId = 0x8003,
@@ -52,6 +53,7 @@ enum MessageIds
     DeletingRouteMsgId = 0x8607,
     DrivingRecordDataCollectionCommandMsgId = 0x8700,
     DrivingRecordParameterCommandMsgId = 0x8701,
+    DriverIdentityInformationRequestMsgId = 0x8702,
 
 };
 }
