@@ -3,10 +3,10 @@
 #include "MessageBodyBaseTest.h"
 
 namespace JT808::MessageBody {
-class SettingCircleAreaTest : public MessageBodyBaseTest<SettingArea>
+class SettingCircularAreaTest : public MessageBodyBaseTest<SettingArea>
 {
 protected:
-    ~SettingCircleAreaTest() override { }
+    ~SettingCircularAreaTest() override { }
 
     void SetUp() override
     {
@@ -24,7 +24,7 @@ protected:
                                       .radius = 1000,
                                       .maxSpeed = 80,
                                       .overspeedDuration = 30}};
-        m_body = new SettingArea(CircleArea, AppendArea, areas);
+        m_body = new SettingArea(CircularArea, AppendArea, areas);
         m_rawData = {0x1,  0x2,  0x0,  0x0,  0x0, 0x0,  0x0,  0x1,  0x0, 0xa4, 0x1c, 0xa9, 0x3f, 0x92,
                      0x90, 0xf,  0x0,  0x0,  0x3, 0xe8, 0x25, 0x5,  0x1, 0x0,  0x0,  0x0,  0x25, 0x5,
                      0x31, 0x0,  0x0,  0x0,  0x0, 0x0,  0x0,  0x1,  0x0, 0x2,  0x0,  0xa5, 0xa3, 0x49,
@@ -33,7 +33,7 @@ protected:
 
     void TestParse() override
     {
-        SettingArea body(CircleArea);
+        SettingArea body(CircularArea);
         body.parse(m_rawData);
 
         EXPECT_TRUE(body.isValid());
@@ -41,12 +41,12 @@ protected:
     }
 };
 
-TEST_F(SettingCircleAreaTest, TestParseSuccess)
+TEST_F(SettingCircularAreaTest, TestParseSuccess)
 {
     TestParse();
 }
 
-TEST_F(SettingCircleAreaTest, TestPackage)
+TEST_F(SettingCircularAreaTest, TestPackage)
 {
     TestPackage();
 }

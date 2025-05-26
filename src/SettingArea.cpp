@@ -37,14 +37,14 @@ void SettingArea::parse(const uint8_t* data, int size)
         item.flag.value = Utils::endianSwap16(data + pos);
         pos += sizeof(item.flag);
 
-        if (m_areaType == CircleArea) {
+        if (m_areaType == CircularArea) {
             item.centerLat = Utils::endianSwap32(data + pos);
             pos += sizeof(item.centerLat);
             item.centerLng = Utils::endianSwap32(data + pos);
             pos += sizeof(item.centerLng);
             item.radius = Utils::endianSwap32(data + pos);
             pos += sizeof(item.radius);
-        } else if (m_areaType == RectangleArea) {
+        } else if (m_areaType == RectangularArea) {
             item.ltLat = Utils::endianSwap32(data + pos);
             pos += sizeof(item.ltLat);
             item.ltLng = Utils::endianSwap32(data + pos);
@@ -85,11 +85,11 @@ std::vector<uint8_t> SettingArea::package()
         Utils::appendU32(item.id, result);
         Utils::appendU16(item.flag.value, result);
 
-        if (m_areaType == CircleArea) {
+        if (m_areaType == CircularArea) {
             Utils::appendU32(item.centerLat, result);
             Utils::appendU32(item.centerLng, result);
             Utils::appendU32(item.radius, result);
-        } else if (m_areaType == RectangleArea) {
+        } else if (m_areaType == RectangularArea) {
             Utils::appendU32(item.ltLat, result);
             Utils::appendU32(item.ltLng, result);
             Utils::appendU32(item.rbLat, result);
