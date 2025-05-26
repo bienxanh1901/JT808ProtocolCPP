@@ -1,5 +1,5 @@
-#ifndef DeletingAreaRouteROUTE_H
-#define DeletingAreaRouteROUTE_H
+#ifndef DELETINGAREAROUTE_H
+#define DELETINGAREAROUTE_H
 
 #include "MessageBodyBase.h"
 
@@ -26,4 +26,4 @@ private:
 };
 
 }
-#endif // DeletingAreaRouteROUTE_H
+#endif // DELETINGAREAROUTE_H
