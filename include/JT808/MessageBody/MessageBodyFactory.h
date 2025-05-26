@@ -19,6 +19,7 @@
 #include "QuestionResponse.h"
 #include "SettingArea.h"
 #include "SettingPolygonArea.h"
+#include "SettingRoute.h"
 #include "SubPackageRetransmissionRequest.h"
 #include "TemporaryLocationTrackingControl.h"
 #include "TerminalAuthentication.h"
@@ -89,6 +90,8 @@ public:
             {DeletingRectangleAreaMsgId, [] { return std::make_unique<DeletingAreaRoute>(); }},
             {SettingPolygonAreaMsgId, [] { return std::make_unique<SettingPolygonArea>(); }},
             {DeletingPolygonAreaMsgId, [] { return std::make_unique<DeletingAreaRoute>(); }},
+            {SettingRouteMsgId, [] { return std::make_unique<SettingRoute>(); }},
+            {DeletingRouteMsgId, [] { return std::make_unique<DeletingAreaRoute>(); }},
         };
 
         auto it = factoryMap.find(id);

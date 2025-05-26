@@ -29,7 +29,7 @@ union AreaProperties {
         uint16_t platformAlertEnter : 1;
         uint16_t driverAlertExit : 1;
         uint16_t platformAlertExit : 1;
-        uint16_t sideLat : 1; // North or South
+        uint16_t sideLat : 1; // South or North
         uint16_t sideLng : 1; // East or West
         uint16_t openDoorPrevilege : 1;
         uint16_t reserved : 5;
