@@ -22,7 +22,7 @@ public:
 
     SettingPolygonArea() = default;
     SettingPolygonArea(uint32_t id, AreaProperties flag, const std::string& startTime, const std::string& endTime,
-                       uint16_t maxSpeed, uint8_t overspeedDuration, const std::vector<Point> points);
+                       uint16_t maxSpeed, uint8_t overspeedDuration, const std::vector<Point>& points);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;

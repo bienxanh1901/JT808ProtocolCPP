@@ -2,7 +2,7 @@
 
 namespace JT808::MessageBody {
 
-DeletingAreaRoute::DeletingAreaRoute(const std::vector<uint16_t>& ids)
+DeletingAreaRoute::DeletingAreaRoute(const std::vector<uint32_t>& ids)
     : MessageBodyBase()
     , m_length(ids.size())
     , m_ids(ids)
@@ -55,12 +55,12 @@ void DeletingAreaRoute::setLength(uint8_t newLength)
     m_length = newLength;
 }
 
-std::vector<uint16_t> DeletingAreaRoute::ids() const
+std::vector<uint32_t> DeletingAreaRoute::ids() const
 {
     return m_ids;
 }
 
-void DeletingAreaRoute::setIds(const std::vector<uint16_t>& newIds)
+void DeletingAreaRoute::setIds(const std::vector<uint32_t>& newIds)
 {
     m_ids = newIds;
 }
