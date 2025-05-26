@@ -1,6 +1,7 @@
 #ifndef MESSAGEBODYFACTORY_H
 #define MESSAGEBODYFACTORY_H
 
+#include "CANBusDataUpload.h"
 #include "CallbackPhone.h"
 #include "DeletingAreaRoute.h"
 #include "DriverIdentityInformationReport.h"
@@ -103,6 +104,7 @@ public:
             {ElectronicWaybillReportMsgId, [] { return std::make_unique<ElectronicWaybillReport>(); }},
             {DriverIdentityInformationReportMsgId, [] { return std::make_unique<DriverIdentityInformationReport>(); }},
             {LocationDataBulkUploadMsgId, [] { return std::make_unique<LocationDataBulkUpload>(); }},
+            {CANBusDataUploadMsgId, [] { return std::make_unique<CANBusDataUpload>(); }},
         };
 
         auto it = factoryMap.find(id);

@@ -1,4 +1,3 @@
-
 #include "JT808/MessageBody/DeletingAreaRoute.h"
 #include "MessageBodyBaseTest.h"
 
