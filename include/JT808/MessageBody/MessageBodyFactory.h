@@ -3,6 +3,8 @@
 
 #include "CallbackPhone.h"
 #include "DeletingAreaRoute.h"
+#include "DrivingRecordCommand.h"
+#include "DrivingRecordDataUpload.h"
 #include "EventReport.h"
 #include "EventSetting.h"
 #include "GeneralResponse.h"
@@ -92,6 +94,9 @@ public:
             {DeletingPolygonAreaMsgId, [] { return std::make_unique<DeletingAreaRoute>(); }},
             {SettingRouteMsgId, [] { return std::make_unique<SettingRoute>(); }},
             {DeletingRouteMsgId, [] { return std::make_unique<DeletingAreaRoute>(); }},
+            {DrivingRecordDataCollectionCommandMsgId, [] { return std::make_unique<DrivingRecordCommand>(); }},
+            {DrivingRecordDataUploadMsgId, [] { return std::make_unique<DrivingRecordDataUpload>(); }},
+            {DrivingRecordParameterCommandMsgId, [] { return std::make_unique<DrivingRecordCommand>(); }},
         };
 
         auto it = factoryMap.find(id);

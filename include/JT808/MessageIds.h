@@ -19,6 +19,7 @@ enum MessageIds
     QuestionResponseMsgId = 0x0302,
     InformationServiceCancelMsgId = 0x0303,
     VehicleControlResponseMsgId = 0x0500,
+    DrivingRecordDataUploadMsgId = 0x80700,
     // Platform
     PlatformGeneralResponseMsgId = 0x8001,
     SubPackageRetransmissionRequestMsgId = 0x8003,
@@ -47,7 +48,9 @@ enum MessageIds
     SettingPolygonAreaMsgId = 0x8604,
     DeletingPolygonAreaMsgId = 0x8605,
     SettingRouteMsgId = 0x8606,
-    DeletingRouteMsgId = 0x8607
+    DeletingRouteMsgId = 0x8607,
+    DrivingRecordDataCollectionCommandMsgId = 0x8700,
+    DrivingRecordParameterCommandMsgId = 0x8701,
 
 };
 }
