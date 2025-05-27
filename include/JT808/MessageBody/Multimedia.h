@@ -8,6 +8,12 @@
 
 namespace JT808::MessageBody {
 
+enum SavingMethods : uint8_t
+{
+    RealTimeUpload = 0,
+    LocalStorage = 1
+};
+
 enum MediaType : uint8_t
 {
     ImageType = 0,
