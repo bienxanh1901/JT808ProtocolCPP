@@ -2,12 +2,12 @@
 
 namespace JT808::MessageBody {
 
-ImmediateCameraCaptureCommand::ImmediateCameraCaptureCommand(uint8_t channelId, uint16_t command, uint16_t period,
+ImmediateCameraCaptureCommand::ImmediateCameraCaptureCommand(uint8_t channel, uint16_t command, uint16_t period,
                                                              SavingMethods saving, Resolutions resolution,
                                                              uint8_t quality, uint8_t brightness, uint8_t contrast,
                                                              uint8_t saturation, uint8_t chroma)
     : MessageBodyBase()
-    , m_channelId(channelId)
+    , m_channel(channel)
     , m_command(command)
     , m_period(period)
     , m_saving(saving)
@@ -29,8 +29,8 @@ void ImmediateCameraCaptureCommand::parse(const uint8_t* data, int size)
 {
     int pos = 0;
 
-    // channelId
-    m_channelId = data[pos++];
+    // channel
+    m_channel = data[pos++];
     // command
     m_command = Utils::endianSwap16(data + pos);
     pos += sizeof(m_command);
@@ -59,8 +59,8 @@ std::vector<uint8_t> ImmediateCameraCaptureCommand::package()
 {
     std::vector<uint8_t> result;
 
-    // channelId
-    result.push_back(m_channelId);
+    // channel
+    result.push_back(m_channel);
     // command
     Utils::appendU16(m_command, result);
     // pediod
@@ -85,20 +85,20 @@ std::vector<uint8_t> ImmediateCameraCaptureCommand::package()
 
 bool ImmediateCameraCaptureCommand::operator==(const ImmediateCameraCaptureCommand& other)
 {
-    return m_channelId == other.m_channelId && m_command == other.m_command && m_period == other.m_period
+    return m_channel == other.m_channel && m_command == other.m_command && m_period == other.m_period
         && m_saving == other.m_saving && m_resolution == other.m_resolution && m_quality == other.m_quality
         && m_brightness == other.m_brightness && m_contrast == other.m_contrast && m_saturation == other.m_saturation
         && m_chroma == other.m_chroma;
 }
 
-uint8_t ImmediateCameraCaptureCommand::channelId() const
+uint8_t ImmediateCameraCaptureCommand::channel() const
 {
-    return m_channelId;
+    return m_channel;
 }
 
-void ImmediateCameraCaptureCommand::setChannelId(uint8_t newChannelId)
+void ImmediateCameraCaptureCommand::setchannel(uint8_t newchannel)
 {
-    m_channelId = newChannelId;
+    m_channel = newchannel;
 }
 
 uint16_t ImmediateCameraCaptureCommand::command() const

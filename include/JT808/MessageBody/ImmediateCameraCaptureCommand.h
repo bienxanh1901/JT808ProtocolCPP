@@ -27,7 +27,7 @@ public:
     };
 
     ImmediateCameraCaptureCommand() = default;
-    ImmediateCameraCaptureCommand(uint8_t channelId, uint16_t command, uint16_t period, SavingMethods saving,
+    ImmediateCameraCaptureCommand(uint8_t channel, uint16_t command, uint16_t period, SavingMethods saving,
                                   Resolutions resolution, uint8_t quality, uint8_t brightness, uint8_t contrast,
                                   uint8_t saturation, uint8_t chroma);
     void parse(const std::vector<uint8_t>& data) override;
@@ -35,8 +35,8 @@ public:
     std::vector<uint8_t> package() override;
     bool operator==(const ImmediateCameraCaptureCommand& other);
 
-    uint8_t channelId() const;
-    void setChannelId(uint8_t newChannelId);
+    uint8_t channel() const;
+    void setchannel(uint8_t newchannel);
     uint16_t command() const;
     void setCommand(uint16_t newCommand);
     uint16_t period() const;
@@ -57,7 +57,7 @@ public:
     void setChroma(uint8_t newChroma);
 
 private:
-    uint8_t m_channelId = 0;
+    uint8_t m_channel = 0;
     uint16_t m_command = 0;
     uint16_t m_period = 0;
     SavingMethods m_saving = RealTimeUpload;
