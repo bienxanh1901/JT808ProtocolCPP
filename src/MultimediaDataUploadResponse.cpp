@@ -1,0 +1,78 @@
+#include "JT808/MessageBody/MultimediaDataUploadResponse.h"
+#include "JT808/Utils.h"
+
+namespace JT808::MessageBody {
+
+MultimediaDataUploadResponse::MultimediaDataUploadResponse(uint32_t id, std::vector<uint16_t>& retxIds)
+    : MessageBodyBase()
+    , m_id(id)
+    , m_retxIds(retxIds)
+{
+}
+
+void MultimediaDataUploadResponse::parse(const std::vector<uint8_t>& data)
+{
+    parse(data.data(), data.size());
+}
+
+void MultimediaDataUploadResponse::parse(const uint8_t* data, int size)
+{
+    int pos = 0;
+    uint8_t length = 0;
+    // id
+    m_id = Utils::endianSwap32(data + pos);
+    pos += sizeof(m_id);
+    // length
+    length = data[pos++];
+    // ids
+    for (int i = 0; i < length; i++) {
+        uint16_t id = Utils::endianSwap16(data + pos);
+        pos += sizeof(id);
+        m_retxIds.push_back(id);
+    }
+
+    setIsValid(true);
+}
+
+std::vector<uint8_t> MultimediaDataUploadResponse::package()
+{
+    std::vector<uint8_t> result;
+
+    // id
+    Utils::appendU32(m_id, result);
+    // length
+    result.push_back(m_retxIds.size());
+    // ids
+    for (auto& id : m_retxIds) {
+        Utils::appendU16(id, result);
+    }
+
+    return result;
+}
+
+bool MultimediaDataUploadResponse::operator==(const MultimediaDataUploadResponse& other)
+{
+    return m_id == other.m_id && m_retxIds == other.m_retxIds;
+}
+
+uint16_t MultimediaDataUploadResponse::id() const
+{
+    return m_id;
+}
+
+void MultimediaDataUploadResponse::setId(uint16_t newId)
+{
+    m_id = newId;
+}
+
+std::vector<uint16_t> MultimediaDataUploadResponse::retxIds() const
+{
+    return m_retxIds;
+}
+
+void MultimediaDataUploadResponse::setRetxIds(const std::vector<uint16_t>& newRetxIds)
+{
+    m_retxIds = newRetxIds;
+}
+
+}

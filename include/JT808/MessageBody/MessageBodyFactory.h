@@ -20,6 +20,9 @@
 #include "LocationInformationReport.h"
 #include "ManualAlarmConfirmation.h"
 #include "MessageBodyBase.h"
+#include "MultimediaDataUpload.h"
+#include "MultimediaDataUploadResponse.h"
+#include "MultimediaEventInformationUpload.h"
 #include "PhoneBookSetting.h"
 #include "QuestionDispatch.h"
 #include "QuestionResponse.h"
@@ -105,6 +108,10 @@ public:
             {DriverIdentityInformationReportMsgId, [] { return std::make_unique<DriverIdentityInformationReport>(); }},
             {LocationDataBulkUploadMsgId, [] { return std::make_unique<LocationDataBulkUpload>(); }},
             {CANBusDataUploadMsgId, [] { return std::make_unique<CANBusDataUpload>(); }},
+            {MultimediaEventInformationUploadMsgId,
+             [] { return std::make_unique<MultimediaEventInformationUpload>(); }},
+            {MultimediaDataUploadMsgId, [] { return std::make_unique<MultimediaDataUpload>(); }},
+            {MultimediaDataUploadResponseMsgId, [] { return std::make_unique<MultimediaDataUploadResponse>(); }},
         };
 
         auto it = factoryMap.find(id);
