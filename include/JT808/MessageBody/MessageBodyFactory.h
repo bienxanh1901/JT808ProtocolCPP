@@ -31,6 +31,7 @@
 #include "PhoneBookSetting.h"
 #include "QuestionDispatch.h"
 #include "QuestionResponse.h"
+#include "RSAPublicKey.h"
 #include "SettingArea.h"
 #include "SettingPolygonArea.h"
 #include "SettingRoute.h"
@@ -135,6 +136,9 @@ public:
             {DownwardDataTransmissionMsgId, [] { return std::make_unique<DataTransmission>(); }},
             {UpwardDataTransmissionMsgId, [] { return std::make_unique<DataTransmission>(); }},
             {DataCompressionReportMsgId, [] { return std::make_unique<DataCompressionReport>(); }},
+            {PlatformRSAPublicKeyMsgId, [] { return std::make_unique<RSAPublicKey>(); }},
+            {TerminalRSAPublicKeyMsgId, [] { return std::make_unique<RSAPublicKey>(); }},
+
         };
 
         auto it = factoryMap.find(id);
