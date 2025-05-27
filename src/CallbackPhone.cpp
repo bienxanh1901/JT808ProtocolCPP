@@ -40,16 +40,6 @@ bool CallbackPhone::operator==(const CallbackPhone& other)
     return m_type == other.m_type && m_phone == other.m_phone;
 }
 
-CallbackPhone::PhoneType CallbackPhone::type() const
-{
-    return m_type;
-}
-
-void CallbackPhone::settype(PhoneType newtype)
-{
-    m_type = newtype;
-}
-
 std::string CallbackPhone::phone() const
 {
     return m_phone;
@@ -58,6 +48,16 @@ std::string CallbackPhone::phone() const
 void CallbackPhone::setPhone(const std::string& newPhone)
 {
     m_phone = newPhone;
+}
+
+CallbackPhone::PhoneType CallbackPhone::type() const
+{
+    return m_type;
+}
+
+void CallbackPhone::setType(PhoneType newType)
+{
+    m_type = newType;
 }
 
 }

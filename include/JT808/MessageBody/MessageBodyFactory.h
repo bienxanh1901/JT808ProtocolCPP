@@ -11,6 +11,8 @@
 #include "EventReport.h"
 #include "EventSetting.h"
 #include "GeneralResponse.h"
+#include "ImmediateCameraCaptureCommand.h"
+#include "ImmediateCameraCaptureCommandResponse.h"
 #include "InformationService.h"
 #include "InformationServiceCancel.h"
 #include "InformationServiceMenuSetting.h"
@@ -112,6 +114,9 @@ public:
              [] { return std::make_unique<MultimediaEventInformationUpload>(); }},
             {MultimediaDataUploadMsgId, [] { return std::make_unique<MultimediaDataUpload>(); }},
             {MultimediaDataUploadResponseMsgId, [] { return std::make_unique<MultimediaDataUploadResponse>(); }},
+            {ImmediateCameraCaptureCommandMsgId, [] { return std::make_unique<ImmediateCameraCaptureCommand>(); }},
+            {ImmediateCameraCaptureCommandResponseMsgId,
+             [] { return std::make_unique<ImmediateCameraCaptureCommandResponse>(); }},
         };
 
         auto it = factoryMap.find(id);
