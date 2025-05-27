@@ -30,6 +30,8 @@ enum MessageIds : uint16_t
     MultimediaDataUploadMsgId = 0x0801,
     StoredMultimediaDataRetrievalResponseMsgId = 0x0802,
     ImmediateCameraCaptureCommandResponseMsgId = 0x0805,
+    UpwardDataTransmissionMsgId = 0x0900,
+    DataCompressionReportMsgId = 0x0901,
     // Platform
     PlatformGeneralResponseMsgId = 0x8001,
     SubPackageRetransmissionRequestMsgId = 0x8003,
@@ -68,6 +70,7 @@ enum MessageIds : uint16_t
     StoredMultimediaDataUploadCommandMsgId = 0x8803,
     AudioRecordingStartCommandMsgId = 0x8804,
     SingleStoredMultimediaItemRetrievalUploadCommandMsgId = 0x8805,
+    DownwardDataTransmissionMsgId = 0x8900,
 
 };
 }
