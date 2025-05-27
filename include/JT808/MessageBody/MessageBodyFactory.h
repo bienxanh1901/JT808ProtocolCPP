@@ -4,6 +4,8 @@
 #include "AudioRecordingStartCommand.h"
 #include "CANBusDataUpload.h"
 #include "CallbackPhone.h"
+#include "DataCompressionReport.h"
+#include "DataTransmission.h"
 #include "DeletingAreaRoute.h"
 #include "DriverIdentityInformationReport.h"
 #include "DrivingRecordCommand.h"
@@ -130,6 +132,9 @@ public:
             {AudioRecordingStartCommandMsgId, [] { return std::make_unique<AudioRecordingStartCommand>(); }},
             {SingleStoredMultimediaItemRetrievalUploadCommandMsgId,
              [] { return std::make_unique<SingleStoredMultimediaItemRetrievalUploadCommand>(); }},
+            {DownwardDataTransmissionMsgId, [] { return std::make_unique<DataTransmission>(); }},
+            {UpwardDataTransmissionMsgId, [] { return std::make_unique<DataTransmission>(); }},
+            {DataCompressionReportMsgId, [] { return std::make_unique<DataCompressionReport>(); }},
         };
 
         auto it = factoryMap.find(id);
