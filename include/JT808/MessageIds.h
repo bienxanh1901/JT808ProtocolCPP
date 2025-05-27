@@ -26,6 +26,7 @@ enum MessageIds
     CANBusDataUploadMsgId = 0x0705,
     MultimediaEventInformationUploadMsgId = 0x0800,
     MultimediaDataUploadMsgId = 0x0801,
+    ImmediateCameraCaptureCommandResponseMsgId = 0x0805,
     // Platform
     PlatformGeneralResponseMsgId = 0x8001,
     SubPackageRetransmissionRequestMsgId = 0x8003,
@@ -59,6 +60,7 @@ enum MessageIds
     DrivingRecordParameterCommandMsgId = 0x8701,
     DriverIdentityInformationRequestMsgId = 0x8702,
     MultimediaDataUploadResponseMsgId = 0x8800,
+    ImmediateCameraCaptureCommandMsgId = 0x8801,
 
 };
 }

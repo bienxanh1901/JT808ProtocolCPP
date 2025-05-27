@@ -8,7 +8,7 @@ namespace JT808::MessageBody {
 class CallbackPhone : public MessageBodyBase
 {
 public:
-    enum PhoneType
+    enum PhoneType : uint8_t
     {
         OrdinaryPhone = 0,
         MonitoringPhone
@@ -21,10 +21,11 @@ public:
     std::vector<uint8_t> package() override;
     bool operator==(const CallbackPhone& other);
 
-    PhoneType type() const;
-    void settype(PhoneType newtype);
     std::string phone() const;
     void setPhone(const std::string& newPhone);
+
+    PhoneType type() const;
+    void setType(PhoneType newType);
 
 private:
     PhoneType m_type = OrdinaryPhone;
