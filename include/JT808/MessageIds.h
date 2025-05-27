@@ -66,6 +66,7 @@ enum MessageIds : uint16_t
     ImmediateCameraCaptureCommandMsgId = 0x8801,
     StorageMultimediaDataRetrievalMsgId = 0x8802,
     StorageMultimediaDataUploadCommandMsgId = 0x8803,
+    AudioRecordingStartCommandMsgId = 0x8804,
 
 };
 }
