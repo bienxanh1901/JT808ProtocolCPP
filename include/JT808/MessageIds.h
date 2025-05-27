@@ -28,7 +28,7 @@ enum MessageIds : uint16_t
     CANBusDataUploadMsgId = 0x0705,
     MultimediaEventInformationUploadMsgId = 0x0800,
     MultimediaDataUploadMsgId = 0x0801,
-    StorageMultimediaDataRetrievalResponseMsgId = 0x0802,
+    StoredMultimediaDataRetrievalResponseMsgId = 0x0802,
     ImmediateCameraCaptureCommandResponseMsgId = 0x0805,
     // Platform
     PlatformGeneralResponseMsgId = 0x8001,
@@ -64,9 +64,10 @@ enum MessageIds : uint16_t
     DriverIdentityInformationRequestMsgId = 0x8702,
     MultimediaDataUploadResponseMsgId = 0x8800,
     ImmediateCameraCaptureCommandMsgId = 0x8801,
-    StorageMultimediaDataRetrievalMsgId = 0x8802,
-    StorageMultimediaDataUploadCommandMsgId = 0x8803,
+    StoredMultimediaDataRetrievalMsgId = 0x8802,
+    StoredMultimediaDataUploadCommandMsgId = 0x8803,
     AudioRecordingStartCommandMsgId = 0x8804,
+    SingleStoredMultimediaItemRetrievalUploadCommandMsgId = 0x8805,
 
 };
 }

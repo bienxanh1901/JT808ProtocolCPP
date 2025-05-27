@@ -1,10 +1,10 @@
-#include "JT808/MessageBody/StorageMultimediaDataRetrieval.h"
+#include "JT808/MessageBody/StoredMultimediaDataRetrieval.h"
 #include "JT808/BCD.h"
 
 namespace JT808::MessageBody {
 
-StorageMultimediaDataRetrieval::StorageMultimediaDataRetrieval(MediaType type, uint8_t channel, EventCode event,
-                                                               const std::string& startTime, const std::string& endTime)
+StoredMultimediaDataRetrieval::StoredMultimediaDataRetrieval(MediaType type, uint8_t channel, EventCode event,
+                                                             const std::string& startTime, const std::string& endTime)
     : m_type(type)
     , m_channel(std::move(channel))
     , m_event(event)
@@ -13,12 +13,12 @@ StorageMultimediaDataRetrieval::StorageMultimediaDataRetrieval(MediaType type, u
 {
 }
 
-void StorageMultimediaDataRetrieval::parse(const std::vector<uint8_t>& data)
+void StoredMultimediaDataRetrieval::parse(const std::vector<uint8_t>& data)
 {
     parse(data.data(), data.size());
 }
 
-void StorageMultimediaDataRetrieval::parse(const uint8_t* data, int size)
+void StoredMultimediaDataRetrieval::parse(const uint8_t* data, int size)
 {
     int pos = 0;
 
@@ -37,7 +37,7 @@ void StorageMultimediaDataRetrieval::parse(const uint8_t* data, int size)
     setIsValid(true);
 }
 
-std::vector<uint8_t> StorageMultimediaDataRetrieval::package()
+std::vector<uint8_t> StoredMultimediaDataRetrieval::package()
 {
     std::vector<uint8_t> result;
 
@@ -50,58 +50,58 @@ std::vector<uint8_t> StorageMultimediaDataRetrieval::package()
     return result;
 }
 
-bool StorageMultimediaDataRetrieval::operator==(const StorageMultimediaDataRetrieval& other)
+bool StoredMultimediaDataRetrieval::operator==(const StoredMultimediaDataRetrieval& other)
 {
     return m_type == other.m_type && m_event == other.m_event && m_channel == other.m_channel
         && m_startTime == other.m_startTime && m_endTime == other.m_endTime;
 }
 
-MediaType StorageMultimediaDataRetrieval::type() const
+MediaType StoredMultimediaDataRetrieval::type() const
 {
     return m_type;
 }
 
-void StorageMultimediaDataRetrieval::setType(MediaType newType)
+void StoredMultimediaDataRetrieval::setType(MediaType newType)
 {
     m_type = newType;
 }
 
-uint8_t StorageMultimediaDataRetrieval::channel() const
+uint8_t StoredMultimediaDataRetrieval::channel() const
 {
     return m_channel;
 }
 
-void StorageMultimediaDataRetrieval::setChannel(uint8_t newChannel)
+void StoredMultimediaDataRetrieval::setChannel(uint8_t newChannel)
 {
     m_channel = newChannel;
 }
 
-EventCode StorageMultimediaDataRetrieval::event() const
+EventCode StoredMultimediaDataRetrieval::event() const
 {
     return m_event;
 }
 
-void StorageMultimediaDataRetrieval::setEvent(EventCode newEvent)
+void StoredMultimediaDataRetrieval::setEvent(EventCode newEvent)
 {
     m_event = newEvent;
 }
 
-std::string StorageMultimediaDataRetrieval::startTime() const
+std::string StoredMultimediaDataRetrieval::startTime() const
 {
     return m_startTime;
 }
 
-void StorageMultimediaDataRetrieval::setStartTime(const std::string& newStartTime)
+void StoredMultimediaDataRetrieval::setStartTime(const std::string& newStartTime)
 {
     m_startTime = newStartTime;
 }
 
-std::string StorageMultimediaDataRetrieval::endTime() const
+std::string StoredMultimediaDataRetrieval::endTime() const
 {
     return m_endTime;
 }
 
-void StorageMultimediaDataRetrieval::setEndTime(const std::string& newEndTime)
+void StoredMultimediaDataRetrieval::setEndTime(const std::string& newEndTime)
 {
     m_endTime = newEndTime;
 }

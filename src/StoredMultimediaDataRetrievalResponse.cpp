@@ -1,20 +1,20 @@
-#include "JT808/MessageBody/StorageMultimediaDataRetrievalResponse.h"
+#include "JT808/MessageBody/StoredMultimediaDataRetrievalResponse.h"
 
 namespace JT808::MessageBody {
 
-StorageMultimediaDataRetrievalResponse::StorageMultimediaDataRetrievalResponse(
+StoredMultimediaDataRetrievalResponse::StoredMultimediaDataRetrievalResponse(
     uint16_t seq, const std::vector<MultimediaRetrievalData>& result)
     : SequenceMessageBodyBase(seq)
     , m_result(result)
 {
 }
 
-void StorageMultimediaDataRetrievalResponse::parse(const std::vector<uint8_t>& data)
+void StoredMultimediaDataRetrievalResponse::parse(const std::vector<uint8_t>& data)
 {
     parse(data.data(), data.size());
 }
 
-void StorageMultimediaDataRetrievalResponse::parse(const uint8_t* data, int size)
+void StoredMultimediaDataRetrievalResponse::parse(const uint8_t* data, int size)
 {
     int pos = 2;
     uint16_t length = 0;
@@ -35,7 +35,7 @@ void StorageMultimediaDataRetrievalResponse::parse(const uint8_t* data, int size
     setIsValid(true);
 }
 
-std::vector<uint8_t> StorageMultimediaDataRetrievalResponse::package()
+std::vector<uint8_t> StoredMultimediaDataRetrievalResponse::package()
 {
     std::vector<uint8_t> result(SequenceMessageBodyBase::package());
 
@@ -50,17 +50,17 @@ std::vector<uint8_t> StorageMultimediaDataRetrievalResponse::package()
     return result;
 }
 
-bool StorageMultimediaDataRetrievalResponse::operator==(const StorageMultimediaDataRetrievalResponse& other)
+bool StoredMultimediaDataRetrievalResponse::operator==(const StoredMultimediaDataRetrievalResponse& other)
 {
     return SequenceMessageBodyBase::operator==(other) && m_result == other.m_result;
 }
 
-std::vector<MultimediaRetrievalData> StorageMultimediaDataRetrievalResponse::result() const
+std::vector<MultimediaRetrievalData> StoredMultimediaDataRetrievalResponse::result() const
 {
     return m_result;
 }
 
-void StorageMultimediaDataRetrievalResponse::setResult(const std::vector<MultimediaRetrievalData>& newResult)
+void StoredMultimediaDataRetrievalResponse::setResult(const std::vector<MultimediaRetrievalData>& newResult)
 {
     m_result = newResult;
 }

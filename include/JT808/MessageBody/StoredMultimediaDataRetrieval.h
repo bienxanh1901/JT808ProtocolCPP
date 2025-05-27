@@ -1,21 +1,21 @@
-#ifndef STORAGEMULTIMEDIADATARETRIEVAL_H
-#define STORAGEMULTIMEDIADATARETRIEVAL_H
+#ifndef STOREDMULTIMEDIADATARETRIEVAL_H
+#define STOREDMULTIMEDIADATARETRIEVAL_H
 
 #include "MessageBodyBase.h"
 #include "Multimedia.h"
 
 namespace JT808::MessageBody {
 
-class StorageMultimediaDataRetrieval : public MessageBodyBase
+class StoredMultimediaDataRetrieval : public MessageBodyBase
 {
 public:
-    StorageMultimediaDataRetrieval() = default;
-    StorageMultimediaDataRetrieval(MediaType type, uint8_t channel, EventCode event, const std::string& startTime,
-                                   const std::string& endTime);
+    StoredMultimediaDataRetrieval() = default;
+    StoredMultimediaDataRetrieval(MediaType type, uint8_t channel, EventCode event, const std::string& startTime,
+                                  const std::string& endTime);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
-    bool operator==(const StorageMultimediaDataRetrieval& other);
+    bool operator==(const StoredMultimediaDataRetrieval& other);
 
     MediaType type() const;
     void setType(MediaType newType);
@@ -37,4 +37,4 @@ private:
 };
 
 }
-#endif // STORAGEMULTIMEDIADATARETRIEVAL_H
+#endif // STOREDMULTIMEDIADATARETRIEVAL_H
