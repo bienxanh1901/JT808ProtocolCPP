@@ -24,6 +24,8 @@ enum MessageIds
     DriverIdentityInformationReportMsgId = 0x0702,
     LocationDataBulkUploadMsgId = 0x0704,
     CANBusDataUploadMsgId = 0x0705,
+    MultimediaEventInformationUploadMsgId = 0x0800,
+    MultimediaDataUploadMsgId = 0x0801,
     // Platform
     PlatformGeneralResponseMsgId = 0x8001,
     SubPackageRetransmissionRequestMsgId = 0x8003,
@@ -56,6 +58,7 @@ enum MessageIds
     DrivingRecordDataCollectionCommandMsgId = 0x8700,
     DrivingRecordParameterCommandMsgId = 0x8701,
     DriverIdentityInformationRequestMsgId = 0x8702,
+    MultimediaDataUploadResponseMsgId = 0x8800,
 
 };
 }
