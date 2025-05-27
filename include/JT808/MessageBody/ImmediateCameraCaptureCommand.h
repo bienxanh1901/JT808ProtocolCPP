@@ -2,18 +2,13 @@
 #define IMMEDIATECAMERACAPTURECOMMAND_H
 
 #include "MessageBodyBase.h"
+#include "Multimedia.h"
 
 namespace JT808::MessageBody {
 
 class ImmediateCameraCaptureCommand : public MessageBodyBase
 {
 public:
-    enum SavingMethods : uint8_t
-    {
-        RealTimeUpload = 0,
-        LocalStorage = 1
-    };
-
     enum Resolutions : uint8_t
     {
         Resolution320x240 = 0x01,

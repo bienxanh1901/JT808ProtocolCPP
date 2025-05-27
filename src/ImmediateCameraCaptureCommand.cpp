@@ -121,7 +121,7 @@ void ImmediateCameraCaptureCommand::setPeriod(uint16_t newPeriod)
     m_period = newPeriod;
 }
 
-ImmediateCameraCaptureCommand::SavingMethods ImmediateCameraCaptureCommand::saving() const
+SavingMethods ImmediateCameraCaptureCommand::saving() const
 {
     return m_saving;
 }

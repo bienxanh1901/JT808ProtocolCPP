@@ -1,6 +1,7 @@
 #ifndef MESSAGEBODYFACTORY_H
 #define MESSAGEBODYFACTORY_H
 
+#include "AudioRecordingStartCommand.h"
 #include "CANBusDataUpload.h"
 #include "CallbackPhone.h"
 #include "DeletingAreaRoute.h"
@@ -125,6 +126,7 @@ public:
              [] { return std::make_unique<StorageMultimediaDataRetrievalResponse>(); }},
             {StorageMultimediaDataUploadCommandMsgId,
              [] { return std::make_unique<StorageMultimediaDataUploadCommand>(); }},
+            {AudioRecordingStartCommandMsgId, [] { return std::make_unique<AudioRecordingStartCommand>(); }},
         };
 
         auto it = factoryMap.find(id);
