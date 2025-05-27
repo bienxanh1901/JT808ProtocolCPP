@@ -2,7 +2,7 @@
 #define MULTIMEDIAEVENTINFORMATIONUPLOAD_H
 
 #include "MessageBodyBase.h"
-#include "MultimediaEventInformation.h"
+#include "Multimedia.h"
 
 namespace JT808::MessageBody {
 

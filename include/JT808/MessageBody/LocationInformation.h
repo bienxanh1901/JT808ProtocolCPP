@@ -177,29 +177,10 @@ struct LocationInformation
     std::string time;
     ExtraInfo extra;
 
-    LocationInformation() {};
-
+    LocationInformation() = default;
     LocationInformation(const AlarmFlags& alarm, const StatusFlags& status, uint32_t lat, uint32_t lng, uint16_t alt,
-                        uint16_t speed, uint16_t bearing, const std::string& time, const ExtraInfo& extra = {})
-        : alarm(alarm)
-        , status(status)
-        , lat(lat)
-        , lng(lng)
-        , alt(alt)
-        , speed(speed)
-        , bearing(bearing)
-        , time(time)
-        , extra(extra)
-    {
-    }
-
-    bool operator==(const LocationInformation& other) const
-    {
-        return alarm.value == other.alarm.value && status.value == other.status.value && lat == other.lat
-            && lng == other.lng && alt == other.alt && speed == other.speed && bearing == other.bearing
-            && time == other.time && extra == other.extra;
-    }
-
+                        uint16_t speed, uint16_t bearing, const std::string& time, const ExtraInfo& extra = {});
+    bool operator==(const LocationInformation& other) const;
     void parse(const uint8_t* data, int size);
     std::vector<uint8_t> package();
 };

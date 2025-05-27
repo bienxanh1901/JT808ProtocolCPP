@@ -1,8 +1,10 @@
 #ifndef MESSAGEIDS_H
 #define MESSAGEIDS_H
 
+#include <cstdint>
+
 namespace JT808 {
-enum MessageIds
+enum MessageIds : uint16_t
 {
     // Terminal
     TerminalGeneralResponseMsgId = 0x0001,
@@ -26,6 +28,7 @@ enum MessageIds
     CANBusDataUploadMsgId = 0x0705,
     MultimediaEventInformationUploadMsgId = 0x0800,
     MultimediaDataUploadMsgId = 0x0801,
+    StorageMultimediaDataRetrievalResponseMsgId = 0x0802,
     ImmediateCameraCaptureCommandResponseMsgId = 0x0805,
     // Platform
     PlatformGeneralResponseMsgId = 0x8001,
@@ -61,6 +64,8 @@ enum MessageIds
     DriverIdentityInformationRequestMsgId = 0x8702,
     MultimediaDataUploadResponseMsgId = 0x8800,
     ImmediateCameraCaptureCommandMsgId = 0x8801,
+    StorageMultimediaDataRetrievalMsgId = 0x8802,
+    StorageMultimediaDataUploadCommandMsgId = 0x8803,
 
 };
 }
