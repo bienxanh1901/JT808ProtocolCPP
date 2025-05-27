@@ -1,11 +1,11 @@
-#include "JT808/MessageBody/StorageMultimediaDataRetrievalResponse.h"
+#include "JT808/MessageBody/StoredMultimediaDataRetrievalResponse.h"
 #include "MessageBodyBaseTest.h"
 
 namespace JT808::MessageBody {
-class StorageMultimediaDataRetrievalResponseTest : public MessageBodyBaseTest<StorageMultimediaDataRetrievalResponse>
+class StoredMultimediaDataRetrievalResponseTest : public MessageBodyBaseTest<StoredMultimediaDataRetrievalResponse>
 {
 protected:
-    ~StorageMultimediaDataRetrievalResponseTest() override { }
+    ~StoredMultimediaDataRetrievalResponseTest() override { }
 
     void SetUp() override
     {
@@ -16,7 +16,7 @@ protected:
             {345, ImageType, 2, PlaformCommand, location}, {456, ImageType, 2, PlaformCommand, location},
             {567, ImageType, 2, PlaformCommand, location}, {678, ImageType, 2, PlaformCommand, location},
         };
-        m_body = new StorageMultimediaDataRetrievalResponse(123, result);
+        m_body = new StoredMultimediaDataRetrievalResponse(123, result);
         m_rawData = {
             0x0,  0x7b, 0x0,  0x6,  0x0,  0x0,  0x0,  0x7b, 0x0,  0x2,  0x0,  0x0,  0x0,  0x30, 0x39, 0x0,  0x0,  0xd4,
             0x31, 0x0,  0xa4, 0x1c, 0xa9, 0x3f, 0x92, 0x90, 0xf,  0x0,  0xa,  0x0,  0x19, 0x0,  0x2d, 0x70, 0x1,  0x1,
@@ -33,12 +33,12 @@ protected:
     }
 };
 
-TEST_F(StorageMultimediaDataRetrievalResponseTest, TestParseSuccess)
+TEST_F(StoredMultimediaDataRetrievalResponseTest, TestParseSuccess)
 {
     TestParse();
 }
 
-TEST_F(StorageMultimediaDataRetrievalResponseTest, TestPackage)
+TEST_F(StoredMultimediaDataRetrievalResponseTest, TestPackage)
 {
     TestPackage();
 }

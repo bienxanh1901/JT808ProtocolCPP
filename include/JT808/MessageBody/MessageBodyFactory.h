@@ -32,9 +32,10 @@
 #include "SettingArea.h"
 #include "SettingPolygonArea.h"
 #include "SettingRoute.h"
-#include "StorageMultimediaDataRetrieval.h"
-#include "StorageMultimediaDataRetrievalResponse.h"
-#include "StorageMultimediaDataUploadCommand.h"
+#include "SingleStoredMultimediaItemRetrievalUploadCommand.h"
+#include "StoredMultimediaDataRetrieval.h"
+#include "StoredMultimediaDataRetrievalResponse.h"
+#include "StoredMultimediaDataUploadCommand.h"
 #include "SubPackageRetransmissionRequest.h"
 #include "TemporaryLocationTrackingControl.h"
 #include "TerminalAuthentication.h"
@@ -121,12 +122,14 @@ public:
             {ImmediateCameraCaptureCommandMsgId, [] { return std::make_unique<ImmediateCameraCaptureCommand>(); }},
             {ImmediateCameraCaptureCommandResponseMsgId,
              [] { return std::make_unique<ImmediateCameraCaptureCommandResponse>(); }},
-            {StorageMultimediaDataRetrievalMsgId, [] { return std::make_unique<StorageMultimediaDataRetrieval>(); }},
-            {StorageMultimediaDataRetrievalResponseMsgId,
-             [] { return std::make_unique<StorageMultimediaDataRetrievalResponse>(); }},
-            {StorageMultimediaDataUploadCommandMsgId,
-             [] { return std::make_unique<StorageMultimediaDataUploadCommand>(); }},
+            {StoredMultimediaDataRetrievalMsgId, [] { return std::make_unique<StoredMultimediaDataRetrieval>(); }},
+            {StoredMultimediaDataRetrievalResponseMsgId,
+             [] { return std::make_unique<StoredMultimediaDataRetrievalResponse>(); }},
+            {StoredMultimediaDataUploadCommandMsgId,
+             [] { return std::make_unique<StoredMultimediaDataUploadCommand>(); }},
             {AudioRecordingStartCommandMsgId, [] { return std::make_unique<AudioRecordingStartCommand>(); }},
+            {SingleStoredMultimediaItemRetrievalUploadCommandMsgId,
+             [] { return std::make_unique<SingleStoredMultimediaItemRetrievalUploadCommand>(); }},
         };
 
         auto it = factoryMap.find(id);
