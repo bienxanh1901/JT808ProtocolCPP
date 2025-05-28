@@ -50,7 +50,7 @@ std::vector<uint8_t> MultimediaDataUploadResponse::package()
     return result;
 }
 
-bool MultimediaDataUploadResponse::operator==(const MultimediaDataUploadResponse& other)
+bool MultimediaDataUploadResponse::operator==(const MultimediaDataUploadResponse& other) const
 {
     return m_id == other.m_id && m_retxIds == other.m_retxIds;
 }

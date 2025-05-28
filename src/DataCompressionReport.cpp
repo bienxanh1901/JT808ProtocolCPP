@@ -20,6 +20,7 @@ void DataCompressionReport::parse(const uint8_t* data, int size)
     // length
     uint32_t length = Utils::endianSwap32(data);
     pos += sizeof(length);
+    // data
     m_data.assign(data + pos, data + size);
 
     setIsValid(true);
@@ -28,14 +29,15 @@ void DataCompressionReport::parse(const uint8_t* data, int size)
 std::vector<uint8_t> DataCompressionReport::package()
 {
     std::vector<uint8_t> result;
-
+    // length
     Utils::appendU32(m_data.size(), result);
-    result.insert(result.end(), m_data.begin(), m_data.end());
+    // data
+    Utils::append(m_data, result);
 
     return result;
 }
 
-bool DataCompressionReport::operator==(const DataCompressionReport& other)
+bool DataCompressionReport::operator==(const DataCompressionReport& other) const
 {
     return m_data == other.m_data;
 }

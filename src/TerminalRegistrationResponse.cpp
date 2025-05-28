@@ -18,8 +18,11 @@ void TerminalRegistrationResponse::parse(const std::vector<uint8_t>& data)
 void TerminalRegistrationResponse::parse(const uint8_t* data, int size)
 {
     int pos = 2;
+    // seq
     SequenceMessageBodyBase::parse(data, size);
+    // result
     m_result = ResponseResults(data[pos++]);
+    // authentication code
     if (m_result == Succeeded) {
         m_authCode.assign(data + pos, data + size);
     }
@@ -29,17 +32,19 @@ void TerminalRegistrationResponse::parse(const uint8_t* data, int size)
 
 std::vector<uint8_t> TerminalRegistrationResponse::package()
 {
+    // seq
     std::vector<uint8_t> result(SequenceMessageBodyBase::package());
+    // result
     result.push_back(m_result);
-
+    // authentication code
     if (m_result == Succeeded) {
-        result.insert(result.end(), m_authCode.begin(), m_authCode.end());
+        Utils::append(m_authCode, result);
     }
 
     return result;
 }
 
-bool TerminalRegistrationResponse::operator==(const TerminalRegistrationResponse& other)
+bool TerminalRegistrationResponse::operator==(const TerminalRegistrationResponse& other) const
 {
     return SequenceMessageBodyBase::operator==(other) && m_result == other.m_result && m_authCode == other.m_authCode;
 }

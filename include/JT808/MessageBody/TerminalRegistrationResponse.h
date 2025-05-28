@@ -14,7 +14,7 @@ public:
     /**
      * @brief RegistrationResponseResults
      */
-    enum ResponseResults
+    enum ResponseResults : uint8_t
     {
         Succeeded = 0,
         VehicleExisted = 1,
@@ -28,7 +28,7 @@ public:
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
-    bool operator==(const TerminalRegistrationResponse& other);
+    bool operator==(const TerminalRegistrationResponse& other) const;
 
     ResponseResults result() const;
     void setResult(ResponseResults newResult);
@@ -37,7 +37,7 @@ public:
 
 private:
     ResponseResults m_result = Succeeded;
-    std::string m_authCode = "";
+    std::string m_authCode;
 };
 
 }

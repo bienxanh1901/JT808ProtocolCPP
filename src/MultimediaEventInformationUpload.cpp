@@ -25,7 +25,7 @@ std::vector<uint8_t> MultimediaEventInformationUpload::package()
     return m_info.package();
 }
 
-bool MultimediaEventInformationUpload::operator==(const MultimediaEventInformationUpload& other)
+bool MultimediaEventInformationUpload::operator==(const MultimediaEventInformationUpload& other) const
 {
     return m_info == other.m_info;
 }

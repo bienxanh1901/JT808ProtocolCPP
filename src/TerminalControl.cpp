@@ -17,9 +17,11 @@ void TerminalControl::parse(const std::vector<uint8_t>& data)
 void TerminalControl::parse(const uint8_t* data, int size)
 {
     int pos = 0;
-    m_command = Commands(data[pos++]);
-    if (m_command <= ServerConnect) {
 
+    // command
+    m_command = Commands(data[pos++]);
+    // param
+    if (m_command <= ServerConnect) {
         m_param = Utils::gbkDecode(data + pos, size - pos);
     }
 
@@ -30,15 +32,17 @@ std::vector<uint8_t> TerminalControl::package()
 {
     std::vector<uint8_t> result;
 
+    // command
     result.push_back(m_command);
     if (m_command <= ServerConnect) {
+        // param
         Utils::appendGBK(m_param, result);
     }
 
     return result;
 }
 
-bool TerminalControl::operator==(const TerminalControl& other)
+bool TerminalControl::operator==(const TerminalControl& other) const
 {
     return m_command == other.m_command && m_param == other.m_param;
 }

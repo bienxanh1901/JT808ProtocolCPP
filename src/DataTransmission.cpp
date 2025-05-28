@@ -31,12 +31,12 @@ std::vector<uint8_t> DataTransmission::package()
     // type
     result.push_back(m_type);
     // data
-    result.insert(result.end(), m_data.begin(), m_data.end());
+    Utils::append(m_data, result);
 
     return result;
 }
 
-bool DataTransmission::operator==(const DataTransmission& other)
+bool DataTransmission::operator==(const DataTransmission& other) const
 {
     return m_type == other.m_type && m_data == other.m_data;
 }

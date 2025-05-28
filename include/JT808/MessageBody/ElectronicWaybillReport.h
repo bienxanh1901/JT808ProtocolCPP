@@ -16,16 +16,12 @@ public:
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
-    bool operator==(const ElectronicWaybillReport& other);
-
-    uint32_t length() const;
-    void setLength(uint32_t newLength);
+    bool operator==(const ElectronicWaybillReport& other) const;
 
     std::string data() const;
     void setData(const std::string& newData);
 
 private:
-    uint32_t m_length;
     std::string m_data;
 };
 

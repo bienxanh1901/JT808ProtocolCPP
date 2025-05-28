@@ -11,13 +11,13 @@ namespace JT808::MessageBody {
 class DriverIdentityInformationReport : public MessageBodyBase
 {
 public:
-    enum Status
+    enum Status : uint8_t
     {
         ICCardAdded = 0x01,
         ICCardRemoved = 0x02,
     };
 
-    enum ICResult
+    enum ICResult : uint8_t
     {
         Successful = 0x00,
         AuthenticationFailed = 0x01,
@@ -33,7 +33,7 @@ public:
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
-    bool operator==(const DriverIdentityInformationReport& other);
+    bool operator==(const DriverIdentityInformationReport& other) const;
 
     Status status() const;
     void setStatus(Status newStatus);

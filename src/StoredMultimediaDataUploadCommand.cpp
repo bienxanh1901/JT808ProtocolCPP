@@ -17,7 +17,9 @@ void StoredMultimediaDataUploadCommand::parse(const std::vector<uint8_t>& data)
 
 void StoredMultimediaDataUploadCommand::parse(const uint8_t* data, int size)
 {
+    // data
     StoredMultimediaDataRetrieval::parse(data, size);
+    // delete
     m_isDelete = data[15];
 
     setIsValid(true);
@@ -25,14 +27,15 @@ void StoredMultimediaDataUploadCommand::parse(const uint8_t* data, int size)
 
 std::vector<uint8_t> StoredMultimediaDataUploadCommand::package()
 {
+    // data
     std::vector<uint8_t> result(StoredMultimediaDataRetrieval::package());
-
+    // delete
     result.push_back(m_isDelete);
 
     return result;
 }
 
-bool StoredMultimediaDataUploadCommand::operator==(const StoredMultimediaDataUploadCommand& other)
+bool StoredMultimediaDataUploadCommand::operator==(const StoredMultimediaDataUploadCommand& other) const
 {
     return StoredMultimediaDataRetrieval::operator==(other) && m_isDelete == other.m_isDelete;
 }

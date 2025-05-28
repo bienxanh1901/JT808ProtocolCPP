@@ -15,20 +15,24 @@ void ManualAlarmConfirmation::parse(const std::vector<uint8_t>& data)
 
 void ManualAlarmConfirmation::parse(const uint8_t* data, int size)
 {
+    // seq
     SequenceMessageBodyBase::parse(data, size);
+    // type
     m_type.value = Utils::endianSwap32(data + 2);
     setIsValid(true);
 }
 
 std::vector<uint8_t> ManualAlarmConfirmation::package()
 {
+    // seq
     std::vector<uint8_t> result(SequenceMessageBodyBase::package());
+    // type
     Utils::appendU32(m_type.value, result);
 
     return result;
 }
 
-bool ManualAlarmConfirmation::operator==(const ManualAlarmConfirmation& other)
+bool ManualAlarmConfirmation::operator==(const ManualAlarmConfirmation& other) const
 {
     return SequenceMessageBodyBase::operator==(other) && m_type.value == other.m_type.value;
 }

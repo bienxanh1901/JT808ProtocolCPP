@@ -9,7 +9,7 @@ namespace JT808::MessageBody {
 class LocationDataBulkUpload : public MessageBodyBase
 {
 public:
-    enum DataType
+    enum DataType : uint8_t
     {
         RegularReport = 0,
         BindAreaReport = 1
@@ -20,7 +20,7 @@ public:
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
-    bool operator==(const LocationDataBulkUpload& other);
+    bool operator==(const LocationDataBulkUpload& other) const;
 
     DataType type() const;
     void setType(DataType newType);

@@ -38,19 +38,19 @@ void CANBusDataUpload::parse(const uint8_t* data, int size)
 std::vector<uint8_t> CANBusDataUpload::package()
 {
     std::vector<uint8_t> result;
-
+    // length
     Utils::appendU16(m_data.size(), result);
+    // time
     Utils::appendBCD(m_time, result);
-
+    // data
     for (auto& item : m_data) {
-        std::vector<uint8_t> itemData(item.package());
-        result.insert(result.end(), itemData.begin(), itemData.end());
+        Utils::append(item.package(), result);
     }
 
     return result;
 }
 
-bool CANBusDataUpload::operator==(const CANBusDataUpload& other)
+bool CANBusDataUpload::operator==(const CANBusDataUpload& other) const
 {
     return m_time == other.m_time && m_data == other.m_data;
 }
@@ -73,6 +73,37 @@ std::vector<CANBusDataUpload::ItemData> CANBusDataUpload::data() const
 void CANBusDataUpload::setData(const std::vector<ItemData>& newData)
 {
     m_data = newData;
+}
+
+bool CANBusDataUpload::ItemData::operator==(const ItemData& other) const
+{
+    return id.value == other.id.value && data.value == other.data.value;
+}
+
+void CANBusDataUpload::ItemData::parse(const uint8_t* rawData, int size)
+{
+    int pos = 0;
+    for (int i = 0; i < 4; i++) {
+        id.bytes[i] = rawData[pos++];
+    }
+
+    for (int i = 0; i < 8; i++) {
+        data.bytes[i] = rawData[pos++];
+    }
+}
+
+std::vector<uint8_t> CANBusDataUpload::ItemData::package()
+{
+    std::vector<uint8_t> result;
+    for (int i = 0; i < 4; i++) {
+        result.push_back(id.bytes[i]);
+    }
+
+    for (int i = 0; i < 8; i++) {
+        result.push_back(data.bytes[i]);
+    }
+
+    return result;
 }
 
 }

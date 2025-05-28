@@ -28,11 +28,15 @@ void MultimediaEventInformation::parse(const uint8_t* data, int size)
 std::vector<uint8_t> MultimediaEventInformation::package()
 {
     std::vector<uint8_t> result;
-
+    // id
     Utils::appendU32(id, result);
+    // type
     result.push_back(type);
+    // format
     result.push_back(format);
+    // event
     result.push_back(event);
+    // channel
     result.push_back(channel);
 
     return result;
@@ -62,14 +66,17 @@ void MultimediaRetrievalData::parse(const uint8_t* data, int size)
 
 std::vector<uint8_t> MultimediaRetrievalData::package()
 {
-    std::vector<uint8_t> locationData(location.package());
     std::vector<uint8_t> result;
-
+    // id
     Utils::appendU32(id, result);
+    // type
     result.push_back(type);
+    // channel
     result.push_back(channel);
+    // event
     result.push_back(event);
-    result.insert(result.end(), locationData.begin(), locationData.end());
+    // location
+    Utils::append(location.package(), result);
 
     return result;
 }

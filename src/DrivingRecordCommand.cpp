@@ -31,13 +31,13 @@ std::vector<uint8_t> DrivingRecordCommand::package()
 
     result.push_back(m_command);
     if (!m_param.empty()) {
-        result.insert(result.end(), m_param.begin(), m_param.end());
+        Utils::append(m_param, result);
     }
 
     return result;
 }
 
-bool DrivingRecordCommand::operator==(const DrivingRecordCommand& other)
+bool DrivingRecordCommand::operator==(const DrivingRecordCommand& other) const
 {
     return m_command == other.m_command && m_param == other.m_param;
 }

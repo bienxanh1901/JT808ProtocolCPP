@@ -32,7 +32,7 @@ std::vector<uint8_t> SequenceMessageBodyBase::package()
     return result;
 }
 
-bool SequenceMessageBodyBase::operator==(const SequenceMessageBodyBase& other)
+bool SequenceMessageBodyBase::operator==(const SequenceMessageBodyBase& other) const
 {
     return m_seq == other.m_seq;
 }

@@ -12,7 +12,7 @@ public:
     /**
      * @brief UpgradeResults
      */
-    enum UpgradeResults
+    enum UpgradeResults : uint8_t
     {
         Succeeded = 0,
         Failed = 1,
@@ -24,7 +24,7 @@ public:
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
-    bool operator==(const TerminalUpgradePackageResult& other);
+    bool operator==(const TerminalUpgradePackageResult& other) const;
 
     UpgradeTypes type() const;
     void setType(UpgradeTypes newType);
@@ -32,7 +32,7 @@ public:
     void setResult(UpgradeResults newResult);
 
 private:
-    UpgradeTypes m_type;
+    UpgradeTypes m_type = Terminal;
     UpgradeResults m_result = Succeeded;
 };
 

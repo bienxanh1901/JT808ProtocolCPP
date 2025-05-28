@@ -26,16 +26,14 @@ void LocationInformationQueryResponse::parse(const uint8_t* data, int size)
 std::vector<uint8_t> LocationInformationQueryResponse::package()
 {
     std::vector<uint8_t> result;
-    std::vector<uint8_t> tmp(LocationInformationReport::package());
 
     Utils::appendU16(m_seq, result);
-
-    result.insert(result.end(), tmp.begin(), tmp.end());
+    Utils::append(LocationInformationReport::package(), result);
 
     return result;
 }
 
-bool LocationInformationQueryResponse::operator==(const LocationInformationQueryResponse& other)
+bool LocationInformationQueryResponse::operator==(const LocationInformationQueryResponse& other) const
 {
     return m_seq == other.m_seq && LocationInformationReport::operator==(other);
 }

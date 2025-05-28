@@ -34,8 +34,8 @@ protected:
     {
         std::vector<uint8_t> result = m_body->package();
 
-        Utils::printHexArray(result, std::cout);
-        std::cout << std::endl;
+        // Utils::printHexArray(result, std::cout);
+        // std::cout << std::endl;
 
         EXPECT_EQ(result.size(), m_rawData.size());
         EXPECT_EQ(result, m_rawData);

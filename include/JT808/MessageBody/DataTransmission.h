@@ -13,7 +13,7 @@ public:
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
-    bool operator==(const DataTransmission& other);
+    bool operator==(const DataTransmission& other) const;
 
     uint8_t type() const;
     void setType(uint8_t newType);

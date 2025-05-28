@@ -29,7 +29,7 @@ std::vector<uint8_t> EventReport::package()
     return result;
 }
 
-bool EventReport::operator==(const EventReport& other)
+bool EventReport::operator==(const EventReport& other) const
 {
     return m_id == other.m_id;
 }

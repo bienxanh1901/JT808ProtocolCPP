@@ -34,7 +34,7 @@ std::vector<uint8_t> InformationServiceCancel::package()
     return result;
 }
 
-bool InformationServiceCancel::operator==(const InformationServiceCancel& other)
+bool InformationServiceCancel::operator==(const InformationServiceCancel& other) const
 {
     return m_flag == other.m_flag && m_id == other.m_id;
 }

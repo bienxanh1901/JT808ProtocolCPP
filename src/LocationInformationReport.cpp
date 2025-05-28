@@ -28,7 +28,7 @@ std::vector<uint8_t> LocationInformationReport::package()
     return m_info.package();
 }
 
-bool LocationInformationReport::operator==(const LocationInformationReport& other)
+bool LocationInformationReport::operator==(const LocationInformationReport& other) const
 {
     return m_info == other.m_info;
 }

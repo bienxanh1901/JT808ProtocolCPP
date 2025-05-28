@@ -14,7 +14,7 @@ public:
             uint8_t doorLocked : 1;
             uint8_t reserved : 7;
         } bits;
-        uint8_t value;
+        uint8_t value = 0;
     };
 
     VehicleControl() = default;
@@ -22,7 +22,7 @@ public:
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
-    bool operator==(const VehicleControl& other);
+    bool operator==(const VehicleControl& other) const;
 
     Flag flag() const;
     void setFlag(const Flag& newFlag);

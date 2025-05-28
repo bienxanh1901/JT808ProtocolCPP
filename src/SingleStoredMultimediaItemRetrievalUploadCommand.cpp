@@ -41,7 +41,7 @@ std::vector<uint8_t> SingleStoredMultimediaItemRetrievalUploadCommand::package()
 }
 
 bool SingleStoredMultimediaItemRetrievalUploadCommand::operator==(
-    const SingleStoredMultimediaItemRetrievalUploadCommand& other)
+    const SingleStoredMultimediaItemRetrievalUploadCommand& other) const
 {
     return m_id == other.m_id && m_isDelete == other.m_isDelete;
 }

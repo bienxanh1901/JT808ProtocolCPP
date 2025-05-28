@@ -8,7 +8,7 @@ namespace JT808::MessageBody {
 /**
  * @brief LicensePlateColors
  */
-enum LicensePlateColors
+enum LicensePlateColors : uint8_t
 {
     NoLicensePlate = 0,
     Blue = 1,
@@ -28,12 +28,12 @@ public:
     TerminalRegistration() = default;
     TerminalRegistration(uint16_t province, uint16_t city, const std::vector<uint8_t>& manufacturer,
                          const std::vector<uint8_t>& model, const std::vector<uint8_t>& id, LicensePlateColors color,
-                         const std::string& vin);
+                         const std::string& licenseNumber);
 
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
-    bool operator==(const TerminalRegistration& other);
+    bool operator==(const TerminalRegistration& other) const;
 
     uint16_t province() const;
     void setProvince(uint16_t newProvince);
@@ -47,8 +47,8 @@ public:
     void setId(const std::vector<uint8_t>& newId);
     LicensePlateColors color() const;
     void setColor(LicensePlateColors newColor);
-    std::string vin() const;
-    void setVin(const std::string& newVin);
+    std::string licenseNumber() const;
+    void setLicenseNumber(const std::string& newLicenseNumber);
 
 private:
     uint16_t m_province = 0;
@@ -57,7 +57,7 @@ private:
     std::vector<uint8_t> m_model;
     std::vector<uint8_t> m_id;
     LicensePlateColors m_color = NoLicensePlate;
-    std::string m_vin = "";
+    std::string m_licenseNumber;
 };
 
 }

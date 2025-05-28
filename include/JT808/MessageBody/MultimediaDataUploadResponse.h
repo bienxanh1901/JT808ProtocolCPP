@@ -16,7 +16,7 @@ public:
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
-    bool operator==(const MultimediaDataUploadResponse& other);
+    bool operator==(const MultimediaDataUploadResponse& other) const;
 
     uint16_t id() const;
     void setId(uint16_t newId);
@@ -26,7 +26,6 @@ public:
 
 private:
     uint32_t m_id = 0;
-    uint8_t m_length = 0;
     std::vector<uint16_t> m_retxIds;
 };
 

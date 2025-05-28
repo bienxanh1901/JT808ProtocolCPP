@@ -17,11 +17,12 @@ void LocationDataBulkUpload::parse(const std::vector<uint8_t>& data)
 void LocationDataBulkUpload::parse(const uint8_t* data, int size)
 {
     int pos = 0;
+    // length
     uint16_t length = Utils::endianSwap16(data + pos);
     pos += sizeof(length);
-
+    // type
     m_type = DataType(data[pos++]);
-
+    // locations
     for (int i = 0; i < length; i++) {
         uint16_t itemLength = Utils::endianSwap16(data + pos);
         LocationInformation item;
@@ -37,20 +38,21 @@ void LocationDataBulkUpload::parse(const uint8_t* data, int size)
 std::vector<uint8_t> LocationDataBulkUpload::package()
 {
     std::vector<uint8_t> result;
-
+    // length
     Utils::appendU16(m_locations.size(), result);
+    // type
     result.push_back(m_type);
-
+    // locations
     for (auto& item : m_locations) {
         std::vector<uint8_t> itemData(item.package());
         Utils::appendU16(itemData.size(), result);
-        result.insert(result.end(), itemData.begin(), itemData.end());
+        Utils::append(itemData, result);
     }
 
     return result;
 }
 
-bool LocationDataBulkUpload::operator==(const LocationDataBulkUpload& other)
+bool LocationDataBulkUpload::operator==(const LocationDataBulkUpload& other) const
 {
     return m_type == other.m_type && m_locations == other.m_locations;
 }

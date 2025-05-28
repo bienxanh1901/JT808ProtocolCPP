@@ -15,22 +15,24 @@ void TerminalParameterQueryResponse::parse(const std::vector<uint8_t>& data)
 
 void TerminalParameterQueryResponse::parse(const uint8_t* data, int size)
 {
+    // seq
     m_seq = Utils::endianSwap16(data);
+    // params
     TerminalParameterSetting::parse(data + sizeof(m_seq), sizeof(m_seq));
 }
 
 std::vector<uint8_t> TerminalParameterQueryResponse::package()
 {
     std::vector<uint8_t> result;
-    std::vector<uint8_t> tmp(TerminalParameterSetting::package());
-
+    // seq
     Utils::appendU16(m_seq, result);
-    result.insert(result.end(), tmp.begin(), tmp.end());
+    // params
+    Utils::append(TerminalParameterSetting::package(), result);
 
     return result;
 }
 
-bool TerminalParameterQueryResponse::operator==(const TerminalParameterQueryResponse& other)
+bool TerminalParameterQueryResponse::operator==(const TerminalParameterQueryResponse& other) const
 {
     return m_seq == other.m_seq && TerminalParameterSetting::operator==(other);
 }

@@ -16,7 +16,7 @@ public:
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
-    bool operator==(const DrivingRecordCommand& other);
+    bool operator==(const DrivingRecordCommand& other) const;
 
     uint8_t command() const;
     void setCommand(uint8_t newCommand);

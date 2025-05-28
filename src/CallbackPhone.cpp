@@ -17,9 +17,9 @@ void CallbackPhone::parse(const std::vector<uint8_t>& data)
 void CallbackPhone::parse(const uint8_t* data, int size)
 {
     int pos = 0;
-
+    // type
     m_type = PhoneType(data[pos++]);
-
+    // phone
     m_phone.assign(data + pos, data + size);
 
     setIsValid(true);
@@ -28,14 +28,15 @@ void CallbackPhone::parse(const uint8_t* data, int size)
 std::vector<uint8_t> CallbackPhone::package()
 {
     std::vector<uint8_t> result;
-
+    // type
     result.push_back(m_type);
-    result.insert(result.end(), m_phone.begin(), m_phone.end());
+    // phone
+    Utils::append(m_phone, result);
 
     return result;
 }
 
-bool CallbackPhone::operator==(const CallbackPhone& other)
+bool CallbackPhone::operator==(const CallbackPhone& other) const
 {
     return m_type == other.m_type && m_phone == other.m_phone;
 }

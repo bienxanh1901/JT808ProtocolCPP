@@ -23,7 +23,7 @@ public:
      * When bit 10th is 1, message body is encrypted using RSA algorithm
      * Other are reserved.
      */
-    enum EncryptAlgorithms
+    enum EncryptAlgorithms : uint8_t
     {
         NoEncryptAlgorithm = 0, // BITSET: 000
         RSAEncryptAlgorithm = 1, // BITSET: 001
@@ -35,7 +35,7 @@ public:
      * If this bit is 1, message body is long message,
      * otherwise message body is short message
      */
-    enum BodyTypes
+    enum BodyTypes : uint8_t
     {
         ShortBodyType = 0,
         LongBodyType = 1
@@ -53,7 +53,7 @@ public:
             uint16_t fragTotal;
             uint16_t fragSN;
         } data;
-        uint32_t rawData;
+        uint32_t rawData = 0;
     };
 
     /**
@@ -72,28 +72,32 @@ public:
             uint16_t segment : 1;
             uint16_t reserve : 2;
         } bits;
-        uint16_t value;
+        uint16_t value = 0;
     };
 
     /**
      * @brief JT808 Message Header
      * @details
-     *      msgID: Message ID
+     *      id: Message ID
      *      bodyProps: BodyProperties
      *      phone: Terminal Phone number
-     *      msgSN: Message Serial Number
+     *      seq: Message Serial Number
      *      pkgEncap: PackageEncapsulation
      */
     struct Header
     {
-        uint16_t msgID;
-        BodyProperties bodyProps;
+        uint16_t id = 0;
+        BodyProperties bodyProps = {0};
         std::string phone;
-        uint16_t msgSN;
-        PackageEncapsulation pkgEncap;
+        uint16_t seq = 0;
+        PackageEncapsulation pkgEncap = {0};
+
+        bool operator==(const Header& other) const;
+        int parse(const uint8_t* data, int size);
+        std::vector<uint8_t> package();
     };
 
-    Message();
+    Message() = default;
     Message(const Header& header, std::unique_ptr<MessageBody::MessageBodyBase> body);
 
     void parse(const std::vector<uint8_t>& data);

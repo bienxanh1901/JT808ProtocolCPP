@@ -20,7 +20,7 @@ union ManualAlarmConfirmationTypes {
         uint32_t move : 1;
         uint32_t reserved4 : 3;
     } bits;
-    uint32_t value;
+    uint32_t value = 0;
 };
 
 class ManualAlarmConfirmation : public SequenceMessageBodyBase
@@ -31,7 +31,7 @@ public:
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
-    bool operator==(const ManualAlarmConfirmation& other);
+    bool operator==(const ManualAlarmConfirmation& other) const;
 
     ManualAlarmConfirmationTypes type() const;
     void setType(const ManualAlarmConfirmationTypes& newType);

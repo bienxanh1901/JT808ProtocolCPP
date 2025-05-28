@@ -17,19 +17,17 @@ public:
             uint8_t advDisplay : 1;
             uint8_t reserverd2 : 3;
         } bits;
-        uint8_t value;
+        uint8_t value = 0;
     };
 
     struct Answer
     {
-        uint8_t id;
-        uint16_t length;
+        uint8_t id = 0;
         std::string content;
 
-        bool operator==(const Answer& other)
-        {
-            return id == other.id && length == other.length && content == other.content;
-        }
+        bool operator==(const Answer& other) const;
+        int parse(const uint8_t* data, int size);
+        std::vector<uint8_t> package();
     };
 
     QuestionDispatch() = default;
@@ -37,12 +35,10 @@ public:
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
-    bool operator==(const QuestionDispatch& other);
+    bool operator==(const QuestionDispatch& other) const;
 
     Flag flag() const;
     void setFlag(const Flag& newFlag);
-    uint8_t length() const;
-    void setLength(uint8_t newLength);
     std::string question() const;
     void setQuestion(const std::string& newQuestion);
 
@@ -51,7 +47,6 @@ public:
 
 private:
     Flag m_flag = {0};
-    uint8_t m_length = 0;
     std::string m_question;
     std::vector<Answer> m_answers;
 };

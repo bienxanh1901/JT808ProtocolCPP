@@ -43,14 +43,13 @@ std::vector<uint8_t> StoredMultimediaDataRetrievalResponse::package()
     Utils::appendU16(m_result.size(), result);
     // item
     for (auto& item : m_result) {
-        std::vector<uint8_t> itemData(item.package());
-        result.insert(result.end(), itemData.begin(), itemData.end());
+        Utils::append(item.package(), result);
     }
 
     return result;
 }
 
-bool StoredMultimediaDataRetrievalResponse::operator==(const StoredMultimediaDataRetrievalResponse& other)
+bool StoredMultimediaDataRetrievalResponse::operator==(const StoredMultimediaDataRetrievalResponse& other) const
 {
     return SequenceMessageBodyBase::operator==(other) && m_result == other.m_result;
 }

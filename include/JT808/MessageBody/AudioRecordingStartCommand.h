@@ -15,7 +15,7 @@ public:
         StartCommand = 0x01
     };
 
-    enum AudioSamplingRates
+    enum AudioSamplingRates : uint8_t
     {
         AudioSamplingRate8K = 0,
         AudioSamplingRate11K = 1,
@@ -28,7 +28,7 @@ public:
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
-    bool operator==(const AudioRecordingStartCommand& other);
+    bool operator==(const AudioRecordingStartCommand& other) const;
 
     Commands command() const;
     void setCommand(Commands newCommand);

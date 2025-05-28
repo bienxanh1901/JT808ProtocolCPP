@@ -28,15 +28,14 @@ void DrivingRecordDataUpload::parse(const uint8_t* data, int size)
 
 std::vector<uint8_t> DrivingRecordDataUpload::package()
 {
-    std::vector<uint8_t> commandResult(DrivingRecordCommand::package());
     std::vector<uint8_t> result;
 
     Utils::appendU16(m_seq, result);
-    result.insert(result.end(), commandResult.begin(), commandResult.end());
+    Utils::append(DrivingRecordCommand::package(), result);
     return result;
 }
 
-bool DrivingRecordDataUpload::operator==(const DrivingRecordDataUpload& other)
+bool DrivingRecordDataUpload::operator==(const DrivingRecordDataUpload& other) const
 {
     return DrivingRecordCommand::operator==(other) && m_seq == other.m_seq;
 }
