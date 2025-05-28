@@ -14,10 +14,9 @@ public:
         uint32_t lat = 0;
         uint32_t lng = 0;
 
-        bool operator==(const Point& other) const
-        {
-            return lat == other.lat && lng == other.lng;
-        }
+        bool operator==(const Point& other) const;
+        int parse(const uint8_t* data, int size);
+        std::vector<uint8_t> package();
     };
 
     SettingPolygonArea() = default;
@@ -26,7 +25,7 @@ public:
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
-    bool operator==(const SettingPolygonArea& other);
+    bool operator==(const SettingPolygonArea& other) const;
 
     uint32_t id() const;
     void setId(uint32_t newId);
@@ -40,8 +39,6 @@ public:
     void setMaxSpeed(uint16_t newMaxSpeed);
     uint8_t overspeedDuration() const;
     void setOverspeedDuration(uint8_t newOverspeedDuration);
-    uint16_t length() const;
-    void setLength(uint16_t newLength);
     std::vector<Point> points() const;
     void setPoints(const std::vector<Point>& newPoints);
 
@@ -52,7 +49,6 @@ private:
     std::string m_endTime;
     uint16_t m_maxSpeed = 0;
     uint8_t m_overspeedDuration = 0;
-    uint16_t m_length = 0;
     std::vector<Point> m_points;
 };
 

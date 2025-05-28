@@ -4,7 +4,6 @@ namespace JT808::MessageBody {
 
 ElectronicWaybillReport::ElectronicWaybillReport(const std::string& data)
     : MessageBodyBase()
-    , m_length(data.length())
     , m_data(data)
 {
 }
@@ -17,8 +16,10 @@ void ElectronicWaybillReport::parse(const std::vector<uint8_t>& data)
 void ElectronicWaybillReport::parse(const uint8_t* data, int size)
 {
     int pos = 0;
-    m_length = Utils::endianSwap32(data + pos);
-    pos += sizeof(m_length);
+    // length
+    uint32_t length = Utils::endianSwap32(data + pos);
+    pos += sizeof(length);
+    // data
     m_data.assign(data + pos, data + size);
 
     setIsValid(true);
@@ -27,27 +28,17 @@ void ElectronicWaybillReport::parse(const uint8_t* data, int size)
 std::vector<uint8_t> ElectronicWaybillReport::package()
 {
     std::vector<uint8_t> result;
-
-    Utils::appendU32(m_length, result);
-
-    result.insert(result.end(), m_data.begin(), m_data.end());
+    // length
+    Utils::appendU32(m_data.size(), result);
+    // data
+    Utils::append(m_data, result);
 
     return result;
 }
 
-bool ElectronicWaybillReport::operator==(const ElectronicWaybillReport& other)
+bool ElectronicWaybillReport::operator==(const ElectronicWaybillReport& other) const
 {
-    return m_length == other.m_length && m_data == other.m_data;
-}
-
-uint32_t ElectronicWaybillReport::length() const
-{
-    return m_length;
-}
-
-void ElectronicWaybillReport::setLength(uint32_t newLength)
-{
-    m_length = newLength;
+    return m_data == other.m_data;
 }
 
 std::string ElectronicWaybillReport::data() const

@@ -14,19 +14,16 @@ public:
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
-    bool operator==(const SettingArea& other);
+    bool operator==(const SettingArea& other) const;
 
     AreaSettingType type() const;
     void setType(AreaSettingType newType);
-    uint8_t length() const;
-    void setLength(uint8_t newLength);
     std::vector<AreaItem> areas() const;
     void setAreas(const std::vector<AreaItem>& newAreas);
 
 private:
     AreaType m_areaType = CircularArea;
     AreaSettingType m_type = UpgradeArea;
-    uint8_t m_length = 0;
     std::vector<AreaItem> m_areas;
 };
 

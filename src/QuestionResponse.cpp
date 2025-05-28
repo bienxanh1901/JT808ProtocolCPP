@@ -33,7 +33,7 @@ std::vector<uint8_t> QuestionResponse::package()
     return result;
 }
 
-bool QuestionResponse::operator==(const QuestionResponse& other)
+bool QuestionResponse::operator==(const QuestionResponse& other) const
 {
     return SequenceMessageBodyBase::operator==(other) && m_id == other.m_id;
 }

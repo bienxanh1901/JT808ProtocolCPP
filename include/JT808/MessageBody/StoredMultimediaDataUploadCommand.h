@@ -14,7 +14,7 @@ public:
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
-    bool operator==(const StoredMultimediaDataUploadCommand& other);
+    bool operator==(const StoredMultimediaDataUploadCommand& other) const;
 
     uint8_t isDelete() const;
     void setIsDelete(uint8_t newIsDelete);

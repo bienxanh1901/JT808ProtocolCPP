@@ -5,7 +5,6 @@ namespace JT808::MessageBody {
 
 TerminalParameterQuery::TerminalParameterQuery(const std::vector<uint32_t>& ids)
     : MessageBodyBase()
-    , m_length(ids.size())
     , m_ids(ids)
 {
 }
@@ -18,16 +17,15 @@ void TerminalParameterQuery::parse(const std::vector<uint8_t>& data)
 void TerminalParameterQuery::parse(const uint8_t* data, int size)
 {
     int pos = 0;
-
-    m_length = data[pos++];
-
-    if (m_length * 4 != size - pos) {
+    // length
+    uint8_t length = data[pos++];
+    if (length * 4 != size - pos) {
         setIsValid(false);
         return;
     }
-
+    // ids
     uint32_t id = 0;
-    for (int i = 0; i < m_length; i++) {
+    for (int i = 0; i < length; i++) {
         id = Utils::endianSwap32(data + pos);
         pos += sizeof(id);
         m_ids.push_back(id);
@@ -39,28 +37,17 @@ void TerminalParameterQuery::parse(const uint8_t* data, int size)
 std::vector<uint8_t> TerminalParameterQuery::package()
 {
     std::vector<uint8_t> result;
-    result.push_back(m_length);
-
-    for (const auto& id : m_ids) {
-        Utils::appendU32(id, result);
-    }
+    // length
+    result.push_back(m_ids.size());
+    // ids
+    Utils::append(m_ids, result);
 
     return result;
 }
 
-bool TerminalParameterQuery::operator==(const TerminalParameterQuery& other)
+bool TerminalParameterQuery::operator==(const TerminalParameterQuery& other) const
 {
-    return m_length == other.m_length && m_ids == other.m_ids;
-}
-
-uint8_t TerminalParameterQuery::length() const
-{
-    return m_length;
-}
-
-void TerminalParameterQuery::setLength(uint8_t newLength)
-{
-    m_length = newLength;
+    return m_ids == other.m_ids;
 }
 
 std::vector<uint32_t> TerminalParameterQuery::ids() const

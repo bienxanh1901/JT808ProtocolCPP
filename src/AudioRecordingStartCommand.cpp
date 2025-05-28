@@ -50,7 +50,7 @@ std::vector<uint8_t> AudioRecordingStartCommand::package()
     return result;
 }
 
-bool AudioRecordingStartCommand::operator==(const AudioRecordingStartCommand& other)
+bool AudioRecordingStartCommand::operator==(const AudioRecordingStartCommand& other) const
 {
     return m_command == other.m_command && m_time == other.m_time && m_saving == other.m_saving
         && m_rate == other.m_rate;

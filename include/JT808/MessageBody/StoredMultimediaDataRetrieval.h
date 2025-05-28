@@ -15,7 +15,7 @@ public:
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
-    bool operator==(const StoredMultimediaDataRetrieval& other);
+    bool operator==(const StoredMultimediaDataRetrieval& other) const;
 
     MediaType type() const;
     void setType(MediaType newType);

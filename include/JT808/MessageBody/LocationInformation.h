@@ -13,7 +13,7 @@ using ExtraInfo = std::map<uint8_t, std::vector<uint8_t>>;
 /**
  * @brief LocationAdditionalInformationIds
  */
-enum LocationExtraIds
+enum LocationExtraIds : uint8_t
 {
     MileageExtraId = 0x01,
     FuelMeterExtraId = 0x01,
@@ -37,7 +37,7 @@ enum LocationExtraIds
 /**
  * @brief LocationTypes
  */
-enum LocationTypes
+enum LocationTypes : uint8_t
 {
     UnknownLocationType = 0,
     CirclularAreaLocationType = 1,
@@ -49,7 +49,7 @@ enum LocationTypes
 /**
  * @brief InOutAreaDirectionTypes
  */
-enum InOutAreaDirectionTypes
+enum InOutAreaDirectionTypes : uint8_t
 {
     InAreaDirectionType = 0,
     OutAreaDirectionType = 1
@@ -92,7 +92,7 @@ union AlarmFlags {
         uint32_t rollover : 1;
         uint32_t doorOpen : 1;
     } bits;
-    uint32_t value;
+    uint32_t value = 0;
 };
 
 /**
@@ -123,7 +123,7 @@ union StatusFlags {
         uint32_t isGalileo : 1;
         uint32_t reserved2 : 10;
     } bits;
-    uint32_t value;
+    uint32_t value = 0;
 };
 
 /**
@@ -149,7 +149,7 @@ union ExtendedVehicleSignalFlags {
         uint32_t cluth : 1;
         uint32_t reserved : 17;
     } bits;
-    uint32_t value;
+    uint32_t value = 0;
 };
 
 /**
@@ -162,7 +162,7 @@ union IOStatusFlags {
         uint16_t sleep : 1;
         uint16_t reserved : 14;
     } bits;
-    uint16_t value;
+    uint16_t value = 0;
 };
 
 struct LocationInformation
@@ -181,7 +181,7 @@ struct LocationInformation
     LocationInformation(const AlarmFlags& alarm, const StatusFlags& status, uint32_t lat, uint32_t lng, uint16_t alt,
                         uint16_t speed, uint16_t bearing, const std::string& time, const ExtraInfo& extra = {});
     bool operator==(const LocationInformation& other) const;
-    void parse(const uint8_t* data, int size);
+    int parse(const uint8_t* data, int size);
     std::vector<uint8_t> package();
 };
 

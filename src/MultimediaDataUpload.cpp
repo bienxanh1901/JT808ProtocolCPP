@@ -19,11 +19,13 @@ void MultimediaDataUpload::parse(const std::vector<uint8_t>& data)
 void MultimediaDataUpload::parse(const uint8_t* data, int size)
 {
     int pos = 0;
-
+    // info
     m_info.parse(data, sizeof(m_info));
     pos += sizeof(m_info);
+    // location
     m_location.parse(data + pos, 28);
     pos += 28;
+    // media
     m_media.assign(data + pos, data + size);
 
     setIsValid(true);
@@ -31,16 +33,17 @@ void MultimediaDataUpload::parse(const uint8_t* data, int size)
 
 std::vector<uint8_t> MultimediaDataUpload::package()
 {
-    std::vector<uint8_t> locationData(m_location.package());
+    // info
     std::vector<uint8_t> result(m_info.package());
-
-    result.insert(result.end(), locationData.begin(), locationData.end());
-    result.insert(result.end(), m_media.begin(), m_media.end());
+    // location
+    Utils::append(m_location.package(), result);
+    // media
+    Utils::append(m_media, result);
 
     return result;
 }
 
-bool MultimediaDataUpload::operator==(const MultimediaDataUpload& other)
+bool MultimediaDataUpload::operator==(const MultimediaDataUpload& other) const
 {
     return m_info == other.m_info && m_location == other.m_location && m_media == other.m_media;
 }

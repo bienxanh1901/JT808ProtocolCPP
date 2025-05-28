@@ -9,13 +9,10 @@ namespace JT808::MessageBody {
 
 using TerminalParameters = std::map<uint32_t, std::vector<uint8_t>>;
 
-#define TOTAL_PARAMETERS 90
-#define MAX_STRING_VALUE_LEN 32
-
 /**
  * @brief TerminalParameterIds
  */
-enum
+enum ParameterIds : uint32_t
 {
     HeartBeatInterval = 0x0001,
     TCPMsgResponseTimeout = 0x0002,
@@ -112,40 +109,40 @@ enum
     CANBusIDSetting = 0x0110,
     // 0x0111 - 0x01FF other CAN Bus Id setting
     // 0xF000 - 0xFFFF User defined
-} ParameterIds;
+};
 
 /**
  * @brief LocationReportStrategies
  */
-enum
+enum LocationReportStrategies : uint32_t
 {
     RegularReportStrategy = 0x00,
     DistanceReportStrategy = 0x01,
     HybridReportStrategy = 0x02,
-} LocationReportStrategies;
+};
 
 /**
  * @brief LocationReportingMethods
  */
-enum
+enum LocationReportingMethods : uint32_t
 {
     ACCBasedMethod = 0x00,
     Login_ACCBasedMethod = 0x01,
-} LocationReportingMethods;
+};
 
 /**
  * @brief PhoneAnswerStrategies
  */
-enum
+enum PhoneNumberAnswerStrategies : uint32_t
 {
     AutomaticallyAnswer = 0,
     ACCOnAutomaticallyAnswer = 1, // Manually while ACC is OFF
-} PhoneNumberAnswerStrategies;
+};
 
 /**
  * @brief GNSSBaudrates
  */
-enum
+enum GNSSBaudrates : uint8_t
 {
     GNSSBRT4800 = 0x00,
     GNSSBRT9600 = 0x01,
@@ -153,24 +150,24 @@ enum
     GNSSBRT38400 = 0x03,
     GNSSBRT57600 = 0x04,
     GNSSBRT115200 = 0x05,
-} GNSSBaudrates;
+};
 
 /**
  * @brief GNSSOutputFrequences
  */
-enum
+enum GNSSOutputFrequences : uint8_t
 {
     GNSSFreq500ms = 0x00,
     GNSSFreq1000ms = 0x01,
     GNSSFreq2000ms = 0x02,
     GNSSFreq3000ms = 0x03,
     GNSSFreq4000ms = 0x04,
-} GNSSOutputFrequences;
+};
 
 /**
  * @brief GNSSDataUploadModes
  */
-enum
+enum GNSSDataUploadModes : uint8_t
 {
     LocalStorageMode = 0x00,
     TimeIntervalMode = 0x01,
@@ -178,15 +175,15 @@ enum
     AccumulativeTimeMode = 0x0B,
     AccumulativeDistanceMode = 0x0C,
     AccumulateiveNumberData = 0x0D,
-} GNSSDataUploadModes;
+};
 
 /**
  * @brief CollisionAlertParam
  */
-union {
-    uint8_t time;
+union CollisionAlertParam {
+    uint8_t time = 0;
     uint8_t acceleration;
-} CollisionAlertParam;
+};
 
 }
 

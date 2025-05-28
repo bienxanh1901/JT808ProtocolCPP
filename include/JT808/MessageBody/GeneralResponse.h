@@ -11,7 +11,7 @@ namespace JT808::MessageBody {
 class GeneralResponse : public SequenceMessageBodyBase
 {
 public:
-    enum ResponseResults
+    enum ResponseResults : uint8_t
     {
         Succeeded = 0x00,
         Failed = 0x01,
@@ -25,7 +25,7 @@ public:
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
-    bool operator==(const GeneralResponse& other);
+    bool operator==(const GeneralResponse& other) const;
 
     uint16_t id() const;
     void setId(uint16_t newId);

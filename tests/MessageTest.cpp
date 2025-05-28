@@ -19,12 +19,12 @@ TEST_F(MessageTest, TestParseSuccess)
     EXPECT_TRUE(message.isValid());
 
     Message::Header header(message.header());
-    EXPECT_EQ(header.msgID, MessageIds::PlatformGeneralResponseMsgId);
+    EXPECT_EQ(header.id, MessageIds::PlatformGeneralResponseMsgId);
     EXPECT_EQ(header.bodyProps.bits.len, 5);
     EXPECT_EQ(header.bodyProps.bits.encrypt, 0);
     EXPECT_EQ(header.bodyProps.bits.segment, 0);
     EXPECT_EQ(header.phone, "84123456789");
-    EXPECT_EQ(header.msgSN, 1);
+    EXPECT_EQ(header.seq, 1);
     EXPECT_EQ(header.pkgEncap.rawData, 0);
 
     MessageBody::GeneralResponse* body = dynamic_cast<MessageBody::GeneralResponse*>(message.body());
@@ -35,10 +35,10 @@ TEST_F(MessageTest, TestParseSuccess)
 
 TEST_F(MessageTest, TestPackage)
 {
-    Message::Header header {.msgID = MessageIds::PlatformGeneralResponseMsgId,
+    Message::Header header {.id = MessageIds::PlatformGeneralResponseMsgId,
                             .bodyProps = {.bits {.len = 5, .encrypt = 0, .segment = 0, .reserve = 0}},
                             .phone = "84123456789",
-                            .msgSN = 1,
+                            .seq = 1,
                             .pkgEncap {.rawData = 0}};
 
     std::unique_ptr<MessageBody::GeneralResponse> body =

@@ -40,17 +40,21 @@ void StoredMultimediaDataRetrieval::parse(const uint8_t* data, int size)
 std::vector<uint8_t> StoredMultimediaDataRetrieval::package()
 {
     std::vector<uint8_t> result;
-
+    // type
     result.push_back(m_type);
+    // channel
     result.push_back(m_channel);
+    // event
     result.push_back(m_event);
+    // startTime
     Utils::appendBCD(m_startTime, result);
+    // endTime
     Utils::appendBCD(m_endTime, result);
 
     return result;
 }
 
-bool StoredMultimediaDataRetrieval::operator==(const StoredMultimediaDataRetrieval& other)
+bool StoredMultimediaDataRetrieval::operator==(const StoredMultimediaDataRetrieval& other) const
 {
     return m_type == other.m_type && m_event == other.m_event && m_channel == other.m_channel
         && m_startTime == other.m_startTime && m_endTime == other.m_endTime;

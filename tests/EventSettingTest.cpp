@@ -11,10 +11,10 @@ protected:
     void SetUp() override
     {
         std::vector<EventSetting::Event> events {
-            {.id = 0, .length = 10, .content = "HelloWorld"},
-            {.id = 1, .length = 5, .content = "Hello"},
-            {.id = 2, .length = 5, .content = "World"},
-            {.id = 3, .length = 13, .content = "JT808Protocol"},
+            {0, "HelloWorld"},
+            {1, "Hello"},
+            {2, "World"},
+            {3, "JT808Protocol"},
         };
 
         m_body = new EventSetting(EventSetting::AppendEvents, events);

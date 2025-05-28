@@ -37,7 +37,7 @@ std::vector<uint8_t> TemporaryLocationTrackingControl::package()
     return result;
 }
 
-bool TemporaryLocationTrackingControl::operator==(const TemporaryLocationTrackingControl& other)
+bool TemporaryLocationTrackingControl::operator==(const TemporaryLocationTrackingControl& other) const
 {
     return m_period == other.m_period && m_expiry == other.m_expiry;
 }

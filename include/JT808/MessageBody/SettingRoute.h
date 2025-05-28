@@ -18,7 +18,7 @@ public:
             uint8_t sideLng : 1; // East or West
             uint8_t reserved : 4;
         } bits;
-        uint8_t value;
+        uint8_t value = 0;
     };
 
     struct Point
@@ -33,13 +33,9 @@ public:
         uint16_t maxSpeed = 0;
         uint8_t overspeedDuration = 0;
 
-        bool operator==(const Point& other) const
-        {
-            return id == other.id && flag.value == other.flag.value && lat == other.lat && lng == other.lng
-                && width == other.width && maxDrivingTime == other.maxDrivingTime
-                && minDrivingTime == other.minDrivingTime && maxSpeed == other.maxSpeed
-                && overspeedDuration == other.overspeedDuration;
-        }
+        bool operator==(const Point& other) const;
+        int parse(const uint8_t* data, int size);
+        std::vector<uint8_t> package();
     };
 
     SettingRoute() = default;
@@ -48,7 +44,7 @@ public:
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
-    bool operator==(const SettingRoute& other);
+    bool operator==(const SettingRoute& other) const;
 
     uint32_t id() const;
     void setId(uint32_t newId);
@@ -58,8 +54,6 @@ public:
     void setStartTime(const std::string& newStartTime);
     std::string endTime() const;
     void setEndTime(const std::string& newEndTime);
-    uint16_t length() const;
-    void setLength(uint16_t newLength);
     std::vector<Point> points() const;
     void setPoints(const std::vector<Point>& newPoints);
 
@@ -68,7 +62,6 @@ private:
     AreaProperties m_flag = {0};
     std::string m_startTime;
     std::string m_endTime;
-    uint16_t m_length = 0;
     std::vector<Point> m_points;
 };
 

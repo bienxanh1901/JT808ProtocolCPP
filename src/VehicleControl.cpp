@@ -29,7 +29,7 @@ std::vector<uint8_t> VehicleControl::package()
     return result;
 }
 
-bool VehicleControl::operator==(const VehicleControl& other)
+bool VehicleControl::operator==(const VehicleControl& other) const
 {
     return m_flag.value == other.m_flag.value;
 }

@@ -5,7 +5,6 @@ namespace JT808::MessageBody {
 
 SubPackageRetransmissionRequest::SubPackageRetransmissionRequest(uint16_t seq, const std::vector<uint16_t>& ids)
     : SequenceMessageBodyBase(seq)
-    , m_length(ids.size())
     , m_ids(ids)
 {
 }
@@ -18,19 +17,21 @@ void SubPackageRetransmissionRequest::parse(const std::vector<uint8_t>& data)
 void SubPackageRetransmissionRequest::parse(const uint8_t* data, int size)
 {
     int pos = 2;
+    uint8_t length = 0;
 
+    // seq
     SequenceMessageBodyBase::parse(data, size);
+    // length
+    length = data[pos++];
 
-    m_length = data[pos++];
-
-    if (m_length * 2 != size - pos) {
+    if (length * 2 != size - pos) {
         setIsValid(false);
         return;
     }
 
-    uint16_t id = 0;
-    for (uint8_t i = 0; i < m_length; ++i) {
-        id = Utils::endianSwap16(data + pos);
+    // ids
+    for (uint8_t i = 0; i < length; ++i) {
+        uint16_t id = Utils::endianSwap16(data + pos);
         m_ids.push_back(id);
         pos += sizeof(id);
     }
@@ -40,29 +41,19 @@ void SubPackageRetransmissionRequest::parse(const uint8_t* data, int size)
 
 std::vector<uint8_t> SubPackageRetransmissionRequest::package()
 {
+    // seq
     std::vector<uint8_t> result(SequenceMessageBodyBase::package());
-    result.push_back(m_length);
-
-    for (const auto& id : m_ids) {
-        Utils::appendU16(id, result);
-    }
+    // length
+    result.push_back(m_ids.size());
+    // ids
+    Utils::append(m_ids, result);
 
     return result;
 }
 
-bool SubPackageRetransmissionRequest::operator==(const SubPackageRetransmissionRequest& other)
+bool SubPackageRetransmissionRequest::operator==(const SubPackageRetransmissionRequest& other) const
 {
-    return SequenceMessageBodyBase::operator==(other) && m_length == other.m_length && m_ids == other.m_ids;
-}
-
-uint8_t SubPackageRetransmissionRequest::length() const
-{
-    return m_length;
-}
-
-void SubPackageRetransmissionRequest::setLength(uint8_t newLength)
-{
-    m_length = newLength;
+    return SequenceMessageBodyBase::operator==(other) && m_ids == other.m_ids;
 }
 
 std::vector<uint16_t> SubPackageRetransmissionRequest::ids() const

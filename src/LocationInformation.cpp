@@ -26,41 +26,42 @@ bool LocationInformation::operator==(const LocationInformation& other) const
         && time == other.time && extra == other.extra;
 }
 
-void LocationInformation::parse(const uint8_t* data, int size)
+int LocationInformation::parse(const uint8_t* data, int size)
 {
 
     int pos = 0;
+    uint8_t id = 0;
+    uint8_t len = 0;
+    std::vector<uint8_t> value;
 
+    // alarm
     alarm.value = Utils::endianSwap32(data + pos);
     pos += sizeof(alarm);
-
+    // status
     status.value = Utils::endianSwap32(data + pos);
     pos += sizeof(status);
-
+    // latitude
     lat = Utils::endianSwap32(data + pos);
     pos += sizeof(lat);
-
+    // longitude
     lng = Utils::endianSwap32(data + pos);
     pos += sizeof(lng);
-
+    // altitude
     alt = Utils::endianSwap16(data + pos);
     pos += sizeof(alt);
-
+    // speed
     speed = Utils::endianSwap16(data + pos);
     pos += sizeof(speed);
-
+    // bearing
     bearing = Utils::endianSwap16(data + pos);
     pos += sizeof(bearing);
-
+    // time
     time = BCD::toString(data + pos, 6);
     pos += 6;
 
+    // extra
     if (size > pos) {
         // parse extra
-        uint8_t id = 0;
-        uint8_t len = 0;
-        std::vector<uint8_t> value;
-
         while (pos <= size - 2) {
             id = data[pos++];
             len = data[pos++];
@@ -73,6 +74,8 @@ void LocationInformation::parse(const uint8_t* data, int size)
             extra[id] = value;
         }
     }
+
+    return pos > size ? size : pos;
 }
 
 std::vector<uint8_t> LocationInformation::package()
@@ -105,12 +108,12 @@ std::vector<uint8_t> LocationInformation::package()
                 if (item.first == CustomInfoLengthExtraId)
                     continue;
                 result.push_back(item.second.size());
-                result.insert(result.end(), item.second.begin(), item.second.end());
+                Utils::append(item.second, result);
             } else if (item.first > CustomInfoLengthExtraId) {
                 extraCustom.push_back(item.first);
                 if (!item.second.empty()) {
                     extraCustom.push_back(item.second.size());
-                    extraCustom.insert(extraCustom.end(), item.second.begin(), item.second.end());
+                    Utils::append(item.second, extraCustom);
                 }
             }
         }
@@ -128,7 +131,7 @@ std::vector<uint8_t> LocationInformation::package()
             result.pop_back();
         }
 
-        result.insert(result.end(), extraCustom.begin(), extraCustom.end());
+        Utils::append(extraCustom, result);
     }
 
     return result;

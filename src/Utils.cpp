@@ -1,5 +1,6 @@
 #include "JT808/Utils.h"
 #include "JT808/BCD.h"
+#include <algorithm>
 #include <cstring>
 #include <iconv.h>
 
@@ -95,7 +96,8 @@ std::string gbkEncode(const std::string& data)
 
     if (iconv(encoder, &inPtr, &inBytesLeft, &outPtr, &outBytesLeft) != -1) {
         *outPtr = '\0';
-        result.assign(gbkBuffer.data(), gbkBuffer.size() - outBytesLeft);
+        result.assign(gbkBuffer.data(), gbkBuffer.size());
+        result.erase(std::remove(result.begin(), result.end(), 0x00), result.end());
     }
 
     iconv_close(encoder);
@@ -124,7 +126,8 @@ std::string gbkDecode(const std::string& data)
 
     if (iconv(decoder, &inPtr, &inBytesLeft, &outPtr, &outBytesLeft) != -1) {
         *outPtr = '\0';
-        result.assign(utf8Buffer.data(), utf8Buffer.size() - outBytesLeft - 1);
+        result.assign(utf8Buffer.data(), utf8Buffer.size());
+        result.erase(std::remove(result.begin(), result.end(), 0x00), result.end());
     }
 
     iconv_close(decoder);
@@ -211,27 +214,53 @@ uint8_t calculateChecksum(const std::vector<uint8_t>& data)
 
 void appendU16(uint16_t val, std::vector<uint8_t>& data)
 {
-    U16Array m_u16Array {.value = Utils::endianSwap16(val)};
-    data.insert(data.end(), m_u16Array.array, m_u16Array.array + sizeof(m_u16Array));
+    U16Array u16Array {.value = Utils::endianSwap16(val)};
+    append(u16Array.array, 2, data);
 }
 
 void appendU32(uint32_t val, std::vector<uint8_t>& data)
 {
-    U32Array m_u32Array {.value = Utils::endianSwap16(val)};
-    m_u32Array.value = Utils::endianSwap32(val);
-    data.insert(data.end(), m_u32Array.array, m_u32Array.array + sizeof(m_u32Array));
+    U32Array u32Array {.value = Utils::endianSwap32(val)};
+    append(u32Array.array, 4, data);
 }
 
-void appendBCD(const std::string val, std::vector<uint8_t>& data)
+void appendBCD(const std::string& val, std::vector<uint8_t>& data)
 {
-    std::vector<uint8_t> bcd = BCD::fromString(val);
-    data.insert(data.end(), bcd.begin(), bcd.end());
+    append(BCD::fromString(val), data);
 }
 
-void appendGBK(const std::string val, std::vector<uint8_t>& data)
+void appendGBK(const std::string& val, std::vector<uint8_t>& data)
 {
-    std::string gbk = gbkEncode(val);
-    data.insert(data.end(), gbk.begin(), gbk.end());
+    append(gbkEncode(val), data);
+}
+
+void append(const std::string& val, std::vector<uint8_t>& data)
+{
+    data.insert(data.end(), val.begin(), val.end());
+}
+
+void append(const std::vector<uint8_t>& val, std::vector<uint8_t>& data)
+{
+    data.insert(data.end(), val.begin(), val.end());
+}
+
+void append(const uint8_t* val, int size, std::vector<uint8_t>& data)
+{
+    data.insert(data.end(), val, val + size);
+}
+
+void append(const std::vector<uint16_t>& val, std::vector<uint8_t>& data)
+{
+    for (const auto& item : val) {
+        appendU16(item, data);
+    }
+}
+
+void append(const std::vector<uint32_t>& val, std::vector<uint8_t>& data)
+{
+    for (const auto& item : val) {
+        appendU32(item, data);
+    }
 }
 
 }

@@ -11,9 +11,8 @@ protected:
     void SetUp() override
     {
 
-        std::vector<PhoneBookSetting::ContactItem> contacts = {
-            {.type = 1, .phoneLength = 10, .phone = "1234567890", .nameLength = 9, .name = "Anonymous"},
-            {.type = 2, .phoneLength = 10, .phone = "9876543210", .nameLength = 7, .name = "Lazarus"}};
+        std::vector<PhoneBookSetting::ContactItem> contacts = {{1, "1234567890", "Anonymous"},
+                                                               {2, "9876543210", "Lazarus"}};
 
         m_body = new PhoneBookSetting(PhoneBookSetting::AppendPhoneBook, contacts);
         m_rawData = {0x2,  0x2,  0x1,  0xa,  0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x30, 0x9,

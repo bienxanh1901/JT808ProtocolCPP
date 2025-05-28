@@ -14,7 +14,7 @@ public:
     /**
      * @brief Commands
      */
-    enum Commands
+    enum Commands : uint8_t
     {
         WirelessUpgrade = 1,
         ServerConnect = 2,
@@ -30,7 +30,7 @@ public:
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
-    bool operator==(const TerminalControl& other);
+    bool operator==(const TerminalControl& other) const;
 
     Commands command() const;
     void setCommand(Commands newCommand);
@@ -38,7 +38,7 @@ public:
     void setParam(const std::string& newParam);
 
 private:
-    Commands m_command;
+    Commands m_command = WirelessUpgrade;
     std::string m_param;
 };
 

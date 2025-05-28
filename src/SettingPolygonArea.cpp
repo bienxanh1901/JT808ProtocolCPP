@@ -13,7 +13,6 @@ SettingPolygonArea::SettingPolygonArea(uint32_t id, AreaProperties flag, const s
     , m_endTime(endTime)
     , m_maxSpeed(maxSpeed)
     , m_overspeedDuration(overspeedDuration)
-    , m_length(points.size())
     , m_points(points)
 {
 }
@@ -26,13 +25,15 @@ void SettingPolygonArea::parse(const std::vector<uint8_t>& data)
 void SettingPolygonArea::parse(const uint8_t* data, int size)
 {
     int pos = 0;
-    Point item = {0};
-
+    int pos1 = 0;
+    uint16_t length = 0;
+    // id
     m_id = Utils::endianSwap32(data + pos);
     pos += sizeof(m_id);
+    // flag
     m_flag.value = Utils::endianSwap16(data + pos);
     pos += sizeof(m_flag);
-
+    // time
     if (m_flag.bits.areaTime == 1) {
         m_startTime = BCD::toString(data + pos, 6);
         pos += 6;
@@ -40,20 +41,20 @@ void SettingPolygonArea::parse(const uint8_t* data, int size)
         pos += 6;
     }
 
+    // speed
     if (m_flag.bits.speedLimit == 1) {
         m_maxSpeed = Utils::endianSwap16(data + pos);
         pos += sizeof(m_maxSpeed);
         m_overspeedDuration = data[pos++];
     }
 
-    m_length = data[pos++];
-
-    for (int i = 0; i < m_length; i++) {
-
-        item.lat = Utils::endianSwap32(data + pos);
-        pos += sizeof(item.lat);
-        item.lng = Utils::endianSwap32(data + pos);
-        pos += sizeof(item.lng);
+    // length
+    length = data[pos++];
+    // points
+    for (int i = 0; i < length; i++) {
+        Point item = {0};
+        pos1 = item.parse(data + pos, size);
+        pos += pos1;
 
         m_points.push_back(item);
     }
@@ -64,35 +65,35 @@ void SettingPolygonArea::parse(const uint8_t* data, int size)
 std::vector<uint8_t> SettingPolygonArea::package()
 {
     std::vector<uint8_t> result;
-
+    // id
     Utils::appendU32(m_id, result);
+    // flag
     Utils::appendU16(m_flag.value, result);
-
+    // time
     if (m_flag.bits.areaTime == 1) {
         Utils::appendBCD(m_startTime, result);
         Utils::appendBCD(m_endTime, result);
     }
-
+    // speed
     if (m_flag.bits.speedLimit == 1) {
         Utils::appendU16(m_maxSpeed, result);
         result.push_back(m_overspeedDuration);
     }
-
-    result.push_back(m_length);
-
+    // length
+    result.push_back(m_points.size());
+    // points
     for (auto& item : m_points) {
-        Utils::appendU32(item.lat, result);
-        Utils::appendU32(item.lng, result);
+        Utils::append(item.package(), result);
     }
 
     return result;
 }
 
-bool SettingPolygonArea::operator==(const SettingPolygonArea& other)
+bool SettingPolygonArea::operator==(const SettingPolygonArea& other) const
 {
     return m_id == other.m_id && m_flag.value == other.m_flag.value && m_startTime == other.m_startTime
         && m_endTime == other.m_endTime && m_maxSpeed == other.m_maxSpeed
-        && m_overspeedDuration == other.m_overspeedDuration && m_length == other.m_length && m_points == other.m_points;
+        && m_overspeedDuration == other.m_overspeedDuration && m_points == other.m_points;
 }
 
 uint32_t SettingPolygonArea::id() const
@@ -155,16 +156,6 @@ void SettingPolygonArea::setOverspeedDuration(uint8_t newOverspeedDuration)
     m_overspeedDuration = newOverspeedDuration;
 }
 
-uint16_t SettingPolygonArea::length() const
-{
-    return m_length;
-}
-
-void SettingPolygonArea::setLength(uint16_t newLength)
-{
-    m_length = newLength;
-}
-
 std::vector<SettingPolygonArea::Point> SettingPolygonArea::points() const
 {
     return m_points;
@@ -173,6 +164,29 @@ std::vector<SettingPolygonArea::Point> SettingPolygonArea::points() const
 void SettingPolygonArea::setPoints(const std::vector<Point>& newPoints)
 {
     m_points = newPoints;
+}
+
+bool SettingPolygonArea::Point::operator==(const Point& other) const
+{
+    return lat == other.lat && lng == other.lng;
+}
+
+int SettingPolygonArea::Point::parse(const uint8_t* data, int size)
+{
+    int pos = 0;
+    lat = Utils::endianSwap32(data + pos);
+    pos += sizeof(lat);
+    lng = Utils::endianSwap32(data + pos);
+    pos += sizeof(lng);
+    return pos;
+}
+
+std::vector<uint8_t> SettingPolygonArea::Point::package()
+{
+    std::vector<uint8_t> result;
+    Utils::appendU32(lat, result);
+    Utils::appendU32(lng, result);
+    return result;
 }
 
 }

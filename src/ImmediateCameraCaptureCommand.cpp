@@ -83,7 +83,7 @@ std::vector<uint8_t> ImmediateCameraCaptureCommand::package()
     return result;
 }
 
-bool ImmediateCameraCaptureCommand::operator==(const ImmediateCameraCaptureCommand& other)
+bool ImmediateCameraCaptureCommand::operator==(const ImmediateCameraCaptureCommand& other) const
 {
     return m_channel == other.m_channel && m_command == other.m_command && m_period == other.m_period
         && m_saving == other.m_saving && m_resolution == other.m_resolution && m_quality == other.m_quality

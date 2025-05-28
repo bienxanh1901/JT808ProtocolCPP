@@ -17,8 +17,9 @@ void TerminalUpgradePackageResult::parse(const std::vector<uint8_t>& data)
 void TerminalUpgradePackageResult::parse(const uint8_t* data, int size)
 {
     int pos = 0;
-
+    // type
     m_type = UpgradeTypes(data[pos++]);
+    // result
     m_result = UpgradeResults(data[pos]);
 
     setIsValid(true);
@@ -27,14 +28,15 @@ void TerminalUpgradePackageResult::parse(const uint8_t* data, int size)
 std::vector<uint8_t> TerminalUpgradePackageResult::package()
 {
     std::vector<uint8_t> result;
-
+    // type
     result.push_back(m_type);
+    // result
     result.push_back(m_result);
 
     return result;
 }
 
-bool TerminalUpgradePackageResult::operator==(const TerminalUpgradePackageResult& other)
+bool TerminalUpgradePackageResult::operator==(const TerminalUpgradePackageResult& other) const
 {
     return m_type == other.m_type && m_result == other.m_result;
 }

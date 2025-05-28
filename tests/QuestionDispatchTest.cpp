@@ -11,8 +11,7 @@ protected:
     void SetUp() override
     {
         QuestionDispatch::Flag flag {.bits {.sos = 1, .terminalTTS = 1}};
-        std::vector<QuestionDispatch::Answer> answers = {{.id = 0, .length = 8, .content = "Answer 1"},
-                                                         {.id = 1, .length = 12, .content = "Answer Hello"}};
+        std::vector<QuestionDispatch::Answer> answers = {{0, "Answer 1"}, {1, "Answer Hello"}};
         m_body = new QuestionDispatch(flag, "Test Question", answers);
         m_rawData = {0x9,  0xd,  0x54, 0x65, 0x73, 0x74, 0x20, 0x51, 0x75, 0x65, 0x73, 0x74, 0x69, 0x6f,
                      0x6e, 0x0,  0x0,  0x8,  0x41, 0x6e, 0x73, 0x77, 0x65, 0x72, 0x20, 0x31, 0x1,  0x0,

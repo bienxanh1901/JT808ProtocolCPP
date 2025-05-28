@@ -25,10 +25,12 @@ void GeneralResponse::parse(const uint8_t* data, int size)
     int pos = 2;
 
     SequenceMessageBodyBase::parse(data, size);
-
+    // id
     m_id = Utils::endianSwap16(data + pos);
     pos += sizeof(m_id);
+    // result
     m_result = ResponseResults(data[pos]);
+
     setIsValid(true);
 }
 
@@ -45,7 +47,7 @@ std::vector<uint8_t> GeneralResponse::package()
     return result;
 }
 
-bool GeneralResponse::operator==(const GeneralResponse& other)
+bool GeneralResponse::operator==(const GeneralResponse& other) const
 {
     return SequenceMessageBodyBase::operator==(other) && m_id == other.m_id && m_result == other.m_result;
 }

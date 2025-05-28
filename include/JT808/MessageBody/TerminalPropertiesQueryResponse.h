@@ -21,7 +21,7 @@ public:
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
-    bool operator==(const TerminalPropertiesQueryResponse& other);
+    bool operator==(const TerminalPropertiesQueryResponse& other) const;
 
     TerminalType type() const;
     void setType(const TerminalType& newType);
@@ -33,12 +33,8 @@ public:
     void setId(const std::vector<uint8_t>& newId);
     std::string iccid() const;
     void setIccid(const std::string& newIccid);
-    uint8_t hwVersionLen() const;
-    void setHwVersionLen(uint8_t newHwVersionLen);
     std::string hwVersion() const;
     void setHwVersion(const std::string& newHwVersion);
-    uint8_t fwVersionLen() const;
-    void setFwVersionLen(uint8_t newFwVersionLen);
     std::string fwVersion() const;
     void setFwVersion(const std::string& newFwVersion);
     GNSSProperties gnssProp() const;
@@ -52,9 +48,7 @@ private:
     std::vector<uint8_t> m_model;
     std::vector<uint8_t> m_id;
     std::string m_iccid;
-    uint8_t m_hwVersionLen = 0;
     std::string m_hwVersion;
-    uint8_t m_fwVersionLen = 0;
     std::string m_fwVersion;
     GNSSProperties m_gnssProp = {0};
     CommunicationModuleProperties m_commProp = {0};

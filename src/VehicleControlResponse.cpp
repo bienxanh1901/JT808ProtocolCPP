@@ -17,7 +17,9 @@ void VehicleControlResponse::parse(const std::vector<uint8_t>& data)
 
 void VehicleControlResponse::parse(const uint8_t* data, int size)
 {
+    // seq
     m_seq = Utils::endianSwap16(data);
+    // location information
     LocationInformationReport::parse(data + 2, size - 2);
 }
 
@@ -25,15 +27,15 @@ std::vector<uint8_t> VehicleControlResponse::package()
 {
     std::vector<uint8_t> result;
     std::vector<uint8_t> tmp(LocationInformationReport::package());
-
+    // seq
     Utils::appendU16(m_seq, result);
-
-    result.insert(result.end(), tmp.begin(), tmp.end());
+    // location information
+    Utils::append(LocationInformationReport::package(), result);
 
     return result;
 }
 
-bool VehicleControlResponse::operator==(const VehicleControlResponse& other)
+bool VehicleControlResponse::operator==(const VehicleControlResponse& other) const
 {
     return m_seq == other.m_seq && LocationInformationReport::operator==(other);
 }

@@ -71,19 +71,16 @@ std::vector<uint8_t> DriverIdentityInformationReport::package()
     if (m_icResult == Successful) {
         // driverName
         result.push_back(m_driverName.length());
-        result.insert(result.end(), m_driverName.begin(), m_driverName.end());
+        Utils::append(m_driverName, result);
         // certificate
-        result.insert(result.end(), m_certificate.begin(), m_certificate.end());
+        Utils::append(m_certificate, result);
         if (m_certificate.length() < 20) {
             int padding = 20 - m_certificate.length();
-
-            for (int i = 0; i < padding; i++) {
-                result.push_back(0x00);
-            }
+            Utils::append(std::vector<uint8_t>(padding, 0x00), result);
         }
         // organization
         result.push_back(m_organization.length());
-        result.insert(result.end(), m_organization.begin(), m_organization.end());
+        Utils::append(m_organization, result);
         // certificate expiry
         Utils::appendBCD(m_certExpiry, result);
     }
@@ -91,7 +88,7 @@ std::vector<uint8_t> DriverIdentityInformationReport::package()
     return result;
 }
 
-bool DriverIdentityInformationReport::operator==(const DriverIdentityInformationReport& other)
+bool DriverIdentityInformationReport::operator==(const DriverIdentityInformationReport& other) const
 {
     return m_status == other.m_status && m_time == other.m_time && m_icResult == other.m_icResult
         && m_driverName == other.m_driverName && m_certificate == other.m_certificate

@@ -14,7 +14,7 @@ public:
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
-    bool operator==(const MultimediaEventInformationUpload& other);
+    bool operator==(const MultimediaEventInformationUpload& other) const;
 
     MultimediaEventInformation info() const;
     void setInfo(const MultimediaEventInformation& newInfo);

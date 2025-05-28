@@ -6,7 +6,7 @@ namespace JT808::MessageBody {
 
 TerminalRegistration::TerminalRegistration(uint16_t province, uint16_t city, const std::vector<uint8_t>& manufacturer,
                                            const std::vector<uint8_t>& model, const std::vector<uint8_t>& id,
-                                           LicensePlateColors color, const std::string& vin)
+                                           LicensePlateColors color, const std::string& licenseNumber)
     : MessageBodyBase()
     , m_province(std::move(province))
     , m_city(std::move(city))
@@ -14,7 +14,7 @@ TerminalRegistration::TerminalRegistration(uint16_t province, uint16_t city, con
     , m_model(model)
     , m_id(id)
     , m_color(color)
-    , m_vin(vin)
+    , m_licenseNumber(licenseNumber)
 {
 }
 
@@ -26,23 +26,26 @@ void TerminalRegistration::parse(const std::vector<uint8_t>& data)
 void TerminalRegistration::parse(const uint8_t* data, int size)
 {
     int pos = 0;
-
+    // province
     m_province = Utils::endianSwap16(data);
     pos += sizeof(m_province);
+    // city
     m_city = Utils::endianSwap16(data + pos);
     pos += sizeof(m_city);
+    // manufacturer
     m_manufacturer.assign(data + pos, data + pos + 5);
     pos += 5;
+    // model
     m_model.assign(data + pos, data + pos + 20);
     pos += 20;
+    // id
     m_id.assign(data + pos, data + pos + 7);
     pos += 7;
+    // license color
     m_color = LicensePlateColors(data[pos++]);
-
+    // license number
     if (m_color != NoLicensePlate) {
-        for (int i = pos; i < size; i++) {
-            m_vin.push_back(data[i]);
-        }
+        m_licenseNumber.assign(data + pos, data + size);
     }
 
     setIsValid(true);
@@ -51,26 +54,31 @@ void TerminalRegistration::parse(const uint8_t* data, int size)
 std::vector<uint8_t> TerminalRegistration::package()
 {
     std::vector<uint8_t> result;
-
+    // province
     Utils::appendU16(m_province, result);
+    // city
     Utils::appendU16(m_city, result);
-    result.insert(result.end(), m_manufacturer.begin(), m_manufacturer.end());
-    result.insert(result.end(), m_model.begin(), m_model.end());
-    result.insert(result.end(), m_id.begin(), m_id.end());
-
+    // manufacturer
+    Utils::append(m_manufacturer, result);
+    // model
+    Utils::append(m_model, result);
+    // id
+    Utils::append(m_id, result);
+    // license plate color
     result.push_back(m_color);
-
+    // license number
     if (m_color != NoLicensePlate) {
-        result.insert(result.end(), m_vin.begin(), m_vin.end());
+        Utils::append(m_licenseNumber, result);
     }
 
     return result;
 }
 
-bool TerminalRegistration::operator==(const TerminalRegistration& other)
+bool TerminalRegistration::operator==(const TerminalRegistration& other) const
 {
     return m_province == other.m_province && m_city == other.m_city && m_manufacturer == other.m_manufacturer
-        && m_model == other.m_model && m_id == other.m_id && m_color == other.m_color && m_vin == other.m_vin;
+        && m_model == other.m_model && m_id == other.m_id && m_color == other.m_color
+        && m_licenseNumber == other.m_licenseNumber;
 }
 
 uint16_t TerminalRegistration::province() const
@@ -133,14 +141,14 @@ void TerminalRegistration::setColor(LicensePlateColors newColor)
     m_color = newColor;
 }
 
-std::string TerminalRegistration::vin() const
+std::string TerminalRegistration::licenseNumber() const
 {
-    return m_vin;
+    return m_licenseNumber;
 }
 
-void TerminalRegistration::setVin(const std::string& newVin)
+void TerminalRegistration::setLicenseNumber(const std::string& newLicenseNumber)
 {
-    m_vin = newVin;
+    m_licenseNumber = newLicenseNumber;
 }
 
 }

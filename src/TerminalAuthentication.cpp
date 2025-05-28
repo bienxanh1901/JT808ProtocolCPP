@@ -26,7 +26,7 @@ std::vector<uint8_t> TerminalAuthentication::package()
     return result;
 }
 
-bool TerminalAuthentication::operator==(const TerminalAuthentication& other)
+bool TerminalAuthentication::operator==(const TerminalAuthentication& other) const
 {
     return m_authCode == other.m_authCode;
 }

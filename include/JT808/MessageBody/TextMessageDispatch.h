@@ -16,7 +16,7 @@ public:
             uint8_t terminalDisplay : 1;
             uint8_t terminalTTS : 1;
             uint8_t advDisplay : 1;
-            uint8_t navOrCANFaultCodeInfo : 1; // 0 navigation information, 1 CAN Fault Code
+            uint8_t infoType : 1; // 0 navigation information, 1 CAN Fault Code
             uint8_t reserverd2 : 2;
         } bits;
         uint8_t value;
@@ -27,7 +27,7 @@ public:
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
-    bool operator==(const TextMessageDispatch& other);
+    bool operator==(const TextMessageDispatch& other) const;
 
     Flag flag() const;
     void setFlag(const Flag& newFlag);

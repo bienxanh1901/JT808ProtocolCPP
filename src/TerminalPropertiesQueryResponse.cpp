@@ -14,9 +14,7 @@ TerminalPropertiesQueryResponse::TerminalPropertiesQueryResponse(
     , m_model(model)
     , m_id(id)
     , m_iccid(iccid)
-    , m_hwVersionLen(hwVersion.length())
     , m_hwVersion(hwVersion)
-    , m_fwVersionLen(fwVersion.length())
     , m_fwVersion(fwVersion)
     , m_gnssProp(gnssProp)
     , m_commProp(commProp)
@@ -31,29 +29,36 @@ void TerminalPropertiesQueryResponse::parse(const std::vector<uint8_t>& data)
 void TerminalPropertiesQueryResponse::parse(const uint8_t* data, int size)
 {
     int pos = 0;
+    uint8_t len = 0;
 
+    // type
     m_type.value = Utils::endianSwap16(data + pos);
     pos += sizeof(m_type);
-
+    // manufacturer
     m_manufacturer.assign(data + pos, data + pos + 5);
     pos += 5;
+    // model
     m_model.assign(data + pos, data + pos + 20);
     pos += 20;
+    // id
     m_id.assign(data + pos, data + pos + 7);
     pos += 7;
-
+    // iccid
     m_iccid = BCD::toString(data + pos, 10);
     pos += 10;
-
-    m_hwVersionLen = data[pos++];
-    m_hwVersion.assign(data + pos, data + pos + m_hwVersionLen);
-    pos += m_hwVersionLen;
-
-    m_fwVersionLen = data[pos++];
-    m_fwVersion.assign(data + pos, data + pos + m_fwVersionLen);
-    pos += m_fwVersionLen;
-
+    // hardware version length
+    len = data[pos++];
+    // hardware version
+    m_hwVersion.assign(data + pos, data + pos + len);
+    pos += len;
+    // firmware version length
+    len = data[pos++];
+    // firmware version
+    m_fwVersion.assign(data + pos, data + pos + len);
+    pos += len;
+    // gnss props
     m_gnssProp.value = data[pos++];
+    // commnuication props
     m_commProp.value = data[pos];
 
     setIsValid(true);
@@ -62,27 +67,36 @@ void TerminalPropertiesQueryResponse::parse(const uint8_t* data, int size)
 std::vector<uint8_t> TerminalPropertiesQueryResponse::package()
 {
     std::vector<uint8_t> result;
-
+    // type
     Utils::appendU16(m_type.value, result);
-    result.insert(result.end(), m_manufacturer.begin(), m_manufacturer.end());
-    result.insert(result.end(), m_model.begin(), m_model.end());
-    result.insert(result.end(), m_id.begin(), m_id.end());
+    // manufacturer
+    Utils::append(m_manufacturer, result);
+    // model
+    Utils::append(m_model, result);
+    // id
+    Utils::append(m_id, result);
+    // iccid
     Utils::appendBCD(m_iccid, result);
-    result.push_back(m_hwVersionLen);
-    result.insert(result.end(), m_hwVersion.begin(), m_hwVersion.end());
-    result.push_back(m_fwVersionLen);
-    result.insert(result.end(), m_fwVersion.begin(), m_fwVersion.end());
+    // hardware version length
+    result.push_back(m_hwVersion.length());
+    // hardware version
+    Utils::append(m_hwVersion, result);
+    // firmware version length
+    result.push_back(m_fwVersion.length());
+    // firmware version
+    Utils::append(m_fwVersion, result);
+    // gnss props
     result.push_back(m_gnssProp.value);
+    // comm props
     result.push_back(m_commProp.value);
 
     return result;
 }
 
-bool TerminalPropertiesQueryResponse::operator==(const TerminalPropertiesQueryResponse& other)
+bool TerminalPropertiesQueryResponse::operator==(const TerminalPropertiesQueryResponse& other) const
 {
     return m_type.value == other.m_type.value && m_manufacturer == other.m_manufacturer && m_model == other.m_model
-        && m_id == other.m_id && m_iccid == other.m_iccid && m_hwVersionLen == other.m_hwVersionLen
-        && m_hwVersion == other.m_hwVersion && m_fwVersionLen == other.m_fwVersionLen
+        && m_id == other.m_id && m_iccid == other.m_iccid && m_hwVersion == other.m_hwVersion
         && m_fwVersion == other.m_fwVersion && m_gnssProp.value == other.m_gnssProp.value
         && m_commProp.value == other.commProp().value;
 }
@@ -137,16 +151,6 @@ void TerminalPropertiesQueryResponse::setIccid(const std::string& newIccid)
     m_iccid = newIccid;
 }
 
-uint8_t TerminalPropertiesQueryResponse::hwVersionLen() const
-{
-    return m_hwVersionLen;
-}
-
-void TerminalPropertiesQueryResponse::setHwVersionLen(uint8_t newHwVersionLen)
-{
-    m_hwVersionLen = newHwVersionLen;
-}
-
 std::string TerminalPropertiesQueryResponse::hwVersion() const
 {
     return m_hwVersion;
@@ -155,16 +159,6 @@ std::string TerminalPropertiesQueryResponse::hwVersion() const
 void TerminalPropertiesQueryResponse::setHwVersion(const std::string& newHwVersion)
 {
     m_hwVersion = newHwVersion;
-}
-
-uint8_t TerminalPropertiesQueryResponse::fwVersionLen() const
-{
-    return m_fwVersionLen;
-}
-
-void TerminalPropertiesQueryResponse::setFwVersionLen(uint8_t newFwVersionLen)
-{
-    m_fwVersionLen = newFwVersionLen;
 }
 
 std::string TerminalPropertiesQueryResponse::fwVersion() const

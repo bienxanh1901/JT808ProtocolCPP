@@ -5,7 +5,6 @@ namespace JT808::MessageBody {
 EventSetting::EventSetting(AreaSettingTypes type, const std::vector<Event>& events)
     : MessageBodyBase()
     , m_type(type)
-    , m_length(events.size())
     , m_events(events)
 {
 }
@@ -18,21 +17,19 @@ void EventSetting::parse(const std::vector<uint8_t>& data)
 void EventSetting::parse(const uint8_t* data, int size)
 {
     int pos = 0;
-    Event event = {0};
-
+    int pos1 = 0;
+    // type
     m_type = AreaSettingTypes(data[pos++]);
 
     if (m_type > DeleteAllEvents) {
-        m_length = data[pos++];
-
-        for (int i = 0; i < m_length; i++) {
-            event.id = data[pos++];
-            event.length = data[pos++];
-            if (event.length > 0) {
-                event.content = Utils::gbkDecode(data + pos, event.length);
-                pos += event.length;
-            }
-            m_events.push_back(event);
+        // length
+        int length = data[pos++];
+        // events
+        for (int i = 0; i < length; i++) {
+            Event item = {0};
+            pos1 = item.parse(data + pos, size);
+            pos += pos1;
+            m_events.push_back(item);
         }
     }
 
@@ -42,35 +39,22 @@ void EventSetting::parse(const uint8_t* data, int size)
 std::vector<uint8_t> EventSetting::package()
 {
     std::vector<uint8_t> result;
-
+    // type
     result.push_back(m_type);
-
     if (m_type > DeleteAllEvents) {
-        result.push_back(m_length);
-        for (auto& event : m_events) {
-            result.push_back(event.id);
-            result.push_back(event.length);
-            if (event.length) {
-                Utils::appendGBK(event.content, result);
-            }
+        // length
+        result.push_back(m_events.size());
+        for (auto& item : m_events) {
+            Utils::append(item.package(), result);
         }
     }
 
     return result;
 }
 
-bool EventSetting::operator==(const EventSetting& other)
+bool EventSetting::operator==(const EventSetting& other) const
 {
-    bool result = m_type == other.m_type && m_length == other.m_length;
-    if (result && m_length > 0) {
-        for (int i = 0; i < m_length; i++) {
-            if (!(m_events[i] == other.m_events[i])) {
-                return false;
-            }
-        }
-    }
-
-    return true;
+    return m_type == other.m_type && m_events == other.m_events;
 }
 
 EventSetting::AreaSettingTypes EventSetting::type() const
@@ -83,16 +67,6 @@ void EventSetting::setType(AreaSettingTypes newType)
     m_type = newType;
 }
 
-uint8_t EventSetting::length() const
-{
-    return m_length;
-}
-
-void EventSetting::setLength(uint8_t newLength)
-{
-    m_length = newLength;
-}
-
 std::vector<EventSetting::Event> EventSetting::events() const
 {
     return m_events;
@@ -102,4 +76,40 @@ void EventSetting::setEvents(const std::vector<Event>& newEvents)
 {
     m_events = newEvents;
 }
+
+bool EventSetting::Event::operator==(const Event& other) const
+{
+    return id == other.id && content == other.content;
+}
+
+int EventSetting::Event::parse(const uint8_t* data, int size)
+{
+    int pos = 0;
+    uint8_t length = 0;
+    // id
+    id = data[pos++];
+    // length
+    length = data[pos++];
+    // content
+    if (length > 0) {
+        content = Utils::gbkDecode(data + pos, length);
+        pos += length;
+    }
+
+    return pos;
+}
+
+std::vector<uint8_t> EventSetting::Event::package()
+{
+    std::vector<uint8_t> result;
+    // id
+    result.push_back(id);
+    // length
+    result.push_back(content.size());
+    // content
+    Utils::appendGBK(content, result);
+
+    return result;
+}
+
 }

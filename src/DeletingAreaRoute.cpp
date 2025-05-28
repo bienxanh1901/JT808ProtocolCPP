@@ -4,7 +4,6 @@ namespace JT808::MessageBody {
 
 DeletingAreaRoute::DeletingAreaRoute(const std::vector<uint32_t>& ids)
     : MessageBodyBase()
-    , m_length(ids.size())
     , m_ids(ids)
 {
 }
@@ -17,9 +16,10 @@ void DeletingAreaRoute::parse(const std::vector<uint8_t>& data)
 void DeletingAreaRoute::parse(const uint8_t* data, int size)
 {
     int pos = 0;
-    m_length = data[pos++];
-
-    for (int i = 0; i < m_length; i++) {
+    // length
+    uint8_t length = data[pos++];
+    // ids
+    for (int i = 0; i < length; i++) {
         m_ids.push_back(Utils::endianSwap32(data + pos));
         pos += 4;
     }
@@ -30,9 +30,9 @@ void DeletingAreaRoute::parse(const uint8_t* data, int size)
 std::vector<uint8_t> DeletingAreaRoute::package()
 {
     std::vector<uint8_t> result;
-
-    result.push_back(m_length);
-
+    // length
+    result.push_back(m_ids.size());
+    // ids
     for (auto& id : m_ids) {
         Utils::appendU32(id, result);
     }
@@ -40,19 +40,9 @@ std::vector<uint8_t> DeletingAreaRoute::package()
     return result;
 }
 
-bool DeletingAreaRoute::operator==(const DeletingAreaRoute& other)
+bool DeletingAreaRoute::operator==(const DeletingAreaRoute& other) const
 {
-    return m_length == other.m_length && m_ids == other.m_ids;
-}
-
-uint8_t DeletingAreaRoute::length() const
-{
-    return m_length;
-}
-
-void DeletingAreaRoute::setLength(uint8_t newLength)
-{
-    m_length = newLength;
+    return m_ids == other.m_ids;
 }
 
 std::vector<uint32_t> DeletingAreaRoute::ids() const

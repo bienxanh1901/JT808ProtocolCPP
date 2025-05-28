@@ -56,7 +56,7 @@ std::vector<uint8_t> ImmediateCameraCaptureCommandResponse::package()
     return result;
 }
 
-bool ImmediateCameraCaptureCommandResponse::operator==(const ImmediateCameraCaptureCommandResponse& other)
+bool ImmediateCameraCaptureCommandResponse::operator==(const ImmediateCameraCaptureCommandResponse& other) const
 {
     return SequenceMessageBodyBase::operator==(other) && m_result == other.m_result && m_ids == other.m_ids;
 }
@@ -69,16 +69,6 @@ ImmediateCameraCaptureCommandResponse::ResponseResults ImmediateCameraCaptureCom
 void ImmediateCameraCaptureCommandResponse::setResult(ResponseResults newResult)
 {
     m_result = newResult;
-}
-
-uint16_t ImmediateCameraCaptureCommandResponse::length() const
-{
-    return m_length;
-}
-
-void ImmediateCameraCaptureCommandResponse::setLength(uint16_t newLength)
-{
-    m_length = newLength;
 }
 
 std::vector<uint32_t> ImmediateCameraCaptureCommandResponse::ids() const
