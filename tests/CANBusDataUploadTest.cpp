@@ -1,16 +1,16 @@
 
 #include "JT808/MessageBody/CANBusDataUpload.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
+#include <vector>
 
 namespace JT808::MessageBody {
 class CANBusDataUploadTest : public MessageBodyBaseTest<CANBusDataUpload>
 {
 protected:
-    ~CANBusDataUploadTest() override { }
-
     void SetUp() override
     {
-        std::vector<CANBusDataUpload::ItemData> data {
+        std::vector<CANBusDataUpload::ItemData> const data {
             {{.value = 123}, {.value = 456}},
             {{.value = 789}, {.value = 112233}},
         };

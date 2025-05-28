@@ -1,15 +1,21 @@
 #include "JT808/MessageBody/StoredMultimediaDataRetrieval.h"
 #include "JT808/BCD.h"
+#include "JT808/MessageBody/Multimedia.h"
+#include "JT808/Utils.h"
+#include <cstdint>
+#include <string>
+#include <utility>
+#include <vector>
 
 namespace JT808::MessageBody {
 
 StoredMultimediaDataRetrieval::StoredMultimediaDataRetrieval(MediaType type, uint8_t channel, EventCode event,
-                                                             const std::string& startTime, const std::string& endTime)
+                                                             std::string startTime, std::string endTime)
     : m_type(type)
-    , m_channel(std::move(channel))
+    , m_channel(channel)
     , m_event(event)
-    , m_startTime(startTime)
-    , m_endTime(endTime)
+    , m_startTime(std::move(startTime))
+    , m_endTime(std::move(endTime))
 {
 }
 
@@ -18,7 +24,7 @@ void StoredMultimediaDataRetrieval::parse(const std::vector<uint8_t>& data)
     parse(data.data(), data.size());
 }
 
-void StoredMultimediaDataRetrieval::parse(const uint8_t* data, int size)
+void StoredMultimediaDataRetrieval::parse(const uint8_t* data, int /*size*/)
 {
     int pos = 0;
 

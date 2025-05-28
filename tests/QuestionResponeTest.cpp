@@ -1,13 +1,12 @@
 
 #include "JT808/MessageBody/QuestionResponse.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
 
 namespace JT808::MessageBody {
 class QuestionResponseTest : public MessageBodyBaseTest<QuestionResponse>
 {
 protected:
-    ~QuestionResponseTest() override { }
-
     void SetUp() override
     {
         m_body = new QuestionResponse(123, 2);

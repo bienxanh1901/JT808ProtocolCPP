@@ -2,6 +2,9 @@
 #define TERMINALUPGRADE_H
 
 #include "MessageBodyBase.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -22,7 +25,7 @@ class TerminalUpgradePackage : public MessageBodyBase
 {
 public:
     TerminalUpgradePackage() = default;
-    TerminalUpgradePackage(UpgradeTypes type, const std::vector<uint8_t>& manufacturer, const std::string& version,
+    TerminalUpgradePackage(UpgradeTypes type, const std::vector<uint8_t>& manufacturer, std::string version,
                            const std::vector<uint8_t>& firmware);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;

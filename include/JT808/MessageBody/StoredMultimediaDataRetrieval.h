@@ -3,6 +3,9 @@
 
 #include "MessageBodyBase.h"
 #include "Multimedia.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -10,8 +13,8 @@ class StoredMultimediaDataRetrieval : public MessageBodyBase
 {
 public:
     StoredMultimediaDataRetrieval() = default;
-    StoredMultimediaDataRetrieval(MediaType type, uint8_t channel, EventCode event, const std::string& startTime,
-                                  const std::string& endTime);
+    StoredMultimediaDataRetrieval(MediaType type, uint8_t channel, EventCode event, std::string startTime,
+                                  std::string endTime);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;

@@ -1,18 +1,19 @@
 
 #include "JT808/MessageBody/MultimediaDataUpload.h"
+#include "JT808/MessageBody/LocationInformation.h"
+#include "JT808/MessageBody/Multimedia.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
 
 namespace JT808::MessageBody {
 class MultimediaDataUploadTest : public MessageBodyBaseTest<MultimediaDataUpload>
 {
 protected:
-    ~MultimediaDataUploadTest() override { }
-
     void SetUp() override
     {
-        LocationInformation location {{.value = 12345}, {.value = 54321}, 10755241, 1066569743, 10, 25, 45,
-                                      "700101000000"};
-        std::string media("This is test media data");
+        LocationInformation const location {{.value = 12345}, {.value = 54321}, 10755241, 1066569743, 10, 25, 45,
+                                            "700101000000"};
+        std::string const media("This is test media data");
         m_body = new MultimediaDataUpload({123, ImageType, JPEGFormat, PlaformCommand, 2}, location, media);
         m_rawData = {0x0,  0x0,  0x0,  0x7b, 0x0,  0x0,  0x0,  0x2,  0x0,  0x0,  0x30, 0x39, 0x0,  0x0,  0xd4,
                      0x31, 0x0,  0xa4, 0x1c, 0xa9, 0x3f, 0x92, 0x90, 0xf,  0x0,  0xa,  0x0,  0x19, 0x0,  0x2d,

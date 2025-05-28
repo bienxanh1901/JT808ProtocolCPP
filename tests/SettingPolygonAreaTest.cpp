@@ -1,16 +1,16 @@
 
 #include "JT808/MessageBody/SettingPolygonArea.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
+#include <vector>
 
 namespace JT808::MessageBody {
 class SettingPolygonAreaTest : public MessageBodyBaseTest<SettingPolygonArea>
 {
 protected:
-    ~SettingPolygonAreaTest() override { }
-
     void SetUp() override
     {
-        std::vector<SettingPolygonArea::Point> points {
+        std::vector<SettingPolygonArea::Point> const points {
             {10755241, 1066569743}, {10756241, 1066579743}, {10757241, 1066589743}, {10758241, 1066599743},
             {10759241, 1066519743}, {10751241, 1066539743}, {10752241, 1066549743},
         };

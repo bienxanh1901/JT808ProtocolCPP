@@ -3,6 +3,9 @@
 
 #include "LocationInformation.h"
 #include "MessageBodyBase.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 namespace JT808::MessageBody {
 

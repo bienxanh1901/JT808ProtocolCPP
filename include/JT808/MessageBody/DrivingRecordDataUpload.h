@@ -2,6 +2,9 @@
 #define DRIVINGRECORDDATAUPLOAD_H
 
 #include "DrivingRecordCommand.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 namespace JT808::MessageBody {
 

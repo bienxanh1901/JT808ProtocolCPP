@@ -1,23 +1,25 @@
 
 #include "JT808/MessageBody/RSAPublicKey.h"
 #include "MessageBodyBaseTest.h"
+#include <cstdint>
+#include <gtest/gtest.h>
+#include <string>
+#include <vector>
 
 namespace JT808::MessageBody {
 class RSAPublicKeyTest : public MessageBodyBaseTest<RSAPublicKey>
 {
 protected:
-    ~RSAPublicKeyTest() override { }
-
     void SetUp() override
     {
-        std::string key("-----BEGIN PUBLIC KEY-----"
-                        "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCCTOD1oUQv3q9hpxqD2DJEoCts"
-                        "T3AWDingoSG+otiv9cajWX+INkQ/tb1EGirP5aXKf+w+dkMnO0xCIQ+gTk1fMjHt"
-                        "4MH0J4kEi+FN+VxZsx9A4oZSBpdak33XjqHUViuDPTXhYK/GGH7xjSDMlsKMEMc0"
-                        "1TOeXlyFs2bk9FhLJwIDAQAB"
-                        "-----END PUBLIC KEY-----");
+        std::string const key("-----BEGIN PUBLIC KEY-----"
+                              "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCCTOD1oUQv3q9hpxqD2DJEoCts"
+                              "T3AWDingoSG+otiv9cajWX+INkQ/tb1EGirP5aXKf+w+dkMnO0xCIQ+gTk1fMjHt"
+                              "4MH0J4kEi+FN+VxZsx9A4oZSBpdak33XjqHUViuDPTXhYK/GGH7xjSDMlsKMEMc0"
+                              "1TOeXlyFs2bk9FhLJwIDAQAB"
+                              "-----END PUBLIC KEY-----");
 
-        std::vector<uint8_t> data(key.begin(), key.end());
+        std::vector<uint8_t> const data(key.begin(), key.end());
         m_body = new RSAPublicKey(data);
         m_rawData = {
             0x0,  0x0,  0x1,  0xa,  0x2d, 0x2d, 0x2d, 0x2d, 0x2d, 0x42, 0x45, 0x47, 0x49, 0x4e, 0x20, 0x50, 0x55, 0x42,

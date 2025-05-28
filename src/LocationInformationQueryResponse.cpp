@@ -1,4 +1,10 @@
 #include "JT808/MessageBody/LocationInformationQueryResponse.h"
+#include "JT808/MessageBody/LocationInformation.h"
+#include "JT808/MessageBody/LocationInformationReport.h"
+#include "JT808/Utils.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 namespace JT808::MessageBody {
 

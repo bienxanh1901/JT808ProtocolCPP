@@ -1,13 +1,12 @@
 
 #include "JT808/MessageBody/EventReport.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
 
 namespace JT808::MessageBody {
 class EventReportTest : public MessageBodyBaseTest<EventReport>
 {
 protected:
-    ~EventReportTest() override { }
-
     void SetUp() override
     {
 

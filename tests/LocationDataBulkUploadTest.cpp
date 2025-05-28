@@ -1,16 +1,17 @@
 
 #include "JT808/MessageBody/LocationDataBulkUpload.h"
+#include "JT808/MessageBody/LocationInformation.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
+#include <vector>
 
 namespace JT808::MessageBody {
 class LocationDataBulkUploadTest : public MessageBodyBaseTest<LocationDataBulkUpload>
 {
 protected:
-    ~LocationDataBulkUploadTest() override { }
-
     void SetUp() override
     {
-        std::vector<LocationInformation> locations = {
+        std::vector<LocationInformation> const locations = {
             {{.value = 12345}, {.value = 54321}, 10755241, 1066569743, 10, 25, 45, "700101000000"},
             {{.value = 12345}, {.value = 54321}, 10755241, 1066569743, 10, 25, 45, "700101000000"},
             {{.value = 12345}, {.value = 54321}, 10755241, 1066569743, 10, 25, 45, "700101000000"},

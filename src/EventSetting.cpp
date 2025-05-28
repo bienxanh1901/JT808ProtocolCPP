@@ -1,10 +1,12 @@
 #include "JT808/MessageBody/EventSetting.h"
+#include "JT808/Utils.h"
+#include <cstdint>
+#include <vector>
 
 namespace JT808::MessageBody {
 
 EventSetting::EventSetting(AreaSettingTypes type, const std::vector<Event>& events)
-    : MessageBodyBase()
-    , m_type(type)
+    : m_type(type)
     , m_events(events)
 {
 }
@@ -23,7 +25,7 @@ void EventSetting::parse(const uint8_t* data, int size)
 
     if (m_type > DeleteAllEvents) {
         // length
-        int length = data[pos++];
+        uint8_t const length = data[pos++];
         // events
         for (int i = 0; i < length; i++) {
             Event item = {0};
@@ -82,7 +84,7 @@ bool EventSetting::Event::operator==(const Event& other) const
     return id == other.id && content == other.content;
 }
 
-int EventSetting::Event::parse(const uint8_t* data, int size)
+int EventSetting::Event::parse(const uint8_t* data, int /*size*/)
 {
     int pos = 0;
     uint8_t length = 0;
@@ -99,7 +101,7 @@ int EventSetting::Event::parse(const uint8_t* data, int size)
     return pos;
 }
 
-std::vector<uint8_t> EventSetting::Event::package()
+std::vector<uint8_t> EventSetting::Event::package() const
 {
     std::vector<uint8_t> result;
     // id

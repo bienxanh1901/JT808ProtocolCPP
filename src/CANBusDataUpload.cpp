@@ -1,11 +1,15 @@
 #include "JT808/MessageBody/CANBusDataUpload.h"
 #include "JT808/BCD.h"
+#include "JT808/Utils.h"
+#include <cstdint>
+#include <string>
+#include <utility>
+#include <vector>
 
 namespace JT808::MessageBody {
 
-CANBusDataUpload::CANBusDataUpload(const std::string& time, const std::vector<ItemData>& data)
-    : MessageBodyBase()
-    , m_time(time)
+CANBusDataUpload::CANBusDataUpload(std::string time, const std::vector<ItemData>& data)
+    : m_time(std::move(time))
     , m_data(data)
 {
 }
@@ -15,11 +19,11 @@ void CANBusDataUpload::parse(const std::vector<uint8_t>& data)
     parse(data.data(), data.size());
 }
 
-void CANBusDataUpload::parse(const uint8_t* data, int size)
+void CANBusDataUpload::parse(const uint8_t* data, int /*size*/)
 {
     int pos = 0;
     // length
-    uint16_t length = Utils::endianSwap16(data);
+    uint16_t const length = Utils::endianSwap16(data);
     pos += sizeof(length);
     // time
     m_time = BCD::toString(data + pos, 5);
@@ -80,27 +84,27 @@ bool CANBusDataUpload::ItemData::operator==(const ItemData& other) const
     return id.value == other.id.value && data.value == other.data.value;
 }
 
-void CANBusDataUpload::ItemData::parse(const uint8_t* rawData, int size)
+void CANBusDataUpload::ItemData::parse(const uint8_t* rawData, int /*size*/)
 {
     int pos = 0;
-    for (int i = 0; i < 4; i++) {
-        id.bytes[i] = rawData[pos++];
+    for (unsigned char& byte : id.bytes) {
+        byte = rawData[pos++];
     }
 
-    for (int i = 0; i < 8; i++) {
-        data.bytes[i] = rawData[pos++];
+    for (unsigned char& byte : data.bytes) {
+        byte = rawData[pos++];
     }
 }
 
 std::vector<uint8_t> CANBusDataUpload::ItemData::package()
 {
     std::vector<uint8_t> result;
-    for (int i = 0; i < 4; i++) {
-        result.push_back(id.bytes[i]);
+    for (unsigned char const byte : id.bytes) {
+        result.push_back(byte);
     }
 
-    for (int i = 0; i < 8; i++) {
-        result.push_back(data.bytes[i]);
+    for (unsigned char const byte : data.bytes) {
+        result.push_back(byte);
     }
 
     return result;

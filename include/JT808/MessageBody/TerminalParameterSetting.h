@@ -3,6 +3,8 @@
 
 #include "MessageBodyBase.h"
 #include "TerminalParameter.h"
+#include <cstdint>
+#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -10,7 +12,7 @@ class TerminalParameterSetting : public MessageBodyBase
 {
 public:
     TerminalParameterSetting() = default;
-    TerminalParameterSetting(const TerminalParameters& params);
+    TerminalParameterSetting(TerminalParameters params);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;

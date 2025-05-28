@@ -1,13 +1,12 @@
 
 #include "JT808/MessageBody/TerminalAuthentication.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
 
 namespace JT808::MessageBody {
 class TerminalAuthenticationTest : public MessageBodyBaseTest<TerminalAuthentication>
 {
 protected:
-    ~TerminalAuthenticationTest() override { }
-
     void SetUp() override
     {
         m_body = new TerminalAuthentication("HelloJT808Protocol");

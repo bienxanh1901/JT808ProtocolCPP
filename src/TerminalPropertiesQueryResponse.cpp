@@ -1,21 +1,25 @@
 #include "JT808/MessageBody/TerminalPropertiesQueryResponse.h"
 #include "JT808/BCD.h"
+#include "JT808/MessageBody/TerminalProperties.h"
 #include "JT808/Utils.h"
+#include <cstdint>
+#include <string>
+#include <utility>
+#include <vector>
 
 namespace JT808::MessageBody {
 
 TerminalPropertiesQueryResponse::TerminalPropertiesQueryResponse(
     const TerminalType& type, const std::vector<uint8_t>& manufacturer, const std::vector<uint8_t>& model,
-    const std::vector<uint8_t>& id, const std::string& iccid, const std::string& hwVersion,
-    const std::string& fwVersion, const GNSSProperties& gnssProp, const CommunicationModuleProperties& commProp)
-    : MessageBodyBase()
-    , m_type(type)
+    const std::vector<uint8_t>& id, std::string iccid, std::string hwVersion, std::string fwVersion,
+    const GNSSProperties& gnssProp, const CommunicationModuleProperties& commProp)
+    : m_type(type)
     , m_manufacturer(manufacturer)
     , m_model(model)
     , m_id(id)
-    , m_iccid(iccid)
-    , m_hwVersion(hwVersion)
-    , m_fwVersion(fwVersion)
+    , m_iccid(std::move(iccid))
+    , m_hwVersion(std::move(hwVersion))
+    , m_fwVersion(std::move(fwVersion))
     , m_gnssProp(gnssProp)
     , m_commProp(commProp)
 {
@@ -26,7 +30,7 @@ void TerminalPropertiesQueryResponse::parse(const std::vector<uint8_t>& data)
     parse(data.data(), data.size());
 }
 
-void TerminalPropertiesQueryResponse::parse(const uint8_t* data, int size)
+void TerminalPropertiesQueryResponse::parse(const uint8_t* data, int /*size*/)
 {
     int pos = 0;
     uint8_t len = 0;

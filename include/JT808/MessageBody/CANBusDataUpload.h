@@ -2,6 +2,9 @@
 #define CANBUSDATAUPLOAD_H
 
 #include "MessageBodyBase.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -36,7 +39,7 @@ public:
     };
 
     CANBusDataUpload() = default;
-    CANBusDataUpload(const std::string& time, const std::vector<ItemData>& data);
+    CANBusDataUpload(std::string time, const std::vector<ItemData>& data);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;

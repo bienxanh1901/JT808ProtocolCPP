@@ -1,7 +1,11 @@
 #ifndef VEHICLECONTROLRESPONSE_H
 #define VEHICLECONTROLRESPONSE_H
 
+#include "LocationInformation.h"
 #include "LocationInformationReport.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 namespace JT808::MessageBody {
 

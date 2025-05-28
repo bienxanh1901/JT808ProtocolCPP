@@ -2,6 +2,9 @@
 #define DRIVINGRECORDCOMMAND_H
 
 #include "MessageBodyBase.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -12,7 +15,7 @@ class DrivingRecordCommand : public MessageBodyBase
 {
 public:
     DrivingRecordCommand() = default;
-    DrivingRecordCommand(uint8_t command, const std::string& param = "");
+    DrivingRecordCommand(uint8_t command, std::string param = "");
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;

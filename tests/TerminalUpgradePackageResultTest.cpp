@@ -1,13 +1,13 @@
 
 #include "JT808/MessageBody/TerminalUpgradePackageResult.h"
+#include "JT808/MessageBody/TerminalUpgradePackage.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
 
 namespace JT808::MessageBody {
 class TerminalUpgradePackageResultTest : public MessageBodyBaseTest<TerminalUpgradePackageResult>
 {
 protected:
-    ~TerminalUpgradePackageResultTest() override { }
-
     void SetUp() override
     {
         m_body = new TerminalUpgradePackageResult(Terminal, TerminalUpgradePackageResult::Succeeded);

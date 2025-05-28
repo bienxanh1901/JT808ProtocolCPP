@@ -1,12 +1,12 @@
 #include "JT808/MessageBody/TemporaryLocationTrackingControl.h"
 #include "JT808/Utils.h"
+#include <cstdint>
+#include <vector>
 
-namespace JT808 {
-namespace MessageBody {
+namespace JT808::MessageBody {
 
 TemporaryLocationTrackingControl::TemporaryLocationTrackingControl(uint16_t period, uint32_t expiry)
-    : MessageBodyBase()
-    , m_period(period)
+    : m_period(period)
     , m_expiry(expiry)
 {
 }
@@ -16,7 +16,7 @@ void TemporaryLocationTrackingControl::parse(const std::vector<uint8_t>& data)
     parse(data.data(), data.size());
 }
 
-void TemporaryLocationTrackingControl::parse(const uint8_t* data, int size)
+void TemporaryLocationTrackingControl::parse(const uint8_t* data, int /*size*/)
 {
     int pos = 0;
 
@@ -62,5 +62,4 @@ void TemporaryLocationTrackingControl::setExpiry(uint32_t newExpiry)
     m_expiry = newExpiry;
 }
 
-}
 }

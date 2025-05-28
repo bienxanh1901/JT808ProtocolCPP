@@ -2,6 +2,9 @@
 #define TERMINALREGISTRATIONRESPONSE_H
 
 #include "SequenceMessageBodyBase.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -24,7 +27,7 @@ public:
     };
 
     TerminalRegistrationResponse() = default;
-    TerminalRegistrationResponse(uint16_t seq, ResponseResults result, const std::string& authCode = "");
+    TerminalRegistrationResponse(uint16_t seq, ResponseResults result, std::string authCode = "");
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;

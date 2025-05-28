@@ -1,13 +1,14 @@
 
 #include "JT808/MessageBody/MultimediaDataUploadResponse.h"
 #include "MessageBodyBaseTest.h"
+#include <cstdint>
+#include <gtest/gtest.h>
+#include <vector>
 
 namespace JT808::MessageBody {
 class MultimediaDataUploadResponseTest : public MessageBodyBaseTest<MultimediaDataUploadResponse>
 {
 protected:
-    ~MultimediaDataUploadResponseTest() override { }
-
     void SetUp() override
     {
         std::vector<uint16_t> ids {456, 789, 222, 555};

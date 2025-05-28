@@ -1,7 +1,8 @@
 #include "JT808/MessageBody/MessageBodyBase.h"
+#include <cstdint>
+#include <vector>
 
 namespace JT808::MessageBody {
-MessageBodyBase::MessageBodyBase() { }
 
 bool MessageBodyBase::isValid() const
 {
@@ -18,7 +19,7 @@ void MessageBodyBase::parse(const std::vector<uint8_t>& data)
     parse(data.data(), data.size());
 }
 
-void MessageBodyBase::parse(const uint8_t* data, int size)
+void MessageBodyBase::parse(const uint8_t* /*data*/, int /*size*/)
 {
     m_isValid = true;
 }

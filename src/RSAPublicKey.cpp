@@ -1,10 +1,12 @@
 #include "JT808/MessageBody/RSAPublicKey.h"
+#include "JT808/Utils.h"
+#include <cstdint>
+#include <vector>
 
 namespace JT808::MessageBody {
 
 RSAPublicKey::RSAPublicKey(const std::vector<uint8_t>& data)
-    : MessageBodyBase()
-    , m_data(data)
+    : m_data(data)
 {
 }
 
@@ -13,15 +15,15 @@ void RSAPublicKey::parse(const std::vector<uint8_t>& data)
     parse(data.data(), data.size());
 }
 
-void RSAPublicKey::parse(const uint8_t* data, int size)
+void RSAPublicKey::parse(const uint8_t* data, int /*size*/)
 {
     int pos = 0;
 
     // length
-    uint32_t length = Utils::endianSwap32(data);
+    uint32_t const length = Utils::endianSwap32(data);
     pos += sizeof(length);
     // data
-    m_data.assign(data + pos, data + size);
+    m_data.assign(data + pos, data + pos + length);
 
     setIsValid(true);
 }

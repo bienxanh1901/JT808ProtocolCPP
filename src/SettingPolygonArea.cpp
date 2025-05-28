@@ -1,16 +1,20 @@
 #include "JT808/MessageBody/SettingPolygonArea.h"
 #include "JT808/BCD.h"
+#include "JT808/MessageBody/AreaSettingProperties.h"
+#include "JT808/Utils.h"
+#include <cstdint>
+#include <string>
+#include <utility>
+#include <vector>
 
 namespace JT808::MessageBody {
 
-SettingPolygonArea::SettingPolygonArea(uint32_t id, AreaProperties flag, const std::string& startTime,
-                                       const std::string& endTime, uint16_t maxSpeed, uint8_t overspeedDuration,
-                                       const std::vector<Point>& points)
-    : MessageBodyBase()
-    , m_id(id)
+SettingPolygonArea::SettingPolygonArea(uint32_t id, AreaProperties flag, std::string startTime, std::string endTime,
+                                       uint16_t maxSpeed, uint8_t overspeedDuration, const std::vector<Point>& points)
+    : m_id(id)
     , m_flag(flag)
-    , m_startTime(startTime)
-    , m_endTime(endTime)
+    , m_startTime(std::move(startTime))
+    , m_endTime(std::move(endTime))
     , m_maxSpeed(maxSpeed)
     , m_overspeedDuration(overspeedDuration)
     , m_points(points)
@@ -171,7 +175,7 @@ bool SettingPolygonArea::Point::operator==(const Point& other) const
     return lat == other.lat && lng == other.lng;
 }
 
-int SettingPolygonArea::Point::parse(const uint8_t* data, int size)
+int SettingPolygonArea::Point::parse(const uint8_t* data, int /*size*/)
 {
     int pos = 0;
     lat = Utils::endianSwap32(data + pos);
@@ -181,7 +185,7 @@ int SettingPolygonArea::Point::parse(const uint8_t* data, int size)
     return pos;
 }
 
-std::vector<uint8_t> SettingPolygonArea::Point::package()
+std::vector<uint8_t> SettingPolygonArea::Point::package() const
 {
     std::vector<uint8_t> result;
     Utils::appendU32(lat, result);

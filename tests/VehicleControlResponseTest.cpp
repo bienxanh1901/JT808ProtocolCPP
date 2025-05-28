@@ -1,12 +1,11 @@
 #include "JT808/MessageBody/VehicleControlResponse.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
 
 namespace JT808::MessageBody {
 class VehicleControlResponseTest : public MessageBodyBaseTest<VehicleControlResponse>
 {
 protected:
-    ~VehicleControlResponseTest() override { }
-
     void SetUp() override
     {
         m_body = new VehicleControlResponse(123, {.value = 12345}, {.value = 54321}, 10755241, 1066569743, 10, 25, 45,

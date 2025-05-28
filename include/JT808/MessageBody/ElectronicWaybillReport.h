@@ -2,6 +2,9 @@
 #define ELECTRONICWAYBILLREPORT_H
 
 #include "MessageBodyBase.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -12,7 +15,7 @@ class ElectronicWaybillReport : public MessageBodyBase
 {
 public:
     ElectronicWaybillReport() = default;
-    ElectronicWaybillReport(const std::string& data);
+    ElectronicWaybillReport(std::string data);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;

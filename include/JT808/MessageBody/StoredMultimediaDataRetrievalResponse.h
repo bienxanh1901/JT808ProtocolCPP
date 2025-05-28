@@ -3,6 +3,8 @@
 
 #include "Multimedia.h"
 #include "SequenceMessageBodyBase.h"
+#include <cstdint>
+#include <vector>
 
 namespace JT808::MessageBody {
 

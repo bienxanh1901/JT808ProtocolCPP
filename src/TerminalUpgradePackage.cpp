@@ -1,14 +1,17 @@
 #include "JT808/MessageBody/TerminalUpgradePackage.h"
 #include "JT808/Utils.h"
+#include <cstdint>
+#include <string>
+#include <utility>
+#include <vector>
 
 namespace JT808::MessageBody {
 
 TerminalUpgradePackage::TerminalUpgradePackage(UpgradeTypes type, const std::vector<uint8_t>& manufacturer,
-                                               const std::string& version, const std::vector<uint8_t>& firmware)
-    : MessageBodyBase()
-    , m_type(type)
+                                               std::string version, const std::vector<uint8_t>& firmware)
+    : m_type(type)
     , m_manufacturer(manufacturer)
-    , m_version(version)
+    , m_version(std::move(version))
     , m_firmware(firmware)
 {
 }

@@ -1,10 +1,12 @@
 #include "JT808/MessageBody/PhoneBookSetting.h"
+#include "JT808/Utils.h"
+#include <cstdint>
+#include <vector>
 
 namespace JT808::MessageBody {
 
 PhoneBookSetting::PhoneBookSetting(SettingType type, const std::vector<ContactItem>& contacts)
-    : MessageBodyBase()
-    , m_type(type)
+    : m_type(type)
     , m_contacts(contacts)
 {
 }
@@ -80,7 +82,7 @@ bool PhoneBookSetting::ContactItem::operator==(const ContactItem& other) const
     return type == other.type && phone == other.phone && name == other.name;
 }
 
-int PhoneBookSetting::ContactItem::parse(const uint8_t* data, int size)
+int PhoneBookSetting::ContactItem::parse(const uint8_t* data, int /*size*/)
 {
     int pos = 0;
     uint16_t length = 0;
@@ -101,7 +103,7 @@ int PhoneBookSetting::ContactItem::parse(const uint8_t* data, int size)
     return pos;
 }
 
-std::vector<uint8_t> PhoneBookSetting::ContactItem::package()
+std::vector<uint8_t> PhoneBookSetting::ContactItem::package() const
 {
     std::vector<uint8_t> result;
     // type

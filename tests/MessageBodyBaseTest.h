@@ -1,7 +1,9 @@
 #ifndef MESSAGEBODYBASETEST_H
 #define MESSAGEBODYBASETEST_H
-#include "JT808/Utils.h"
+// #include "JT808/Utils.h"
+#include <cstdint>
 #include <gtest/gtest.h>
+#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -9,9 +11,7 @@ template<class T>
 class MessageBodyBaseTest : public testing::Test
 {
 protected:
-    ~MessageBodyBaseTest() override { }
-
-    virtual void SetUp() override
+    void SetUp() override
     {
         m_body = new T();
     }

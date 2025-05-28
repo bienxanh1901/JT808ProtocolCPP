@@ -1,4 +1,9 @@
 #include "JT808/MessageBody/StoredMultimediaDataUploadCommand.h"
+#include "JT808/MessageBody/Multimedia.h"
+#include "JT808/MessageBody/StoredMultimediaDataRetrieval.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 namespace JT808::MessageBody {
 

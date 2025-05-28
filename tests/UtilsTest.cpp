@@ -1,9 +1,12 @@
 #include <JT808/Utils.h>
+#include <cstdint>
 #include <gtest/gtest.h>
+#include <string>
+#include <vector>
 
-namespace JT808::Utils {
-U16Array input16 {.value = 0x1234};
-U32Array input32 {.value = 0x12345678};
+namespace {
+JT808::Utils::U16Array input16 {.value = 0x1234};
+JT808::Utils::U32Array input32 {.value = 0x12345678};
 
 uint16_t expectedOutput16 {0x3412};
 uint32_t expectedOutput32 {0x78563412};
@@ -11,6 +14,9 @@ uint32_t expectedOutput32 {0x78563412};
 std::vector<uint8_t> unescapedData {0x30, 0x7e, 0x08, 0x7d, 0x55};
 std::vector<uint8_t> escapedData {0x30, 0x7d, 0x02, 0x08, 0x7d, 0x01, 0x55};
 uint8_t trueChecksum = 110;
+}
+
+namespace JT808::Utils {
 
 TEST(UtilsTest, endianSwap16_1)
 {
@@ -26,16 +32,16 @@ TEST(UtilsTest, endianSwap16_1)
 TEST(UtilsTest, endianSwap16_2)
 {
 
-    std::vector<uint8_t> input16Vector(input16.array, input16.array + 2);
+    std::vector<uint8_t> const input16Vector(input16.array, input16.array + 2);
 
-    uint16_t output = endianSwap16(input16Vector);
+    uint16_t const output = endianSwap16(input16Vector);
 
     EXPECT_EQ(output, expectedOutput16);
 }
 
 TEST(UtilsTest, endianSwap16_3)
 {
-    uint16_t output = endianSwap16(input16.array);
+    uint16_t const output = endianSwap16(input16.array);
 
     EXPECT_EQ(output, expectedOutput16);
 }
@@ -54,24 +60,24 @@ TEST(UtilsTest, endianSwap32_1)
 TEST(UtilsTest, endianSwap32_2)
 {
 
-    std::vector<uint8_t> input32Vector(input32.array, input32.array + 4);
+    std::vector<uint8_t> const input32Vector(input32.array, input32.array + 4);
 
-    uint32_t output = endianSwap32(input32Vector);
+    uint32_t const output = endianSwap32(input32Vector);
 
     EXPECT_EQ(output, expectedOutput32);
 }
 
 TEST(UtilsTest, endianSwap32_3)
 {
-    uint32_t output = endianSwap32(input32.array);
+    uint32_t const output = endianSwap32(input32.array);
 
     EXPECT_EQ(output, expectedOutput32);
 }
 
 TEST(UtilsTest, gbkEncodeDecode)
 {
-    std::string input("你好");
-    std::string expectedOutput("\xC4\xE3\xBA\xC3");
+    std::string const input("你好");
+    std::string const expectedOutput("\xC4\xE3\xBA\xC3");
 
     std::string output = gbkEncode(input);
     EXPECT_STREQ(output.c_str(), expectedOutput.c_str());
@@ -84,31 +90,31 @@ TEST(UtilsTest, gbkEncodeDecode)
 
 TEST(UtilsTest, gbkDecode2)
 {
-    std::string input("你好");
-    uint8_t expectedOutput[4] = {0xC4, 0xE3, 0xBA, 0xC3};
+    std::string const input("你好");
+    uint8_t const expectedOutput[4] = {0xC4, 0xE3, 0xBA, 0xC3};
 
-    std::string output = gbkDecode(expectedOutput, sizeof(expectedOutput));
+    std::string const output = gbkDecode(expectedOutput, sizeof(expectedOutput));
 
     EXPECT_STREQ(output.c_str(), input.c_str());
 }
 
 TEST(UtilsTest, escape)
 {
-    std::vector<uint8_t> data = escape(unescapedData);
+    std::vector<uint8_t> const data = escape(unescapedData);
     EXPECT_EQ(data.size(), escapedData.size());
     EXPECT_EQ(data, escapedData);
 }
 
 TEST(UtilsTest, reverseEscape)
 {
-    std::vector<uint8_t> data = reverseEscape(escapedData);
+    std::vector<uint8_t> const data = reverseEscape(escapedData);
     EXPECT_EQ(data.size(), unescapedData.size());
     EXPECT_EQ(data, unescapedData);
 }
 
 TEST(UtilsTest, calculateChecksum)
 {
-    int checksum = calculateChecksum(unescapedData);
+    int const checksum = calculateChecksum(unescapedData);
     EXPECT_EQ(checksum, trueChecksum);
 }
 }

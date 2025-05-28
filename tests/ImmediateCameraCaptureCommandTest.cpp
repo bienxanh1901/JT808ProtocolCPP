@@ -1,13 +1,13 @@
 
 #include "JT808/MessageBody/ImmediateCameraCaptureCommand.h"
+#include "JT808/MessageBody/Multimedia.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
 
 namespace JT808::MessageBody {
 class ImmediateCameraCaptureCommandTest : public MessageBodyBaseTest<ImmediateCameraCaptureCommand>
 {
 protected:
-    ~ImmediateCameraCaptureCommandTest() override { }
-
     void SetUp() override
     {
         m_body = new ImmediateCameraCaptureCommand(

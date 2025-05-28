@@ -1,11 +1,14 @@
 #include "JT808/MessageBody/TerminalParameterSetting.h"
+#include "JT808/MessageBody/TerminalParameter.h"
 #include "JT808/Utils.h"
+#include <cstdint>
+#include <utility>
+#include <vector>
 
 namespace JT808::MessageBody {
 
-TerminalParameterSetting::TerminalParameterSetting(const TerminalParameters& params)
-    : MessageBodyBase()
-    , m_params(params)
+TerminalParameterSetting::TerminalParameterSetting(TerminalParameters params)
+    : m_params(std::move(params))
 {
 }
 
@@ -14,7 +17,7 @@ void TerminalParameterSetting::parse(const std::vector<uint8_t>& data)
     parse(data.data(), data.size());
 }
 
-void TerminalParameterSetting::parse(const uint8_t* data, int size)
+void TerminalParameterSetting::parse(const uint8_t* data, int /*size*/)
 {
     int pos = 0;
     uint32_t id = 0;
@@ -22,7 +25,7 @@ void TerminalParameterSetting::parse(const uint8_t* data, int size)
     std::vector<uint8_t> value;
 
     // length
-    uint8_t length = data[pos++];
+    uint8_t const length = data[pos++];
     // params
     for (int i = 0; i < length; i++) {
         id = Utils::endianSwap32(data + pos);

@@ -1,7 +1,11 @@
 #ifndef STOREDMULTIMEDIADATAUPLOADCOMMAND_H
 #define STOREDMULTIMEDIADATAUPLOADCOMMAND_H
 
+#include "Multimedia.h"
 #include "StoredMultimediaDataRetrieval.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 namespace JT808::MessageBody {
 

@@ -2,6 +2,9 @@
 #define TERMINALAUTHENTICATION_H
 
 #include "MessageBodyBase.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -12,7 +15,7 @@ class TerminalAuthentication : public MessageBodyBase
 {
 public:
     TerminalAuthentication() = default;
-    TerminalAuthentication(const std::string authCode);
+    TerminalAuthentication(std::string authCode);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;

@@ -1,17 +1,19 @@
 #include "JT808/MessageBody/StoredMultimediaDataRetrievalResponse.h"
+#include "JT808/MessageBody/LocationInformation.h"
+#include "JT808/MessageBody/Multimedia.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
+#include <vector>
 
 namespace JT808::MessageBody {
 class StoredMultimediaDataRetrievalResponseTest : public MessageBodyBaseTest<StoredMultimediaDataRetrievalResponse>
 {
 protected:
-    ~StoredMultimediaDataRetrievalResponseTest() override { }
-
     void SetUp() override
     {
-        LocationInformation location {{.value = 12345}, {.value = 54321}, 10755241, 1066569743, 10, 25, 45,
-                                      "700101000000"};
-        std::vector<MultimediaRetrievalData> result = {
+        LocationInformation const location {{.value = 12345}, {.value = 54321}, 10755241, 1066569743, 10, 25, 45,
+                                            "700101000000"};
+        std::vector<MultimediaRetrievalData> const result = {
             {123, ImageType, 2, PlaformCommand, location}, {234, ImageType, 2, PlaformCommand, location},
             {345, ImageType, 2, PlaformCommand, location}, {456, ImageType, 2, PlaformCommand, location},
             {567, ImageType, 2, PlaformCommand, location}, {678, ImageType, 2, PlaformCommand, location},

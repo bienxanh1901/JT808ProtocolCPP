@@ -20,7 +20,7 @@ union TerminalType {
         uint16_t isSplitedDevice : 1;
         uint16_t reserved2 : 8;
     } bits;
-    uint16_t value;
+    uint16_t value = 0;
 };
 
 union GNSSProperties {
@@ -32,7 +32,7 @@ union GNSSProperties {
         uint8_t isGalileoSupported : 1;
         uint8_t reserved : 4;
     } bits;
-    uint8_t value;
+    uint8_t value = 0;
 };
 
 union CommunicationModuleProperties {
@@ -47,7 +47,7 @@ union CommunicationModuleProperties {
         uint8_t reserved : 1;
         uint8_t isOtherSupported : 1;
     } bits;
-    uint8_t value;
+    uint8_t value = 0;
 };
 
 }

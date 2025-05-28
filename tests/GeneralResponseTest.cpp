@@ -1,13 +1,14 @@
 
 #include "JT808/MessageBody/GeneralResponse.h"
 #include "MessageBodyBaseTest.h"
+#include <cstdint>
+#include <gtest/gtest.h>
+#include <vector>
 
 namespace JT808::MessageBody {
 class GeneralResponseTest : public MessageBodyBaseTest<GeneralResponse>
 {
 protected:
-    ~GeneralResponseTest() override { }
-
     void SetUp() override
     {
         m_body = new GeneralResponse(123, 456, GeneralResponse::Succeeded);

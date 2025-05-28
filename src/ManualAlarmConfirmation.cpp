@@ -1,5 +1,8 @@
 #include "JT808/MessageBody/ManualAlarmConfirmation.h"
+#include "JT808/MessageBody/SequenceMessageBodyBase.h"
 #include "JT808/Utils.h"
+#include <cstdint>
+#include <vector>
 
 namespace JT808::MessageBody {
 ManualAlarmConfirmation::ManualAlarmConfirmation(uint16_t seq, ManualAlarmConfirmationTypes type)

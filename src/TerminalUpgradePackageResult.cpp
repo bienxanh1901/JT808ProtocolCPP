@@ -1,10 +1,12 @@
 #include "JT808/MessageBody/TerminalUpgradePackageResult.h"
+#include "JT808/MessageBody/TerminalUpgradePackage.h"
+#include <cstdint>
+#include <vector>
 
 namespace JT808::MessageBody {
 
 TerminalUpgradePackageResult::TerminalUpgradePackageResult(UpgradeTypes type, UpgradeResults result)
-    : MessageBodyBase()
-    , m_type(type)
+    : m_type(type)
     , m_result(result)
 {
 }
@@ -14,7 +16,7 @@ void TerminalUpgradePackageResult::parse(const std::vector<uint8_t>& data)
     parse(data.data(), data.size());
 }
 
-void TerminalUpgradePackageResult::parse(const uint8_t* data, int size)
+void TerminalUpgradePackageResult::parse(const uint8_t* data, int /*size*/)
 {
     int pos = 0;
     // type

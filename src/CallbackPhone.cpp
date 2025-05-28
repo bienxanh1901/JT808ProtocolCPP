@@ -1,11 +1,16 @@
+#include <cstdint>
+#include <string>
+#include <utility>
+
 #include "JT808/MessageBody/CallbackPhone.h"
+#include "JT808/Utils.h"
+#include <vector>
 
 namespace JT808::MessageBody {
 
-CallbackPhone::CallbackPhone(PhoneType type, const std::string& phone)
-    : MessageBodyBase()
-    , m_type(type)
-    , m_phone(phone)
+CallbackPhone::CallbackPhone(PhoneType type, std::string phone)
+    : m_type(type)
+    , m_phone(std::move(phone))
 {
 }
 

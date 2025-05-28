@@ -1,4 +1,7 @@
 #include "JT808/MessageBody/QuestionResponse.h"
+#include "JT808/MessageBody/SequenceMessageBodyBase.h"
+#include <cstdint>
+#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -15,11 +18,9 @@ void QuestionResponse::parse(const std::vector<uint8_t>& data)
 
 void QuestionResponse::parse(const uint8_t* data, int size)
 {
-    int pos = 2;
-
     SequenceMessageBodyBase::parse(data, size);
 
-    m_id = data[pos];
+    m_id = data[2];
 
     setIsValid(true);
 }

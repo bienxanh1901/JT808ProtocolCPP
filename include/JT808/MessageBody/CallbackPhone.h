@@ -2,6 +2,9 @@
 #define CALLBACKPHONE_H
 
 #include "MessageBodyBase.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -15,7 +18,7 @@ public:
     };
 
     CallbackPhone() = default;
-    CallbackPhone(PhoneType type, const std::string& phone);
+    CallbackPhone(PhoneType type, std::string phone);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;

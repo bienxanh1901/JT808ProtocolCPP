@@ -1,12 +1,16 @@
 #include "JT808/MessageBody/LocationInformation.h"
 #include "JT808/BCD.h"
 #include "JT808/Utils.h"
+#include <cstdint>
+#include <string>
+#include <utility>
+#include <vector>
 
 namespace JT808::MessageBody {
 
 LocationInformation::LocationInformation(const AlarmFlags& alarm, const StatusFlags& status, uint32_t lat, uint32_t lng,
-                                         uint16_t alt, uint16_t speed, uint16_t bearing, const std::string& time,
-                                         const ExtraInfo& extra)
+                                         uint16_t alt, uint16_t speed, uint16_t bearing, std::string time,
+                                         ExtraInfo extra)
     : alarm(alarm)
     , status(status)
     , lat(lat)
@@ -14,8 +18,8 @@ LocationInformation::LocationInformation(const AlarmFlags& alarm, const StatusFl
     , alt(alt)
     , speed(speed)
     , bearing(bearing)
-    , time(time)
-    , extra(extra)
+    , time(std::move(time))
+    , extra(std::move(extra))
 {
 }
 

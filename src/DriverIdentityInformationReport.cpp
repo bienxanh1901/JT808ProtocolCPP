@@ -1,22 +1,25 @@
 #include "JT808/MessageBody/DriverIdentityInformationReport.h"
 #include "JT808/BCD.h"
 
-#include <algorithm>
+#include "JT808/Utils.h"
+#include <boost/range/algorithm/remove.hpp>
+#include <cstdint>
+#include <string>
+#include <utility>
+#include <vector>
 
 namespace JT808::MessageBody {
 
-DriverIdentityInformationReport::DriverIdentityInformationReport(Status status, const std::string& time,
-                                                                 ICResult icResult, const std::string& driverName,
-                                                                 const std::string& certificate,
-                                                                 const std::string& organization,
-                                                                 const std::string& certExpiry)
-    : m_status(std::move(status))
-    , m_time(time)
-    , m_icResult(std::move(icResult))
-    , m_driverName(driverName)
-    , m_certificate(certificate)
-    , m_organization(organization)
-    , m_certExpiry(certExpiry)
+DriverIdentityInformationReport::DriverIdentityInformationReport(Status status, std::string time, ICResult icResult,
+                                                                 std::string driverName, std::string certificate,
+                                                                 std::string organization, std::string certExpiry)
+    : m_status(status)
+    , m_time(std::move(time))
+    , m_icResult(icResult)
+    , m_driverName(std::move(driverName))
+    , m_certificate(std::move(certificate))
+    , m_organization(std::move(organization))
+    , m_certExpiry(std::move(certExpiry))
 {
 }
 
@@ -25,7 +28,7 @@ void DriverIdentityInformationReport::parse(const std::vector<uint8_t>& data)
     parse(data.data(), data.size());
 }
 
-void DriverIdentityInformationReport::parse(const uint8_t* data, int size)
+void DriverIdentityInformationReport::parse(const uint8_t* data, int /*size*/)
 {
     int pos = 0;
     uint8_t length = 0;
@@ -45,7 +48,7 @@ void DriverIdentityInformationReport::parse(const uint8_t* data, int size)
         pos += length;
         // certificate
         m_certificate.assign(data + pos, data + pos + 20);
-        m_certificate.erase(std::remove(m_certificate.begin(), m_certificate.end(), 0x00), m_certificate.end());
+        m_certificate.erase(boost::range::remove(m_certificate, 0x00), m_certificate.end());
         pos += 20;
         // organization
         length = data[pos++];
@@ -75,7 +78,7 @@ std::vector<uint8_t> DriverIdentityInformationReport::package()
         // certificate
         Utils::append(m_certificate, result);
         if (m_certificate.length() < 20) {
-            int padding = 20 - m_certificate.length();
+            int const padding = 20 - m_certificate.length();
             Utils::append(std::vector<uint8_t>(padding, 0x00), result);
         }
         // organization

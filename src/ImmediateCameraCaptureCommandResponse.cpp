@@ -1,5 +1,8 @@
 #include "JT808/MessageBody/ImmediateCameraCaptureCommandResponse.h"
+#include "JT808/MessageBody/SequenceMessageBodyBase.h"
 #include "JT808/Utils.h"
+#include <cstdint>
+#include <vector>
 
 namespace JT808::MessageBody {
 
