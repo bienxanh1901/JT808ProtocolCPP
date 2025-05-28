@@ -1,13 +1,12 @@
 
 #include "JT808/MessageBody/InformationService.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
 
 namespace JT808::MessageBody {
 class InformationServiceTest : public MessageBodyBaseTest<InformationService>
 {
 protected:
-    ~InformationServiceTest() override { }
-
     void SetUp() override
     {
         m_body = new InformationService(123, "Hello World");

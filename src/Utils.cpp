@@ -1,8 +1,13 @@
 #include "JT808/Utils.h"
 #include "JT808/BCD.h"
-#include <algorithm>
+#include <boost/range/algorithm/remove.hpp>
+#include <cstdint>
 #include <cstring>
 #include <iconv.h>
+#include <ios>
+#include <ostream>
+#include <string>
+#include <vector>
 
 namespace JT808::Utils {
 
@@ -23,7 +28,7 @@ uint16_t endianSwap16(const uint16_t& val)
  */
 uint16_t endianSwap16(const std::vector<uint8_t>& data)
 {
-    U16Array tmp = {.array = {data[0], data[1]}};
+    U16Array const tmp = {.array = {data[0], data[1]}};
 
     return endianSwap16(tmp.value);
 }
@@ -35,7 +40,7 @@ uint16_t endianSwap16(const std::vector<uint8_t>& data)
  */
 uint16_t endianSwap16(const uint8_t* data)
 {
-    U16Array tmp = {.array = {data[0], data[1]}};
+    U16Array const tmp = {.array = {data[0], data[1]}};
 
     return endianSwap16(tmp.value);
 }
@@ -57,7 +62,7 @@ uint32_t endianSwap32(const uint32_t& val)
  */
 uint32_t endianSwap32(const std::vector<uint8_t>& data)
 {
-    U32Array tmp = {.array = {data[0], data[1], data[2], data[3]}};
+    U32Array const tmp = {.array = {data[0], data[1], data[2], data[3]}};
 
     return endianSwap32(tmp.value);
 }
@@ -69,7 +74,7 @@ uint32_t endianSwap32(const std::vector<uint8_t>& data)
  */
 uint32_t endianSwap32(const uint8_t* data)
 {
-    U32Array tmp = {.array = {data[0], data[1], data[2], data[3]}};
+    U32Array const tmp = {.array = {data[0], data[1], data[2], data[3]}};
 
     return endianSwap32(tmp.value);
 }
@@ -81,7 +86,7 @@ uint32_t endianSwap32(const uint8_t* data)
  */
 std::string gbkEncode(const std::string& data)
 {
-    std::string result("");
+    std::string result;
     iconv_t encoder = iconv_open("GBK", "UTF-8");
 
     if (encoder == (iconv_t)-1) {
@@ -89,7 +94,7 @@ std::string gbkEncode(const std::string& data)
     }
 
     size_t inBytesLeft = data.size();
-    size_t outBytesLeft = 2 * data.size() + 1;
+    size_t outBytesLeft = (2 * data.size()) + 1;
     std::vector<char> gbkBuffer(outBytesLeft);
     char* inPtr = const_cast<char*>(data.data());
     char* outPtr = gbkBuffer.data();
@@ -97,7 +102,7 @@ std::string gbkEncode(const std::string& data)
     if (iconv(encoder, &inPtr, &inBytesLeft, &outPtr, &outBytesLeft) != -1) {
         *outPtr = '\0';
         result.assign(gbkBuffer.data(), gbkBuffer.size());
-        result.erase(std::remove(result.begin(), result.end(), 0x00), result.end());
+        result.erase(boost::range::remove(result, 0x00), result.end());
     }
 
     iconv_close(encoder);
@@ -111,7 +116,7 @@ std::string gbkEncode(const std::string& data)
  */
 std::string gbkDecode(const std::string& data)
 {
-    std::string result("");
+    std::string result;
     iconv_t decoder = iconv_open("UTF-8", "GBK");
 
     if (decoder == (iconv_t)-1) {
@@ -127,7 +132,7 @@ std::string gbkDecode(const std::string& data)
     if (iconv(decoder, &inPtr, &inBytesLeft, &outPtr, &outBytesLeft) != -1) {
         *outPtr = '\0';
         result.assign(utf8Buffer.data(), utf8Buffer.size());
-        result.erase(std::remove(result.begin(), result.end(), 0x00), result.end());
+        result.erase(boost::range::remove(result, 0x00), result.end());
     }
 
     iconv_close(decoder);
@@ -136,7 +141,7 @@ std::string gbkDecode(const std::string& data)
 
 std::string gbkDecode(const uint8_t* data, int size)
 {
-    std::string tmp(data, data + size);
+    std::string const tmp(data, data + size);
 
     return gbkDecode(tmp);
 }

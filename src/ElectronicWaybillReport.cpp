@@ -1,10 +1,15 @@
+#include <cstdint>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "JT808/MessageBody/ElectronicWaybillReport.h"
+#include "JT808/Utils.h"
 
 namespace JT808::MessageBody {
 
-ElectronicWaybillReport::ElectronicWaybillReport(const std::string& data)
-    : MessageBodyBase()
-    , m_data(data)
+ElectronicWaybillReport::ElectronicWaybillReport(std::string data)
+    : m_data(std::move(data))
 {
 }
 
@@ -13,14 +18,14 @@ void ElectronicWaybillReport::parse(const std::vector<uint8_t>& data)
     parse(data.data(), data.size());
 }
 
-void ElectronicWaybillReport::parse(const uint8_t* data, int size)
+void ElectronicWaybillReport::parse(const uint8_t* data, int /*size*/)
 {
     int pos = 0;
-    // length
-    uint32_t length = Utils::endianSwap32(data + pos);
+    // lengthconst
+    uint32_t const length = Utils::endianSwap32(data + pos);
     pos += sizeof(length);
     // data
-    m_data.assign(data + pos, data + size);
+    m_data.assign(data + pos, data + pos + length);
 
     setIsValid(true);
 }

@@ -1,11 +1,13 @@
 #include "JT808/MessageBody/SingleStoredMultimediaItemRetrievalUploadCommand.h"
+#include "JT808/Utils.h"
+#include <cstdint>
+#include <vector>
 
 namespace JT808::MessageBody {
 
 SingleStoredMultimediaItemRetrievalUploadCommand::SingleStoredMultimediaItemRetrievalUploadCommand(uint32_t id,
                                                                                                    uint8_t isDelete)
-    : MessageBodyBase()
-    , m_id(id)
+    : m_id(id)
     , m_isDelete(isDelete)
 {
 }
@@ -15,7 +17,7 @@ void SingleStoredMultimediaItemRetrievalUploadCommand::parse(const std::vector<u
     parse(data.data(), data.size());
 }
 
-void SingleStoredMultimediaItemRetrievalUploadCommand::parse(const uint8_t* data, int size)
+void SingleStoredMultimediaItemRetrievalUploadCommand::parse(const uint8_t* data, int /*size*/)
 {
     int pos = 0;
 

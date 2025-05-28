@@ -2,6 +2,9 @@
 #define TEXTMESSAGEDISPATCH_H
 
 #include "MessageBodyBase.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -23,7 +26,7 @@ public:
     };
 
     TextMessageDispatch() = default;
-    TextMessageDispatch(Flag flag, const std::string& text);
+    TextMessageDispatch(Flag flag, std::string text);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;

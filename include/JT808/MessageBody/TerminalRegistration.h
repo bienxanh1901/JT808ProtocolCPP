@@ -2,6 +2,9 @@
 #define TERMINALREGISTRATION_H
 
 #include "MessageBodyBase.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -28,7 +31,7 @@ public:
     TerminalRegistration() = default;
     TerminalRegistration(uint16_t province, uint16_t city, const std::vector<uint8_t>& manufacturer,
                          const std::vector<uint8_t>& model, const std::vector<uint8_t>& id, LicensePlateColors color,
-                         const std::string& licenseNumber);
+                         std::string licenseNumber);
 
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;

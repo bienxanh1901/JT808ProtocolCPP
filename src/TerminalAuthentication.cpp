@@ -1,10 +1,13 @@
 #include "JT808/MessageBody/TerminalAuthentication.h"
+#include <cstdint>
+#include <string>
+#include <utility>
+#include <vector>
 
 namespace JT808::MessageBody {
 
-TerminalAuthentication::TerminalAuthentication(const std::string authCode)
-    : MessageBodyBase()
-    , m_authCode(authCode)
+TerminalAuthentication::TerminalAuthentication(std::string authCode)
+    : m_authCode(std::move(authCode))
 {
 }
 

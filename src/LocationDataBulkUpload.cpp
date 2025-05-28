@@ -1,10 +1,13 @@
 #include "JT808/MessageBody/LocationDataBulkUpload.h"
+#include "JT808/MessageBody/LocationInformation.h"
+#include "JT808/Utils.h"
+#include <cstdint>
+#include <vector>
 
 namespace JT808::MessageBody {
 
 LocationDataBulkUpload::LocationDataBulkUpload(DataType type, const std::vector<LocationInformation>& locations)
-    : MessageBodyBase()
-    , m_type(type)
+    : m_type(type)
     , m_locations(locations)
 {
 }
@@ -14,17 +17,17 @@ void LocationDataBulkUpload::parse(const std::vector<uint8_t>& data)
     parse(data.data(), data.size());
 }
 
-void LocationDataBulkUpload::parse(const uint8_t* data, int size)
+void LocationDataBulkUpload::parse(const uint8_t* data, int /*size*/)
 {
     int pos = 0;
     // length
-    uint16_t length = Utils::endianSwap16(data + pos);
+    uint16_t const length = Utils::endianSwap16(data + pos);
     pos += sizeof(length);
     // type
     m_type = DataType(data[pos++]);
     // locations
     for (int i = 0; i < length; i++) {
-        uint16_t itemLength = Utils::endianSwap16(data + pos);
+        uint16_t const itemLength = Utils::endianSwap16(data + pos);
         LocationInformation item;
         pos += sizeof(itemLength);
         item.parse(data + pos, itemLength);
@@ -44,7 +47,7 @@ std::vector<uint8_t> LocationDataBulkUpload::package()
     result.push_back(m_type);
     // locations
     for (auto& item : m_locations) {
-        std::vector<uint8_t> itemData(item.package());
+        std::vector<uint8_t> const itemData(item.package());
         Utils::appendU16(itemData.size(), result);
         Utils::append(itemData, result);
     }

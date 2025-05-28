@@ -1,13 +1,12 @@
 
 #include "JT808/MessageBody/TerminalRegistration.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
 
 namespace JT808::MessageBody {
 class TerminalRegistrationTest : public MessageBodyBaseTest<TerminalRegistration>
 {
 protected:
-    ~TerminalRegistrationTest() override { }
-
     void SetUp() override
     {
         m_body = new TerminalRegistration(64, 24, {0x01, 0x02, 0x03, 0x04, 0x05},

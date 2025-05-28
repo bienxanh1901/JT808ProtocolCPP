@@ -1,12 +1,11 @@
 #include "JT808/MessageBody/DeletingAreaRoute.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
 
 namespace JT808::MessageBody {
 class DeletingAreaRouteTest : public MessageBodyBaseTest<DeletingAreaRoute>
 {
 protected:
-    ~DeletingAreaRouteTest() override { }
-
     void SetUp() override
     {
         m_body = new DeletingAreaRoute({123, 456, 678});

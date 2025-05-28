@@ -1,11 +1,15 @@
 #include "JT808/MessageBody/TextMessageDispatch.h"
+#include "JT808/Utils.h"
+#include <cstdint>
+#include <string>
+#include <utility>
+#include <vector>
 
 namespace JT808::MessageBody {
 
-TextMessageDispatch::TextMessageDispatch(Flag flag, const std::string& text)
-    : MessageBodyBase()
-    , m_flag(flag)
-    , m_text(text)
+TextMessageDispatch::TextMessageDispatch(Flag flag, std::string text)
+    : m_flag(flag)
+    , m_text(std::move(text))
 {
 }
 

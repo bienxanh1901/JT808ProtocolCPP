@@ -1,5 +1,9 @@
 #include "JT808/MessageBody/DrivingRecordDataUpload.h"
+#include "JT808/MessageBody/DrivingRecordCommand.h"
 #include "JT808/Utils.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 namespace JT808::MessageBody {
 

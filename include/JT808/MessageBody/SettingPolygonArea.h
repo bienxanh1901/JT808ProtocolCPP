@@ -3,6 +3,9 @@
 
 #include "AreaSettingProperties.h"
 #include "MessageBodyBase.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -16,12 +19,12 @@ public:
 
         bool operator==(const Point& other) const;
         int parse(const uint8_t* data, int size);
-        std::vector<uint8_t> package();
+        std::vector<uint8_t> package() const;
     };
 
     SettingPolygonArea() = default;
-    SettingPolygonArea(uint32_t id, AreaProperties flag, const std::string& startTime, const std::string& endTime,
-                       uint16_t maxSpeed, uint8_t overspeedDuration, const std::vector<Point>& points);
+    SettingPolygonArea(uint32_t id, AreaProperties flag, std::string startTime, std::string endTime, uint16_t maxSpeed,
+                       uint8_t overspeedDuration, const std::vector<Point>& points);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;

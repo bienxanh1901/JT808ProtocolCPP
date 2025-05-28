@@ -1,12 +1,17 @@
 #include "JT808/Message.h"
 #include "JT808/BCD.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/MessageBody/MessageBodyFactory.h"
 #include "JT808/MessageIds.h"
 #include "JT808/Utils.h"
+#include <cstdint>
+#include <memory>
+#include <utility>
+#include <vector>
 
 namespace JT808 {
 
-enum MessageDef
+enum MessageDef : uint8_t
 {
     MinimumMsgSize = 15, // 1 (begin marker) + 12 (header no pkg) + 1 (checksum) + 1 (end marker)
     HeaderPos = 1,
@@ -16,8 +21,8 @@ enum MessageDef
     BodyPacketPos = HeaderPos + HeaderPacketSize,
 };
 
-Message::Message(const Header& header, std::unique_ptr<MessageBody::MessageBodyBase> body)
-    : m_header(header)
+Message::Message(Header header, std::unique_ptr<MessageBody::MessageBodyBase> body)
+    : m_header(std::move(header))
     , m_body(std::move(body))
 {
 }
@@ -27,7 +32,7 @@ std::vector<uint8_t> Message::package()
     std::vector<uint8_t> result;
 
     // package body
-    std::vector<uint8_t> bodyRawData(packageBody());
+    std::vector<uint8_t> const bodyRawData(packageBody());
     // modify body len in header
     m_header.bodyProps.bits.len = bodyRawData.size();
     // header
@@ -178,7 +183,7 @@ int Message::Header::parse(const uint8_t* data, int size)
     return pos;
 }
 
-std::vector<uint8_t> Message::Header::package()
+std::vector<uint8_t> Message::Header::package() const
 {
     std::vector<uint8_t> result;
 

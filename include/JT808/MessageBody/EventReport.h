@@ -1,7 +1,7 @@
 #ifndef EVENTREPORT_H
 #define EVENTREPORT_H
-#include "MessageBodyBase.h"
 
+#include "MessageBodyBase.h"
 #include <cstdint>
 #include <vector>
 

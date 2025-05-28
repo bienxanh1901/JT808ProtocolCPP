@@ -1,12 +1,17 @@
 #include "JT808/MessageBody/TerminalRegistrationResponse.h"
+#include "JT808/MessageBody/SequenceMessageBodyBase.h"
+#include "JT808/Utils.h"
+#include <cstdint>
+#include <string>
+#include <utility>
+#include <vector>
 
 namespace JT808::MessageBody {
 
-TerminalRegistrationResponse::TerminalRegistrationResponse(uint16_t seq, ResponseResults result,
-                                                           const std::string& authCode)
+TerminalRegistrationResponse::TerminalRegistrationResponse(uint16_t seq, ResponseResults result, std::string authCode)
     : SequenceMessageBodyBase(seq)
     , m_result(result)
-    , m_authCode(authCode)
+    , m_authCode(std::move(authCode))
 {
 }
 

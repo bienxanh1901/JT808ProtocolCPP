@@ -1,10 +1,11 @@
 #include "JT808/MessageBody/InformationServiceCancel.h"
+#include <cstdint>
+#include <vector>
 
 namespace JT808::MessageBody {
 
 InformationServiceCancel::InformationServiceCancel(uint8_t id, uint8_t flag)
-    : MessageBodyBase()
-    , m_id(id)
+    : m_id(id)
     , m_flag(flag)
 {
 }
@@ -14,7 +15,7 @@ void InformationServiceCancel::parse(const std::vector<uint8_t>& data)
     parse(data.data(), data.size());
 }
 
-void InformationServiceCancel::parse(const uint8_t* data, int size)
+void InformationServiceCancel::parse(const uint8_t* data, int /*size*/)
 {
     int pos = 0;
 

@@ -1,18 +1,18 @@
 
 #include "JT808/MessageBody/PhoneBookSetting.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
+#include <vector>
 
 namespace JT808::MessageBody {
 class PhoneBookSettingTest : public MessageBodyBaseTest<PhoneBookSetting>
 {
 protected:
-    ~PhoneBookSettingTest() override { }
-
     void SetUp() override
     {
 
-        std::vector<PhoneBookSetting::ContactItem> contacts = {{1, "1234567890", "Anonymous"},
-                                                               {2, "9876543210", "Lazarus"}};
+        std::vector<PhoneBookSetting::ContactItem> const contacts = {{1, "1234567890", "Anonymous"},
+                                                                     {2, "9876543210", "Lazarus"}};
 
         m_body = new PhoneBookSetting(PhoneBookSetting::AppendPhoneBook, contacts);
         m_rawData = {0x2,  0x2,  0x1,  0xa,  0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x30, 0x9,

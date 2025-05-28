@@ -2,6 +2,9 @@
 #define INFORMATIONSERVICE_H
 
 #include "MessageBodyBase.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -9,7 +12,7 @@ class InformationService : public MessageBodyBase
 {
 public:
     InformationService() = default;
-    InformationService(uint8_t type, const std::string& info);
+    InformationService(uint8_t type, std::string info);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;

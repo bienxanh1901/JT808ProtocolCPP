@@ -179,7 +179,7 @@ struct LocationInformation
 
     LocationInformation() = default;
     LocationInformation(const AlarmFlags& alarm, const StatusFlags& status, uint32_t lat, uint32_t lng, uint16_t alt,
-                        uint16_t speed, uint16_t bearing, const std::string& time, const ExtraInfo& extra = {});
+                        uint16_t speed, uint16_t bearing, std::string time, ExtraInfo extra = {});
     bool operator==(const LocationInformation& other) const;
     int parse(const uint8_t* data, int size);
     std::vector<uint8_t> package();

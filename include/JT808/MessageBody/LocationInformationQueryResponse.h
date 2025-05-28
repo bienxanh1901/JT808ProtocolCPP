@@ -1,7 +1,11 @@
 #ifndef LOCATIONINFORMATIONQUERYRESPONSE_H
 #define LOCATIONINFORMATIONQUERYRESPONSE_H
 
+#include "JT808/MessageBody/LocationInformation.h"
 #include "LocationInformationReport.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 namespace JT808::MessageBody {
 

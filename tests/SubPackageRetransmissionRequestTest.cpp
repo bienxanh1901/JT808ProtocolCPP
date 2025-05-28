@@ -1,13 +1,12 @@
 
 #include "JT808/MessageBody/SubPackageRetransmissionRequest.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
 
 namespace JT808::MessageBody {
 class SubPackageRetransmissionRequestTest : public MessageBodyBaseTest<SubPackageRetransmissionRequest>
 {
 protected:
-    ~SubPackageRetransmissionRequestTest() override { }
-
     void SetUp() override
     {
         m_body = new SubPackageRetransmissionRequest(123, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10});

@@ -1,10 +1,12 @@
 #include "JT808/MessageBody/InformationServiceMenuSetting.h"
+#include "JT808/Utils.h"
+#include <cstdint>
+#include <vector>
 
 namespace JT808::MessageBody {
 
 InformationServiceMenuSetting::InformationServiceMenuSetting(AreaSettingType type, const std::vector<MenuItem>& menus)
-    : MessageBodyBase()
-    , m_type(type)
+    : m_type(type)
     , m_menus(menus)
 {
 }
@@ -80,7 +82,7 @@ bool InformationServiceMenuSetting::MenuItem::operator==(const MenuItem& other) 
     return type == other.type && info == other.info;
 }
 
-int InformationServiceMenuSetting::MenuItem::parse(const uint8_t* data, int size)
+int InformationServiceMenuSetting::MenuItem::parse(const uint8_t* data, int /*size*/)
 {
     int pos = 0;
     uint16_t length = 0;
@@ -96,7 +98,7 @@ int InformationServiceMenuSetting::MenuItem::parse(const uint8_t* data, int size
     return pos;
 }
 
-std::vector<uint8_t> InformationServiceMenuSetting::MenuItem::package()
+std::vector<uint8_t> InformationServiceMenuSetting::MenuItem::package() const
 {
     std::vector<uint8_t> result;
     // type

@@ -2,6 +2,9 @@
 #define QUESTIONDISPATCH_H
 
 #include "MessageBodyBase.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -27,11 +30,11 @@ public:
 
         bool operator==(const Answer& other) const;
         int parse(const uint8_t* data, int size);
-        std::vector<uint8_t> package();
+        std::vector<uint8_t> package() const;
     };
 
     QuestionDispatch() = default;
-    QuestionDispatch(Flag flag, const std::string& question, const std::vector<Answer>& answers);
+    QuestionDispatch(Flag flag, std::string question, const std::vector<Answer>& answers);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;

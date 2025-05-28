@@ -3,6 +3,9 @@
 
 #include "MessageBodyBase.h"
 #include "TerminalProperties.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -15,9 +18,8 @@ public:
     TerminalPropertiesQueryResponse() = default;
     TerminalPropertiesQueryResponse(const TerminalType& type, const std::vector<uint8_t>& manufacturer,
                                     const std::vector<uint8_t>& model, const std::vector<uint8_t>& id,
-                                    const std::string& iccid, const std::string& hwVersion,
-                                    const std::string& fwVersion, const GNSSProperties& gnssProp,
-                                    const CommunicationModuleProperties& commProp);
+                                    std::string iccid, std::string hwVersion, std::string fwVersion,
+                                    const GNSSProperties& gnssProp, const CommunicationModuleProperties& commProp);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;

@@ -1,13 +1,12 @@
 
 #include "JT808/MessageBody/TerminalRegistrationResponse.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
 
 namespace JT808::MessageBody {
 class TerminalRegistrationResponseTest : public MessageBodyBaseTest<TerminalRegistrationResponse>
 {
 protected:
-    ~TerminalRegistrationResponseTest() override { }
-
     void SetUp() override
     {
         m_body = new TerminalRegistrationResponse(123, TerminalRegistrationResponse::Succeeded, "HelloJT808Protocol");

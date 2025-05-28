@@ -1,11 +1,12 @@
 #include "JT808/MessageBody/MultimediaDataUploadResponse.h"
 #include "JT808/Utils.h"
+#include <cstdint>
+#include <vector>
 
 namespace JT808::MessageBody {
 
 MultimediaDataUploadResponse::MultimediaDataUploadResponse(uint32_t id, std::vector<uint16_t>& retxIds)
-    : MessageBodyBase()
-    , m_id(id)
+    : m_id(id)
     , m_retxIds(retxIds)
 {
 }
@@ -15,7 +16,7 @@ void MultimediaDataUploadResponse::parse(const std::vector<uint8_t>& data)
     parse(data.data(), data.size());
 }
 
-void MultimediaDataUploadResponse::parse(const uint8_t* data, int size)
+void MultimediaDataUploadResponse::parse(const uint8_t* data, int /*size*/)
 {
     int pos = 0;
     uint8_t length = 0;
@@ -26,7 +27,7 @@ void MultimediaDataUploadResponse::parse(const uint8_t* data, int size)
     length = data[pos++];
     // ids
     for (int i = 0; i < length; i++) {
-        uint16_t id = Utils::endianSwap16(data + pos);
+        uint16_t const id = Utils::endianSwap16(data + pos);
         pos += sizeof(id);
         m_retxIds.push_back(id);
     }

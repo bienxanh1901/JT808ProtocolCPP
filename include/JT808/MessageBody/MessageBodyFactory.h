@@ -19,6 +19,7 @@
 #include "InformationService.h"
 #include "InformationServiceCancel.h"
 #include "InformationServiceMenuSetting.h"
+#include "JT808/MessageBody/AreaSettingProperties.h"
 #include "JT808/MessageIds.h"
 #include "LocationDataBulkUpload.h"
 #include "LocationInformationQueryResponse.h"

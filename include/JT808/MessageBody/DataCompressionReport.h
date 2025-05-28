@@ -2,6 +2,8 @@
 #define DATACOMPRESSIONREPORT_H
 
 #include "MessageBodyBase.h"
+#include <cstdint>
+#include <vector>
 
 namespace JT808::MessageBody {
 

@@ -4,6 +4,9 @@
 #include "LocationInformation.h"
 #include "MessageBodyBase.h"
 #include "Multimedia.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -11,7 +14,7 @@ class MultimediaDataUpload : public MessageBodyBase
 {
 public:
     MultimediaDataUpload() = default;
-    MultimediaDataUpload(MultimediaEventInformation info, LocationInformation location, const std::string& media);
+    MultimediaDataUpload(MultimediaEventInformation info, LocationInformation location, std::string media);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;

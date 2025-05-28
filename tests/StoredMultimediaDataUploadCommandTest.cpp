@@ -1,12 +1,12 @@
 #include "JT808/MessageBody/StoredMultimediaDataUploadCommand.h"
+#include "JT808/MessageBody/Multimedia.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
 
 namespace JT808::MessageBody {
 class StoredMultimediaDataUploadCommandTest : public MessageBodyBaseTest<StoredMultimediaDataUploadCommand>
 {
 protected:
-    ~StoredMultimediaDataUploadCommandTest() override { }
-
     void SetUp() override
     {
         m_body = new StoredMultimediaDataUploadCommand(ImageType, 2, PlaformCommand, "250101000000", "250531000000", 1);

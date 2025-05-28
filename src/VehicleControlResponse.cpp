@@ -1,4 +1,10 @@
 #include "JT808/MessageBody/VehicleControlResponse.h"
+#include "JT808/MessageBody/LocationInformation.h"
+#include "JT808/MessageBody/LocationInformationReport.h"
+#include "JT808/Utils.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -26,7 +32,6 @@ void VehicleControlResponse::parse(const uint8_t* data, int size)
 std::vector<uint8_t> VehicleControlResponse::package()
 {
     std::vector<uint8_t> result;
-    std::vector<uint8_t> tmp(LocationInformationReport::package());
     // seq
     Utils::appendU16(m_seq, result);
     // location information

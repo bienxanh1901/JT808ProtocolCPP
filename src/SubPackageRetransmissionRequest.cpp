@@ -1,5 +1,8 @@
 #include "JT808/MessageBody/SubPackageRetransmissionRequest.h"
+#include "JT808/MessageBody/SequenceMessageBodyBase.h"
 #include "JT808/Utils.h"
+#include <cstdint>
+#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -31,7 +34,7 @@ void SubPackageRetransmissionRequest::parse(const uint8_t* data, int size)
 
     // ids
     for (uint8_t i = 0; i < length; ++i) {
-        uint16_t id = Utils::endianSwap16(data + pos);
+        uint16_t const id = Utils::endianSwap16(data + pos);
         m_ids.push_back(id);
         pos += sizeof(id);
     }

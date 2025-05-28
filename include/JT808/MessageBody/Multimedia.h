@@ -53,7 +53,7 @@ struct MultimediaEventInformation
 
     bool operator==(const MultimediaEventInformation& other) const;
     void parse(const uint8_t* data, int size);
-    std::vector<uint8_t> package();
+    std::vector<uint8_t> package() const;
 };
 
 struct MultimediaRetrievalData

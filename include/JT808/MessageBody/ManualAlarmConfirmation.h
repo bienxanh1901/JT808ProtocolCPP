@@ -2,6 +2,8 @@
 #define MANUALALARMCONFIRMATION_H
 
 #include "SequenceMessageBodyBase.h"
+#include <cstdint>
+#include <vector>
 
 namespace JT808::MessageBody {
 

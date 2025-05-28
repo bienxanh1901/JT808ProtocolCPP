@@ -1,13 +1,12 @@
 
 #include "JT808/MessageBody/DriverIdentityInformationReport.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
 
 namespace JT808::MessageBody {
 class DriverIdentityInformationReportTest : public MessageBodyBaseTest<DriverIdentityInformationReport>
 {
 protected:
-    ~DriverIdentityInformationReportTest() override { }
-
     void SetUp() override
     {
         m_body = new DriverIdentityInformationReport(DriverIdentityInformationReport::ICCardAdded, "250501000000",

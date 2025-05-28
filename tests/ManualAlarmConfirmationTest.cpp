@@ -1,13 +1,12 @@
 
 #include "JT808/MessageBody/ManualAlarmConfirmation.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
 
 namespace JT808::MessageBody {
 class ManualAlarmConfirmationTest : public MessageBodyBaseTest<ManualAlarmConfirmation>
 {
 protected:
-    ~ManualAlarmConfirmationTest() override { }
-
     void SetUp() override
     {
         m_body = new ManualAlarmConfirmation(123, {.value = 1});

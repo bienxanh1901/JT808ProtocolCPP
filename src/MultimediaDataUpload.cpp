@@ -1,13 +1,19 @@
 #include "JT808/MessageBody/MultimediaDataUpload.h"
+#include "JT808/MessageBody/LocationInformation.h"
+#include "JT808/MessageBody/Multimedia.h"
+#include "JT808/Utils.h"
+#include <cstdint>
+#include <string>
+#include <utility>
+#include <vector>
 
 namespace JT808::MessageBody {
 
 MultimediaDataUpload::MultimediaDataUpload(MultimediaEventInformation info, LocationInformation location,
-                                           const std::string& media)
-    : MessageBodyBase()
-    , m_info(info)
+                                           std::string media)
+    : m_info(info)
     , m_location(std::move(location))
-    , m_media(media)
+    , m_media(std::move(media))
 {
 }
 

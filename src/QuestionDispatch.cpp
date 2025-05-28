@@ -1,11 +1,15 @@
 #include "JT808/MessageBody/QuestionDispatch.h"
+#include "JT808/Utils.h"
+#include <cstdint>
+#include <string>
+#include <utility>
+#include <vector>
 
 namespace JT808::MessageBody {
 
-QuestionDispatch::QuestionDispatch(Flag flag, const std::string& question, const std::vector<Answer>& answers)
-    : MessageBodyBase()
-    , m_flag(flag)
-    , m_question(question)
+QuestionDispatch::QuestionDispatch(Flag flag, std::string question, const std::vector<Answer>& answers)
+    : m_flag(flag)
+    , m_question(std::move(question))
     , m_answers(answers)
 {
 }
@@ -96,7 +100,7 @@ bool QuestionDispatch::Answer::operator==(const Answer& other) const
     return id == other.id && content == other.content;
 }
 
-int QuestionDispatch::Answer::parse(const uint8_t* data, int size)
+int QuestionDispatch::Answer::parse(const uint8_t* data, int /*size*/)
 {
     int pos = 0;
     uint16_t length = 0;
@@ -112,7 +116,7 @@ int QuestionDispatch::Answer::parse(const uint8_t* data, int size)
     return pos;
 }
 
-std::vector<uint8_t> QuestionDispatch::Answer::package()
+std::vector<uint8_t> QuestionDispatch::Answer::package() const
 {
     std::vector<uint8_t> result;
     // id

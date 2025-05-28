@@ -1,11 +1,12 @@
 #include "JT808/MessageBody/TerminalParameterQuery.h"
 #include "JT808/Utils.h"
+#include <cstdint>
+#include <vector>
 
 namespace JT808::MessageBody {
 
 TerminalParameterQuery::TerminalParameterQuery(const std::vector<uint32_t>& ids)
-    : MessageBodyBase()
-    , m_ids(ids)
+    : m_ids(ids)
 {
 }
 
@@ -18,7 +19,7 @@ void TerminalParameterQuery::parse(const uint8_t* data, int size)
 {
     int pos = 0;
     // length
-    uint8_t length = data[pos++];
+    uint8_t const length = data[pos++];
     if (length * 4 != size - pos) {
         setIsValid(false);
         return;

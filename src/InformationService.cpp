@@ -1,11 +1,15 @@
 #include "JT808/MessageBody/InformationService.h"
+#include "JT808/Utils.h"
+#include <cstdint>
+#include <string>
+#include <utility>
+#include <vector>
 
 namespace JT808::MessageBody {
 
-InformationService::InformationService(uint8_t type, const std::string& info)
-    : MessageBodyBase()
-    , m_type(type)
-    , m_info(info)
+InformationService::InformationService(uint8_t type, std::string info)
+    : m_type(type)
+    , m_info(std::move(info))
 {
 }
 
@@ -14,7 +18,7 @@ void InformationService::parse(const std::vector<uint8_t>& data)
     parse(data.data(), data.size());
 }
 
-void InformationService::parse(const uint8_t* data, int size)
+void InformationService::parse(const uint8_t* data, int /*size*/)
 {
     int pos = 0;
     uint16_t length = 0;

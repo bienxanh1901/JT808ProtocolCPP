@@ -1,4 +1,8 @@
 #include "JT808/MessageBody/ImmediateCameraCaptureCommand.h"
+#include "JT808/MessageBody/Multimedia.h"
+#include "JT808/Utils.h"
+#include <cstdint>
+#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -6,8 +10,7 @@ ImmediateCameraCaptureCommand::ImmediateCameraCaptureCommand(uint8_t channel, ui
                                                              SavingMethods saving, Resolutions resolution,
                                                              uint8_t quality, uint8_t brightness, uint8_t contrast,
                                                              uint8_t saturation, uint8_t chroma)
-    : MessageBodyBase()
-    , m_channel(channel)
+    : m_channel(channel)
     , m_command(command)
     , m_period(period)
     , m_saving(saving)
@@ -25,7 +28,7 @@ void ImmediateCameraCaptureCommand::parse(const std::vector<uint8_t>& data)
     parse(data.data(), data.size());
 }
 
-void ImmediateCameraCaptureCommand::parse(const uint8_t* data, int size)
+void ImmediateCameraCaptureCommand::parse(const uint8_t* data, int /*size*/)
 {
     int pos = 0;
 

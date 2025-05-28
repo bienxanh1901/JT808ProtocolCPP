@@ -94,11 +94,11 @@ public:
 
         bool operator==(const Header& other) const;
         int parse(const uint8_t* data, int size);
-        std::vector<uint8_t> package();
+        std::vector<uint8_t> package() const;
     };
 
     Message() = default;
-    Message(const Header& header, std::unique_ptr<MessageBody::MessageBodyBase> body);
+    Message(Header header, std::unique_ptr<MessageBody::MessageBodyBase> body);
 
     void parse(const std::vector<uint8_t>& data);
     std::vector<uint8_t> package();

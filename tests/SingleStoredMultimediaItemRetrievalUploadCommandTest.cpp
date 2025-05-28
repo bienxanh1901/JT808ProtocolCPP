@@ -1,14 +1,13 @@
 
 #include "JT808/MessageBody/SingleStoredMultimediaItemRetrievalUploadCommand.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
 
 namespace JT808::MessageBody {
 class SingleStoredMultimediaItemRetrievalUploadCommandTest
     : public MessageBodyBaseTest<SingleStoredMultimediaItemRetrievalUploadCommand>
 {
 protected:
-    ~SingleStoredMultimediaItemRetrievalUploadCommandTest() override { }
-
     void SetUp() override
     {
         m_body = new SingleStoredMultimediaItemRetrievalUploadCommand(123, 1);

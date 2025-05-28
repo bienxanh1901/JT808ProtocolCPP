@@ -1,13 +1,13 @@
 
 #include "JT808/MessageBody/AudioRecordingStartCommand.h"
+#include "JT808/MessageBody/Multimedia.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
 
 namespace JT808::MessageBody {
 class AudioRecordingStartCommandTest : public MessageBodyBaseTest<AudioRecordingStartCommand>
 {
 protected:
-    ~AudioRecordingStartCommandTest() override { }
-
     void SetUp() override
     {
         m_body = new AudioRecordingStartCommand(AudioRecordingStartCommand::StartCommand, 300, RealTimeUpload,

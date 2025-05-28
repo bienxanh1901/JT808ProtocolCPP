@@ -1,10 +1,12 @@
 #include "JT808/MessageBody/DeletingAreaRoute.h"
+#include "JT808/Utils.h"
+#include <cstdint>
+#include <vector>
 
 namespace JT808::MessageBody {
 
 DeletingAreaRoute::DeletingAreaRoute(const std::vector<uint32_t>& ids)
-    : MessageBodyBase()
-    , m_ids(ids)
+    : m_ids(ids)
 {
 }
 
@@ -13,11 +15,11 @@ void DeletingAreaRoute::parse(const std::vector<uint8_t>& data)
     parse(data.data(), data.size());
 }
 
-void DeletingAreaRoute::parse(const uint8_t* data, int size)
+void DeletingAreaRoute::parse(const uint8_t* data, int /*size*/)
 {
     int pos = 0;
     // length
-    uint8_t length = data[pos++];
+    uint8_t const length = data[pos++];
     // ids
     for (int i = 0; i < length; i++) {
         m_ids.push_back(Utils::endianSwap32(data + pos));

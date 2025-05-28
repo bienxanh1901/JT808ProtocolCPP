@@ -1,10 +1,12 @@
 #include "JT808/MessageBody/DataTransmission.h"
+#include "JT808/Utils.h"
+#include <cstdint>
+#include <vector>
 
 namespace JT808::MessageBody {
 
 DataTransmission::DataTransmission(uint8_t type, const std::vector<uint8_t>& data)
-    : MessageBodyBase()
-    , m_type(type)
+    : m_type(type)
     , m_data(data)
 {
 }

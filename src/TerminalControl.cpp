@@ -1,11 +1,15 @@
 #include "JT808/MessageBody/TerminalControl.h"
+#include "JT808/Utils.h"
+#include <cstdint>
+#include <string>
+#include <utility>
+#include <vector>
 
 namespace JT808::MessageBody {
 
-TerminalControl::TerminalControl(Commands command, const std::string& param)
-    : MessageBodyBase()
-    , m_command(command)
-    , m_param(param)
+TerminalControl::TerminalControl(Commands command, std::string param)
+    : m_command(command)
+    , m_param(std::move(param))
 {
 }
 

@@ -1,8 +1,9 @@
 #ifndef EVENTSETTING_H
 #define EVENTSETTING_H
-#include "MessageBodyBase.h"
 
+#include "MessageBodyBase.h"
 #include <cstdint>
+#include <string>
 #include <vector>
 
 namespace JT808::MessageBody {
@@ -26,7 +27,7 @@ public:
 
         bool operator==(const Event& other) const;
         int parse(const uint8_t* data, int size);
-        std::vector<uint8_t> package();
+        std::vector<uint8_t> package() const;
     };
 
     EventSetting() = default;

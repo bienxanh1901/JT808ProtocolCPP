@@ -1,16 +1,18 @@
 #include "JT808/MessageBody/SettingArea.h"
+#include "JT808/MessageBody/AreaSettingProperties.h"
+#include "JT808/Utils.h"
+#include <cstdint>
+#include <vector>
 
 namespace JT808::MessageBody {
 
 SettingArea::SettingArea(AreaType areaType)
-    : MessageBodyBase()
-    , m_areaType(areaType)
+    : m_areaType(areaType)
 {
 }
 
 SettingArea::SettingArea(AreaType areaType, AreaSettingType type, const std::vector<AreaItem>& areas)
-    : MessageBodyBase()
-    , m_areaType(areaType)
+    : m_areaType(areaType)
     , m_type(type)
     , m_areas(areas)
 {

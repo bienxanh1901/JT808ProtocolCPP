@@ -1,18 +1,19 @@
 
 #include "JT808/MessageBody/TerminalParameterSetting.h"
+#include "JT808/MessageBody/TerminalParameter.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
+#include <string>
 
 namespace JT808::MessageBody {
 class TerminalParameterSettingTest : public MessageBodyBaseTest<TerminalParameterSetting>
 {
 protected:
-    ~TerminalParameterSettingTest() override { }
-
     void SetUp() override
     {
-        std::string addr("192.168.8.78");
-        std::string user("JimiIOT");
-        std::string pass("JimiIOT");
+        std::string const addr("192.168.8.78");
+        std::string const user("JimiIOT");
+        std::string const pass("JimiIOT");
         m_body = new TerminalParameterSetting({{HeartBeatInterval, {0, 0, 0, 60}},
                                                {TCPMsgResponseTimeout, {0, 0, 0, 30}},
                                                {TCPMsgRetransmissTime, {0, 0, 0, 30}},

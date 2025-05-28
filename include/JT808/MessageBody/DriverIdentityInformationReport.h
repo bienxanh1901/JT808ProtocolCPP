@@ -2,6 +2,9 @@
 #define DRIVERIDENTITYINFORMATIONREPORT_H
 
 #include "MessageBodyBase.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -27,9 +30,8 @@ public:
     };
 
     DriverIdentityInformationReport() = default;
-    DriverIdentityInformationReport(Status status, const std::string& time, ICResult icResult,
-                                    const std::string& driverName, const std::string& certificate,
-                                    const std::string& organization, const std::string& certExpiry);
+    DriverIdentityInformationReport(Status status, std::string time, ICResult icResult, std::string driverName,
+                                    std::string certificate, std::string organization, std::string certExpiry);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;

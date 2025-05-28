@@ -2,6 +2,7 @@
 #include "JT808/BCD.h"
 #include "JT808/Utils.h"
 #include <cstdint>
+#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -13,7 +14,7 @@ bool AreaItem::operator==(const AreaItem& other) const
         && maxSpeed == other.maxSpeed && overspeedDuration == other.overspeedDuration;
 }
 
-int AreaItem::parse(AreaType type, const uint8_t* data, int size)
+int AreaItem::parse(AreaType type, const uint8_t* data, int /*size*/)
 {
     int pos = 0;
 
@@ -69,7 +70,7 @@ int AreaItem::parse(AreaType type, const uint8_t* data, int size)
     return pos;
 }
 
-std::vector<uint8_t> AreaItem::package(AreaType type)
+std::vector<uint8_t> AreaItem::package(AreaType type) const
 {
     std::vector<uint8_t> result;
 

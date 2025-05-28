@@ -1,10 +1,12 @@
 #include "JT808/MessageBody/MultimediaEventInformationUpload.h"
+#include "JT808/MessageBody/Multimedia.h"
+#include <cstdint>
+#include <vector>
 
 namespace JT808::MessageBody {
 
 MultimediaEventInformationUpload::MultimediaEventInformationUpload(MultimediaEventInformation info)
-    : MessageBodyBase()
-    , m_info(info)
+    : m_info(info)
 {
 }
 

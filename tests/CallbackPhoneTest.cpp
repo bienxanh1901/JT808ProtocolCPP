@@ -1,13 +1,12 @@
 
 #include "JT808/MessageBody/CallbackPhone.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
 
 namespace JT808::MessageBody {
 class CallbackPhoneTest : public MessageBodyBaseTest<CallbackPhone>
 {
 protected:
-    ~CallbackPhoneTest() override { }
-
     void SetUp() override
     {
         m_body = new CallbackPhone(CallbackPhone::OrdinaryPhone, "1234567890");

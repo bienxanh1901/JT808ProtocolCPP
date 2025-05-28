@@ -1,12 +1,11 @@
 #include "JT808/MessageBody/LocationInformationQueryResponse.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
 
 namespace JT808::MessageBody {
 class LocationInformationQueryResponseTest : public MessageBodyBaseTest<LocationInformationQueryResponse>
 {
 protected:
-    ~LocationInformationQueryResponseTest() override { }
-
     void SetUp() override
     {
         m_body = new LocationInformationQueryResponse(123, {.value = 12345}, {.value = 54321}, 10755241, 1066569743, 10,

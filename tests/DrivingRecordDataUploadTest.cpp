@@ -1,13 +1,12 @@
 
 #include "JT808/MessageBody/DrivingRecordDataUpload.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
 
 namespace JT808::MessageBody {
 class DrivingRecordDataUploadTest : public MessageBodyBaseTest<DrivingRecordDataUpload>
 {
 protected:
-    ~DrivingRecordDataUploadTest() override { }
-
     void SetUp() override
     {
         m_body = new DrivingRecordDataUpload(123, 0x01, "DrivingRecordDataUpload");

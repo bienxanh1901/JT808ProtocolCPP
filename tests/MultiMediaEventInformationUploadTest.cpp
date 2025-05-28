@@ -1,13 +1,13 @@
 
 #include "JT808/MessageBody/MultimediaEventInformationUpload.h"
+#include "JT808/MessageBody/Multimedia.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
 
 namespace JT808::MessageBody {
 class MultimediaEventInformationUploadTest : public MessageBodyBaseTest<MultimediaEventInformationUpload>
 {
 protected:
-    ~MultimediaEventInformationUploadTest() override { }
-
     void SetUp() override
     {
         m_body = new MultimediaEventInformationUpload({123, ImageType, JPEGFormat, PlaformCommand, 2});

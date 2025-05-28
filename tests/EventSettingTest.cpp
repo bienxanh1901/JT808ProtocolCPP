@@ -1,16 +1,16 @@
 
 #include "JT808/MessageBody/EventSetting.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
+#include <vector>
 
 namespace JT808::MessageBody {
 class EventSettingTest : public MessageBodyBaseTest<EventSetting>
 {
 protected:
-    ~EventSettingTest() override { }
-
     void SetUp() override
     {
-        std::vector<EventSetting::Event> events {
+        std::vector<EventSetting::Event> const events {
             {0, "HelloWorld"},
             {1, "Hello"},
             {2, "World"},

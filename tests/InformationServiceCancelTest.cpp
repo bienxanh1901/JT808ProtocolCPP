@@ -1,13 +1,12 @@
 
 #include "JT808/MessageBody/InformationServiceCancel.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
 
 namespace JT808::MessageBody {
 class InformationServiceCancelTest : public MessageBodyBaseTest<InformationServiceCancel>
 {
 protected:
-    ~InformationServiceCancelTest() override { }
-
     void SetUp() override
     {
         m_body = new InformationServiceCancel(123, 1);

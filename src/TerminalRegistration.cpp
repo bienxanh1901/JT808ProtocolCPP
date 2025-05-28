@@ -1,20 +1,23 @@
 #include "JT808/MessageBody/TerminalRegistration.h"
 #include "JT808/Utils.h"
+#include <cstdint>
 #include <cstring>
+#include <string>
+#include <utility>
+#include <vector>
 
 namespace JT808::MessageBody {
 
 TerminalRegistration::TerminalRegistration(uint16_t province, uint16_t city, const std::vector<uint8_t>& manufacturer,
                                            const std::vector<uint8_t>& model, const std::vector<uint8_t>& id,
-                                           LicensePlateColors color, const std::string& licenseNumber)
-    : MessageBodyBase()
-    , m_province(std::move(province))
-    , m_city(std::move(city))
+                                           LicensePlateColors color, std::string licenseNumber)
+    : m_province(province)
+    , m_city(city)
     , m_manufacturer(manufacturer)
     , m_model(model)
     , m_id(id)
     , m_color(color)
-    , m_licenseNumber(licenseNumber)
+    , m_licenseNumber(std::move(licenseNumber))
 {
 }
 

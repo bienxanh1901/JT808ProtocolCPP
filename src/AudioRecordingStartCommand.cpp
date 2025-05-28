@@ -1,11 +1,14 @@
 #include "JT808/MessageBody/AudioRecordingStartCommand.h"
+#include "JT808/MessageBody/Multimedia.h"
+#include "JT808/Utils.h"
+#include <cstdint>
+#include <vector>
 
 namespace JT808::MessageBody {
 
 AudioRecordingStartCommand::AudioRecordingStartCommand(Commands command, uint16_t time, SavingMethods saving,
                                                        AudioSamplingRates rate)
-    : MessageBodyBase()
-    , m_command(command)
+    : m_command(command)
     , m_time(time)
     , m_saving(saving)
     , m_rate(rate)
@@ -17,7 +20,7 @@ void AudioRecordingStartCommand::parse(const std::vector<uint8_t>& data)
     parse(data.data(), data.size());
 }
 
-void AudioRecordingStartCommand::parse(const uint8_t* data, int size)
+void AudioRecordingStartCommand::parse(const uint8_t* data, int /*size*/)
 {
     int pos = 0;
 

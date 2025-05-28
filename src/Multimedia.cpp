@@ -1,5 +1,7 @@
 #include "JT808/MessageBody/Multimedia.h"
 #include "JT808/Utils.h"
+#include <cstdint>
+#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -9,7 +11,7 @@ bool MultimediaEventInformation::operator==(const MultimediaEventInformation& ot
         && channel == other.channel;
 }
 
-void MultimediaEventInformation::parse(const uint8_t* data, int size)
+void MultimediaEventInformation::parse(const uint8_t* data, int /*size*/)
 {
     int pos = 0;
     // id
@@ -25,7 +27,7 @@ void MultimediaEventInformation::parse(const uint8_t* data, int size)
     channel = MediaType(data[pos]);
 }
 
-std::vector<uint8_t> MultimediaEventInformation::package()
+std::vector<uint8_t> MultimediaEventInformation::package() const
 {
     std::vector<uint8_t> result;
     // id
@@ -48,7 +50,7 @@ bool MultimediaRetrievalData::operator==(const MultimediaRetrievalData& other) c
         && location == other.location;
 }
 
-void MultimediaRetrievalData::parse(const uint8_t* data, int size)
+void MultimediaRetrievalData::parse(const uint8_t* data, int /*size*/)
 {
     int pos = 0;
     // id

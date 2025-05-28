@@ -1,4 +1,9 @@
 #include "JT808/MessageBody/TerminalParameterQueryResponse.h"
+#include "JT808/MessageBody/TerminalParameter.h"
+#include "JT808/MessageBody/TerminalParameterSetting.h"
+#include "JT808/Utils.h"
+#include <cstdint>
+#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -13,7 +18,7 @@ void TerminalParameterQueryResponse::parse(const std::vector<uint8_t>& data)
     parse(data.data(), data.size());
 }
 
-void TerminalParameterQueryResponse::parse(const uint8_t* data, int size)
+void TerminalParameterQueryResponse::parse(const uint8_t* data, int /*size*/)
 {
     // seq
     m_seq = Utils::endianSwap16(data);

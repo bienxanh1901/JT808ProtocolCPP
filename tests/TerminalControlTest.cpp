@@ -1,13 +1,12 @@
 
 #include "JT808/MessageBody/TerminalControl.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
 
 namespace JT808::MessageBody {
 class TerminalControlTest : public MessageBodyBaseTest<TerminalControl>
 {
 protected:
-    ~TerminalControlTest() override { }
-
     void SetUp() override
     {
         m_body = new TerminalControl(TerminalControl::WirelessUpgrade,

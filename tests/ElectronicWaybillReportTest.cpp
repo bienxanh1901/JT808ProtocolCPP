@@ -1,13 +1,12 @@
 
 #include "JT808/MessageBody/ElectronicWaybillReport.h"
 #include "MessageBodyBaseTest.h"
+#include <gtest/gtest.h>
 
 namespace JT808::MessageBody {
 class ElectronicWaybillReportTest : public MessageBodyBaseTest<ElectronicWaybillReport>
 {
 protected:
-    ~ElectronicWaybillReportTest() override { }
-
     void SetUp() override
     {
         m_body = new ElectronicWaybillReport("ElectronicWaybillReport");
