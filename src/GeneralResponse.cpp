@@ -1,13 +1,48 @@
 #include "JT808/MessageBody/GeneralResponse.h"
-#include "JT808/MessageBody/SequenceMessageBodyBase.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
+namespace {
+nlohmann::json schema = R"(
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "General Response Body",
+    "properties": {
+        "seq": {
+            "description": "Message Serial Number",
+            "type": "integer"
+        },
+        "id": {
+            "description": "Message Id",
+            "type": "integer"
+        },
+        "result": {
+            "description": "Response Result",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4
+        }
+    },
+    "required": ["seq", "id", "result"],
+    "type": "object"
+}
+
+)"_json;
+}
+
 namespace JT808::MessageBody {
 
+GeneralResponse::GeneralResponse()
+    : MessageBodyBase(schema)
+{
+}
+
 GeneralResponse::GeneralResponse(uint16_t seq, uint16_t id, GeneralResponse::ResponseResults result)
-    : SequenceMessageBodyBase(seq)
+    : MessageBodyBase(schema)
+    , m_seq(seq)
     , m_id(id)
     , m_result(result)
 {
@@ -25,9 +60,10 @@ void GeneralResponse::parse(const uint8_t* data, int size)
         return;
     }
 
-    int pos = 2;
-
-    SequenceMessageBodyBase::parse(data, size);
+    int pos = 0;
+    // seq
+    m_seq = Utils::endianSwap16(data + pos);
+    pos += sizeof(m_seq);
     // id
     m_id = Utils::endianSwap16(data + pos);
     pos += sizeof(m_id);
@@ -39,8 +75,9 @@ void GeneralResponse::parse(const uint8_t* data, int size)
 
 std::vector<uint8_t> GeneralResponse::package()
 {
-    std::vector<uint8_t> result(SequenceMessageBodyBase::package());
-
+    std::vector<uint8_t> result;
+    // seq
+    Utils::appendU16(m_seq, result);
     // id
     Utils::appendU16(m_id, result);
     // result
@@ -52,7 +89,24 @@ std::vector<uint8_t> GeneralResponse::package()
 
 bool GeneralResponse::operator==(const GeneralResponse& other) const
 {
-    return SequenceMessageBodyBase::operator==(other) && m_id == other.m_id && m_result == other.m_result;
+    return m_seq == other.m_seq && m_id == other.m_id && m_result == other.m_result;
+}
+
+void GeneralResponse::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_seq = data["seq"];
+        m_id = data["id"];
+        m_result = ResponseResults(data["result"]);
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json GeneralResponse::toJson()
+{
+    return {{"seq", m_seq}, {"id", m_id}, {"result", m_result}};
 }
 
 uint16_t GeneralResponse::id() const
@@ -73,6 +127,16 @@ GeneralResponse::ResponseResults GeneralResponse::result() const
 void GeneralResponse::setResult(ResponseResults newResult)
 {
     m_result = newResult;
+}
+
+uint16_t GeneralResponse::seq() const
+{
+    return m_seq;
+}
+
+void GeneralResponse::setSeq(uint16_t newSeq)
+{
+    m_seq = newSeq;
 }
 
 }

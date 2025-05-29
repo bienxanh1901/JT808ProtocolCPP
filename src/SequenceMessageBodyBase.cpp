@@ -39,6 +39,19 @@ bool SequenceMessageBodyBase::operator==(const SequenceMessageBodyBase& other) c
     return m_seq == other.m_seq;
 }
 
+void SequenceMessageBodyBase::fromJson(const nlohmann::json& data)
+{
+    m_seq = data.value("seq", 0);
+}
+
+nlohmann::json SequenceMessageBodyBase::toJson()
+{
+    nlohmann::json result;
+    result["seq"] = m_seq;
+
+    return result;
+}
+
 uint16_t SequenceMessageBodyBase::seq() const
 {
     return m_seq;

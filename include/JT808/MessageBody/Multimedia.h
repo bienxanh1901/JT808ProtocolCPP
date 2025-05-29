@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <vector>
 
+#include "nlohmann/json.hpp"
+
 namespace JT808::MessageBody {
 
 enum SavingMethods : uint8_t
@@ -67,6 +69,9 @@ struct MultimediaRetrievalData
     bool operator==(const MultimediaRetrievalData& other) const;
     void parse(const uint8_t* data, int size);
     std::vector<uint8_t> package();
+
+    void fromJson(const nlohmann::json& data);
+    nlohmann::json toJson();
 };
 
 }

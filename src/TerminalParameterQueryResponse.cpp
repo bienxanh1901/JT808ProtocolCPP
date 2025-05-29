@@ -2,14 +2,61 @@
 #include "JT808/MessageBody/TerminalParameter.h"
 #include "JT808/MessageBody/TerminalParameterSetting.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
+namespace {
+nlohmann::json schema = R"(
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Terminal Parameter Query Response Body",
+    "properties": {
+        "seq": {
+            "description": "Response Serial Number",
+            "type": "number"
+        },
+        "length": {
+            "description": "Number of Response Parameters",
+            "type": "number"
+        },
+        "params": {
+            "description": "Parameter Item List",
+            "type": "array",
+            "items": {
+                "description": "Parameter Item",
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "Parameter Id",
+                        "type": "number"
+                    },
+                    "value": {
+                        "description": "Parameter Value",
+                        "type": "number"
+                    }
+                },
+                "required": ["id", "value"]
+            }
+        }
+    },
+    "required": ["seq", "length", "params"],
+    "type": "object"
+}
+
+)"_json;
+}
+
 namespace JT808::MessageBody {
+
+TerminalParameterQueryResponse::TerminalParameterQueryResponse()
+    : TerminalParameterSetting(schema)
+{
+}
 
 TerminalParameterQueryResponse::TerminalParameterQueryResponse(uint16_t seq, const TerminalParameters& params)
     : m_seq(seq)
-    , TerminalParameterSetting(params)
+    , TerminalParameterSetting(schema, params)
 {
 }
 
@@ -40,6 +87,24 @@ std::vector<uint8_t> TerminalParameterQueryResponse::package()
 bool TerminalParameterQueryResponse::operator==(const TerminalParameterQueryResponse& other) const
 {
     return m_seq == other.m_seq && TerminalParameterSetting::operator==(other);
+}
+
+void TerminalParameterQueryResponse::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_seq = data["seq"];
+        TerminalParameterSetting::fromJson(data);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json TerminalParameterQueryResponse::toJson()
+{
+    nlohmann::json result(TerminalParameterSetting::toJson());
+    result["seq"] = m_seq;
+
+    return result;
 }
 
 uint16_t TerminalParameterQueryResponse::seq() const

@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 
+#include "nlohmann/json.hpp"
+
 namespace JT808::MessageBody {
 
 /**
@@ -15,24 +17,26 @@ namespace JT808::MessageBody {
 class TerminalPropertiesQueryResponse : public MessageBodyBase
 {
 public:
-    TerminalPropertiesQueryResponse() = default;
-    TerminalPropertiesQueryResponse(const TerminalType& type, const std::vector<uint8_t>& manufacturer,
-                                    const std::vector<uint8_t>& model, const std::vector<uint8_t>& id,
-                                    std::string iccid, std::string hwVersion, std::string fwVersion,
+    TerminalPropertiesQueryResponse();
+    TerminalPropertiesQueryResponse(const TerminalType& type, std::string manufacturer, std::string model,
+                                    std::string id, std::string iccid, std::string hwVersion, std::string fwVersion,
                                     const GNSSProperties& gnssProp, const CommunicationModuleProperties& commProp);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
     bool operator==(const TerminalPropertiesQueryResponse& other) const;
 
+    void fromJson(const nlohmann::json& data) override;
+    nlohmann::json toJson() override;
+
     TerminalType type() const;
     void setType(const TerminalType& newType);
-    std::vector<uint8_t> manufacturer() const;
-    void setManufacturer(const std::vector<uint8_t>& newManufacturer);
-    std::vector<uint8_t> model() const;
-    void setModel(const std::vector<uint8_t>& newModel);
-    std::vector<uint8_t> id() const;
-    void setId(const std::vector<uint8_t>& newId);
+    std::string manufacturer() const;
+    void setManufacturer(const std::string& newManufacturer);
+    std::string model() const;
+    void setModel(const std::string& newModel);
+    std::string id() const;
+    void setId(const std::string& newId);
     std::string iccid() const;
     void setIccid(const std::string& newIccid);
     std::string hwVersion() const;
@@ -46,9 +50,9 @@ public:
 
 private:
     TerminalType m_type = {0};
-    std::vector<uint8_t> m_manufacturer;
-    std::vector<uint8_t> m_model;
-    std::vector<uint8_t> m_id;
+    std::string m_manufacturer;
+    std::string m_model;
+    std::string m_id;
     std::string m_iccid;
     std::string m_hwVersion;
     std::string m_fwVersion;

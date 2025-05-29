@@ -9,14 +9,21 @@
 
 namespace JT808::MessageBody {
 
-TerminalPropertiesQueryResponse::TerminalPropertiesQueryResponse(
-    const TerminalType& type, const std::vector<uint8_t>& manufacturer, const std::vector<uint8_t>& model,
-    const std::vector<uint8_t>& id, std::string iccid, std::string hwVersion, std::string fwVersion,
-    const GNSSProperties& gnssProp, const CommunicationModuleProperties& commProp)
-    : m_type(type)
-    , m_manufacturer(manufacturer)
-    , m_model(model)
-    , m_id(id)
+TerminalPropertiesQueryResponse::TerminalPropertiesQueryResponse()
+    : MessageBodyBase({})
+{
+}
+
+TerminalPropertiesQueryResponse::TerminalPropertiesQueryResponse(const TerminalType& type, std::string manufacturer,
+                                                                 std::string model, std::string id, std::string iccid,
+                                                                 std::string hwVersion, std::string fwVersion,
+                                                                 const GNSSProperties& gnssProp,
+                                                                 const CommunicationModuleProperties& commProp)
+    : MessageBodyBase({})
+    , m_type(type)
+    , m_manufacturer(std::move(manufacturer))
+    , m_model(std::move(model))
+    , m_id(std::move(id))
     , m_iccid(std::move(iccid))
     , m_hwVersion(std::move(hwVersion))
     , m_fwVersion(std::move(fwVersion))
@@ -105,6 +112,38 @@ bool TerminalPropertiesQueryResponse::operator==(const TerminalPropertiesQueryRe
         && m_commProp.value == other.commProp().value;
 }
 
+void TerminalPropertiesQueryResponse::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_type.value = data["type"];
+        m_manufacturer = data["manufacturer"];
+        m_model = data["model"];
+        m_id = data["id"];
+        m_iccid = data["iccid"];
+        m_hwVersion = data["hardware_version"];
+        m_fwVersion = data["firmware_version"];
+        m_gnssProp.value = data["gnss_prop"];
+        m_commProp.value = data["comm_prop"];
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json TerminalPropertiesQueryResponse::toJson()
+{
+    return {
+        {"type", m_type.value},
+        {"manufacturer", m_manufacturer},
+        {"model", m_model},
+        {"id", m_id},
+        {"iccid", m_iccid},
+        {"hardware_version", m_hwVersion},
+        {"firmware_version", m_fwVersion},
+        {"gnss_prop", m_gnssProp.value},
+        {"comm_prop", m_commProp.value},
+    };
+}
+
 TerminalType TerminalPropertiesQueryResponse::type() const
 {
     return m_type;
@@ -115,32 +154,32 @@ void TerminalPropertiesQueryResponse::setType(const TerminalType& newType)
     m_type = newType;
 }
 
-std::vector<uint8_t> TerminalPropertiesQueryResponse::manufacturer() const
+std::string TerminalPropertiesQueryResponse::manufacturer() const
 {
     return m_manufacturer;
 }
 
-void TerminalPropertiesQueryResponse::setManufacturer(const std::vector<uint8_t>& newManufacturer)
+void TerminalPropertiesQueryResponse::setManufacturer(const std::string& newManufacturer)
 {
     m_manufacturer = newManufacturer;
 }
 
-std::vector<uint8_t> TerminalPropertiesQueryResponse::model() const
+std::string TerminalPropertiesQueryResponse::model() const
 {
     return m_model;
 }
 
-void TerminalPropertiesQueryResponse::setModel(const std::vector<uint8_t>& newModel)
+void TerminalPropertiesQueryResponse::setModel(const std::string& newModel)
 {
     m_model = newModel;
 }
 
-std::vector<uint8_t> TerminalPropertiesQueryResponse::id() const
+std::string TerminalPropertiesQueryResponse::id() const
 {
     return m_id;
 }
 
-void TerminalPropertiesQueryResponse::setId(const std::vector<uint8_t>& newId)
+void TerminalPropertiesQueryResponse::setId(const std::string& newId)
 {
     m_id = newId;
 }

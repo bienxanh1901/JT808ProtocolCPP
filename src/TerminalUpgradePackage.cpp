@@ -1,4 +1,5 @@
 #include "JT808/MessageBody/TerminalUpgradePackage.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Utils.h"
 #include <cstdint>
 #include <string>
@@ -7,12 +8,18 @@
 
 namespace JT808::MessageBody {
 
-TerminalUpgradePackage::TerminalUpgradePackage(UpgradeTypes type, const std::vector<uint8_t>& manufacturer,
-                                               std::string version, const std::vector<uint8_t>& firmware)
-    : m_type(type)
-    , m_manufacturer(manufacturer)
+TerminalUpgradePackage::TerminalUpgradePackage()
+    : MessageBodyBase({})
+{
+}
+
+TerminalUpgradePackage::TerminalUpgradePackage(UpgradeTypes type, std::string manufacturer, std::string version,
+                                               std::string firmware)
+    : MessageBodyBase({})
+    , m_type(type)
+    , m_manufacturer(std::move(manufacturer))
     , m_version(std::move(version))
-    , m_firmware(firmware)
+    , m_firmware(std::move(firmware))
 {
 }
 
@@ -72,6 +79,31 @@ bool TerminalUpgradePackage::operator==(const TerminalUpgradePackage& other) con
         && m_firmware == other.m_firmware;
 }
 
+void TerminalUpgradePackage::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_type = UpgradeTypes(data["type"]);
+        m_manufacturer = data["manufacturer"];
+        if (data["ver_len"] > 0) {
+            m_version = data["version"];
+        }
+        if (data["fw_len"] > 0) {
+            m_firmware = data["firmware"];
+        }
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json TerminalUpgradePackage::toJson()
+{
+    return {
+        {"type", m_type},       {"manufacturer", m_manufacturer}, {"ver_len", m_version.length()},
+        {"version", m_version}, {"fw_len", m_firmware.length()},  {"firmware", m_firmware},
+    };
+}
+
 UpgradeTypes TerminalUpgradePackage::type() const
 {
     return m_type;
@@ -82,12 +114,12 @@ void TerminalUpgradePackage::setType(UpgradeTypes newType)
     m_type = newType;
 }
 
-std::vector<uint8_t> TerminalUpgradePackage::manufacturer() const
+std::string TerminalUpgradePackage::manufacturer() const
 {
     return m_manufacturer;
 }
 
-void TerminalUpgradePackage::setManufacturer(const std::vector<uint8_t>& newManufacturer)
+void TerminalUpgradePackage::setManufacturer(const std::string& newManufacturer)
 {
     m_manufacturer = newManufacturer;
 }
@@ -102,12 +134,12 @@ void TerminalUpgradePackage::setVersion(const std::string& newVersion)
     m_version = newVersion;
 }
 
-std::vector<uint8_t> TerminalUpgradePackage::firmware() const
+std::string TerminalUpgradePackage::firmware() const
 {
     return m_firmware;
 }
 
-void TerminalUpgradePackage::setFirmware(const std::vector<uint8_t>& newFirmware)
+void TerminalUpgradePackage::setFirmware(const std::string& newFirmware)
 {
     m_firmware = newFirmware;
 }

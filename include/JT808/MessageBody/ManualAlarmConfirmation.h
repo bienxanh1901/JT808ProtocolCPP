@@ -1,9 +1,11 @@
 #ifndef MANUALALARMCONFIRMATION_H
 #define MANUALALARMCONFIRMATION_H
 
-#include "SequenceMessageBodyBase.h"
+#include "MessageBodyBase.h"
 #include <cstdint>
 #include <vector>
+
+#include "nlohmann/json.hpp"
 
 namespace JT808::MessageBody {
 
@@ -25,20 +27,27 @@ union ManualAlarmConfirmationTypes {
     uint32_t value = 0;
 };
 
-class ManualAlarmConfirmation : public SequenceMessageBodyBase
+class ManualAlarmConfirmation : public MessageBodyBase
 {
 public:
-    ManualAlarmConfirmation() = default;
+    ManualAlarmConfirmation();
     ManualAlarmConfirmation(uint16_t seq, ManualAlarmConfirmationTypes type);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
     bool operator==(const ManualAlarmConfirmation& other) const;
 
+    void fromJson(const nlohmann::json& data) override;
+    nlohmann::json toJson() override;
+
     ManualAlarmConfirmationTypes type() const;
     void setType(const ManualAlarmConfirmationTypes& newType);
 
+    uint16_t seq() const;
+    void setSeq(uint16_t newSeq);
+
 private:
+    uint16_t m_seq = 0;
     ManualAlarmConfirmationTypes m_type = {0};
 };
 

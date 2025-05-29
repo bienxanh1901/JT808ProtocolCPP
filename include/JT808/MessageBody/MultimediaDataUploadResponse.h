@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <vector>
 
+#include "nlohmann/json.hpp"
+
 namespace JT808::MessageBody {
 
 /**
@@ -19,6 +21,9 @@ public:
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
     bool operator==(const MultimediaDataUploadResponse& other) const;
+
+    void fromJson(const nlohmann::json& data) override;
+    nlohmann::json toJson() override;
 
     uint16_t id() const;
     void setId(uint16_t newId);

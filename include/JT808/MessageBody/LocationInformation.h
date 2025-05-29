@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+#include "nlohmann/json.hpp"
+
 namespace JT808::MessageBody {
 
 using ExtraInfo = std::map<uint8_t, std::vector<uint8_t>>;
@@ -183,6 +185,9 @@ struct LocationInformation
     bool operator==(const LocationInformation& other) const;
     int parse(const uint8_t* data, int size);
     std::vector<uint8_t> package();
+
+    void fromJson(const nlohmann::json& data);
+    nlohmann::json toJson();
 };
 
 }

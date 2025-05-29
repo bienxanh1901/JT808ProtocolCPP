@@ -1,14 +1,33 @@
 #include "JT808/MessageBody/TerminalParameterSetting.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/MessageBody/TerminalParameter.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <utility>
 #include <vector>
 
 namespace JT808::MessageBody {
 
+TerminalParameterSetting::TerminalParameterSetting()
+    : MessageBodyBase({})
+{
+}
+
+TerminalParameterSetting::TerminalParameterSetting(const nlohmann::json& schema)
+    : MessageBodyBase(schema)
+{
+}
+
 TerminalParameterSetting::TerminalParameterSetting(TerminalParameters params)
-    : m_params(std::move(params))
+    : MessageBodyBase({})
+    , m_params(std::move(params))
+{
+}
+
+TerminalParameterSetting::TerminalParameterSetting(const nlohmann::json& schema, TerminalParameters params)
+    : MessageBodyBase(schema)
+    , m_params(std::move(params))
 {
 }
 
@@ -58,6 +77,32 @@ std::vector<uint8_t> TerminalParameterSetting::package()
 bool TerminalParameterSetting::operator==(const TerminalParameterSetting& other) const
 {
     return m_params == other.m_params;
+}
+
+void TerminalParameterSetting::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        if (data["length"] > 0) {
+            for (auto& item : data["params"]) {
+                m_params[item["id"]] = item["value"].get<std::vector<uint8_t>>();
+            }
+        }
+
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json TerminalParameterSetting::toJson()
+{
+    nlohmann::json result({{"length", m_params.size()}, {"params", {}}});
+
+    for (auto& param : m_params) {
+        result["params"].push_back({{"id", param.first}, {"value", param.second}});
+    }
+
+    return result;
 }
 
 TerminalParameters TerminalParameterSetting::params() const

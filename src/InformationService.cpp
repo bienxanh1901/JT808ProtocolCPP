@@ -1,4 +1,5 @@
 #include "JT808/MessageBody/InformationService.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Utils.h"
 #include <cstdint>
 #include <string>
@@ -7,8 +8,14 @@
 
 namespace JT808::MessageBody {
 
+InformationService::InformationService()
+    : MessageBodyBase({})
+{
+}
+
 InformationService::InformationService(uint8_t type, std::string info)
-    : m_type(type)
+    : MessageBodyBase({})
+    , m_type(type)
     , m_info(std::move(info))
 {
 }
@@ -49,6 +56,22 @@ std::vector<uint8_t> InformationService::package()
 bool InformationService::operator==(const InformationService& other) const
 {
     return m_type == other.m_type && m_info == other.m_info;
+}
+
+void InformationService::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_type = data["type"];
+        m_info = data["info"];
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json InformationService::toJson()
+{
+    return {{"type", m_type}, {"info", m_info}};
 }
 
 uint8_t InformationService::type() const

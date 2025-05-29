@@ -13,6 +13,7 @@ protected:
     {
         m_body = new GeneralResponse(123, 456, GeneralResponse::Succeeded);
         m_rawData = {0x0, 0x7b, 0x1, 0xc8, 0x0};
+        m_object = {{"seq", 123}, {"id", 456}, "result", 0};
     }
 };
 
@@ -36,6 +37,16 @@ TEST_F(GeneralResponseTest, TestParseFailed1)
 TEST_F(GeneralResponseTest, TestPackage)
 {
     TestPackage();
+}
+
+TEST_F(GeneralResponseTest, TestFromJsom)
+{
+    TestFromJson();
+}
+
+TEST_F(GeneralResponseTest, TestToJson)
+{
+    TestToJson();
 }
 
 }

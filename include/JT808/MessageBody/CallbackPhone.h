@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+#include "nlohmann/json.hpp"
+
 namespace JT808::MessageBody {
 
 class CallbackPhone : public MessageBodyBase
@@ -17,12 +19,15 @@ public:
         MonitoringPhone
     };
 
-    CallbackPhone() = default;
+    CallbackPhone();
     CallbackPhone(PhoneType type, std::string phone);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
     bool operator==(const CallbackPhone& other) const;
+
+    void fromJson(const nlohmann::json& data) override;
+    nlohmann::json toJson() override;
 
     std::string phone() const;
     void setPhone(const std::string& newPhone);

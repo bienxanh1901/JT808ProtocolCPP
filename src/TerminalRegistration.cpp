@@ -1,5 +1,7 @@
 #include "JT808/MessageBody/TerminalRegistration.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <cstring>
 #include <string>
@@ -8,14 +10,20 @@
 
 namespace JT808::MessageBody {
 
-TerminalRegistration::TerminalRegistration(uint16_t province, uint16_t city, const std::vector<uint8_t>& manufacturer,
-                                           const std::vector<uint8_t>& model, const std::vector<uint8_t>& id,
-                                           LicensePlateColors color, std::string licenseNumber)
-    : m_province(province)
+TerminalRegistration::TerminalRegistration()
+    : MessageBodyBase({})
+{
+}
+
+TerminalRegistration::TerminalRegistration(uint16_t province, uint16_t city, std::string manufacturer,
+                                           std::string model, std::string id, LicensePlateColors color,
+                                           std::string licenseNumber)
+    : MessageBodyBase({})
+    , m_province(province)
     , m_city(city)
-    , m_manufacturer(manufacturer)
-    , m_model(model)
-    , m_id(id)
+    , m_manufacturer(std::move(manufacturer))
+    , m_model(std::move(model))
+    , m_id(std::move(id))
     , m_color(color)
     , m_licenseNumber(std::move(licenseNumber))
 {
@@ -84,6 +92,35 @@ bool TerminalRegistration::operator==(const TerminalRegistration& other) const
         && m_licenseNumber == other.m_licenseNumber;
 }
 
+void TerminalRegistration::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_province = data["province"];
+        m_city = data["city"];
+        m_manufacturer = data["manufacturer"];
+        m_model = data["model"];
+        m_id = data["id"];
+        m_color = LicensePlateColors(data["color"]);
+        m_licenseNumber = data["license_number"];
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json TerminalRegistration::toJson()
+{
+    return {
+        {"province", m_province},
+        {"city", m_city},
+        {"manufacturer", m_manufacturer},
+        {"model", m_model},
+        {"id", m_id},
+        {"color", m_color},
+        {"license_number", m_licenseNumber},
+    };
+}
+
 uint16_t TerminalRegistration::province() const
 {
     return m_province;
@@ -104,32 +141,32 @@ void TerminalRegistration::setCity(uint16_t newCity)
     m_city = newCity;
 }
 
-std::vector<uint8_t> TerminalRegistration::manufacturer() const
+std::string TerminalRegistration::manufacturer() const
 {
     return m_manufacturer;
 }
 
-void TerminalRegistration::setManufacturer(const std::vector<uint8_t>& newManufacturer)
+void TerminalRegistration::setManufacturer(const std::string& newManufacturer)
 {
     m_manufacturer = newManufacturer;
 }
 
-std::vector<uint8_t> TerminalRegistration::model() const
+std::string TerminalRegistration::model() const
 {
     return m_model;
 }
 
-void TerminalRegistration::setModel(const std::vector<uint8_t>& newModel)
+void TerminalRegistration::setModel(const std::string& newModel)
 {
     m_model = newModel;
 }
 
-std::vector<uint8_t> TerminalRegistration::id() const
+std::string TerminalRegistration::id() const
 {
     return m_id;
 }
 
-void TerminalRegistration::setId(const std::vector<uint8_t>& newId)
+void TerminalRegistration::setId(const std::string& newId)
 {
     m_id = newId;
 }

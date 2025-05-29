@@ -5,17 +5,22 @@
 #include <cstdint>
 #include <vector>
 
+#include "nlohmann/json.hpp"
+
 namespace JT808::MessageBody {
 
 class TemporaryLocationTrackingControl : public MessageBodyBase
 {
 public:
-    TemporaryLocationTrackingControl() = default;
+    TemporaryLocationTrackingControl();
     TemporaryLocationTrackingControl(uint16_t period, uint32_t expiry);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
     bool operator==(const TemporaryLocationTrackingControl& other) const;
+
+    void fromJson(const nlohmann::json& data) override;
+    nlohmann::json toJson() override;
 
     uint16_t period() const;
     void setPeriod(uint16_t newPeriod);

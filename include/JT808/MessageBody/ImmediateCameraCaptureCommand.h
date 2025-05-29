@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <vector>
 
+#include "nlohmann/json.hpp"
+
 namespace JT808::MessageBody {
 
 class ImmediateCameraCaptureCommand : public MessageBodyBase
@@ -31,6 +33,9 @@ public:
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
     bool operator==(const ImmediateCameraCaptureCommand& other) const;
+
+    void fromJson(const nlohmann::json& data) override;
+    nlohmann::json toJson() override;
 
     uint8_t channel() const;
     void setchannel(uint8_t newchannel);

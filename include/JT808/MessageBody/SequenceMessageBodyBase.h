@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <vector>
 
+#include "nlohmann/json.hpp"
+
 namespace JT808::MessageBody {
 
 /**
@@ -13,12 +15,15 @@ namespace JT808::MessageBody {
 class SequenceMessageBodyBase : public MessageBodyBase
 {
 public:
-    SequenceMessageBodyBase() = default;
     SequenceMessageBodyBase(uint16_t seq);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
     bool operator==(const SequenceMessageBodyBase& other) const;
+
+    void fromJson(const nlohmann::json& data) override;
+    nlohmann::json toJson() override;
+
     uint16_t seq() const;
     void setSeq(uint16_t newSeq);
 

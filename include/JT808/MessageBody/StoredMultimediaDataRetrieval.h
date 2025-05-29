@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 
+#include "nlohmann/json.hpp"
+
 namespace JT808::MessageBody {
 
 class StoredMultimediaDataRetrieval : public MessageBodyBase
@@ -19,6 +21,9 @@ public:
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
     bool operator==(const StoredMultimediaDataRetrieval& other) const;
+
+    void fromJson(const nlohmann::json& data) override;
+    nlohmann::json toJson() override;
 
     MediaType type() const;
     void setType(MediaType newType);

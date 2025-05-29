@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+#include "nlohmann/json.hpp"
+
 namespace JT808::MessageBody {
 
 /**
@@ -28,12 +30,15 @@ public:
         WirelessCommunicationOff = 7
     };
 
-    TerminalControl() = default;
+    TerminalControl();
     TerminalControl(Commands command, std::string param = "");
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
     bool operator==(const TerminalControl& other) const;
+
+    void fromJson(const nlohmann::json& data) override;
+    nlohmann::json toJson() override;
 
     Commands command() const;
     void setCommand(Commands newCommand);

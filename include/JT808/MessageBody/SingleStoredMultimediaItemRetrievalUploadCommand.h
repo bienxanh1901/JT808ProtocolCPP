@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <vector>
 
+#include "nlohmann/json.hpp"
+
 namespace JT808::MessageBody {
 
 class SingleStoredMultimediaItemRetrievalUploadCommand : public MessageBodyBase
@@ -16,6 +18,9 @@ public:
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
     bool operator==(const SingleStoredMultimediaItemRetrievalUploadCommand& other) const;
+
+    void fromJson(const nlohmann::json& data) override;
+    nlohmann::json toJson() override;
 
     uint32_t id() const;
     void setId(uint32_t newId);

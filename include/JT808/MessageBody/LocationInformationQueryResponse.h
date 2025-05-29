@@ -7,12 +7,15 @@
 #include <string>
 #include <vector>
 
+#include "nlohmann/json.hpp"
+
 namespace JT808::MessageBody {
 
 class LocationInformationQueryResponse : public LocationInformationReport
 {
 public:
-    LocationInformationQueryResponse() = default;
+    LocationInformationQueryResponse();
+    LocationInformationQueryResponse(const LocationInformation& info);
     LocationInformationQueryResponse(uint16_t seq, const AlarmFlags& alarm, const StatusFlags& status, uint32_t lat,
                                      uint32_t lng, uint16_t alt, uint16_t speed, uint16_t bearing,
                                      const std::string& time, const ExtraInfo& extra = {});
@@ -20,6 +23,9 @@ public:
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
     bool operator==(const LocationInformationQueryResponse& other) const;
+
+    void fromJson(const nlohmann::json& data) override;
+    nlohmann::json toJson() override;
 
     uint16_t seq() const;
     void setSeq(uint16_t newSeq);

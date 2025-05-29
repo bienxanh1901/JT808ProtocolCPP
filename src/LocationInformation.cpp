@@ -1,6 +1,7 @@
 #include "JT808/MessageBody/LocationInformation.h"
 #include "JT808/BCD.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <string>
 #include <utility>
@@ -137,6 +138,30 @@ std::vector<uint8_t> LocationInformation::package()
 
         Utils::append(extraCustom, result);
     }
+
+    return result;
+}
+
+void LocationInformation::fromJson(const nlohmann::json& data)
+{
+    alarm.value = data["alarm"];
+    status.value = data["status"];
+    lat = data["latitude"];
+    lng = data["longitude"];
+    alt = data["altitude"];
+    speed = data["speed"];
+    bearing = data["bearing"];
+    time = data["time"];
+
+    // todo parse extra
+}
+
+nlohmann::json LocationInformation::toJson()
+{
+    nlohmann::json result {{"alarm", alarm.value}, {"status", status.value}, {"latitude", lat},    {"longitude", lng},
+                           {"altitude", alt},      {"speed", speed},         {"bearing", bearing}, {"time", time}};
+
+    // todo extra to json
 
     return result;
 }

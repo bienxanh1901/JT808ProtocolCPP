@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+#include "nlohmann/json.hpp"
+
 namespace JT808::MessageBody {
 
 class CANBusDataUpload : public MessageBodyBase
@@ -36,6 +38,9 @@ public:
         bool operator==(const ItemData& other) const;
         void parse(const uint8_t* rawData, int size);
         std::vector<uint8_t> package();
+
+        void fromJson(const nlohmann::json& data);
+        nlohmann::json toJson();
     };
 
     CANBusDataUpload() = default;
@@ -44,6 +49,9 @@ public:
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
     bool operator==(const CANBusDataUpload& other) const;
+
+    void fromJson(const nlohmann::json& data) override;
+    nlohmann::json toJson() override;
 
     std::string time() const;
     void setTime(const std::string& newTime);

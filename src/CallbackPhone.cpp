@@ -8,8 +8,14 @@
 
 namespace JT808::MessageBody {
 
+CallbackPhone::CallbackPhone()
+    : MessageBodyBase({})
+{
+}
+
 CallbackPhone::CallbackPhone(PhoneType type, std::string phone)
-    : m_type(type)
+    : MessageBodyBase({})
+    , m_type(type)
     , m_phone(std::move(phone))
 {
 }
@@ -44,6 +50,22 @@ std::vector<uint8_t> CallbackPhone::package()
 bool CallbackPhone::operator==(const CallbackPhone& other) const
 {
     return m_type == other.m_type && m_phone == other.m_phone;
+}
+
+void CallbackPhone::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_type = data["type"];
+        m_phone = data["phone"];
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json CallbackPhone::toJson()
+{
+    return {{"type", m_type}, {"phone", m_phone}};
 }
 
 std::string CallbackPhone::phone() const

@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 
+#include "nlohmann/json.hpp"
+
 namespace JT808::MessageBody {
 
 class SettingRoute : public MessageBodyBase
@@ -39,6 +41,9 @@ public:
         bool operator==(const Point& other) const;
         int parse(const uint8_t* data, int size);
         std::vector<uint8_t> package() const;
+
+        void fromJson(const nlohmann::json& data);
+        nlohmann::json toJson();
     };
 
     SettingRoute() = default;
@@ -48,6 +53,9 @@ public:
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
     bool operator==(const SettingRoute& other) const;
+
+    void fromJson(const nlohmann::json& data) override;
+    nlohmann::json toJson() override;
 
     uint32_t id() const;
     void setId(uint32_t newId);

@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+#include "nlohmann/json.hpp"
+
 namespace JT808::MessageBody {
 
 class InformationServiceMenuSetting : public MessageBodyBase
@@ -27,14 +29,19 @@ public:
         bool operator==(const MenuItem& other) const;
         int parse(const uint8_t* data, int size);
         std::vector<uint8_t> package() const;
+        void fromJson(const nlohmann::json& data);
+        nlohmann::json toJson();
     };
 
-    InformationServiceMenuSetting() = default;
+    InformationServiceMenuSetting();
     InformationServiceMenuSetting(AreaSettingType type, const std::vector<MenuItem>& menus);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
     bool operator==(const InformationServiceMenuSetting& other) const;
+
+    void fromJson(const nlohmann::json& data) override;
+    nlohmann::json toJson() override;
 
     AreaSettingType type() const;
     void setType(AreaSettingType newType);
