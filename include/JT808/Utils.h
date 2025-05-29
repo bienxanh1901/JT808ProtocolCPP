@@ -19,6 +19,11 @@ enum ProtocolEscapeFlags : uint8_t
     ProtocolEscapeEscape = 0x01,
 };
 
+union U64Array {
+    uint64_t value = 0;
+    uint8_t array[8];
+};
+
 union U32Array {
     uint32_t value = 0;
     uint8_t array[4];
@@ -48,11 +53,13 @@ void appendU16(uint16_t val, std::vector<uint8_t>& data);
 void appendU32(uint32_t val, std::vector<uint8_t>& data);
 void appendBCD(const std::string& val, std::vector<uint8_t>& data);
 void appendGBK(const std::string& val, std::vector<uint8_t>& data);
+void appendNull(std::vector<uint8_t>& data, int length);
 void append(const std::string& val, std::vector<uint8_t>& data);
 void append(const std::vector<uint8_t>& val, std::vector<uint8_t>& data);
 void append(const std::vector<uint16_t>& val, std::vector<uint8_t>& data);
 void append(const std::vector<uint32_t>& val, std::vector<uint8_t>& data);
 void append(const uint8_t* val, int size, std::vector<uint8_t>& data);
+void eraseTrailingNull(std::string& data);
 
 }
 #endif // UTILS_H

@@ -5,17 +5,22 @@
 #include <cstdint>
 #include <vector>
 
+#include "nlohmann/json.hpp"
+
 namespace JT808::MessageBody {
 
 class SingleStoredMultimediaItemRetrievalUploadCommand : public MessageBodyBase
 {
 public:
-    SingleStoredMultimediaItemRetrievalUploadCommand() = default;
+    SingleStoredMultimediaItemRetrievalUploadCommand();
     SingleStoredMultimediaItemRetrievalUploadCommand(uint32_t id, uint8_t isDelete);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
     bool operator==(const SingleStoredMultimediaItemRetrievalUploadCommand& other) const;
+
+    void fromJson(const nlohmann::json& data) override;
+    nlohmann::json toJson() override;
 
     uint32_t id() const;
     void setId(uint32_t newId);

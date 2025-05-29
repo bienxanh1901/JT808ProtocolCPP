@@ -1,12 +1,21 @@
 #include "JT808/MessageBody/MultimediaDataUploadResponse.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
+#include "JT808/Schema/MultimediaDataUploadResponseSchema.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
 namespace JT808::MessageBody {
 
+MultimediaDataUploadResponse::MultimediaDataUploadResponse()
+    : MessageBodyBase(Schema::MultimediaDataUploadResponseSchema)
+{
+}
+
 MultimediaDataUploadResponse::MultimediaDataUploadResponse(uint32_t id, std::vector<uint16_t>& retxIds)
-    : m_id(id)
+    : MessageBodyBase(Schema::MultimediaDataUploadResponseSchema)
+    , m_id(id)
     , m_retxIds(retxIds)
 {
 }
@@ -54,6 +63,28 @@ std::vector<uint8_t> MultimediaDataUploadResponse::package()
 bool MultimediaDataUploadResponse::operator==(const MultimediaDataUploadResponse& other) const
 {
     return m_id == other.m_id && m_retxIds == other.m_retxIds;
+}
+
+void MultimediaDataUploadResponse::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_id = data["mm_id"];
+        if (data["length"] > 0) {
+            m_retxIds = data["retx_ids"].get<std::vector<uint16_t>>();
+        }
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json MultimediaDataUploadResponse::toJson()
+{
+    return {
+        {"mm_id", m_id},
+        {"length", m_retxIds.size()},
+        {"retx_ids", m_retxIds},
+    };
 }
 
 uint16_t MultimediaDataUploadResponse::id() const

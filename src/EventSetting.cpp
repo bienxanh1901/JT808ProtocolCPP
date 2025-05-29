@@ -1,12 +1,20 @@
 #include "JT808/MessageBody/EventSetting.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
+#include "JT808/Schema/EventSettingSchema.h"
 #include "JT808/Utils.h"
 #include <cstdint>
 #include <vector>
 
 namespace JT808::MessageBody {
 
+EventSetting::EventSetting()
+    : MessageBodyBase(Schema::EventSettingSchema)
+{
+}
+
 EventSetting::EventSetting(AreaSettingTypes type, const std::vector<Event>& events)
-    : m_type(type)
+    : MessageBodyBase(Schema::EventSettingSchema)
+    , m_type(type)
     , m_events(events)
 {
 }
@@ -57,6 +65,40 @@ std::vector<uint8_t> EventSetting::package()
 bool EventSetting::operator==(const EventSetting& other) const
 {
     return m_type == other.m_type && m_events == other.m_events;
+}
+
+void EventSetting::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        Event item = {0};
+
+        m_type = AreaSettingTypes(data["type"]);
+        if (m_type > DeleteAllEvents) {
+            if (data["length"] > 0) {
+                for (auto& event : data["events"]) {
+                    item.fromJson(event);
+                    m_events.push_back(item);
+                }
+            }
+        }
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json EventSetting::toJson()
+{
+    nlohmann::json result({{"type", m_type}});
+    if (m_type > DeleteAllEvents) {
+        result["length"] = m_events.size();
+        result["events"] = {};
+        for (auto& item : m_events) {
+            result["events"].push_back(item.toJson());
+        }
+    }
+
+    return result;
 }
 
 EventSetting::AreaSettingTypes EventSetting::type() const
@@ -112,6 +154,17 @@ std::vector<uint8_t> EventSetting::Event::package() const
     Utils::appendGBK(content, result);
 
     return result;
+}
+
+void EventSetting::Event::fromJson(const nlohmann::json& data)
+{
+    id = data["id"];
+    content = data["content"];
+}
+
+nlohmann::json EventSetting::Event::toJson()
+{
+    return {{"id", id}, {"content", content}};
 }
 
 }

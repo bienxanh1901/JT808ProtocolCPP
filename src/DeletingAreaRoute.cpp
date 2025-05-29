@@ -1,12 +1,21 @@
 #include "JT808/MessageBody/DeletingAreaRoute.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
+#include "JT808/Schema/DeletingAreaRouteSchema.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
 namespace JT808::MessageBody {
 
+DeletingAreaRoute::DeletingAreaRoute()
+    : MessageBodyBase(Schema::DeletingAreaRouteSchema)
+{
+}
+
 DeletingAreaRoute::DeletingAreaRoute(const std::vector<uint32_t>& ids)
-    : m_ids(ids)
+    : MessageBodyBase(Schema::DeletingAreaRouteSchema)
+    , m_ids(ids)
 {
 }
 
@@ -45,6 +54,23 @@ std::vector<uint8_t> DeletingAreaRoute::package()
 bool DeletingAreaRoute::operator==(const DeletingAreaRoute& other) const
 {
     return m_ids == other.m_ids;
+}
+
+void DeletingAreaRoute::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        if (data["length"] > 0) {
+            m_ids = data["ids"].get<std::vector<uint32_t>>();
+        }
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json DeletingAreaRoute::toJson()
+{
+    return {{"length", m_ids.size()}, {"ids", m_ids}};
 }
 
 std::vector<uint32_t> DeletingAreaRoute::ids() const

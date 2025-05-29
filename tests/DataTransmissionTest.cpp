@@ -14,6 +14,7 @@ protected:
         std::vector<uint8_t> const data {0x01, 0x03, 0x02, 0x05, 0x11, 0x22, 0x33, 0x44, 0x55};
         m_body = new DataTransmission(0x00, data);
         m_rawData = {0x0, 0x1, 0x3, 0x2, 0x5, 0x11, 0x22, 0x33, 0x44, 0x55};
+        m_object = nlohmann::json::object({{"type", 0}, {"data", data}});
     }
 };
 
@@ -25,6 +26,16 @@ TEST_F(DataTransmissionTest, TestParseSuccess)
 TEST_F(DataTransmissionTest, TestPackage)
 {
     TestPackage();
+}
+
+TEST_F(DataTransmissionTest, TestFromJsom)
+{
+    TestFromJson();
+}
+
+TEST_F(DataTransmissionTest, TestToJson)
+{
+    TestToJson();
 }
 
 }

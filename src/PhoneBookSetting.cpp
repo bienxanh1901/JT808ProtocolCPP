@@ -1,12 +1,21 @@
 #include "JT808/MessageBody/PhoneBookSetting.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
+#include "JT808/Schema/PhoneBookSettingSchema.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
 namespace JT808::MessageBody {
 
+PhoneBookSetting::PhoneBookSetting()
+    : MessageBodyBase(Schema::PhoneBookSettingSchema)
+{
+}
+
 PhoneBookSetting::PhoneBookSetting(SettingType type, const std::vector<ContactItem>& contacts)
-    : m_type(type)
+    : MessageBodyBase(Schema::PhoneBookSettingSchema)
+    , m_type(type)
     , m_contacts(contacts)
 {
 }
@@ -55,6 +64,33 @@ std::vector<uint8_t> PhoneBookSetting::package()
 bool PhoneBookSetting::operator==(const PhoneBookSetting& other) const
 {
     return m_type == other.m_type && m_contacts == other.m_contacts;
+}
+
+void PhoneBookSetting::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_type = SettingType(data["type"]);
+        if (data["length"] > 0) {
+            ContactItem item = {0};
+            for (auto& contact : data["contacts"]) {
+                item.fromJson(contact);
+                m_contacts.push_back(item);
+            }
+        }
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json PhoneBookSetting::toJson()
+{
+    nlohmann::json result({{"type", m_type}, {"length", m_contacts.size()}, {"contacts", {}}});
+    for (auto& item : m_contacts) {
+        result["contacts"].push_back(item.toJson());
+    }
+
+    return result;
 }
 
 PhoneBookSetting::SettingType PhoneBookSetting::type() const
@@ -118,6 +154,18 @@ std::vector<uint8_t> PhoneBookSetting::ContactItem::package() const
     Utils::appendGBK(name, result);
 
     return result;
+}
+
+void PhoneBookSetting::ContactItem::fromJson(const nlohmann::json& data)
+{
+    type = data["type"];
+    phone = data["phone"];
+    name = data["name"];
+}
+
+nlohmann::json PhoneBookSetting::ContactItem::toJson()
+{
+    return {{"type", type}, {"phone", phone}, {"name", name}};
 }
 
 }

@@ -18,6 +18,13 @@ protected:
         m_rawData = {0x2,  0x2,  0x1,  0xa,  0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x30, 0x9,
                      0x41, 0x6e, 0x6f, 0x6e, 0x79, 0x6d, 0x6f, 0x75, 0x73, 0x2,  0xa,  0x39, 0x38, 0x37, 0x36,
                      0x35, 0x34, 0x33, 0x32, 0x31, 0x30, 0x7,  0x4c, 0x61, 0x7a, 0x61, 0x72, 0x75, 0x73};
+        m_object = nlohmann::json::object(
+            {{"type", PhoneBookSetting::AppendPhoneBook},
+             {"length", 2},
+             {"contacts",
+              nlohmann::json::array(
+                  {nlohmann::json::object({{"type", 1}, {"phone", "1234567890"}, {"name", "Anonymous"}}),
+                   nlohmann::json::object({{"type", 2}, {"phone", "9876543210"}, {"name", "Lazarus"}})})}});
     }
 };
 
@@ -29,6 +36,16 @@ TEST_F(PhoneBookSettingTest, TestParseSuccess)
 TEST_F(PhoneBookSettingTest, TestPackage)
 {
     TestPackage();
+}
+
+TEST_F(PhoneBookSettingTest, TestFromJsom)
+{
+    TestFromJson();
+}
+
+TEST_F(PhoneBookSettingTest, TestToJson)
+{
+    TestToJson();
 }
 
 }

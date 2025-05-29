@@ -1,14 +1,23 @@
 #include "JT808/MessageBody/AudioRecordingStartCommand.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/MessageBody/Multimedia.h"
+#include "JT808/Schema/AudioRecordingStartCommandSchema.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
 namespace JT808::MessageBody {
 
+AudioRecordingStartCommand::AudioRecordingStartCommand()
+    : MessageBodyBase(Schema::AudioRecordingStartCommandSchema)
+{
+}
+
 AudioRecordingStartCommand::AudioRecordingStartCommand(Commands command, uint16_t time, SavingMethods saving,
                                                        AudioSamplingRates rate)
-    : m_command(command)
+    : MessageBodyBase(Schema::AudioRecordingStartCommandSchema)
+    , m_command(command)
     , m_time(time)
     , m_saving(saving)
     , m_rate(rate)
@@ -57,6 +66,24 @@ bool AudioRecordingStartCommand::operator==(const AudioRecordingStartCommand& ot
 {
     return m_command == other.m_command && m_time == other.m_time && m_saving == other.m_saving
         && m_rate == other.m_rate;
+}
+
+void AudioRecordingStartCommand::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_command = Commands(data["command"]);
+        m_time = data["time"];
+        m_saving = data["saving"];
+        m_rate = AudioSamplingRates(data["rate"]);
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json AudioRecordingStartCommand::toJson()
+{
+    return {{"command", m_command}, {"time", m_time}, {"saving", m_saving}, {"rate", m_rate}};
 }
 
 AudioRecordingStartCommand::Commands AudioRecordingStartCommand::command() const

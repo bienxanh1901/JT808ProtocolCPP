@@ -1,4 +1,7 @@
 #include "JT808/MessageBody/TerminalAuthentication.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
+#include "JT808/Schema/TerminalAuthenticationSchema.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <string>
 #include <utility>
@@ -6,8 +9,14 @@
 
 namespace JT808::MessageBody {
 
+TerminalAuthentication::TerminalAuthentication()
+    : MessageBodyBase(Schema::TerminalAuthenticationSchema)
+{
+}
+
 TerminalAuthentication::TerminalAuthentication(std::string authCode)
-    : m_authCode(std::move(authCode))
+    : MessageBodyBase(Schema::TerminalAuthenticationSchema)
+    , m_authCode(std::move(authCode))
 {
 }
 
@@ -32,6 +41,21 @@ std::vector<uint8_t> TerminalAuthentication::package()
 bool TerminalAuthentication::operator==(const TerminalAuthentication& other) const
 {
     return m_authCode == other.m_authCode;
+}
+
+void TerminalAuthentication::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_authCode = data["auth_code"];
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json TerminalAuthentication::toJson()
+{
+    return nlohmann::json::object({{"auth_code", m_authCode}});
 }
 
 std::string TerminalAuthentication::authCode() const

@@ -1,12 +1,21 @@
 #include "JT808/MessageBody/TemporaryLocationTrackingControl.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
+#include "JT808/Schema/TemporaryLocationTrackingControlSchema.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
 namespace JT808::MessageBody {
 
+TemporaryLocationTrackingControl::TemporaryLocationTrackingControl()
+    : MessageBodyBase(Schema::TemporaryLocationTrackingControlSchema)
+{
+}
+
 TemporaryLocationTrackingControl::TemporaryLocationTrackingControl(uint16_t period, uint32_t expiry)
-    : m_period(period)
+    : MessageBodyBase(Schema::TemporaryLocationTrackingControlSchema)
+    , m_period(period)
     , m_expiry(expiry)
 {
 }
@@ -40,6 +49,22 @@ std::vector<uint8_t> TemporaryLocationTrackingControl::package()
 bool TemporaryLocationTrackingControl::operator==(const TemporaryLocationTrackingControl& other) const
 {
     return m_period == other.m_period && m_expiry == other.m_expiry;
+}
+
+void TemporaryLocationTrackingControl::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_period = data["period"];
+        m_expiry = data["expiry"];
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json TemporaryLocationTrackingControl::toJson()
+{
+    return nlohmann::json::object({{"period", m_period}, {"expiry", m_expiry}});
 }
 
 uint16_t TemporaryLocationTrackingControl::period() const

@@ -16,6 +16,8 @@ protected:
         m_rawData = {0x0, 0x7b, 0x0,  0x0,  0x8, 0x0, 0x0,  0x0,  0x7b, 0x0, 0x0, 0x1,  0xc8,
                      0x0, 0x0,  0x3,  0x15, 0x0, 0x0, 0x0,  0x6f, 0x0,  0x0, 0x0, 0xde, 0x0,
                      0x0, 0x1,  0x4d, 0x0,  0x0, 0x1, 0xbc, 0x0,  0x0,  0x2, 0x9a};
+        m_object = nlohmann::json::object(
+            {{"seq", 123}, {"result", ImmediateCameraCaptureCommandResponse::Succeeded}, {"length", 8}, {"ids", ids}});
     }
 };
 
@@ -27,6 +29,16 @@ TEST_F(ImmediateCameraCaptureCommandResponseTest, TestParseSuccess)
 TEST_F(ImmediateCameraCaptureCommandResponseTest, TestPackage)
 {
     TestPackage();
+}
+
+TEST_F(ImmediateCameraCaptureCommandResponseTest, TestFromJsom)
+{
+    TestFromJson();
+}
+
+TEST_F(ImmediateCameraCaptureCommandResponseTest, TestToJson)
+{
+    TestToJson();
 }
 
 }

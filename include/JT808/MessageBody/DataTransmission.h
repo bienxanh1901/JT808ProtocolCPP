@@ -5,17 +5,22 @@
 #include <cstdint>
 #include <vector>
 
+#include "nlohmann/json.hpp"
+
 namespace JT808::MessageBody {
 
 class DataTransmission : public MessageBodyBase
 {
 public:
-    DataTransmission() = default;
+    DataTransmission();
     DataTransmission(uint8_t type, const std::vector<uint8_t>& data);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
     bool operator==(const DataTransmission& other) const;
+
+    void fromJson(const nlohmann::json& data) override;
+    nlohmann::json toJson() override;
 
     uint8_t type() const;
     void setType(uint8_t newType);

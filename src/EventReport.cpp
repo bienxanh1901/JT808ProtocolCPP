@@ -1,11 +1,20 @@
 #include "JT808/MessageBody/EventReport.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
+#include "JT808/Schema/EventReportSchema.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
 namespace JT808::MessageBody {
 
+EventReport::EventReport()
+    : MessageBodyBase(Schema::EventReportSchema)
+{
+}
+
 EventReport::EventReport(uint8_t id)
-    : m_id(id)
+    : MessageBodyBase(Schema::EventReportSchema)
+    , m_id(id)
 {
 }
 
@@ -33,6 +42,21 @@ std::vector<uint8_t> EventReport::package()
 bool EventReport::operator==(const EventReport& other) const
 {
     return m_id == other.m_id;
+}
+
+void EventReport::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_id = data["id"];
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json EventReport::toJson()
+{
+    return {{"id", m_id}};
 }
 
 uint8_t EventReport::id() const

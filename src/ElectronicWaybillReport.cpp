@@ -1,15 +1,22 @@
+#include "JT808/MessageBody/MessageBodyBase.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
-#include <string>
-#include <utility>
 #include <vector>
 
 #include "JT808/MessageBody/ElectronicWaybillReport.h"
+#include "JT808/Schema/ElectronicWaybillReportSchema.h"
 #include "JT808/Utils.h"
 
 namespace JT808::MessageBody {
 
-ElectronicWaybillReport::ElectronicWaybillReport(std::string data)
-    : m_data(std::move(data))
+ElectronicWaybillReport::ElectronicWaybillReport()
+    : MessageBodyBase(Schema::ElectronicWaybillReportSchema)
+{
+}
+
+ElectronicWaybillReport::ElectronicWaybillReport(const std::vector<uint8_t>& data)
+    : MessageBodyBase(Schema::ElectronicWaybillReportSchema)
+    , m_data(data)
 {
 }
 
@@ -46,12 +53,27 @@ bool ElectronicWaybillReport::operator==(const ElectronicWaybillReport& other) c
     return m_data == other.m_data;
 }
 
-std::string ElectronicWaybillReport::data() const
+void ElectronicWaybillReport::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_data = data["data"].get<std::vector<uint8_t>>();
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json ElectronicWaybillReport::toJson()
+{
+    return nlohmann::json::object({{"length", m_data.size()}, {"data", m_data}});
+}
+
+std::vector<uint8_t> ElectronicWaybillReport::data() const
 {
     return m_data;
 }
 
-void ElectronicWaybillReport::setData(const std::string& newData)
+void ElectronicWaybillReport::setData(const std::vector<uint8_t>& newData)
 {
     m_data = newData;
 }

@@ -1,15 +1,22 @@
 #include "JT808/MessageBody/TerminalParameterQueryResponse.h"
 #include "JT808/MessageBody/TerminalParameter.h"
 #include "JT808/MessageBody/TerminalParameterSetting.h"
+#include "JT808/Schema/TerminalParameterQueryResponseSchema.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
 namespace JT808::MessageBody {
 
+TerminalParameterQueryResponse::TerminalParameterQueryResponse()
+    : TerminalParameterSetting(Schema::TerminalParameterQueryResponseSchema)
+{
+}
+
 TerminalParameterQueryResponse::TerminalParameterQueryResponse(uint16_t seq, const TerminalParameters& params)
     : m_seq(seq)
-    , TerminalParameterSetting(params)
+    , TerminalParameterSetting(Schema::TerminalParameterQueryResponseSchema, params)
 {
 }
 
@@ -40,6 +47,24 @@ std::vector<uint8_t> TerminalParameterQueryResponse::package()
 bool TerminalParameterQueryResponse::operator==(const TerminalParameterQueryResponse& other) const
 {
     return m_seq == other.m_seq && TerminalParameterSetting::operator==(other);
+}
+
+void TerminalParameterQueryResponse::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_seq = data["seq"];
+        TerminalParameterSetting::fromJson(data);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json TerminalParameterQueryResponse::toJson()
+{
+    nlohmann::json result(TerminalParameterSetting::toJson());
+    result["seq"] = m_seq;
+
+    return result;
 }
 
 uint16_t TerminalParameterQueryResponse::seq() const

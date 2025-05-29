@@ -1,12 +1,21 @@
 #include "JT808/MessageBody/TerminalParameterQuery.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
+#include "JT808/Schema/TerminalParameterQuerySchema.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
 namespace JT808::MessageBody {
 
+TerminalParameterQuery::TerminalParameterQuery()
+    : MessageBodyBase(Schema::TerminalParameterQuerySchema)
+{
+}
+
 TerminalParameterQuery::TerminalParameterQuery(const std::vector<uint32_t>& ids)
-    : m_ids(ids)
+    : MessageBodyBase(Schema::TerminalParameterQuerySchema)
+    , m_ids(ids)
 {
 }
 
@@ -49,6 +58,24 @@ std::vector<uint8_t> TerminalParameterQuery::package()
 bool TerminalParameterQuery::operator==(const TerminalParameterQuery& other) const
 {
     return m_ids == other.m_ids;
+}
+
+void TerminalParameterQuery::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        if (data["length"] > 0) {
+            m_ids = data["ids"].get<std::vector<uint32_t>>();
+        }
+
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json TerminalParameterQuery::toJson()
+{
+    return {{"length", m_ids.size()}, {"ids", m_ids}};
 }
 
 std::vector<uint32_t> TerminalParameterQuery::ids() const
