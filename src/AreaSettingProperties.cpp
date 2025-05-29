@@ -1,6 +1,7 @@
 #include "JT808/MessageBody/AreaSettingProperties.h"
 #include "JT808/BCD.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
@@ -109,6 +110,61 @@ std::vector<uint8_t> AreaItem::package(AreaType type) const
         Utils::appendU16(maxSpeed, result);
         // overspeedDuration
         result.push_back(overspeedDuration);
+    }
+
+    return result;
+}
+
+void AreaItem::fromJson(AreaType type, const nlohmann::json& data)
+{
+    id = data["id"];
+    flag.value = data["flag"];
+    if (type == CircularArea) {
+        centerLat = data["center_lat"];
+        centerLng = data["center_lng"];
+        radius = data["radius"];
+    } else if (type == RectangularArea) {
+        ltLat = data["lt_lat"];
+        ltLng = data["lt_lng"];
+        rbLat = data["rb_lat"];
+        rbLng = data["rb_lng"];
+    }
+
+    if (flag.bits.areaTime == 1) {
+        startTime = data["start_time"];
+        endTime = data["end_time"];
+    }
+
+    if (flag.bits.speedLimit == 1) {
+        maxSpeed = data["max_speed"];
+        overspeedDuration = data["overspeed_duration"];
+    }
+}
+
+nlohmann::json AreaItem::toJson(AreaType type)
+{
+    nlohmann::json result;
+    result["id"] = id;
+    result["flag"] = flag.value;
+    if (type == CircularArea) {
+        result["center_lat"] = centerLat;
+        result["center_lng"] = centerLng;
+        result["radius"] = radius;
+    } else if (type == RectangularArea) {
+        result["lt_lat"] = ltLat;
+        result["lt_lng"] = ltLng;
+        result["rb_lat"] = rbLat;
+        result["rb_lng"] = rbLng;
+    }
+
+    if (flag.bits.areaTime == 1) {
+        result["start_time"] = startTime;
+        result["end_time"] = endTime;
+    }
+
+    if (flag.bits.speedLimit == 1) {
+        result["max_speed"] = maxSpeed;
+        result["overspeed_duration"] = overspeedDuration;
     }
 
     return result;

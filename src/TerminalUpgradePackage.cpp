@@ -1,5 +1,8 @@
 #include "JT808/MessageBody/TerminalUpgradePackage.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
+#include "JT808/Schema/TerminalUpgradePackageSchema.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <string>
 #include <utility>
@@ -7,10 +10,16 @@
 
 namespace JT808::MessageBody {
 
-TerminalUpgradePackage::TerminalUpgradePackage(UpgradeTypes type, const std::vector<uint8_t>& manufacturer,
-                                               std::string version, const std::vector<uint8_t>& firmware)
-    : m_type(type)
-    , m_manufacturer(manufacturer)
+TerminalUpgradePackage::TerminalUpgradePackage()
+    : MessageBodyBase(Schema::TerminalUpgradePackageSchema)
+{
+}
+
+TerminalUpgradePackage::TerminalUpgradePackage(UpgradeTypes type, std::string manufacturer, std::string version,
+                                               const std::vector<uint8_t>& firmware)
+    : MessageBodyBase(Schema::TerminalUpgradePackageSchema)
+    , m_type(type)
+    , m_manufacturer(std::move(manufacturer))
     , m_version(std::move(version))
     , m_firmware(firmware)
 {
@@ -72,6 +81,30 @@ bool TerminalUpgradePackage::operator==(const TerminalUpgradePackage& other) con
         && m_firmware == other.m_firmware;
 }
 
+void TerminalUpgradePackage::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_type = UpgradeTypes(data["type"]);
+        m_manufacturer = data["manufacturer"];
+        m_version = data["version"];
+        m_firmware = data["firmware"].get<std::vector<uint8_t>>();
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json TerminalUpgradePackage::toJson()
+{
+    return nlohmann::json::object({
+        {"type", m_type},
+        {"manufacturer", m_manufacturer},
+        {"version", m_version},
+        {"fw_length", m_firmware.size()},
+        {"firmware", m_firmware},
+    });
+}
+
 UpgradeTypes TerminalUpgradePackage::type() const
 {
     return m_type;
@@ -82,12 +115,12 @@ void TerminalUpgradePackage::setType(UpgradeTypes newType)
     m_type = newType;
 }
 
-std::vector<uint8_t> TerminalUpgradePackage::manufacturer() const
+std::string TerminalUpgradePackage::manufacturer() const
 {
     return m_manufacturer;
 }
 
-void TerminalUpgradePackage::setManufacturer(const std::vector<uint8_t>& newManufacturer)
+void TerminalUpgradePackage::setManufacturer(const std::string& newManufacturer)
 {
     m_manufacturer = newManufacturer;
 }

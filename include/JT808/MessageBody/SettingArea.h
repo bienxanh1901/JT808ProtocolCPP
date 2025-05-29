@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <vector>
 
+#include "nlohmann/json.hpp"
+
 namespace JT808::MessageBody {
 
 class SettingArea : public MessageBodyBase
@@ -17,6 +19,9 @@ public:
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
     bool operator==(const SettingArea& other) const;
+
+    void fromJson(const nlohmann::json& data) override;
+    nlohmann::json toJson() override;
 
     AreaSettingType type() const;
     void setType(AreaSettingType newType);

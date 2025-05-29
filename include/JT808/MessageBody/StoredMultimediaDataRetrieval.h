@@ -7,18 +7,26 @@
 #include <string>
 #include <vector>
 
+#include "nlohmann/json.hpp"
+
 namespace JT808::MessageBody {
 
 class StoredMultimediaDataRetrieval : public MessageBodyBase
 {
 public:
-    StoredMultimediaDataRetrieval() = default;
+    StoredMultimediaDataRetrieval();
+    StoredMultimediaDataRetrieval(const nlohmann::json& schema);
     StoredMultimediaDataRetrieval(MediaType type, uint8_t channel, EventCode event, std::string startTime,
                                   std::string endTime);
+    StoredMultimediaDataRetrieval(const nlohmann::json& schema, MediaType type, uint8_t channel, EventCode event,
+                                  std::string startTime, std::string endTime);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
     bool operator==(const StoredMultimediaDataRetrieval& other) const;
+
+    void fromJson(const nlohmann::json& data) override;
+    nlohmann::json toJson() override;
 
     MediaType type() const;
     void setType(MediaType newType);

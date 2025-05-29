@@ -1,6 +1,8 @@
 #include "JT808/MessageBody/TerminalRegistrationResponse.h"
-#include "JT808/MessageBody/SequenceMessageBodyBase.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
+#include "JT808/Schema/TerminalRegistrationResponseSchema.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <string>
 #include <utility>
@@ -8,8 +10,14 @@
 
 namespace JT808::MessageBody {
 
+TerminalRegistrationResponse::TerminalRegistrationResponse()
+    : MessageBodyBase(Schema::TerminalRegistrationResponseSchema)
+{
+}
+
 TerminalRegistrationResponse::TerminalRegistrationResponse(uint16_t seq, ResponseResults result, std::string authCode)
-    : SequenceMessageBodyBase(seq)
+    : MessageBodyBase(Schema::TerminalRegistrationResponseSchema)
+    , m_seq(seq)
     , m_result(result)
     , m_authCode(std::move(authCode))
 {
@@ -22,9 +30,10 @@ void TerminalRegistrationResponse::parse(const std::vector<uint8_t>& data)
 
 void TerminalRegistrationResponse::parse(const uint8_t* data, int size)
 {
-    int pos = 2;
+    int pos = 0;
     // seq
-    SequenceMessageBodyBase::parse(data, size);
+    m_seq = Utils::endianSwap16(data + pos);
+    pos += sizeof(m_seq);
     // result
     m_result = ResponseResults(data[pos++]);
     // authentication code
@@ -37,8 +46,9 @@ void TerminalRegistrationResponse::parse(const uint8_t* data, int size)
 
 std::vector<uint8_t> TerminalRegistrationResponse::package()
 {
+    std::vector<uint8_t> result;
     // seq
-    std::vector<uint8_t> result(SequenceMessageBodyBase::package());
+    Utils::appendU16(m_seq, result);
     // result
     result.push_back(m_result);
     // authentication code
@@ -51,7 +61,31 @@ std::vector<uint8_t> TerminalRegistrationResponse::package()
 
 bool TerminalRegistrationResponse::operator==(const TerminalRegistrationResponse& other) const
 {
-    return SequenceMessageBodyBase::operator==(other) && m_result == other.m_result && m_authCode == other.m_authCode;
+    return m_seq == other.m_seq && m_result == other.m_result && m_authCode == other.m_authCode;
+}
+
+void TerminalRegistrationResponse::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_seq = data["seq"];
+        m_result = ResponseResults(data["result"]);
+
+        if (m_result == Succeeded) {
+            m_authCode = data.value("auth_code", "");
+        }
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json TerminalRegistrationResponse::toJson()
+{
+    nlohmann::json result(nlohmann::json::object({{"seq", m_seq}, {"result", m_result}}));
+    if (m_result == Succeeded) {
+        result["auth_code"] = m_authCode;
+    }
+    return result;
 }
 
 TerminalRegistrationResponse::ResponseResults TerminalRegistrationResponse::result() const
@@ -72,6 +106,16 @@ std::string TerminalRegistrationResponse::authCode() const
 void TerminalRegistrationResponse::setAuthCode(const std::string& newAuthCode)
 {
     m_authCode = newAuthCode;
+}
+
+uint16_t TerminalRegistrationResponse::seq() const
+{
+    return m_seq;
+}
+
+void TerminalRegistrationResponse::setSeq(uint16_t newSeq)
+{
+    m_seq = newSeq;
 }
 
 }

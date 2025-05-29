@@ -1,12 +1,21 @@
 #include "JT808/MessageBody/RSAPublicKey.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
+#include "JT808/Schema/RSAPublicKeySchema.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
 namespace JT808::MessageBody {
 
+RSAPublicKey::RSAPublicKey()
+    : MessageBodyBase(Schema::RSAPublicKeySchema)
+{
+}
+
 RSAPublicKey::RSAPublicKey(const std::vector<uint8_t>& data)
-    : m_data(data)
+    : MessageBodyBase(Schema::RSAPublicKeySchema)
+    , m_data(data)
 {
 }
 
@@ -42,6 +51,21 @@ std::vector<uint8_t> RSAPublicKey::package()
 bool RSAPublicKey::operator==(const RSAPublicKey& other) const
 {
     return m_data == other.m_data;
+}
+
+void RSAPublicKey::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_data = data["data"].get<std::vector<uint8_t>>();
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json RSAPublicKey::toJson()
+{
+    return {{"data", m_data}};
 }
 
 std::vector<uint8_t> RSAPublicKey::data() const

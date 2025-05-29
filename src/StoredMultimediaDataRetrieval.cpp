@@ -1,7 +1,10 @@
 #include "JT808/MessageBody/StoredMultimediaDataRetrieval.h"
 #include "JT808/BCD.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/MessageBody/Multimedia.h"
+#include "JT808/Schema/StoredMultimediaDataRetrievalSchema.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <string>
 #include <utility>
@@ -9,9 +12,32 @@
 
 namespace JT808::MessageBody {
 
+StoredMultimediaDataRetrieval::StoredMultimediaDataRetrieval()
+    : MessageBodyBase(Schema::StoredMultimediaDataRetrievalSchema)
+{
+}
+
+StoredMultimediaDataRetrieval::StoredMultimediaDataRetrieval(const nlohmann::json& schema)
+    : MessageBodyBase(schema)
+{
+}
+
 StoredMultimediaDataRetrieval::StoredMultimediaDataRetrieval(MediaType type, uint8_t channel, EventCode event,
                                                              std::string startTime, std::string endTime)
-    : m_type(type)
+    : MessageBodyBase(Schema::StoredMultimediaDataRetrievalSchema)
+    , m_type(type)
+    , m_channel(channel)
+    , m_event(event)
+    , m_startTime(std::move(startTime))
+    , m_endTime(std::move(endTime))
+{
+}
+
+StoredMultimediaDataRetrieval::StoredMultimediaDataRetrieval(const nlohmann::json& schema, MediaType type,
+                                                             uint8_t channel, EventCode event, std::string startTime,
+                                                             std::string endTime)
+    : MessageBodyBase(schema)
+    , m_type(type)
     , m_channel(channel)
     , m_event(event)
     , m_startTime(std::move(startTime))
@@ -64,6 +90,31 @@ bool StoredMultimediaDataRetrieval::operator==(const StoredMultimediaDataRetriev
 {
     return m_type == other.m_type && m_event == other.m_event && m_channel == other.m_channel
         && m_startTime == other.m_startTime && m_endTime == other.m_endTime;
+}
+
+void StoredMultimediaDataRetrieval::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_type = MediaType(data["type"]);
+        m_channel = data["channel"];
+        m_event = EventCode(data["event"]);
+        m_startTime = data["start_time"];
+        m_endTime = data["end_time"];
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json StoredMultimediaDataRetrieval::toJson()
+{
+    return nlohmann::json::object({
+        {"type", m_type},
+        {"channel", m_channel},
+        {"event", m_event},
+        {"start_time", m_startTime},
+        {"end_time", m_endTime},
+    });
 }
 
 MediaType StoredMultimediaDataRetrieval::type() const

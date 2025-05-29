@@ -12,6 +12,7 @@ protected:
 
         m_body = new EventReport(123);
         m_rawData = {0x7b};
+        m_object = nlohmann::json::object({{"id", 123}});
     }
 };
 
@@ -23,6 +24,16 @@ TEST_F(EventReportTest, TestParseSuccess)
 TEST_F(EventReportTest, TestPackage)
 {
     TestPackage();
+}
+
+TEST_F(EventReportTest, TestFromJsom)
+{
+    TestFromJson();
+}
+
+TEST_F(EventReportTest, TestToJson)
+{
+    TestToJson();
 }
 
 }

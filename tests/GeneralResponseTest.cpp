@@ -1,6 +1,8 @@
 
 #include "JT808/MessageBody/GeneralResponse.h"
+#include "JT808/MessageIds.h"
 #include "MessageBodyBaseTest.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <gtest/gtest.h>
 #include <vector>
@@ -11,8 +13,10 @@ class GeneralResponseTest : public MessageBodyBaseTest<GeneralResponse>
 protected:
     void SetUp() override
     {
-        m_body = new GeneralResponse(123, 456, GeneralResponse::Succeeded);
-        m_rawData = {0x0, 0x7b, 0x1, 0xc8, 0x0};
+        m_body = new GeneralResponse(123, TerminalAuthenticationMsgId, GeneralResponse::Succeeded);
+        m_rawData = {0x0, 0x7b, 0x1, 0x2, 0x0};
+        m_object = nlohmann::json::object(
+            {{"seq", 123}, {"id", TerminalAuthenticationMsgId}, {"result", GeneralResponse::Succeeded}});
     }
 };
 
@@ -36,6 +40,16 @@ TEST_F(GeneralResponseTest, TestParseFailed1)
 TEST_F(GeneralResponseTest, TestPackage)
 {
     TestPackage();
+}
+
+TEST_F(GeneralResponseTest, TestFromJsom)
+{
+    TestFromJson();
+}
+
+TEST_F(GeneralResponseTest, TestToJson)
+{
+    TestToJson();
 }
 
 }

@@ -1,13 +1,22 @@
 #include "JT808/MessageBody/LocationDataBulkUpload.h"
 #include "JT808/MessageBody/LocationInformation.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
+#include "JT808/Schema/LocationDataBulkUploadSchema.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
 namespace JT808::MessageBody {
 
+LocationDataBulkUpload::LocationDataBulkUpload()
+    : MessageBodyBase(Schema::LocationDataBulkUploadSchema)
+{
+}
+
 LocationDataBulkUpload::LocationDataBulkUpload(DataType type, const std::vector<LocationInformation>& locations)
-    : m_type(type)
+    : MessageBodyBase(Schema::LocationDataBulkUploadSchema)
+    , m_type(type)
     , m_locations(locations)
 {
 }
@@ -58,6 +67,36 @@ std::vector<uint8_t> LocationDataBulkUpload::package()
 bool LocationDataBulkUpload::operator==(const LocationDataBulkUpload& other) const
 {
     return m_type == other.m_type && m_locations == other.m_locations;
+}
+
+void LocationDataBulkUpload::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_type = DataType(data["type"]);
+
+        if (data["length"] > 0) {
+            for (auto& location : data["locations"]) {
+                LocationInformation item;
+                item.fromJson(location);
+                m_locations.push_back(item);
+            }
+        }
+
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json LocationDataBulkUpload::toJson()
+{
+    nlohmann::json result({{"type", m_type}, {"length", m_locations.size()}, {"locations", {}}});
+
+    for (auto& item : m_locations) {
+        result["locations"].push_back(item.toJson());
+    }
+
+    return result;
 }
 
 LocationDataBulkUpload::DataType LocationDataBulkUpload::type() const

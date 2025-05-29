@@ -1,15 +1,31 @@
 #include "JT808/MessageBody/LocationInformationReport.h"
+#include "JT808/MessageBody/BasicLocationInformation.h"
+#include "JT808/MessageBody/ExtraLocationInformation.h"
 #include "JT808/MessageBody/LocationInformation.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
+#include "JT808/Schema/LocationInformationReportSchema.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
-#include <string>
+#include <utility>
 #include <vector>
 
 namespace JT808::MessageBody {
 
-LocationInformationReport::LocationInformationReport(const AlarmFlags& alarm, const StatusFlags& status, uint32_t lat,
-                                                     uint32_t lng, uint16_t alt, uint16_t speed, uint16_t bearing,
-                                                     const std::string& time, const ExtraInfo& extra)
-    : m_info(alarm, status, lat, lng, alt, speed, bearing, time, extra)
+LocationInformationReport::LocationInformationReport()
+    : MessageBodyBase(Schema::LocationInformationReportSchema)
+{
+}
+
+LocationInformationReport::LocationInformationReport(const BasicLocationInformation& basic,
+                                                     const ExtraLocationInformation& extra)
+    : MessageBodyBase(Schema::LocationInformationReportSchema)
+    , m_info(basic, extra)
+{
+}
+
+LocationInformationReport::LocationInformationReport(LocationInformation info)
+    : MessageBodyBase(Schema::LocationInformationReportSchema)
+    , m_info(std::move(info))
 {
 }
 
@@ -34,6 +50,31 @@ std::vector<uint8_t> LocationInformationReport::package()
 bool LocationInformationReport::operator==(const LocationInformationReport& other) const
 {
     return m_info == other.m_info;
+}
+
+void LocationInformationReport::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_info.fromJson(data);
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json LocationInformationReport::toJson()
+{
+    return m_info.toJson();
+}
+
+LocationInformation LocationInformationReport::info() const
+{
+    return m_info;
+}
+
+void LocationInformationReport::setInfo(const LocationInformation& newInfo)
+{
+    m_info = newInfo;
 }
 
 }

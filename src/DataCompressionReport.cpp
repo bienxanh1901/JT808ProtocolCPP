@@ -1,12 +1,21 @@
 #include "JT808/MessageBody/DataCompressionReport.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
+#include "JT808/Schema/DataCompressionReportSchema.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
 namespace JT808::MessageBody {
 
+DataCompressionReport::DataCompressionReport()
+    : MessageBodyBase(Schema::DataCompressionReportSchema)
+{
+}
+
 DataCompressionReport::DataCompressionReport(const std::vector<uint8_t>& data)
-    : m_data(data)
+    : MessageBodyBase(Schema::DataCompressionReportSchema)
+    , m_data(data)
 {
 }
 
@@ -42,6 +51,21 @@ std::vector<uint8_t> DataCompressionReport::package()
 bool DataCompressionReport::operator==(const DataCompressionReport& other) const
 {
     return m_data == other.m_data;
+}
+
+void DataCompressionReport::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_data = data["data"].get<std::vector<uint8_t>>();
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json DataCompressionReport::toJson()
+{
+    return {{"data", m_data}};
 }
 
 std::vector<uint8_t> DataCompressionReport::data() const

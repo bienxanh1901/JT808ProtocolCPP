@@ -147,7 +147,8 @@ public:
         if (it != factoryMap.end()) {
             return it->second();
         } else {
-            return std::make_unique<MessageBody::MessageBodyBase>();
+            nlohmann::json schema;
+            return std::make_unique<MessageBody::MessageBodyBase>(schema);
         }
     }
 };

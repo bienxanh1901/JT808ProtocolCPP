@@ -11,6 +11,7 @@ protected:
     {
         m_body = new VehicleControl({1});
         m_rawData = {0x01};
+        m_object = nlohmann::json::object({{"flag", 1}});
     }
 };
 
@@ -22,6 +23,16 @@ TEST_F(VehicleControlTest, TestParseSuccess)
 TEST_F(VehicleControlTest, TestPackage)
 {
     TestPackage();
+}
+
+TEST_F(VehicleControlTest, TestFromJsom)
+{
+    TestFromJson();
+}
+
+TEST_F(VehicleControlTest, TestToJson)
+{
+    TestToJson();
 }
 
 }

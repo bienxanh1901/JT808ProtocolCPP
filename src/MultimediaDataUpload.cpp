@@ -1,19 +1,27 @@
 #include "JT808/MessageBody/MultimediaDataUpload.h"
-#include "JT808/MessageBody/LocationInformation.h"
+#include "JT808/MessageBody/BasicLocationInformation.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/MessageBody/Multimedia.h"
+#include "JT808/Schema/MultimediaDataUploadSchema.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
-#include <string>
 #include <utility>
 #include <vector>
 
 namespace JT808::MessageBody {
 
-MultimediaDataUpload::MultimediaDataUpload(MultimediaEventInformation info, LocationInformation location,
-                                           std::string media)
-    : m_info(info)
+MultimediaDataUpload::MultimediaDataUpload()
+    : MessageBodyBase(Schema::MultimediaDataUploadSchema)
+{
+}
+
+MultimediaDataUpload::MultimediaDataUpload(MultimediaEventInformation info, BasicLocationInformation location,
+                                           const std::vector<uint8_t>& media)
+    : MessageBodyBase(Schema::MultimediaDataUploadSchema)
+    , m_info(info)
     , m_location(std::move(location))
-    , m_media(std::move(media))
+    , m_media(media)
 {
 }
 
@@ -54,6 +62,27 @@ bool MultimediaDataUpload::operator==(const MultimediaDataUpload& other) const
     return m_info == other.m_info && m_location == other.m_location && m_media == other.m_media;
 }
 
+void MultimediaDataUpload::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_info.fromJson(data["info"]);
+        m_location.fromJson(data["location"]);
+        m_media = data["multimedia"].get<std::vector<uint8_t>>();
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json MultimediaDataUpload::toJson()
+{
+    nlohmann::json result;
+    result["info"] = m_info.toJson();
+    result["location"] = m_location.toJson();
+    result["multimedia"] = m_media;
+    return result;
+}
+
 MultimediaEventInformation MultimediaDataUpload::info() const
 {
     return m_info;
@@ -64,22 +93,22 @@ void MultimediaDataUpload::setInfo(const MultimediaEventInformation& newInfo)
     m_info = newInfo;
 }
 
-LocationInformation MultimediaDataUpload::location() const
+BasicLocationInformation MultimediaDataUpload::location() const
 {
     return m_location;
 }
 
-void MultimediaDataUpload::setLocation(const LocationInformation& newLocation)
+void MultimediaDataUpload::setLocation(const BasicLocationInformation& newLocation)
 {
     m_location = newLocation;
 }
 
-std::string MultimediaDataUpload::media() const
+std::vector<uint8_t> MultimediaDataUpload::media() const
 {
     return m_media;
 }
 
-void MultimediaDataUpload::setMedia(const std::string& newMedia)
+void MultimediaDataUpload::setMedia(const std::vector<uint8_t>& newMedia)
 {
     m_media = newMedia;
 }

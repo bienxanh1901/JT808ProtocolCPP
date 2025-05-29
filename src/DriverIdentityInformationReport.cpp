@@ -1,8 +1,10 @@
 #include "JT808/MessageBody/DriverIdentityInformationReport.h"
 #include "JT808/BCD.h"
 
+#include "JT808/MessageBody/MessageBodyBase.h"
+#include "JT808/Schema/DriverIdentityInformationReportSchema.h"
 #include "JT808/Utils.h"
-#include <boost/range/algorithm/remove.hpp>
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <string>
 #include <utility>
@@ -10,10 +12,16 @@
 
 namespace JT808::MessageBody {
 
+DriverIdentityInformationReport::DriverIdentityInformationReport()
+    : MessageBodyBase(Schema::DriverIdentityInformationReportSchema)
+{
+}
+
 DriverIdentityInformationReport::DriverIdentityInformationReport(Status status, std::string time, ICResult icResult,
                                                                  std::string driverName, std::string certificate,
                                                                  std::string organization, std::string certExpiry)
-    : m_status(status)
+    : MessageBodyBase(Schema::DriverIdentityInformationReportSchema)
+    , m_status(status)
     , m_time(std::move(time))
     , m_icResult(icResult)
     , m_driverName(std::move(driverName))
@@ -48,7 +56,7 @@ void DriverIdentityInformationReport::parse(const uint8_t* data, int /*size*/)
         pos += length;
         // certificate
         m_certificate.assign(data + pos, data + pos + 20);
-        m_certificate.erase(boost::range::remove(m_certificate, 0x00), m_certificate.end());
+        Utils::eraseTrailingNull(m_certificate);
         pos += 20;
         // organization
         length = data[pos++];
@@ -78,8 +86,7 @@ std::vector<uint8_t> DriverIdentityInformationReport::package()
         // certificate
         Utils::append(m_certificate, result);
         if (m_certificate.length() < 20) {
-            int const padding = 20 - m_certificate.length();
-            Utils::append(std::vector<uint8_t>(padding, 0x00), result);
+            Utils::appendNull(result, 20 - m_certificate.length());
         }
         // organization
         result.push_back(m_organization.length());
@@ -96,6 +103,39 @@ bool DriverIdentityInformationReport::operator==(const DriverIdentityInformation
     return m_status == other.m_status && m_time == other.m_time && m_icResult == other.m_icResult
         && m_driverName == other.m_driverName && m_certificate == other.m_certificate
         && m_organization == other.m_organization && m_certExpiry == other.m_certExpiry;
+}
+
+void DriverIdentityInformationReport::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_status = Status(data["status"]);
+        m_time = data["time"];
+        m_icResult = ICResult(data["ic_result"]);
+        if (m_icResult == Successful) {
+            m_driverName = data["driver_name"];
+            m_certificate = data["certificate"];
+            m_organization = data["organization"];
+            m_certExpiry = data["cert_expiry"];
+        }
+
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json DriverIdentityInformationReport::toJson()
+{
+    nlohmann::json result({{"status", m_status}, {"time", m_time}, {"ic_result", m_icResult}});
+
+    if (m_icResult == Successful) {
+        result["driver_name"] = m_driverName;
+        result["certificate"] = m_certificate;
+        result["organization"] = m_organization;
+        result["cert_expiry"] = m_certExpiry;
+    }
+
+    return result;
 }
 
 DriverIdentityInformationReport::Status DriverIdentityInformationReport::status() const

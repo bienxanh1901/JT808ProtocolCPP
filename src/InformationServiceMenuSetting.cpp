@@ -1,12 +1,21 @@
 #include "JT808/MessageBody/InformationServiceMenuSetting.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
+#include "JT808/Schema/InformationServiceMenuSettingSchema.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
 namespace JT808::MessageBody {
 
+InformationServiceMenuSetting::InformationServiceMenuSetting()
+    : MessageBodyBase(Schema::InformationServiceMenuSettingSchema)
+{
+}
+
 InformationServiceMenuSetting::InformationServiceMenuSetting(AreaSettingType type, const std::vector<MenuItem>& menus)
-    : m_type(type)
+    : MessageBodyBase(Schema::InformationServiceMenuSettingSchema)
+    , m_type(type)
     , m_menus(menus)
 {
 }
@@ -55,6 +64,33 @@ std::vector<uint8_t> InformationServiceMenuSetting::package()
 bool InformationServiceMenuSetting::operator==(const InformationServiceMenuSetting& other) const
 {
     return m_type == other.m_type && m_menus == other.m_menus;
+}
+
+void InformationServiceMenuSetting::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_type = AreaSettingType(data["type"]);
+        if (data["length"] > 0) {
+            MenuItem item = {0};
+            for (auto& menu : data["menus"]) {
+                item.fromJson(menu);
+                m_menus.push_back(item);
+            }
+        }
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json InformationServiceMenuSetting::toJson()
+{
+    nlohmann::json result({{"type", m_type}, {"length", m_menus.size()}, {"menus", {}}});
+    for (auto& item : m_menus) {
+        result["menus"].push_back(item.toJson());
+    }
+
+    return result;
 }
 
 InformationServiceMenuSetting::AreaSettingType InformationServiceMenuSetting::type() const
@@ -109,6 +145,17 @@ std::vector<uint8_t> InformationServiceMenuSetting::MenuItem::package() const
     Utils::appendGBK(info, result);
 
     return result;
+}
+
+void InformationServiceMenuSetting::MenuItem::fromJson(const nlohmann::json& data)
+{
+    type = data["type"];
+    info = data["info"];
+}
+
+nlohmann::json InformationServiceMenuSetting::MenuItem::toJson()
+{
+    return {{"type", type}, {"info", info}};
 }
 
 }

@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+#include "nlohmann/json.hpp"
+
 namespace JT808::MessageBody {
 
 /**
@@ -28,26 +30,28 @@ enum LicensePlateColors : uint8_t
 class TerminalRegistration : public MessageBodyBase
 {
 public:
-    TerminalRegistration() = default;
-    TerminalRegistration(uint16_t province, uint16_t city, const std::vector<uint8_t>& manufacturer,
-                         const std::vector<uint8_t>& model, const std::vector<uint8_t>& id, LicensePlateColors color,
-                         std::string licenseNumber);
+    TerminalRegistration();
+    TerminalRegistration(uint16_t province, uint16_t city, std::string manufacturer, std::string model, std::string id,
+                         LicensePlateColors color, std::string licenseNumber);
 
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
     bool operator==(const TerminalRegistration& other) const;
 
+    void fromJson(const nlohmann::json& data) override;
+    nlohmann::json toJson() override;
+
     uint16_t province() const;
     void setProvince(uint16_t newProvince);
     uint16_t city() const;
     void setCity(uint16_t newCity);
-    std::vector<uint8_t> manufacturer() const;
-    void setManufacturer(const std::vector<uint8_t>& newManufacturer);
-    std::vector<uint8_t> model() const;
-    void setModel(const std::vector<uint8_t>& newModel);
-    std::vector<uint8_t> id() const;
-    void setId(const std::vector<uint8_t>& newId);
+    std::string manufacturer() const;
+    void setManufacturer(const std::string& newManufacturer);
+    std::string model() const;
+    void setModel(const std::string& newModel);
+    std::string id() const;
+    void setId(const std::string& newId);
     LicensePlateColors color() const;
     void setColor(LicensePlateColors newColor);
     std::string licenseNumber() const;
@@ -56,9 +60,9 @@ public:
 private:
     uint16_t m_province = 0;
     uint16_t m_city = 0;
-    std::vector<uint8_t> m_manufacturer;
-    std::vector<uint8_t> m_model;
-    std::vector<uint8_t> m_id;
+    std::string m_manufacturer;
+    std::string m_model;
+    std::string m_id;
     LicensePlateColors m_color = NoLicensePlate;
     std::string m_licenseNumber;
 };

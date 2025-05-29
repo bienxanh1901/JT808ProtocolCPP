@@ -1,5 +1,8 @@
 #include "JT808/MessageBody/QuestionDispatch.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
+#include "JT808/Schema/QuestionDispatchSchema.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <string>
 #include <utility>
@@ -7,8 +10,14 @@
 
 namespace JT808::MessageBody {
 
+QuestionDispatch::QuestionDispatch()
+    : MessageBodyBase(Schema::QuestionDispatchSchema)
+{
+}
+
 QuestionDispatch::QuestionDispatch(Flag flag, std::string question, const std::vector<Answer>& answers)
-    : m_flag(flag)
+    : MessageBodyBase(Schema::QuestionDispatchSchema)
+    , m_flag(flag)
     , m_question(std::move(question))
     , m_answers(answers)
 {
@@ -52,7 +61,7 @@ std::vector<uint8_t> QuestionDispatch::package()
     result.push_back(m_question.size());
     // question
     Utils::appendGBK(m_question, result);
-    // anwsers
+    // m_answers
     for (auto& item : m_answers) {
         Utils::append(item.package(), result);
     }
@@ -63,6 +72,35 @@ std::vector<uint8_t> QuestionDispatch::package()
 bool QuestionDispatch::operator==(const QuestionDispatch& other) const
 {
     return m_flag.value == other.m_flag.value && m_question == other.m_question && m_answers == other.m_answers;
+}
+
+void QuestionDispatch::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        Answer item = {0};
+
+        m_flag.value = data["flag"];
+        m_question = data["question"];
+
+        for (auto& answer : data["answers"]) {
+            item.fromJson(answer);
+            m_answers.push_back(item);
+        }
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json QuestionDispatch::toJson()
+{
+    nlohmann::json result(nlohmann::json::object(
+        {{"flag", m_flag.value}, {"question", m_question}, {"length", m_answers.size()}, {"answers", {}}}));
+    for (auto& item : m_answers) {
+        result["answers"].push_back(item.toJson());
+    }
+
+    return result;
 }
 
 QuestionDispatch::Flag QuestionDispatch::flag() const
@@ -126,6 +164,17 @@ std::vector<uint8_t> QuestionDispatch::Answer::package() const
     // content
     Utils::appendGBK(content, result);
     return result;
+}
+
+void QuestionDispatch::Answer::fromJson(const nlohmann::json& data)
+{
+    id = data["id"];
+    content = data["answer"];
+}
+
+nlohmann::json QuestionDispatch::Answer::toJson()
+{
+    return {{"id", id}, {"answer", content}};
 }
 
 }

@@ -1,5 +1,8 @@
 #include "JT808/MessageBody/TextMessageDispatch.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
+#include "JT808/Schema/TextMessageDispatchSchema.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <string>
 #include <utility>
@@ -7,8 +10,14 @@
 
 namespace JT808::MessageBody {
 
+TextMessageDispatch::TextMessageDispatch()
+    : MessageBodyBase(Schema::TextMessageDispatchSchema)
+{
+}
+
 TextMessageDispatch::TextMessageDispatch(Flag flag, std::string text)
-    : m_flag(flag)
+    : MessageBodyBase(Schema::TextMessageDispatchSchema)
+    , m_flag(flag)
     , m_text(std::move(text))
 {
 }
@@ -43,6 +52,22 @@ std::vector<uint8_t> TextMessageDispatch::package()
 bool TextMessageDispatch::operator==(const TextMessageDispatch& other) const
 {
     return m_flag.value == other.m_flag.value && m_text == other.m_text;
+}
+
+void TextMessageDispatch::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_flag.value = data["flag"];
+        m_text = data["text"];
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json TextMessageDispatch::toJson()
+{
+    return {{"flag", m_flag.value}, {"text", m_text}};
 }
 
 TextMessageDispatch::Flag TextMessageDispatch::flag() const

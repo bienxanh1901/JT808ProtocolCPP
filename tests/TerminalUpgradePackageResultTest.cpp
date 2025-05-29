@@ -12,6 +12,7 @@ protected:
     {
         m_body = new TerminalUpgradePackageResult(Terminal, TerminalUpgradePackageResult::Succeeded);
         m_rawData = {0x0, 0x0};
+        m_object = nlohmann::json::object({{"type", Terminal}, {"result", TerminalUpgradePackageResult::Succeeded}});
     }
 };
 
@@ -23,6 +24,16 @@ TEST_F(TerminalUpgradePackageResultTest, TestParseSuccess)
 TEST_F(TerminalUpgradePackageResultTest, TestPackage)
 {
     TestPackage();
+}
+
+TEST_F(TerminalUpgradePackageResultTest, TestFromJsom)
+{
+    TestFromJson();
+}
+
+TEST_F(TerminalUpgradePackageResultTest, TestToJson)
+{
+    TestToJson();
 }
 
 }

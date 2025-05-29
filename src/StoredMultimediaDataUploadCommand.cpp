@@ -1,16 +1,24 @@
 #include "JT808/MessageBody/StoredMultimediaDataUploadCommand.h"
 #include "JT808/MessageBody/Multimedia.h"
 #include "JT808/MessageBody/StoredMultimediaDataRetrieval.h"
+#include "JT808/Schema/StoredMultimediaDataUploadCommandSchema.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <string>
 #include <vector>
 
 namespace JT808::MessageBody {
 
+StoredMultimediaDataUploadCommand::StoredMultimediaDataUploadCommand()
+    : StoredMultimediaDataRetrieval(Schema::StoredMultimediaDataUploadCommandSchema)
+{
+}
+
 StoredMultimediaDataUploadCommand::StoredMultimediaDataUploadCommand(MediaType type, uint8_t channel, EventCode event,
                                                                      const std::string& startTime,
                                                                      const std::string& endTime, uint8_t isDelete)
-    : StoredMultimediaDataRetrieval(type, channel, event, startTime, endTime)
+    : StoredMultimediaDataRetrieval(Schema::StoredMultimediaDataUploadCommandSchema, type, channel, event, startTime,
+                                    endTime)
     , m_isDelete(isDelete)
 {
 }
@@ -43,6 +51,26 @@ std::vector<uint8_t> StoredMultimediaDataUploadCommand::package()
 bool StoredMultimediaDataUploadCommand::operator==(const StoredMultimediaDataUploadCommand& other) const
 {
     return StoredMultimediaDataRetrieval::operator==(other) && m_isDelete == other.m_isDelete;
+}
+
+void StoredMultimediaDataUploadCommand::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        StoredMultimediaDataRetrieval::fromJson(data);
+        m_isDelete = data["delete"];
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json StoredMultimediaDataUploadCommand::toJson()
+{
+    nlohmann::json result(StoredMultimediaDataRetrieval::toJson());
+
+    result["delete"] = m_isDelete;
+
+    return result;
 }
 
 uint8_t StoredMultimediaDataUploadCommand::isDelete() const

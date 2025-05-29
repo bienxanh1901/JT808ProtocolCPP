@@ -1,6 +1,6 @@
 #include "JT808/Utils.h"
 #include "JT808/BCD.h"
-#include <boost/range/algorithm/remove.hpp>
+#include <algorithm>
 #include <cstdint>
 #include <cstring>
 #include <iconv.h>
@@ -102,7 +102,7 @@ std::string gbkEncode(const std::string& data)
     if (iconv(encoder, &inPtr, &inBytesLeft, &outPtr, &outBytesLeft) != -1) {
         *outPtr = '\0';
         result.assign(gbkBuffer.data(), gbkBuffer.size());
-        result.erase(boost::range::remove(result, 0x00), result.end());
+        eraseTrailingNull(result);
     }
 
     iconv_close(encoder);
@@ -132,7 +132,7 @@ std::string gbkDecode(const std::string& data)
     if (iconv(decoder, &inPtr, &inBytesLeft, &outPtr, &outBytesLeft) != -1) {
         *outPtr = '\0';
         result.assign(utf8Buffer.data(), utf8Buffer.size());
-        result.erase(boost::range::remove(result, 0x00), result.end());
+        eraseTrailingNull(result);
     }
 
     iconv_close(decoder);
@@ -239,6 +239,11 @@ void appendGBK(const std::string& val, std::vector<uint8_t>& data)
     append(gbkEncode(val), data);
 }
 
+void appendNull(std::vector<uint8_t>& data, int length)
+{
+    Utils::append(std::vector<uint8_t>(length, 0x00), data);
+}
+
 void append(const std::string& val, std::vector<uint8_t>& data)
 {
     data.insert(data.end(), val.begin(), val.end());
@@ -266,6 +271,11 @@ void append(const std::vector<uint32_t>& val, std::vector<uint8_t>& data)
     for (const auto& item : val) {
         appendU32(item, data);
     }
+}
+
+void eraseTrailingNull(std::string& data)
+{
+    data.erase(std::remove(data.begin(), data.end(), 0x00), data.end());
 }
 
 }
