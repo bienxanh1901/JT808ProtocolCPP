@@ -1,10 +1,12 @@
-#ifndef TERMINALUPGRADE_H
-#define TERMINALUPGRADE_H
+#ifndef TERMINALUPGRADEPACKAGE_H
+#define TERMINALUPGRADEPACKAGE_H
 
 #include "MessageBodyBase.h"
 #include <cstdint>
 #include <string>
 #include <vector>
+
+#include "nlohmann/json.hpp"
 
 namespace JT808::MessageBody {
 
@@ -24,18 +26,21 @@ enum UpgradeTypes : uint8_t
 class TerminalUpgradePackage : public MessageBodyBase
 {
 public:
-    TerminalUpgradePackage() = default;
-    TerminalUpgradePackage(UpgradeTypes type, const std::vector<uint8_t>& manufacturer, std::string version,
+    TerminalUpgradePackage();
+    TerminalUpgradePackage(UpgradeTypes type, std::string manufacturer, std::string version,
                            const std::vector<uint8_t>& firmware);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
     bool operator==(const TerminalUpgradePackage& other) const;
 
+    void fromJson(const nlohmann::json& data) override;
+    nlohmann::json toJson() override;
+
     UpgradeTypes type() const;
     void setType(UpgradeTypes newType);
-    std::vector<uint8_t> manufacturer() const;
-    void setManufacturer(const std::vector<uint8_t>& newManufacturer);
+    std::string manufacturer() const;
+    void setManufacturer(const std::string& newManufacturer);
     std::string version() const;
     void setVersion(const std::string& newVersion);
     std::vector<uint8_t> firmware() const;
@@ -43,10 +48,10 @@ public:
 
 private:
     UpgradeTypes m_type = Terminal;
-    std::vector<uint8_t> m_manufacturer;
+    std::string m_manufacturer;
     std::string m_version;
     std::vector<uint8_t> m_firmware;
 };
 
 }
-#endif // TERMINALUPGRADE_H
+#endif // TERMINALUPGRADEPACKAGE_H

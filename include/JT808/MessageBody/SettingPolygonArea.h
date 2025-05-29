@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 
+#include "nlohmann/json.hpp"
+
 namespace JT808::MessageBody {
 
 class SettingPolygonArea : public MessageBodyBase
@@ -20,15 +22,21 @@ public:
         bool operator==(const Point& other) const;
         int parse(const uint8_t* data, int size);
         std::vector<uint8_t> package() const;
+
+        void fromJson(const nlohmann::json& data);
+        nlohmann::json toJson();
     };
 
-    SettingPolygonArea() = default;
+    SettingPolygonArea();
     SettingPolygonArea(uint32_t id, AreaProperties flag, std::string startTime, std::string endTime, uint16_t maxSpeed,
                        uint8_t overspeedDuration, const std::vector<Point>& points);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
     bool operator==(const SettingPolygonArea& other) const;
+
+    void fromJson(const nlohmann::json& data) override;
+    nlohmann::json toJson() override;
 
     uint32_t id() const;
     void setId(uint32_t newId);

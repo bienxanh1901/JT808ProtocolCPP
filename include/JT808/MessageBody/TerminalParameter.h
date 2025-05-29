@@ -2,12 +2,12 @@
 #define TERMINALPARAMETER_H
 
 #include <cstdint>
-#include <map>
+#include <string>
 #include <vector>
 
-namespace JT808::MessageBody {
+#include "nlohmann/json.hpp"
 
-using TerminalParameters = std::map<uint32_t, std::vector<uint8_t>>;
+namespace JT808::MessageBody {
 
 /**
  * @brief TerminalParameterIds
@@ -184,6 +184,35 @@ union CollisionAlertParam {
     uint8_t time = 0;
     uint8_t acceleration;
 };
+
+union TerminalParameterValue {
+    uint8_t u8;
+    uint16_t u16;
+    uint32_t u32;
+    struct
+    {
+        uint32_t collectInterval = 0;
+        uint32_t canId = 0;
+    } canSetting;
+    uint64_t value;
+};
+
+struct TerminalParameter
+{
+    uint32_t id = 0;
+    TerminalParameterValue num = {0};
+    std::string str;
+    std::vector<uint8_t> other;
+
+    bool operator==(const TerminalParameter& other) const;
+    int parse(const uint8_t* data, int size);
+    std::vector<uint8_t> package();
+
+    void fromJson(const nlohmann::json& data);
+    nlohmann::json toJson();
+};
+
+using TerminalParameters = std::vector<TerminalParameter>;
 
 }
 

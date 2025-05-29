@@ -11,6 +11,7 @@ protected:
     {
         m_body = new QuestionResponse(123, 2);
         m_rawData = {0x0, 0x7b, 0x2};
+        m_object = nlohmann::json::object({{"seq", 123}, {"id", 2}});
     }
 };
 
@@ -22,6 +23,16 @@ TEST_F(QuestionResponseTest, TestParseSuccess)
 TEST_F(QuestionResponseTest, TestPackage)
 {
     TestPackage();
+}
+
+TEST_F(QuestionResponseTest, TestFromJsom)
+{
+    TestFromJson();
+}
+
+TEST_F(QuestionResponseTest, TestToJson)
+{
+    TestToJson();
 }
 
 }

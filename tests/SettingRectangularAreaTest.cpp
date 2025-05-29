@@ -32,6 +32,26 @@ protected:
                      0x0,  0xa5, 0xa3, 0x49, 0x40, 0x2b, 0x26, 0x8f, 0x25, 0x5,  0x1,  0x0,  0x0,  0x0,  0x25, 0x5,
                      0x31, 0x0,  0x0,  0x0,  0x0,  0x0,  0x0,  0x1,  0x0,  0x2,  0x0,  0xa4, 0x1c, 0xa9, 0x3f, 0x92,
                      0x90, 0xf,  0x0,  0xa5, 0xa3, 0x49, 0x40, 0x2b, 0x26, 0x8f, 0x0,  0x50, 0x1e};
+        m_object =
+            nlohmann::json::object({{"type", AppendArea},
+                                    {"length", 2},
+                                    {"areas",
+                                     nlohmann::json::array({nlohmann::json::object({{"id", 0},
+                                                                                    {"flag", 1},
+                                                                                    {"lt_lat", 10755241},
+                                                                                    {"lt_lng", 1066569743},
+                                                                                    {"rb_lat", 10855241},
+                                                                                    {"rb_lng", 1076569743},
+                                                                                    {"start_time", "250501000000"},
+                                                                                    {"end_time", "250531000000"}}),
+                                                            nlohmann::json::object({{"id", 1},
+                                                                                    {"flag", 2},
+                                                                                    {"lt_lat", 10755241},
+                                                                                    {"lt_lng", 1066569743},
+                                                                                    {"rb_lat", 10855241},
+                                                                                    {"rb_lng", 1076569743},
+                                                                                    {"max_speed", 80},
+                                                                                    {"overspeed_duration", 30}})})}});
     }
 
     void TestParse() override
@@ -52,6 +72,20 @@ TEST_F(SettingRectangularAreaTest, TestParseSuccess)
 TEST_F(SettingRectangularAreaTest, TestPackage)
 {
     TestPackage();
+}
+
+TEST_F(SettingRectangularAreaTest, TestFromJsom)
+{
+    SettingArea body(RectangularArea);
+    ;
+    body.fromJson(m_object);
+    EXPECT_TRUE(body.isValid());
+    EXPECT_TRUE(m_body->operator==(body));
+}
+
+TEST_F(SettingRectangularAreaTest, TestToJson)
+{
+    TestToJson();
 }
 
 }

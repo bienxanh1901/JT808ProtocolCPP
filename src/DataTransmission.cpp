@@ -1,12 +1,21 @@
 #include "JT808/MessageBody/DataTransmission.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
+#include "JT808/Schema/DataTransmissionSchema.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
 namespace JT808::MessageBody {
 
+DataTransmission::DataTransmission()
+    : MessageBodyBase(Schema::DataTransmissionSchema)
+{
+}
+
 DataTransmission::DataTransmission(uint8_t type, const std::vector<uint8_t>& data)
-    : m_type(type)
+    : MessageBodyBase(Schema::DataTransmissionSchema)
+    , m_type(type)
     , m_data(data)
 {
 }
@@ -41,6 +50,22 @@ std::vector<uint8_t> DataTransmission::package()
 bool DataTransmission::operator==(const DataTransmission& other) const
 {
     return m_type == other.m_type && m_data == other.m_data;
+}
+
+void DataTransmission::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_type = data["type"];
+        m_data = data["data"].get<std::vector<uint8_t>>();
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json DataTransmission::toJson()
+{
+    return {{"type", m_type}, {"data", m_data}};
 }
 
 uint8_t DataTransmission::type() const

@@ -1,16 +1,25 @@
 #include "JT808/MessageBody/ImmediateCameraCaptureCommand.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/MessageBody/Multimedia.h"
+#include "JT808/Schema/ImmediateCameraCaptureCommandSchema.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
 namespace JT808::MessageBody {
 
+ImmediateCameraCaptureCommand::ImmediateCameraCaptureCommand()
+    : MessageBodyBase(Schema::ImmediateCameraCaptureCommandSchema)
+{
+}
+
 ImmediateCameraCaptureCommand::ImmediateCameraCaptureCommand(uint8_t channel, uint16_t command, uint16_t period,
                                                              SavingMethods saving, Resolutions resolution,
                                                              uint8_t quality, uint8_t brightness, uint8_t contrast,
                                                              uint8_t saturation, uint8_t chroma)
-    : m_channel(channel)
+    : MessageBodyBase(Schema::ImmediateCameraCaptureCommandSchema)
+    , m_channel(channel)
     , m_command(command)
     , m_period(period)
     , m_saving(saving)
@@ -92,6 +101,39 @@ bool ImmediateCameraCaptureCommand::operator==(const ImmediateCameraCaptureComma
         && m_saving == other.m_saving && m_resolution == other.m_resolution && m_quality == other.m_quality
         && m_brightness == other.m_brightness && m_contrast == other.m_contrast && m_saturation == other.m_saturation
         && m_chroma == other.m_chroma;
+}
+
+void ImmediateCameraCaptureCommand::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_channel = data["channel"];
+        m_command = data["command"];
+        m_period = data["period"];
+        m_saving = data["saving"];
+        m_resolution = Resolutions(data["resolution"]);
+        m_quality = data["quality"];
+        m_brightness = data["brightness"];
+        m_contrast = data["contrast"];
+        m_saturation = data["saturation"];
+        m_chroma = data["chroma"];
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json ImmediateCameraCaptureCommand::toJson()
+{
+    return nlohmann::json::object({{"channel", m_channel},
+                                   {"command", m_command},
+                                   {"period", m_period},
+                                   {"saving", m_saving},
+                                   {"resolution", m_resolution},
+                                   {"quality", m_quality},
+                                   {"brightness", m_brightness},
+                                   {"contrast", m_contrast},
+                                   {"saturation", m_saturation},
+                                   {"chroma", m_chroma}});
 }
 
 uint8_t ImmediateCameraCaptureCommand::channel() const

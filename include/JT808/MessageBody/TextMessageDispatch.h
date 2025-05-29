@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+#include "nlohmann/json.hpp"
+
 namespace JT808::MessageBody {
 
 class TextMessageDispatch : public MessageBodyBase
@@ -25,12 +27,15 @@ public:
         uint8_t value;
     };
 
-    TextMessageDispatch() = default;
+    TextMessageDispatch();
     TextMessageDispatch(Flag flag, std::string text);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
     bool operator==(const TextMessageDispatch& other) const;
+
+    void fromJson(const nlohmann::json& data) override;
+    nlohmann::json toJson() override;
 
     Flag flag() const;
     void setFlag(const Flag& newFlag);

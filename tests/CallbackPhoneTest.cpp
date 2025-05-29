@@ -11,6 +11,7 @@ protected:
     {
         m_body = new CallbackPhone(CallbackPhone::OrdinaryPhone, "1234567890");
         m_rawData = {0x0, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x30};
+        m_object = nlohmann::json::object({{"type", CallbackPhone::OrdinaryPhone}, {"phone", "1234567890"}});
     }
 };
 
@@ -24,4 +25,13 @@ TEST_F(CallbackPhoneTest, TestPackage)
     TestPackage();
 }
 
+TEST_F(CallbackPhoneTest, TestFromJsom)
+{
+    TestFromJson();
+}
+
+TEST_F(CallbackPhoneTest, TestToJson)
+{
+    TestToJson();
+}
 }

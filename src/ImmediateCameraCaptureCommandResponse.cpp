@@ -1,14 +1,22 @@
 #include "JT808/MessageBody/ImmediateCameraCaptureCommandResponse.h"
-#include "JT808/MessageBody/SequenceMessageBodyBase.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
+#include "JT808/Schema/ImmediateCameraCaptureCommandResponseSchema.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
 namespace JT808::MessageBody {
 
+ImmediateCameraCaptureCommandResponse::ImmediateCameraCaptureCommandResponse()
+    : MessageBodyBase(Schema::ImmediateCameraCaptureCommandResponseSchema)
+{
+}
+
 ImmediateCameraCaptureCommandResponse::ImmediateCameraCaptureCommandResponse(uint16_t seq, ResponseResults result,
                                                                              const std::vector<uint32_t>& ids)
-    : SequenceMessageBodyBase(seq)
+    : MessageBodyBase(Schema::ImmediateCameraCaptureCommandResponseSchema)
+    , m_seq(seq)
     , m_result(result)
     , m_ids(ids)
 {
@@ -19,13 +27,14 @@ void ImmediateCameraCaptureCommandResponse::parse(const std::vector<uint8_t>& da
     parse(data.data(), data.size());
 }
 
-void ImmediateCameraCaptureCommandResponse::parse(const uint8_t* data, int size)
+void ImmediateCameraCaptureCommandResponse::parse(const uint8_t* data, int /*size*/)
 {
-    int pos = 2;
+    int pos = 0;
     uint16_t length = 0;
 
     // seq
-    SequenceMessageBodyBase::parse(data, size);
+    m_seq = Utils::endianSwap16(data + pos);
+    pos += sizeof(m_seq);
     // result
     m_result = ResponseResults(data[pos++]);
     if (m_result == Succeeded) {
@@ -44,8 +53,9 @@ void ImmediateCameraCaptureCommandResponse::parse(const uint8_t* data, int size)
 
 std::vector<uint8_t> ImmediateCameraCaptureCommandResponse::package()
 {
-    std::vector<uint8_t> result(SequenceMessageBodyBase::package());
-
+    std::vector<uint8_t> result;
+    // seq
+    Utils::appendU16(m_seq, result);
     // result
     result.push_back(m_result);
     if (m_result == Succeeded) {
@@ -61,7 +71,26 @@ std::vector<uint8_t> ImmediateCameraCaptureCommandResponse::package()
 
 bool ImmediateCameraCaptureCommandResponse::operator==(const ImmediateCameraCaptureCommandResponse& other) const
 {
-    return SequenceMessageBodyBase::operator==(other) && m_result == other.m_result && m_ids == other.m_ids;
+    return m_seq == other.m_seq && m_result == other.m_result && m_ids == other.m_ids;
+}
+
+void ImmediateCameraCaptureCommandResponse::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_seq = data["seq"];
+        m_result = ResponseResults(data["result"]);
+        if (data["length"] > 0) {
+            m_ids = data["ids"].get<std::vector<uint32_t>>();
+        }
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json ImmediateCameraCaptureCommandResponse::toJson()
+{
+    return {{"seq", m_seq}, {"result", m_result}, {"length", m_ids.size()}, {"ids", m_ids}};
 }
 
 ImmediateCameraCaptureCommandResponse::ResponseResults ImmediateCameraCaptureCommandResponse::result() const
@@ -82,6 +111,16 @@ std::vector<uint32_t> ImmediateCameraCaptureCommandResponse::ids() const
 void ImmediateCameraCaptureCommandResponse::setIds(const std::vector<uint32_t>& newIds)
 {
     m_ids = newIds;
+}
+
+uint16_t ImmediateCameraCaptureCommandResponse::seq() const
+{
+    return m_seq;
+}
+
+void ImmediateCameraCaptureCommandResponse::setSeq(uint16_t newSeq)
+{
+    m_seq = newSeq;
 }
 
 }

@@ -1,5 +1,6 @@
 #include "JT808/MessageBody/Multimedia.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
@@ -44,6 +45,22 @@ std::vector<uint8_t> MultimediaEventInformation::package() const
     return result;
 }
 
+void MultimediaEventInformation::fromJson(const nlohmann::json& data)
+{
+    id = data["id"];
+    type = data["type"];
+    format = data["format"];
+    event = data["event"];
+    channel = data["channel"];
+}
+
+nlohmann::json MultimediaEventInformation::toJson()
+{
+    return {
+        {"id", id}, {"type", type}, {"format", format}, {"event", event}, {"channel", channel},
+    };
+}
+
 bool MultimediaRetrievalData::operator==(const MultimediaRetrievalData& other) const
 {
     return id == other.id && type == other.type && event == other.event && channel == other.channel
@@ -81,6 +98,26 @@ std::vector<uint8_t> MultimediaRetrievalData::package()
     Utils::append(location.package(), result);
 
     return result;
+}
+
+void MultimediaRetrievalData::fromJson(const nlohmann::json& data)
+{
+    id = data["id"];
+    type = data["type"];
+    event = data["event"];
+    channel = data["channel"];
+    location.fromJson(data["location"]);
+}
+
+nlohmann::json MultimediaRetrievalData::toJson()
+{
+    return nlohmann::json::object({
+        {"id", id},
+        {"type", type},
+        {"event", event},
+        {"channel", channel},
+        {"location", location.toJson()},
+    });
 }
 
 }

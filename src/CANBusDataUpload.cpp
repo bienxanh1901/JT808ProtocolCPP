@@ -1,6 +1,9 @@
 #include "JT808/MessageBody/CANBusDataUpload.h"
 #include "JT808/BCD.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
+#include "JT808/Schema/CANBusDataUploadSchema.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <string>
 #include <utility>
@@ -8,8 +11,14 @@
 
 namespace JT808::MessageBody {
 
+CANBusDataUpload::CANBusDataUpload()
+    : MessageBodyBase(Schema::CANBusDataUploadSchema)
+{
+}
+
 CANBusDataUpload::CANBusDataUpload(std::string time, const std::vector<ItemData>& data)
-    : m_time(std::move(time))
+    : MessageBodyBase(Schema::CANBusDataUploadSchema)
+    , m_time(std::move(time))
     , m_data(data)
 {
 }
@@ -59,6 +68,35 @@ bool CANBusDataUpload::operator==(const CANBusDataUpload& other) const
     return m_time == other.m_time && m_data == other.m_data;
 }
 
+void CANBusDataUpload::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_time = data["time"];
+
+        if (data["length"] > 0) {
+            for (auto& can : data["can_data"]) {
+                ItemData item = {0};
+                item.fromJson(can);
+                m_data.push_back(item);
+            }
+        }
+
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json CANBusDataUpload::toJson()
+{
+    nlohmann::json result({{"length", m_data.size()}, {"time", m_time}, {"can_data", {}}});
+
+    for (auto& item : m_data) {
+        result["can_data"].push_back(item.toJson());
+    }
+    return result;
+}
+
 std::string CANBusDataUpload::time() const
 {
     return m_time;
@@ -81,19 +119,17 @@ void CANBusDataUpload::setData(const std::vector<ItemData>& newData)
 
 bool CANBusDataUpload::ItemData::operator==(const ItemData& other) const
 {
-    return id.value == other.id.value && data.value == other.data.value;
+    return id.value == other.id.value && canData == other.canData;
 }
 
-void CANBusDataUpload::ItemData::parse(const uint8_t* rawData, int /*size*/)
+void CANBusDataUpload::ItemData::parse(const uint8_t* data, int size)
 {
     int pos = 0;
     for (unsigned char& byte : id.bytes) {
-        byte = rawData[pos++];
+        byte = data[pos++];
     }
 
-    for (unsigned char& byte : data.bytes) {
-        byte = rawData[pos++];
-    }
+    canData.assign(data + pos, data + size);
 }
 
 std::vector<uint8_t> CANBusDataUpload::ItemData::package()
@@ -103,11 +139,27 @@ std::vector<uint8_t> CANBusDataUpload::ItemData::package()
         result.push_back(byte);
     }
 
-    for (unsigned char const byte : data.bytes) {
-        result.push_back(byte);
-    }
+    Utils::append(canData, result);
 
     return result;
+}
+
+void CANBusDataUpload::ItemData::fromJson(const nlohmann::json& data)
+{
+    id.bits.channel = data["channel"];
+    id.bits.frameType = data["frame_type"];
+    id.bits.dataMethod = data["data_method"];
+    id.bits.id = data["id"];
+    canData = data["data"];
+}
+
+nlohmann::json CANBusDataUpload::ItemData::toJson()
+{
+    return {{"channel", (int)id.bits.channel},
+            {"frame_type", (int)id.bits.frameType},
+            {"data_method", (int)id.bits.dataMethod},
+            {"id", (int)id.bits.id},
+            {"data", canData}};
 }
 
 }

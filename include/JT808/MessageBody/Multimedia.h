@@ -1,10 +1,12 @@
 #ifndef MULTIMEDIA_H
 #define MULTIMEDIA_H
 
-#include "LocationInformation.h"
+#include "BasicLocationInformation.h"
 
 #include <cstdint>
 #include <vector>
+
+#include "nlohmann/json.hpp"
 
 namespace JT808::MessageBody {
 
@@ -54,6 +56,9 @@ struct MultimediaEventInformation
     bool operator==(const MultimediaEventInformation& other) const;
     void parse(const uint8_t* data, int size);
     std::vector<uint8_t> package() const;
+
+    void fromJson(const nlohmann::json& data);
+    nlohmann::json toJson();
 };
 
 struct MultimediaRetrievalData
@@ -62,11 +67,14 @@ struct MultimediaRetrievalData
     MediaType type = ImageType;
     uint8_t channel = 0;
     EventCode event = PlaformCommand;
-    LocationInformation location;
+    BasicLocationInformation location;
 
     bool operator==(const MultimediaRetrievalData& other) const;
     void parse(const uint8_t* data, int size);
     std::vector<uint8_t> package();
+
+    void fromJson(const nlohmann::json& data);
+    nlohmann::json toJson();
 };
 
 }

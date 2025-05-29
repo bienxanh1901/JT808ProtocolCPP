@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+#include "nlohmann/json.hpp"
+
 namespace JT808::MessageBody {
 
 class EventSetting : public MessageBodyBase
@@ -28,14 +30,19 @@ public:
         bool operator==(const Event& other) const;
         int parse(const uint8_t* data, int size);
         std::vector<uint8_t> package() const;
+        void fromJson(const nlohmann::json& data);
+        nlohmann::json toJson();
     };
 
-    EventSetting() = default;
+    EventSetting();
     EventSetting(AreaSettingTypes type, const std::vector<Event>& events);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
     bool operator==(const EventSetting& other) const;
+
+    void fromJson(const nlohmann::json& data) override;
+    nlohmann::json toJson() override;
 
     AreaSettingTypes type() const;
     void setType(AreaSettingTypes newType);

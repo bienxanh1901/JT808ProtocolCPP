@@ -3,8 +3,9 @@
 
 #include "MessageBodyBase.h"
 #include <cstdint>
-#include <string>
 #include <vector>
+
+#include "nlohmann/json.hpp"
 
 namespace JT808::MessageBody {
 
@@ -14,18 +15,21 @@ namespace JT808::MessageBody {
 class ElectronicWaybillReport : public MessageBodyBase
 {
 public:
-    ElectronicWaybillReport() = default;
-    ElectronicWaybillReport(std::string data);
+    ElectronicWaybillReport();
+    ElectronicWaybillReport(const std::vector<uint8_t>& data);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
     bool operator==(const ElectronicWaybillReport& other) const;
 
-    std::string data() const;
-    void setData(const std::string& newData);
+    void fromJson(const nlohmann::json& data) override;
+    nlohmann::json toJson() override;
+
+    std::vector<uint8_t> data() const;
+    void setData(const std::vector<uint8_t>& newData);
 
 private:
-    std::string m_data;
+    std::vector<uint8_t> m_data;
 };
 
 }

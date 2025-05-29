@@ -1,10 +1,12 @@
-#ifndef TERMINALUPGRADERESULT_H
-#define TERMINALUPGRADERESULT_H
+#ifndef TERMINALUPGRADEPACKAGERESULT_H
+#define TERMINALUPGRADEPACKAGERESULT_H
 
 #include "MessageBodyBase.h"
 #include "TerminalUpgradePackage.h"
 #include <cstdint>
 #include <vector>
+
+#include "nlohmann/json.hpp"
 
 namespace JT808::MessageBody {
 
@@ -21,12 +23,15 @@ public:
         Canceled = 2
     };
 
-    TerminalUpgradePackageResult() = default;
+    TerminalUpgradePackageResult();
     TerminalUpgradePackageResult(UpgradeTypes type, UpgradeResults result);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
     bool operator==(const TerminalUpgradePackageResult& other) const;
+
+    void fromJson(const nlohmann::json& data) override;
+    nlohmann::json toJson() override;
 
     UpgradeTypes type() const;
     void setType(UpgradeTypes newType);
@@ -39,4 +44,4 @@ private:
 };
 
 }
-#endif // TERMINALUPGRADERESULT_H
+#endif // TERMINALUPGRADEPACKAGERESULT_H

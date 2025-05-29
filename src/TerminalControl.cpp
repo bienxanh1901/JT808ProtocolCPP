@@ -1,5 +1,8 @@
 #include "JT808/MessageBody/TerminalControl.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
+#include "JT808/Schema/TerminalControlSchema.h"
 #include "JT808/Utils.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <string>
 #include <utility>
@@ -7,8 +10,14 @@
 
 namespace JT808::MessageBody {
 
+TerminalControl::TerminalControl()
+    : MessageBodyBase(Schema::TerminalControlSchema)
+{
+}
+
 TerminalControl::TerminalControl(Commands command, std::string param)
-    : m_command(command)
+    : MessageBodyBase(Schema::TerminalControlSchema)
+    , m_command(command)
     , m_param(std::move(param))
 {
 }
@@ -49,6 +58,26 @@ std::vector<uint8_t> TerminalControl::package()
 bool TerminalControl::operator==(const TerminalControl& other) const
 {
     return m_command == other.m_command && m_param == other.m_param;
+}
+
+void TerminalControl::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_command = data["command"];
+        m_param = data.value("param", "");
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json TerminalControl::toJson()
+{
+    nlohmann::json result({{"command", m_command}});
+    if (m_command <= ServerConnect) {
+        result["param"] = m_param;
+    }
+    return result;
 }
 
 TerminalControl::Commands TerminalControl::command() const

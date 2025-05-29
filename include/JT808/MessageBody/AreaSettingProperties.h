@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+#include "nlohmann/json.hpp"
+
 namespace JT808::MessageBody {
 
 enum AreaType : uint8_t
@@ -61,6 +63,9 @@ struct AreaItem
     bool operator==(const AreaItem& other) const;
     int parse(AreaType type, const uint8_t* data, int size);
     std::vector<uint8_t> package(AreaType type) const;
+
+    void fromJson(AreaType type, const nlohmann::json& data);
+    nlohmann::json toJson(AreaType type);
 };
 }
 

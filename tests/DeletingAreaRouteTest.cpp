@@ -10,6 +10,7 @@ protected:
     {
         m_body = new DeletingAreaRoute({123, 456, 678});
         m_rawData = {0x3, 0x0, 0x0, 0x0, 0x7b, 0x0, 0x0, 0x1, 0xc8, 0x0, 0x0, 0x2, 0xa6};
+        m_object = nlohmann::json::object({{"length", 3}, {"ids", {123, 456, 678}}});
     }
 };
 
@@ -21,6 +22,16 @@ TEST_F(DeletingAreaRouteTest, TestParseSuccess)
 TEST_F(DeletingAreaRouteTest, TestPackage)
 {
     TestPackage();
+}
+
+TEST_F(DeletingAreaRouteTest, TestFromJsom)
+{
+    TestFromJson();
+}
+
+TEST_F(DeletingAreaRouteTest, TestToJson)
+{
+    TestToJson();
 }
 
 }

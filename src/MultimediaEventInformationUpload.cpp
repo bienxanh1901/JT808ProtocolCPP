@@ -1,12 +1,21 @@
 #include "JT808/MessageBody/MultimediaEventInformationUpload.h"
+#include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/MessageBody/Multimedia.h"
+#include "JT808/Schema/MultimediaEventInformationUploadSchema.h"
+#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
 namespace JT808::MessageBody {
 
+MultimediaEventInformationUpload::MultimediaEventInformationUpload()
+    : MessageBodyBase(Schema::MultimediaEventInformationUploadSchema)
+{
+}
+
 MultimediaEventInformationUpload::MultimediaEventInformationUpload(MultimediaEventInformation info)
-    : m_info(info)
+    : MessageBodyBase(Schema::MultimediaEventInformationUploadSchema)
+    , m_info(info)
 {
 }
 
@@ -30,6 +39,21 @@ std::vector<uint8_t> MultimediaEventInformationUpload::package()
 bool MultimediaEventInformationUpload::operator==(const MultimediaEventInformationUpload& other) const
 {
     return m_info == other.m_info;
+}
+
+void MultimediaEventInformationUpload::fromJson(const nlohmann::json& data)
+{
+    if (validate(data)) {
+        m_info.fromJson(data);
+        setIsValid(true);
+    } else {
+        setIsValid(false);
+    }
+}
+
+nlohmann::json MultimediaEventInformationUpload::toJson()
+{
+    return m_info.toJson();
 }
 
 MultimediaEventInformation MultimediaEventInformationUpload::info() const

@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <vector>
 
+#include "nlohmann/json.hpp"
+
 namespace JT808::MessageBody {
 
 class AudioRecordingStartCommand : public MessageBodyBase
@@ -25,12 +27,15 @@ public:
         AudioSamplingRate32K = 3
     };
 
-    AudioRecordingStartCommand() = default;
+    AudioRecordingStartCommand();
     AudioRecordingStartCommand(Commands command, uint16_t time, SavingMethods saving, AudioSamplingRates rate);
     void parse(const std::vector<uint8_t>& data) override;
     void parse(const uint8_t* data, int size) override;
     std::vector<uint8_t> package() override;
     bool operator==(const AudioRecordingStartCommand& other) const;
+
+    void fromJson(const nlohmann::json& data) override;
+    nlohmann::json toJson() override;
 
     Commands command() const;
     void setCommand(Commands newCommand);

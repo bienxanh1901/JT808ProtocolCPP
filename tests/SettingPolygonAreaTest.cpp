@@ -20,6 +20,20 @@ protected:
                      0x91, 0x3f, 0x92, 0xb7, 0x1f, 0x0,  0xa4, 0x24, 0x79, 0x3f, 0x92, 0xde, 0x2f, 0x0,  0xa4,
                      0x28, 0x61, 0x3f, 0x93, 0x5,  0x3f, 0x0,  0xa4, 0x2c, 0x49, 0x3f, 0x91, 0xcc, 0xbf, 0x0,
                      0xa4, 0xd,  0x9,  0x3f, 0x92, 0x1a, 0xdf, 0x0,  0xa4, 0x10, 0xf1, 0x3f, 0x92, 0x41, 0xef};
+        m_object = nlohmann::json::object(
+            {{"id", 123},
+             {"flag", 1},
+             {"start_time", "250501000000"},
+             {"end_time", "250531000000"},
+             {"length", 7},
+             {"points",
+              nlohmann::json::array({nlohmann::json::object({{"lat", 10755241}, {"lng", 1066569743}}),
+                                     nlohmann::json::object({{"lat", 10756241}, {"lng", 1066579743}}),
+                                     nlohmann::json::object({{"lat", 10757241}, {"lng", 1066589743}}),
+                                     nlohmann::json::object({{"lat", 10758241}, {"lng", 1066599743}}),
+                                     nlohmann::json::object({{"lat", 10759241}, {"lng", 1066519743}}),
+                                     nlohmann::json::object({{"lat", 10751241}, {"lng", 1066539743}}),
+                                     nlohmann::json::object({{"lat", 10752241}, {"lng", 1066549743}})})}});
     }
 };
 
@@ -31,6 +45,16 @@ TEST_F(SettingPolygonAreaTest, TestParseSuccess)
 TEST_F(SettingPolygonAreaTest, TestPackage)
 {
     TestPackage();
+}
+
+TEST_F(SettingPolygonAreaTest, TestFromJsom)
+{
+    TestFromJson();
+}
+
+TEST_F(SettingPolygonAreaTest, TestToJson)
+{
+    TestToJson();
 }
 
 }

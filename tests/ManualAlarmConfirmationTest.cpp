@@ -11,6 +11,7 @@ protected:
     {
         m_body = new ManualAlarmConfirmation(123, {.value = 1});
         m_rawData = {0x0, 0x7b, 0x0, 0x0, 0x0, 0x1};
+        m_object = nlohmann::json::object({{"seq", 123}, {"type", 1}});
     }
 };
 
@@ -22,6 +23,16 @@ TEST_F(ManualAlarmConfirmationTest, TestParseSuccess)
 TEST_F(ManualAlarmConfirmationTest, TestPackage)
 {
     TestPackage();
+}
+
+TEST_F(ManualAlarmConfirmationTest, TestFromJsom)
+{
+    TestFromJson();
+}
+
+TEST_F(ManualAlarmConfirmationTest, TestToJson)
+{
+    TestToJson();
 }
 
 }
