@@ -3,10 +3,9 @@
 
 #include <cstdint>
 #include <string>
-#include <vector>
 
+#include "JT808/Common.h"
 #include "LocationInformationCommon.h"
-#include "nlohmann/json.hpp"
 
 namespace JT808::MessageBody {
 
@@ -19,10 +18,10 @@ public:
                              uint16_t alt, uint16_t speed, uint16_t bearing, std::string time);
     bool operator==(const BasicLocationInformation& other) const;
     int parse(const uint8_t* data, int size);
-    std::vector<uint8_t> package();
+    ByteArray package();
 
-    void fromJson(const nlohmann::json& data);
-    nlohmann::json toJson();
+    void fromJson(const Json& data);
+    Json toJson();
 
     AlarmFlags alarm() const;
     void setAlarm(const AlarmFlags& newAlarm);

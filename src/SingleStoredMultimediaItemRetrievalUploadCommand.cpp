@@ -1,10 +1,9 @@
 #include "JT808/MessageBody/SingleStoredMultimediaItemRetrievalUploadCommand.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/SingleStoredMultimediaItemRetrievalUploadCommandSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -21,7 +20,7 @@ SingleStoredMultimediaItemRetrievalUploadCommand::SingleStoredMultimediaItemRetr
 {
 }
 
-void SingleStoredMultimediaItemRetrievalUploadCommand::parse(const std::vector<uint8_t>& data)
+void SingleStoredMultimediaItemRetrievalUploadCommand::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -39,9 +38,9 @@ void SingleStoredMultimediaItemRetrievalUploadCommand::parse(const uint8_t* data
     setIsValid(true);
 }
 
-std::vector<uint8_t> SingleStoredMultimediaItemRetrievalUploadCommand::package()
+ByteArray SingleStoredMultimediaItemRetrievalUploadCommand::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
 
     // id
     Utils::appendU32(m_id, result);
@@ -57,7 +56,7 @@ bool SingleStoredMultimediaItemRetrievalUploadCommand::operator==(
     return m_id == other.m_id && m_isDelete == other.m_isDelete;
 }
 
-void SingleStoredMultimediaItemRetrievalUploadCommand::fromJson(const nlohmann::json& data)
+void SingleStoredMultimediaItemRetrievalUploadCommand::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_id = data["id"];
@@ -68,7 +67,7 @@ void SingleStoredMultimediaItemRetrievalUploadCommand::fromJson(const nlohmann::
     }
 }
 
-nlohmann::json SingleStoredMultimediaItemRetrievalUploadCommand::toJson()
+Json SingleStoredMultimediaItemRetrievalUploadCommand::toJson()
 {
     return {{"id", m_id}, {"delete", m_isDelete}};
 }

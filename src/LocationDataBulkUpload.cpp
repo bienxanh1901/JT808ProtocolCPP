@@ -1,9 +1,9 @@
 #include "JT808/MessageBody/LocationDataBulkUpload.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/LocationInformation.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/LocationDataBulkUploadSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
@@ -21,7 +21,7 @@ LocationDataBulkUpload::LocationDataBulkUpload(DataType type, const std::vector<
 {
 }
 
-void LocationDataBulkUpload::parse(const std::vector<uint8_t>& data)
+void LocationDataBulkUpload::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -47,16 +47,16 @@ void LocationDataBulkUpload::parse(const uint8_t* data, int /*size*/)
     setIsValid(true);
 }
 
-std::vector<uint8_t> LocationDataBulkUpload::package()
+ByteArray LocationDataBulkUpload::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // length
     Utils::appendU16(m_locations.size(), result);
     // type
     result.push_back(m_type);
     // locations
     for (auto& item : m_locations) {
-        std::vector<uint8_t> const itemData(item.package());
+        ByteArray const itemData(item.package());
         Utils::appendU16(itemData.size(), result);
         Utils::append(itemData, result);
     }
@@ -69,7 +69,7 @@ bool LocationDataBulkUpload::operator==(const LocationDataBulkUpload& other) con
     return m_type == other.m_type && m_locations == other.m_locations;
 }
 
-void LocationDataBulkUpload::fromJson(const nlohmann::json& data)
+void LocationDataBulkUpload::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_type = DataType(data["type"]);
@@ -88,9 +88,9 @@ void LocationDataBulkUpload::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json LocationDataBulkUpload::toJson()
+Json LocationDataBulkUpload::toJson()
 {
-    nlohmann::json result({{"type", m_type}, {"length", m_locations.size()}, {"locations", {}}});
+    Json result({{"type", m_type}, {"length", m_locations.size()}, {"locations", {}}});
 
     for (auto& item : m_locations) {
         result["locations"].push_back(item.toJson());

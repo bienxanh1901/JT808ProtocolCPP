@@ -1,7 +1,6 @@
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
-#include <vector>
 
 #include "JT808/MessageBody/ElectronicWaybillReport.h"
 #include "JT808/Schema/ElectronicWaybillReportSchema.h"
@@ -14,13 +13,13 @@ ElectronicWaybillReport::ElectronicWaybillReport()
 {
 }
 
-ElectronicWaybillReport::ElectronicWaybillReport(const std::vector<uint8_t>& data)
+ElectronicWaybillReport::ElectronicWaybillReport(const ByteArray& data)
     : MessageBodyBase(Schema::ElectronicWaybillReportSchema)
     , m_data(data)
 {
 }
 
-void ElectronicWaybillReport::parse(const std::vector<uint8_t>& data)
+void ElectronicWaybillReport::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -37,9 +36,9 @@ void ElectronicWaybillReport::parse(const uint8_t* data, int /*size*/)
     setIsValid(true);
 }
 
-std::vector<uint8_t> ElectronicWaybillReport::package()
+ByteArray ElectronicWaybillReport::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // length
     Utils::appendU32(m_data.size(), result);
     // data
@@ -53,27 +52,27 @@ bool ElectronicWaybillReport::operator==(const ElectronicWaybillReport& other) c
     return m_data == other.m_data;
 }
 
-void ElectronicWaybillReport::fromJson(const nlohmann::json& data)
+void ElectronicWaybillReport::fromJson(const Json& data)
 {
     if (validate(data)) {
-        m_data = data["data"].get<std::vector<uint8_t>>();
+        m_data = data["data"].get<ByteArray>();
         setIsValid(true);
     } else {
         setIsValid(false);
     }
 }
 
-nlohmann::json ElectronicWaybillReport::toJson()
+Json ElectronicWaybillReport::toJson()
 {
-    return nlohmann::json::object({{"length", m_data.size()}, {"data", m_data}});
+    return Json::object({{"length", m_data.size()}, {"data", m_data}});
 }
 
-std::vector<uint8_t> ElectronicWaybillReport::data() const
+ByteArray ElectronicWaybillReport::data() const
 {
     return m_data;
 }
 
-void ElectronicWaybillReport::setData(const std::vector<uint8_t>& newData)
+void ElectronicWaybillReport::setData(const ByteArray& newData)
 {
     m_data = newData;
 }

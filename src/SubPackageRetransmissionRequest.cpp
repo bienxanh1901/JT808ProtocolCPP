@@ -1,8 +1,8 @@
 #include "JT808/MessageBody/SubPackageRetransmissionRequest.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/SubPackageRetransmissionRequestSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
@@ -20,7 +20,7 @@ SubPackageRetransmissionRequest::SubPackageRetransmissionRequest(uint16_t seq, c
 {
 }
 
-void SubPackageRetransmissionRequest::parse(const std::vector<uint8_t>& data)
+void SubPackageRetransmissionRequest::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -51,9 +51,9 @@ void SubPackageRetransmissionRequest::parse(const uint8_t* data, int size)
     setIsValid(true);
 }
 
-std::vector<uint8_t> SubPackageRetransmissionRequest::package()
+ByteArray SubPackageRetransmissionRequest::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // seq
     Utils::appendU16(m_seq, result);
     // length
@@ -69,7 +69,7 @@ bool SubPackageRetransmissionRequest::operator==(const SubPackageRetransmissionR
     return m_seq == other.m_seq && m_ids == other.m_ids;
 }
 
-void SubPackageRetransmissionRequest::fromJson(const nlohmann::json& data)
+void SubPackageRetransmissionRequest::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_seq = data["seq"];
@@ -84,9 +84,9 @@ void SubPackageRetransmissionRequest::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json SubPackageRetransmissionRequest::toJson()
+Json SubPackageRetransmissionRequest::toJson()
 {
-    return nlohmann::json::object({{"seq", m_seq}, {"length", m_ids.size()}, {"ids", m_ids}});
+    return Json::object({{"seq", m_seq}, {"length", m_ids.size()}, {"ids", m_ids}});
 }
 
 std::vector<uint16_t> SubPackageRetransmissionRequest::ids() const

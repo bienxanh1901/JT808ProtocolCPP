@@ -1,11 +1,10 @@
 #ifndef TERMINALPARAMETER_H
 #define TERMINALPARAMETER_H
 
+#include "JT808/Common.h"
 #include <cstdint>
 #include <string>
 #include <vector>
-
-#include "nlohmann/json.hpp"
 
 namespace JT808::MessageBody {
 
@@ -202,14 +201,14 @@ struct TerminalParameter
     uint32_t id = 0;
     TerminalParameterValue num = {0};
     std::string str;
-    std::vector<uint8_t> other;
+    ByteArray other;
 
     bool operator==(const TerminalParameter& other) const;
     int parse(const uint8_t* data, int size);
-    std::vector<uint8_t> package();
+    ByteArray package();
 
-    void fromJson(const nlohmann::json& data);
-    nlohmann::json toJson();
+    void fromJson(const Json& data);
+    Json toJson();
 };
 
 using TerminalParameters = std::vector<TerminalParameter>;

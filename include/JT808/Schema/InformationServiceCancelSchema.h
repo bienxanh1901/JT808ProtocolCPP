@@ -1,9 +1,9 @@
 #ifndef INFORMATIONSERVICECANCELSCHEMA_H
 #define INFORMATIONSERVICECANCELSCHEMA_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 namespace Schema {
-static nlohmann::json InformationServiceCancelSchema = R"(
+static Json InformationServiceCancelSchema = R"(
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Information Service/Cancel ",

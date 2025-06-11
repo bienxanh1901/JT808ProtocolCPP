@@ -1,9 +1,9 @@
 #ifndef TERMINALCONTROLSCHEMA_H
 #define TERMINALCONTROLSCHEMA_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 namespace Schema {
-static nlohmann::json TerminalControlSchema = R"(
+static Json TerminalControlSchema = R"(
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Terminal Control Body",

@@ -1,9 +1,9 @@
 #ifndef ELECTRONICWAYBILLREPORTSCHEMA_H
 #define ELECTRONICWAYBILLREPORTSCHEMA_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 namespace Schema {
-static nlohmann::json ElectronicWaybillReportSchema = R"(
+static Json ElectronicWaybillReportSchema = R"(
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Electronic Waybill Report",

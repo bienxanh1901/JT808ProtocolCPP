@@ -16,13 +16,12 @@ protected:
         m_rawData = {0x9,  0xd,  0x54, 0x65, 0x73, 0x74, 0x20, 0x51, 0x75, 0x65, 0x73, 0x74, 0x69, 0x6f,
                      0x6e, 0x0,  0x0,  0x8,  0x41, 0x6e, 0x73, 0x77, 0x65, 0x72, 0x20, 0x31, 0x1,  0x0,
                      0xc,  0x41, 0x6e, 0x73, 0x77, 0x65, 0x72, 0x20, 0x48, 0x65, 0x6c, 0x6c, 0x6f};
-        m_object = nlohmann::json::object(
-            {{"flag", 9},
-             {"question", "Test Question"},
-             {"length", 2},
-             {"answers",
-              nlohmann::json::array({nlohmann::json::object({{"id", 0}, {"answer", "Answer 1"}}),
-                                     nlohmann::json::object({{"id", 1}, {"answer", "Answer Hello"}})})}});
+        m_object = Json::object({{"flag", 9},
+                                 {"question", "Test Question"},
+                                 {"length", 2},
+                                 {"answers",
+                                  Json::array({Json::object({{"id", 0}, {"answer", "Answer 1"}}),
+                                               Json::object({{"id", 1}, {"answer", "Answer Hello"}})})}});
     }
 };
 

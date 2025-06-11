@@ -1,11 +1,11 @@
 #ifndef MULTIMEDIASCHEMA_H
 #define MULTIMEDIASCHEMA_H
 
+#include "JT808/Common.h"
 #include "LocationInformationSchema.h"
-#include "nlohmann/json.hpp"
 
 namespace Schema {
-static nlohmann::json MultimediaEventInformationSchema = R"(
+static Json MultimediaEventInformationSchema = R"(
 {
     "id": {
         "description": "Multimedia Data ID",
@@ -31,13 +31,13 @@ static nlohmann::json MultimediaEventInformationSchema = R"(
 
 )"_json;
 
-static nlohmann::json MultimediaRetrievalDataSchema = nlohmann::json::object(
-    {{"id", nlohmann::json::object({{"description", "Multimedia ID"}, {"type", "number"}})},
-     {"type", nlohmann::json::object({{"description", "Multimedia Type"}, {"type", "number"}})},
-     {"channel", nlohmann::json::object({{"description", "Channel ID"}, {"type", "number"}})},
-     {"event", nlohmann::json::object({{"description", "Event Item Code"}, {"type", "number"}})},
+static Json MultimediaRetrievalDataSchema = Json::object(
+    {{"id", Json::object({{"description", "Multimedia ID"}, {"type", "number"}})},
+     {"type", Json::object({{"description", "Multimedia Type"}, {"type", "number"}})},
+     {"channel", Json::object({{"description", "Channel ID"}, {"type", "number"}})},
+     {"event", Json::object({{"description", "Event Item Code"}, {"type", "number"}})},
      {"location",
-      nlohmann::json::object(
+      Json::object(
           {{"description", "Location Reporting"},
            {"type", "object"},
            {"properties", LocationInformationSchema},

@@ -1,14 +1,12 @@
 #ifndef LOCATIONINFORMATIONQUERYRESPONSE_H
 #define LOCATIONINFORMATIONQUERYRESPONSE_H
 
+#include "JT808/Common.h"
 #include "JT808/MessageBody/BasicLocationInformation.h"
 #include "JT808/MessageBody/ExtraLocationInformation.h"
 #include "JT808/MessageBody/LocationInformation.h"
 #include "MessageBodyBase.h"
 #include <cstdint>
-#include <vector>
-
-#include "nlohmann/json.hpp"
 
 namespace JT808::MessageBody {
 
@@ -19,13 +17,13 @@ public:
     LocationInformationQueryResponse(uint16_t seq, LocationInformation location);
     LocationInformationQueryResponse(uint16_t seq, const BasicLocationInformation& basic,
                                      const ExtraLocationInformation& extra);
-    void parse(const std::vector<uint8_t>& data) override;
+    void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;
-    std::vector<uint8_t> package() override;
+    ByteArray package() override;
     bool operator==(const LocationInformationQueryResponse& other) const;
 
-    void fromJson(const nlohmann::json& data) override;
-    nlohmann::json toJson() override;
+    void fromJson(const Json& data) override;
+    Json toJson() override;
 
     uint16_t seq() const;
     void setSeq(uint16_t newSeq);

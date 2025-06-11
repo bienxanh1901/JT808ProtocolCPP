@@ -1,11 +1,9 @@
 #ifndef ELECTRONICWAYBILLREPORT_H
 #define ELECTRONICWAYBILLREPORT_H
 
+#include "JT808/Common.h"
 #include "MessageBodyBase.h"
 #include <cstdint>
-#include <vector>
-
-#include "nlohmann/json.hpp"
 
 namespace JT808::MessageBody {
 
@@ -16,20 +14,20 @@ class ElectronicWaybillReport : public MessageBodyBase
 {
 public:
     ElectronicWaybillReport();
-    ElectronicWaybillReport(const std::vector<uint8_t>& data);
-    void parse(const std::vector<uint8_t>& data) override;
+    ElectronicWaybillReport(const ByteArray& data);
+    void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;
-    std::vector<uint8_t> package() override;
+    ByteArray package() override;
     bool operator==(const ElectronicWaybillReport& other) const;
 
-    void fromJson(const nlohmann::json& data) override;
-    nlohmann::json toJson() override;
+    void fromJson(const Json& data) override;
+    Json toJson() override;
 
-    std::vector<uint8_t> data() const;
-    void setData(const std::vector<uint8_t>& newData);
+    ByteArray data() const;
+    void setData(const ByteArray& newData);
 
 private:
-    std::vector<uint8_t> m_data;
+    ByteArray m_data;
 };
 
 }

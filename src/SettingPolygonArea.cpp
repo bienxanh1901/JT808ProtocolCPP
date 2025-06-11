@@ -1,10 +1,10 @@
 #include "JT808/MessageBody/SettingPolygonArea.h"
 #include "JT808/BCD.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/AreaSettingProperties.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/SettingPolygonAreaSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <string>
 #include <utility>
@@ -30,7 +30,7 @@ SettingPolygonArea::SettingPolygonArea(uint32_t id, AreaProperties flag, std::st
 {
 }
 
-void SettingPolygonArea::parse(const std::vector<uint8_t>& data)
+void SettingPolygonArea::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -73,9 +73,9 @@ void SettingPolygonArea::parse(const uint8_t* data, int size)
     setIsValid(true);
 }
 
-std::vector<uint8_t> SettingPolygonArea::package()
+ByteArray SettingPolygonArea::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // id
     Utils::appendU32(m_id, result);
     // flag
@@ -107,7 +107,7 @@ bool SettingPolygonArea::operator==(const SettingPolygonArea& other) const
         && m_overspeedDuration == other.m_overspeedDuration && m_points == other.m_points;
 }
 
-void SettingPolygonArea::fromJson(const nlohmann::json& data)
+void SettingPolygonArea::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_id = data["id"];
@@ -138,9 +138,9 @@ void SettingPolygonArea::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json SettingPolygonArea::toJson()
+Json SettingPolygonArea::toJson()
 {
-    nlohmann::json result({{"id", m_id}, {"flag", m_flag.value}});
+    Json result({{"id", m_id}, {"flag", m_flag.value}});
     if (m_flag.bits.areaTime == 1) {
         result["start_time"] = m_startTime;
         result["end_time"] = m_endTime;
@@ -245,21 +245,21 @@ int SettingPolygonArea::Point::parse(const uint8_t* data, int /*size*/)
     return pos;
 }
 
-std::vector<uint8_t> SettingPolygonArea::Point::package() const
+ByteArray SettingPolygonArea::Point::package() const
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     Utils::appendU32(lat, result);
     Utils::appendU32(lng, result);
     return result;
 }
 
-void SettingPolygonArea::Point::fromJson(const nlohmann::json& data)
+void SettingPolygonArea::Point::fromJson(const Json& data)
 {
     lat = data["lat"];
     lng = data["lng"];
 }
 
-nlohmann::json SettingPolygonArea::Point::toJson()
+Json SettingPolygonArea::Point::toJson()
 {
     return {{"lat", lat}, {"lng", lng}};
 }

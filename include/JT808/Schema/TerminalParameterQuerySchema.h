@@ -1,9 +1,9 @@
 #ifndef TERMINALPARAMETERQUERYSCHEMA_H
 #define TERMINALPARAMETERQUERYSCHEMA_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 namespace Schema {
-static nlohmann::json TerminalParameterQuerySchema = R"(
+static Json TerminalParameterQuerySchema = R"(
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Query Terminal Parameters Body",

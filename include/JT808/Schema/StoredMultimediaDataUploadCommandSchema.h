@@ -1,9 +1,9 @@
 #ifndef STOREDMULTIMEDIADATAUPLOADCOMMANDSCHEMA_H
 #define STOREDMULTIMEDIADATAUPLOADCOMMANDSCHEMA_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 namespace Schema {
-static nlohmann::json StoredMultimediaDataUploadCommandSchema = R"(
+static Json StoredMultimediaDataUploadCommandSchema = R"(
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Command for Uploading Stored Multimedia Data",

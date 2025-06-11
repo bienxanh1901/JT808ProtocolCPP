@@ -1,9 +1,9 @@
 #ifndef IMMEDIATECAMERACAPTURECOMMANDSCHEMA_H
 #define IMMEDIATECAMERACAPTURECOMMANDSCHEMA_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 namespace Schema {
-static nlohmann::json ImmediateCameraCaptureCommandSchema = R"(
+static Json ImmediateCameraCaptureCommandSchema = R"(
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Immediate Camera Capture Command",

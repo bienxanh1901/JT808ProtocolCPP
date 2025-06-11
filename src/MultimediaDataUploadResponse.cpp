@@ -1,8 +1,8 @@
 #include "JT808/MessageBody/MultimediaDataUploadResponse.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/MultimediaDataUploadResponseSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
@@ -20,7 +20,7 @@ MultimediaDataUploadResponse::MultimediaDataUploadResponse(uint32_t id, std::vec
 {
 }
 
-void MultimediaDataUploadResponse::parse(const std::vector<uint8_t>& data)
+void MultimediaDataUploadResponse::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -44,9 +44,9 @@ void MultimediaDataUploadResponse::parse(const uint8_t* data, int /*size*/)
     setIsValid(true);
 }
 
-std::vector<uint8_t> MultimediaDataUploadResponse::package()
+ByteArray MultimediaDataUploadResponse::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
 
     // id
     Utils::appendU32(m_id, result);
@@ -65,7 +65,7 @@ bool MultimediaDataUploadResponse::operator==(const MultimediaDataUploadResponse
     return m_id == other.m_id && m_retxIds == other.m_retxIds;
 }
 
-void MultimediaDataUploadResponse::fromJson(const nlohmann::json& data)
+void MultimediaDataUploadResponse::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_id = data["mm_id"];
@@ -78,7 +78,7 @@ void MultimediaDataUploadResponse::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json MultimediaDataUploadResponse::toJson()
+Json MultimediaDataUploadResponse::toJson()
 {
     return {
         {"mm_id", m_id},

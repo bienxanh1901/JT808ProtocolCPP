@@ -1,12 +1,11 @@
 #include "JT808/MessageBody/TerminalUpgradePackage.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/TerminalUpgradePackageSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <string>
 #include <utility>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -16,7 +15,7 @@ TerminalUpgradePackage::TerminalUpgradePackage()
 }
 
 TerminalUpgradePackage::TerminalUpgradePackage(UpgradeTypes type, std::string manufacturer, std::string version,
-                                               const std::vector<uint8_t>& firmware)
+                                               const ByteArray& firmware)
     : MessageBodyBase(Schema::TerminalUpgradePackageSchema)
     , m_type(type)
     , m_manufacturer(std::move(manufacturer))
@@ -25,7 +24,7 @@ TerminalUpgradePackage::TerminalUpgradePackage(UpgradeTypes type, std::string ma
 {
 }
 
-void TerminalUpgradePackage::parse(const std::vector<uint8_t>& data)
+void TerminalUpgradePackage::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -56,9 +55,9 @@ void TerminalUpgradePackage::parse(const uint8_t* data, int size)
     setIsValid(true);
 }
 
-std::vector<uint8_t> TerminalUpgradePackage::package()
+ByteArray TerminalUpgradePackage::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // type
     result.push_back(m_type);
     // manufacturer()
@@ -81,22 +80,22 @@ bool TerminalUpgradePackage::operator==(const TerminalUpgradePackage& other) con
         && m_firmware == other.m_firmware;
 }
 
-void TerminalUpgradePackage::fromJson(const nlohmann::json& data)
+void TerminalUpgradePackage::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_type = UpgradeTypes(data["type"]);
         m_manufacturer = data["manufacturer"];
         m_version = data["version"];
-        m_firmware = data["firmware"].get<std::vector<uint8_t>>();
+        m_firmware = data["firmware"].get<ByteArray>();
         setIsValid(true);
     } else {
         setIsValid(false);
     }
 }
 
-nlohmann::json TerminalUpgradePackage::toJson()
+Json TerminalUpgradePackage::toJson()
 {
-    return nlohmann::json::object({
+    return Json::object({
         {"type", m_type},
         {"manufacturer", m_manufacturer},
         {"version", m_version},
@@ -135,12 +134,12 @@ void TerminalUpgradePackage::setVersion(const std::string& newVersion)
     m_version = newVersion;
 }
 
-std::vector<uint8_t> TerminalUpgradePackage::firmware() const
+ByteArray TerminalUpgradePackage::firmware() const
 {
     return m_firmware;
 }
 
-void TerminalUpgradePackage::setFirmware(const std::vector<uint8_t>& newFirmware)
+void TerminalUpgradePackage::setFirmware(const ByteArray& newFirmware)
 {
     m_firmware = newFirmware;
 }

@@ -1,11 +1,10 @@
 #include "JT808/MessageBody/LocationInformation.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/BasicLocationInformation.h"
 #include "JT808/MessageBody/ExtraLocationInformation.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <utility>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -36,15 +35,15 @@ int LocationInformation::parse(const uint8_t* data, int size)
     return pos > size ? size : pos;
 }
 
-std::vector<uint8_t> LocationInformation::package()
+ByteArray LocationInformation::package()
 {
-    std::vector<uint8_t> result(m_basic.package());
+    ByteArray result(m_basic.package());
     Utils::append(m_extra.package(), result);
 
     return result;
 }
 
-void LocationInformation::fromJson(const nlohmann::json& data)
+void LocationInformation::fromJson(const Json& data)
 {
     m_basic.fromJson(data["basic"]);
     if (data.contains("extra")) {
@@ -52,10 +51,10 @@ void LocationInformation::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json LocationInformation::toJson()
+Json LocationInformation::toJson()
 {
-    nlohmann::json const extra = m_extra.toJson();
-    nlohmann::json result = nlohmann::json::object({{"basic", m_basic.toJson()}});
+    Json const extra = m_extra.toJson();
+    Json result = Json::object({{"basic", m_basic.toJson()}});
     if (!extra.empty()) {
         result["extra"] = extra;
     }

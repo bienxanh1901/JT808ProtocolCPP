@@ -1,9 +1,8 @@
 #include "JT808/MessageBody/AreaSettingProperties.h"
 #include "JT808/BCD.h"
+#include "JT808/Common.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -71,9 +70,9 @@ int AreaItem::parse(AreaType type, const uint8_t* data, int /*size*/)
     return pos;
 }
 
-std::vector<uint8_t> AreaItem::package(AreaType type) const
+ByteArray AreaItem::package(AreaType type) const
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
 
     // id
     Utils::appendU32(id, result);
@@ -115,7 +114,7 @@ std::vector<uint8_t> AreaItem::package(AreaType type) const
     return result;
 }
 
-void AreaItem::fromJson(AreaType type, const nlohmann::json& data)
+void AreaItem::fromJson(AreaType type, const Json& data)
 {
     id = data["id"];
     flag.value = data["flag"];
@@ -141,9 +140,9 @@ void AreaItem::fromJson(AreaType type, const nlohmann::json& data)
     }
 }
 
-nlohmann::json AreaItem::toJson(AreaType type)
+Json AreaItem::toJson(AreaType type)
 {
-    nlohmann::json result;
+    Json result;
     result["id"] = id;
     result["flag"] = flag.value;
     if (type == CircularArea) {

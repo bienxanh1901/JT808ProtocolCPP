@@ -1,10 +1,8 @@
 #ifndef MESSAGEBODYBASE_H
 #define MESSAGEBODYBASE_H
 
-#include "nlohmann/json-schema.hpp"
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 #include <cstdint>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -12,23 +10,23 @@ class MessageBodyBase
 {
 
 public:
-    MessageBodyBase(const nlohmann::json& schema);
-    virtual void parse(const std::vector<uint8_t>& data);
+    MessageBodyBase(const Json& schema);
+    virtual void parse(const ByteArray& data);
     virtual void parse(const uint8_t* data, int size);
-    virtual std::vector<uint8_t> package();
+    virtual ByteArray package();
 
-    virtual void fromJson(const nlohmann::json& data);
-    virtual nlohmann::json toJson();
+    virtual void fromJson(const Json& data);
+    virtual Json toJson();
 
     bool isValid() const;
     void setIsValid(bool newIsValid);
 
 protected:
-    bool validate(const nlohmann::json& data);
+    bool validate(const Json& data);
 
 private:
     bool m_isValid = false;
-    nlohmann::json_schema::json_validator m_validator;
+    JsonValidator m_validator;
 };
 
 }

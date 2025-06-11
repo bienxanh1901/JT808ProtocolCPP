@@ -1,12 +1,11 @@
 #include "JT808/MessageBody/TerminalParameterSetting.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/MessageBody/TerminalParameter.h"
 #include "JT808/Schema/TerminalParameterSettingSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <utility>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -15,7 +14,7 @@ TerminalParameterSetting::TerminalParameterSetting()
 {
 }
 
-TerminalParameterSetting::TerminalParameterSetting(const nlohmann::json& schema)
+TerminalParameterSetting::TerminalParameterSetting(const Json& schema)
     : MessageBodyBase(schema)
 {
 }
@@ -26,13 +25,13 @@ TerminalParameterSetting::TerminalParameterSetting(TerminalParameters params)
 {
 }
 
-TerminalParameterSetting::TerminalParameterSetting(const nlohmann::json& schema, TerminalParameters params)
+TerminalParameterSetting::TerminalParameterSetting(const Json& schema, TerminalParameters params)
     : MessageBodyBase(schema)
     , m_params(std::move(params))
 {
 }
 
-void TerminalParameterSetting::parse(const std::vector<uint8_t>& data)
+void TerminalParameterSetting::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -54,9 +53,9 @@ void TerminalParameterSetting::parse(const uint8_t* data, int size)
     setIsValid(true);
 }
 
-std::vector<uint8_t> TerminalParameterSetting::package()
+ByteArray TerminalParameterSetting::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // length
     result.push_back(m_params.size());
     // params
@@ -72,7 +71,7 @@ bool TerminalParameterSetting::operator==(const TerminalParameterSetting& other)
     return m_params == other.m_params;
 }
 
-void TerminalParameterSetting::fromJson(const nlohmann::json& data)
+void TerminalParameterSetting::fromJson(const Json& data)
 {
     if (validate(data)) {
         if (data["length"] > 0) {
@@ -88,9 +87,9 @@ void TerminalParameterSetting::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json TerminalParameterSetting::toJson()
+Json TerminalParameterSetting::toJson()
 {
-    nlohmann::json result({{"length", m_params.size()}, {"params", {}}});
+    Json result({{"length", m_params.size()}, {"params", {}}});
 
     for (auto& item : m_params) {
         result["params"].push_back(item.toJson());

@@ -1,10 +1,8 @@
 #include "JT808/MessageBody/TerminalParameter.h"
 #include "JT808/Common.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <map>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -143,9 +141,9 @@ int MessageBody::TerminalParameter::parse(const uint8_t* data, int /*size*/)
     return pos;
 }
 
-std::vector<uint8_t> TerminalParameter::package()
+ByteArray TerminalParameter::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     Utils::appendU32(id, result);
 
     if (id <= CANBusIDSetting) {
@@ -183,7 +181,7 @@ std::vector<uint8_t> TerminalParameter::package()
     return result;
 }
 
-void TerminalParameter::fromJson(const nlohmann::json& data)
+void TerminalParameter::fromJson(const Json& data)
 {
 
     id = data["id"];
@@ -211,13 +209,13 @@ void TerminalParameter::fromJson(const nlohmann::json& data)
             }
         }
     } else {
-        other = data["value"].get<std::vector<uint8_t>>();
+        other = data["value"].get<ByteArray>();
     }
 }
 
-nlohmann::json TerminalParameter::toJson()
+Json TerminalParameter::toJson()
 {
-    nlohmann::json result = nlohmann::json::object({{"id", id}});
+    Json result = Json::object({{"id", id}});
 
     if (id <= CANBusIDSetting) {
         if (paramTypes.find(id) != paramTypes.end()) {

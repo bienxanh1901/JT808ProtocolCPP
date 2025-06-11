@@ -1,6 +1,7 @@
 #ifndef TERMINALPROPERTIES_H
 #define TERMINALPROPERTIES_H
 
+#include "JT808/Common.h"
 #include <cstdint>
 
 namespace JT808::MessageBody {

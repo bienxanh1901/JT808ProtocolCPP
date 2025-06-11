@@ -1,9 +1,9 @@
 #ifndef DATACOMPRESSIONREPORTSCHEMA_H
 #define DATACOMPRESSIONREPORTSCHEMA_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 namespace Schema {
-static nlohmann::json DataCompressionReportSchema = R"(
+static Json DataCompressionReportSchema = R"(
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Data Compression Report ",

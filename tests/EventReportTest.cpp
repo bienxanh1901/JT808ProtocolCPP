@@ -12,7 +12,7 @@ protected:
 
         m_body = new EventReport(123);
         m_rawData = {0x7b};
-        m_object = nlohmann::json::object({{"id", 123}});
+        m_object = Json::object({{"id", 123}});
     }
 };
 

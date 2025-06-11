@@ -1,9 +1,9 @@
 #include "JT808/MessageBody/SettingArea.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/AreaSettingProperties.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/SettingAreaSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
@@ -25,7 +25,7 @@ SettingArea::SettingArea(AreaType areaType, AreaSettingType type, const std::vec
 {
 }
 
-void SettingArea::parse(const std::vector<uint8_t>& data)
+void SettingArea::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -49,9 +49,9 @@ void SettingArea::parse(const uint8_t* data, int size)
     setIsValid(true);
 }
 
-std::vector<uint8_t> SettingArea::package()
+ByteArray SettingArea::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
 
     result.push_back(m_type);
     result.push_back(m_areas.size());
@@ -68,7 +68,7 @@ bool SettingArea::operator==(const SettingArea& other) const
     return m_type == other.m_type && m_areas == other.m_areas;
 }
 
-void SettingArea::fromJson(const nlohmann::json& data)
+void SettingArea::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_type = AreaSettingType(data["type"]);
@@ -87,9 +87,9 @@ void SettingArea::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json SettingArea::toJson()
+Json SettingArea::toJson()
 {
-    nlohmann::json result(nlohmann::json::object({{"type", m_type}, {"length", m_areas.size()}, {"areas", {}}}));
+    Json result(Json::object({{"type", m_type}, {"length", m_areas.size()}, {"areas", {}}}));
 
     for (auto& item : m_areas) {
         result["areas"].push_back(item.toJson(m_areaType));

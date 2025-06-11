@@ -1,8 +1,8 @@
 #include "JT808/MessageBody/InformationServiceMenuSetting.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/InformationServiceMenuSettingSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
@@ -20,7 +20,7 @@ InformationServiceMenuSetting::InformationServiceMenuSetting(AreaSettingType typ
 {
 }
 
-void InformationServiceMenuSetting::parse(const std::vector<uint8_t>& data)
+void InformationServiceMenuSetting::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -46,9 +46,9 @@ void InformationServiceMenuSetting::parse(const uint8_t* data, int size)
     setIsValid(true);
 }
 
-std::vector<uint8_t> InformationServiceMenuSetting::package()
+ByteArray InformationServiceMenuSetting::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // type
     result.push_back(m_type);
     // length
@@ -66,7 +66,7 @@ bool InformationServiceMenuSetting::operator==(const InformationServiceMenuSetti
     return m_type == other.m_type && m_menus == other.m_menus;
 }
 
-void InformationServiceMenuSetting::fromJson(const nlohmann::json& data)
+void InformationServiceMenuSetting::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_type = AreaSettingType(data["type"]);
@@ -83,9 +83,9 @@ void InformationServiceMenuSetting::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json InformationServiceMenuSetting::toJson()
+Json InformationServiceMenuSetting::toJson()
 {
-    nlohmann::json result({{"type", m_type}, {"length", m_menus.size()}, {"menus", {}}});
+    Json result({{"type", m_type}, {"length", m_menus.size()}, {"menus", {}}});
     for (auto& item : m_menus) {
         result["menus"].push_back(item.toJson());
     }
@@ -134,9 +134,9 @@ int InformationServiceMenuSetting::MenuItem::parse(const uint8_t* data, int /*si
     return pos;
 }
 
-std::vector<uint8_t> InformationServiceMenuSetting::MenuItem::package() const
+ByteArray InformationServiceMenuSetting::MenuItem::package() const
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // type
     result.push_back(type);
     // length
@@ -147,13 +147,13 @@ std::vector<uint8_t> InformationServiceMenuSetting::MenuItem::package() const
     return result;
 }
 
-void InformationServiceMenuSetting::MenuItem::fromJson(const nlohmann::json& data)
+void InformationServiceMenuSetting::MenuItem::fromJson(const Json& data)
 {
     type = data["type"];
     info = data["info"];
 }
 
-nlohmann::json InformationServiceMenuSetting::MenuItem::toJson()
+Json InformationServiceMenuSetting::MenuItem::toJson()
 {
     return {{"type", type}, {"info", info}};
 }

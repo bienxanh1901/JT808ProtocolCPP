@@ -1,9 +1,9 @@
 #ifndef TERMINALUPGRADEPACKAGESCHEMA_H
 #define TERMINALUPGRADEPACKAGESCHEMA_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 namespace Schema {
-static nlohmann::json TerminalUpgradePackageSchema = R"(
+static Json TerminalUpgradePackageSchema = R"(
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Terminal Upgrade Package Command",

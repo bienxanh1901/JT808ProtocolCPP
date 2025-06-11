@@ -1,9 +1,9 @@
 #ifndef SETTINGROUTESCHEMA_H
 #define SETTINGROUTESCHEMA_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 namespace Schema {
-static nlohmann::json SettingRouteSchema = R"(
+static Json SettingRouteSchema = R"(
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Setting Route",

@@ -1,10 +1,9 @@
 #ifndef GENERALRESPONSE_H
 #define GENERALRESPONSE_H
 
+#include "JT808/Common.h"
 #include "MessageBodyBase.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -25,13 +24,13 @@ public:
 
     GeneralResponse();
     GeneralResponse(uint16_t seq, uint16_t id, ResponseResults result);
-    void parse(const std::vector<uint8_t>& data) override;
+    void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;
-    std::vector<uint8_t> package() override;
+    ByteArray package() override;
     bool operator==(const GeneralResponse& other) const;
 
-    void fromJson(const nlohmann::json& data) override;
-    nlohmann::json toJson() override;
+    void fromJson(const Json& data) override;
+    Json toJson() override;
 
     uint16_t id() const;
     void setId(uint16_t newId);

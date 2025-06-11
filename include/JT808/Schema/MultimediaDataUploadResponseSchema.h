@@ -1,9 +1,9 @@
 #ifndef MULTIMEDIADATAUPLOADRESPONSESCHEMA_H
 #define MULTIMEDIADATAUPLOADRESPONSESCHEMA_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 namespace Schema {
-static nlohmann::json MultimediaDataUploadResponseSchema = R"(
+static Json MultimediaDataUploadResponseSchema = R"(
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Response to Multimedia Data Upload",

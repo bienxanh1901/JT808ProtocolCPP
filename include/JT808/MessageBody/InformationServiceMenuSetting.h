@@ -1,12 +1,11 @@
 #ifndef INFORMATIONSERVICEMENUSETTING_H
 #define INFORMATIONSERVICEMENUSETTING_H
 
+#include "JT808/Common.h"
 #include "MessageBodyBase.h"
 #include <cstdint>
 #include <string>
 #include <vector>
-
-#include "nlohmann/json.hpp"
 
 namespace JT808::MessageBody {
 
@@ -28,20 +27,20 @@ public:
 
         bool operator==(const MenuItem& other) const;
         int parse(const uint8_t* data, int size);
-        std::vector<uint8_t> package() const;
-        void fromJson(const nlohmann::json& data);
-        nlohmann::json toJson();
+        ByteArray package() const;
+        void fromJson(const Json& data);
+        Json toJson();
     };
 
     InformationServiceMenuSetting();
     InformationServiceMenuSetting(AreaSettingType type, const std::vector<MenuItem>& menus);
-    void parse(const std::vector<uint8_t>& data) override;
+    void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;
-    std::vector<uint8_t> package() override;
+    ByteArray package() override;
     bool operator==(const InformationServiceMenuSetting& other) const;
 
-    void fromJson(const nlohmann::json& data) override;
-    nlohmann::json toJson() override;
+    void fromJson(const Json& data) override;
+    Json toJson() override;
 
     AreaSettingType type() const;
     void setType(AreaSettingType newType);

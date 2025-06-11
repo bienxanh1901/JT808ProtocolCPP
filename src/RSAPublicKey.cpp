@@ -1,10 +1,9 @@
 #include "JT808/MessageBody/RSAPublicKey.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/RSAPublicKeySchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -13,13 +12,13 @@ RSAPublicKey::RSAPublicKey()
 {
 }
 
-RSAPublicKey::RSAPublicKey(const std::vector<uint8_t>& data)
+RSAPublicKey::RSAPublicKey(const ByteArray& data)
     : MessageBodyBase(Schema::RSAPublicKeySchema)
     , m_data(data)
 {
 }
 
-void RSAPublicKey::parse(const std::vector<uint8_t>& data)
+void RSAPublicKey::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -37,9 +36,9 @@ void RSAPublicKey::parse(const uint8_t* data, int /*size*/)
     setIsValid(true);
 }
 
-std::vector<uint8_t> RSAPublicKey::package()
+ByteArray RSAPublicKey::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // length
     Utils::appendU32(m_data.size(), result);
     // data
@@ -53,27 +52,27 @@ bool RSAPublicKey::operator==(const RSAPublicKey& other) const
     return m_data == other.m_data;
 }
 
-void RSAPublicKey::fromJson(const nlohmann::json& data)
+void RSAPublicKey::fromJson(const Json& data)
 {
     if (validate(data)) {
-        m_data = data["data"].get<std::vector<uint8_t>>();
+        m_data = data["data"].get<ByteArray>();
         setIsValid(true);
     } else {
         setIsValid(false);
     }
 }
 
-nlohmann::json RSAPublicKey::toJson()
+Json RSAPublicKey::toJson()
 {
     return {{"data", m_data}};
 }
 
-std::vector<uint8_t> RSAPublicKey::data() const
+ByteArray RSAPublicKey::data() const
 {
     return m_data;
 }
 
-void RSAPublicKey::setData(const std::vector<uint8_t>& newData)
+void RSAPublicKey::setData(const ByteArray& newData)
 {
     m_data = newData;
 }

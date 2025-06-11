@@ -2,11 +2,10 @@
 #define LOCATIONINFORMATION_H
 
 #include <cstdint>
-#include <vector>
 
 #include "BasicLocationInformation.h"
 #include "ExtraLocationInformation.h"
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 
 namespace JT808::MessageBody {
 
@@ -17,10 +16,10 @@ public:
     LocationInformation(BasicLocationInformation basic, ExtraLocationInformation extra);
     bool operator==(const LocationInformation& other) const;
     int parse(const uint8_t* data, int size);
-    std::vector<uint8_t> package();
+    ByteArray package();
 
-    void fromJson(const nlohmann::json& data);
-    nlohmann::json toJson();
+    void fromJson(const Json& data);
+    Json toJson();
 
     BasicLocationInformation basic() const;
     void setBasic(const BasicLocationInformation& newBasic);

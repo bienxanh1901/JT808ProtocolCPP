@@ -1,11 +1,11 @@
 #include "JT808/MessageBody/BasicLocationInformation.h"
 #include "JT808/BCD.h"
+#include "JT808/Common.h"
+#include "JT808/MessageBody/LocationInformationCommon.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <string>
 #include <utility>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -30,7 +30,7 @@ bool BasicLocationInformation::operator==(const BasicLocationInformation& other)
         && m_time == other.m_time;
 }
 
-int BasicLocationInformation::parse(const uint8_t* data, int /*size*/ e)
+int BasicLocationInformation::parse(const uint8_t* data, int /*size*/)
 {
     int pos = 0;
 
@@ -62,9 +62,9 @@ int BasicLocationInformation::parse(const uint8_t* data, int /*size*/ e)
     return pos;
 }
 
-std::vector<uint8_t> BasicLocationInformation::package()
+ByteArray BasicLocationInformation::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
 
     // alarm
     Utils::appendU32(m_alarm.value, result);
@@ -86,7 +86,7 @@ std::vector<uint8_t> BasicLocationInformation::package()
     return result;
 }
 
-void BasicLocationInformation::fromJson(const nlohmann::json& data)
+void BasicLocationInformation::fromJson(const Json& data)
 {
     m_alarm.value = data["alarm"];
     m_status.value = data["status"];
@@ -98,16 +98,16 @@ void BasicLocationInformation::fromJson(const nlohmann::json& data)
     m_time = data["time"];
 }
 
-nlohmann::json BasicLocationInformation::toJson()
+Json BasicLocationInformation::toJson()
 {
-    return nlohmann::json::object({{"alarm", m_alarm.value},
-                                   {"status", m_status.value},
-                                   {"latitude", m_lat},
-                                   {"longitude", m_lng},
-                                   {"altitude", m_alt},
-                                   {"speed", m_speed},
-                                   {"bearing", m_bearing},
-                                   {"time", m_time}});
+    return Json::object({{"alarm", m_alarm.value},
+                         {"status", m_status.value},
+                         {"latitude", m_lat},
+                         {"longitude", m_lng},
+                         {"altitude", m_alt},
+                         {"speed", m_speed},
+                         {"bearing", m_bearing},
+                         {"time", m_time}});
 }
 
 AlarmFlags BasicLocationInformation::alarm() const

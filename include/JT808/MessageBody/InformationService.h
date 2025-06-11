@@ -1,12 +1,10 @@
 #ifndef INFORMATIONSERVICE_H
 #define INFORMATIONSERVICE_H
 
+#include "JT808/Common.h"
 #include "MessageBodyBase.h"
 #include <cstdint>
 #include <string>
-#include <vector>
-
-#include "nlohmann/json.hpp"
 
 namespace JT808::MessageBody {
 
@@ -15,13 +13,13 @@ class InformationService : public MessageBodyBase
 public:
     InformationService();
     InformationService(uint8_t type, std::string info);
-    void parse(const std::vector<uint8_t>& data) override;
+    void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;
-    std::vector<uint8_t> package() override;
+    ByteArray package() override;
     bool operator==(const InformationService& other) const;
 
-    void fromJson(const nlohmann::json& data) override;
-    nlohmann::json toJson() override;
+    void fromJson(const Json& data) override;
+    Json toJson() override;
 
     uint8_t type() const;
     void setType(uint8_t newType);

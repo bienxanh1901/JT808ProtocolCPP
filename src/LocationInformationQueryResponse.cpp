@@ -1,14 +1,13 @@
 #include "JT808/MessageBody/LocationInformationQueryResponse.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/BasicLocationInformation.h"
 #include "JT808/MessageBody/ExtraLocationInformation.h"
 #include "JT808/MessageBody/LocationInformation.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/LocationInformationQueryResponseSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <utility>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -32,7 +31,7 @@ LocationInformationQueryResponse::LocationInformationQueryResponse(uint16_t seq,
 {
 }
 
-void LocationInformationQueryResponse::parse(const std::vector<uint8_t>& data)
+void LocationInformationQueryResponse::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -44,9 +43,9 @@ void LocationInformationQueryResponse::parse(const uint8_t* data, int size)
     setIsValid(true);
 }
 
-std::vector<uint8_t> LocationInformationQueryResponse::package()
+ByteArray LocationInformationQueryResponse::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
 
     Utils::appendU16(m_seq, result);
     Utils::append(m_info.package(), result);
@@ -59,7 +58,7 @@ bool LocationInformationQueryResponse::operator==(const LocationInformationQuery
     return m_seq == other.m_seq && m_info == other.m_info;
 }
 
-void LocationInformationQueryResponse::fromJson(const nlohmann::json& data)
+void LocationInformationQueryResponse::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_seq = data["seq"];
@@ -70,9 +69,9 @@ void LocationInformationQueryResponse::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json LocationInformationQueryResponse::toJson()
+Json LocationInformationQueryResponse::toJson()
 {
-    return nlohmann::json::object({{"seq", m_seq}, {"location", m_info.toJson()}});
+    return Json::object({{"seq", m_seq}, {"location", m_info.toJson()}});
 }
 
 uint16_t LocationInformationQueryResponse::seq() const

@@ -1,13 +1,12 @@
 #include "JT808/MessageBody/TerminalRegistration.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/TerminalRegistrationSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <cstring>
 #include <string>
 #include <utility>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -30,7 +29,7 @@ TerminalRegistration::TerminalRegistration(uint16_t province, uint16_t city, std
 {
 }
 
-void TerminalRegistration::parse(const std::vector<uint8_t>& data)
+void TerminalRegistration::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -65,9 +64,9 @@ void TerminalRegistration::parse(const uint8_t* data, int size)
     setIsValid(true);
 }
 
-std::vector<uint8_t> TerminalRegistration::package()
+ByteArray TerminalRegistration::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // province
     Utils::appendU16(m_province, result);
     // city
@@ -101,7 +100,7 @@ bool TerminalRegistration::operator==(const TerminalRegistration& other) const
         && m_licenseNumber == other.m_licenseNumber;
 }
 
-void TerminalRegistration::fromJson(const nlohmann::json& data)
+void TerminalRegistration::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_province = data["province"];
@@ -117,14 +116,14 @@ void TerminalRegistration::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json TerminalRegistration::toJson()
+Json TerminalRegistration::toJson()
 {
-    nlohmann::json result(nlohmann::json::object({{"province", m_province},
-                                                  {"city", m_city},
-                                                  {"manufacturer", m_manufacturer},
-                                                  {"model", m_model},
-                                                  {"id", m_id},
-                                                  {"color", m_color}}));
+    Json result(Json::object({{"province", m_province},
+                              {"city", m_city},
+                              {"manufacturer", m_manufacturer},
+                              {"model", m_model},
+                              {"id", m_id},
+                              {"color", m_color}}));
 
     if (m_color != NoLicensePlate) {
         result["license_number"] = m_licenseNumber;
