@@ -302,7 +302,8 @@ Json ExtraLocationInformation::toJson()
     if (!m_custom.empty()) {
         result["custom"] = Json::array({});
         for (auto& item : m_custom) {
-            result.push_back(Json::object({{"id", item.first}, {"data", item.second}, {"length", item.second.size()}}));
+            result["custom"].push_back(
+                Json::object({{"id", item.first}, {"data", item.second}, {"length", item.second.size()}}));
         }
     }
     return result;
