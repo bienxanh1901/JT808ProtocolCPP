@@ -1,11 +1,10 @@
 #include "JT808/MessageBody/TerminalParameterQueryResponse.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/TerminalParameter.h"
 #include "JT808/MessageBody/TerminalParameterSetting.h"
 #include "JT808/Schema/TerminalParameterQueryResponseSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -20,7 +19,7 @@ TerminalParameterQueryResponse::TerminalParameterQueryResponse(uint16_t seq, con
 {
 }
 
-void TerminalParameterQueryResponse::parse(const std::vector<uint8_t>& data)
+void TerminalParameterQueryResponse::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -33,9 +32,9 @@ void TerminalParameterQueryResponse::parse(const uint8_t* data, int /*size*/)
     TerminalParameterSetting::parse(data + sizeof(m_seq), sizeof(m_seq));
 }
 
-std::vector<uint8_t> TerminalParameterQueryResponse::package()
+ByteArray TerminalParameterQueryResponse::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // seq
     Utils::appendU16(m_seq, result);
     // params
@@ -49,7 +48,7 @@ bool TerminalParameterQueryResponse::operator==(const TerminalParameterQueryResp
     return m_seq == other.m_seq && TerminalParameterSetting::operator==(other);
 }
 
-void TerminalParameterQueryResponse::fromJson(const nlohmann::json& data)
+void TerminalParameterQueryResponse::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_seq = data["seq"];
@@ -59,9 +58,9 @@ void TerminalParameterQueryResponse::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json TerminalParameterQueryResponse::toJson()
+Json TerminalParameterQueryResponse::toJson()
 {
-    nlohmann::json result(TerminalParameterSetting::toJson());
+    Json result(TerminalParameterSetting::toJson());
     result["seq"] = m_seq;
 
     return result;

@@ -1,14 +1,13 @@
 #include "JT808/MessageBody/StoredMultimediaDataRetrieval.h"
 #include "JT808/BCD.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/MessageBody/Multimedia.h"
 #include "JT808/Schema/StoredMultimediaDataRetrievalSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <string>
 #include <utility>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -17,7 +16,7 @@ StoredMultimediaDataRetrieval::StoredMultimediaDataRetrieval()
 {
 }
 
-StoredMultimediaDataRetrieval::StoredMultimediaDataRetrieval(const nlohmann::json& schema)
+StoredMultimediaDataRetrieval::StoredMultimediaDataRetrieval(const Json& schema)
     : MessageBodyBase(schema)
 {
 }
@@ -33,8 +32,8 @@ StoredMultimediaDataRetrieval::StoredMultimediaDataRetrieval(MediaType type, uin
 {
 }
 
-StoredMultimediaDataRetrieval::StoredMultimediaDataRetrieval(const nlohmann::json& schema, MediaType type,
-                                                             uint8_t channel, EventCode event, std::string startTime,
+StoredMultimediaDataRetrieval::StoredMultimediaDataRetrieval(const Json& schema, MediaType type, uint8_t channel,
+                                                             EventCode event, std::string startTime,
                                                              std::string endTime)
     : MessageBodyBase(schema)
     , m_type(type)
@@ -45,7 +44,7 @@ StoredMultimediaDataRetrieval::StoredMultimediaDataRetrieval(const nlohmann::jso
 {
 }
 
-void StoredMultimediaDataRetrieval::parse(const std::vector<uint8_t>& data)
+void StoredMultimediaDataRetrieval::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -69,9 +68,9 @@ void StoredMultimediaDataRetrieval::parse(const uint8_t* data, int /*size*/)
     setIsValid(true);
 }
 
-std::vector<uint8_t> StoredMultimediaDataRetrieval::package()
+ByteArray StoredMultimediaDataRetrieval::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // type
     result.push_back(m_type);
     // channel
@@ -92,7 +91,7 @@ bool StoredMultimediaDataRetrieval::operator==(const StoredMultimediaDataRetriev
         && m_startTime == other.m_startTime && m_endTime == other.m_endTime;
 }
 
-void StoredMultimediaDataRetrieval::fromJson(const nlohmann::json& data)
+void StoredMultimediaDataRetrieval::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_type = MediaType(data["type"]);
@@ -106,9 +105,9 @@ void StoredMultimediaDataRetrieval::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json StoredMultimediaDataRetrieval::toJson()
+Json StoredMultimediaDataRetrieval::toJson()
 {
-    return nlohmann::json::object({
+    return Json::object({
         {"type", m_type},
         {"channel", m_channel},
         {"event", m_event},

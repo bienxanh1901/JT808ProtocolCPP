@@ -1,8 +1,10 @@
 #include "JT808/Message.h"
 #include "JT808/BCD.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/MessageBody/MessageBodyFactory.h"
 #include "JT808/MessageIds.h"
+#include "JT808/Schema/MessageSchema.h"
 #include "JT808/Utils.h"
 #include <cstdint>
 #include <memory>
@@ -21,18 +23,41 @@ enum MessageDef : uint8_t
     BodyPacketPos = HeaderPos + HeaderPacketSize,
 };
 
+Message::Message()
+{
+    m_validator.set_root_schema(Schema::MessageSchema);
+}
+
 Message::Message(Header header, std::unique_ptr<MessageBody::MessageBodyBase> body)
     : m_header(std::move(header))
     , m_body(std::move(body))
 {
+    m_validator.set_root_schema(Schema::MessageSchema);
 }
 
-std::vector<uint8_t> Message::package()
+void Message::fromJson(const Json& data)
 {
-    std::vector<uint8_t> result;
+    if (validateJson(data)) {
+        m_header.fromJson(data["header"]);
+        m_body = MessageBody::MessageBodyFactory::create(MessageIds(m_header.id));
+        m_body->fromJson(data.value("body", Json::object({})));
+        m_isValid = m_body->isValid();
+    } else {
+        m_isValid = false;
+    }
+}
+
+Json Message::toJson()
+{
+    return Json::object({{"header", m_header.toJson()}, {"body", m_body->toJson()}});
+}
+
+ByteArray Message::package()
+{
+    ByteArray result;
 
     // package body
-    std::vector<uint8_t> const bodyRawData(packageBody());
+    ByteArray const bodyRawData(packageBody());
     // modify body len in header
     m_header.bodyProps.bits.len = bodyRawData.size();
     // header
@@ -53,9 +78,9 @@ std::vector<uint8_t> Message::package()
     return result;
 }
 
-void Message::parse(const std::vector<uint8_t>& data)
+void Message::parse(const ByteArray& data)
 {
-    std::vector<uint8_t> output = Utils::reverseEscape(data);
+    ByteArray output = Utils::reverseEscape(data);
     m_checksum = Utils::calculateChecksum(output.data() + HeaderPos, output.size() - 3);
     validateChecksum(*(output.end() - 2));
 
@@ -80,15 +105,15 @@ void Message::validateChecksum(uint8_t checksum)
     m_isValid = m_checksum == checksum;
 }
 
-bool Message::parseHeader(const std::vector<uint8_t>& data)
+bool Message::parseHeader(const ByteArray& data)
 {
 
     return m_header.parse(data.data() + HeaderPos, data.size()) > 0;
 }
 
-bool Message::parseBody(const std::vector<uint8_t>& data)
+bool Message::parseBody(const ByteArray& data)
 {
-    std::vector<uint8_t> body;
+    ByteArray body;
     int pos = BodyNoPacketPos;
 
     if (m_header.bodyProps.bits.segment == 1) {
@@ -104,12 +129,19 @@ bool Message::parseBody(const std::vector<uint8_t>& data)
     return m_body->isValid();
 }
 
-std::vector<uint8_t> Message::packageHeader()
+bool Message::validateJson(const Json& data)
+{
+    nlohmann::json_schema::basic_error_handler err;
+    m_validator.validate(data, err);
+    return !err;
+}
+
+ByteArray Message::packageHeader()
 {
     return m_header.package();
 }
 
-std::vector<uint8_t> Message::packageBody()
+ByteArray Message::packageBody()
 {
     if (m_body != nullptr) {
         return m_body->package();
@@ -183,9 +215,9 @@ int Message::Header::parse(const uint8_t* data, int size)
     return pos;
 }
 
-std::vector<uint8_t> Message::Header::package() const
+ByteArray Message::Header::package() const
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
 
     // id
     Utils::appendU16(id, result);
@@ -201,6 +233,40 @@ std::vector<uint8_t> Message::Header::package() const
         Utils::appendU16(pkgEncap.data.fragTotal, result);
         // packet sn
         Utils::appendU16(pkgEncap.data.fragSN, result);
+    }
+
+    return result;
+}
+
+void Message::Header::fromJson(const Json& data)
+{
+    id = data["id"];
+    bodyProps.bits.encrypt = data["encrypt"];
+    bodyProps.bits.len = data["length"];
+    bodyProps.bits.segment = data.value("segment", 0);
+    if (bodyProps.bits.segment) {
+        pkgEncap.data.fragTotal = data.value("frag_total", 0);
+        pkgEncap.data.fragSN = data.value("frag_seq", 0);
+    }
+
+    phone = data["phone"];
+    seq = data["seq"];
+}
+
+Json Message::Header::toJson()
+{
+    Json result = Json::object({
+        {"id", id},
+        {"encrypt", (int)bodyProps.bits.encrypt},
+        {"length", (int)bodyProps.bits.len},
+        {"segment", (int)bodyProps.bits.segment},
+        {"phone", phone},
+        {"seq", seq},
+    });
+
+    if (bodyProps.bits.segment == 1) {
+        result["frag_total"] = pkgEncap.data.fragTotal;
+        result["frag_seq"] = pkgEncap.data.fragSN;
     }
 
     return result;

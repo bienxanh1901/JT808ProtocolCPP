@@ -11,8 +11,8 @@ JT808::Utils::U32Array input32 {.value = 0x12345678};
 uint16_t expectedOutput16 {0x3412};
 uint32_t expectedOutput32 {0x78563412};
 
-std::vector<uint8_t> unescapedData {0x30, 0x7e, 0x08, 0x7d, 0x55};
-std::vector<uint8_t> escapedData {0x30, 0x7d, 0x02, 0x08, 0x7d, 0x01, 0x55};
+ByteArray unescapedData {0x30, 0x7e, 0x08, 0x7d, 0x55};
+ByteArray escapedData {0x30, 0x7d, 0x02, 0x08, 0x7d, 0x01, 0x55};
 uint8_t trueChecksum = 110;
 }
 
@@ -32,7 +32,7 @@ TEST(UtilsTest, endianSwap16_1)
 TEST(UtilsTest, endianSwap16_2)
 {
 
-    std::vector<uint8_t> const input16Vector(input16.array, input16.array + 2);
+    ByteArray const input16Vector(input16.array, input16.array + 2);
 
     uint16_t const output = endianSwap16(input16Vector);
 
@@ -60,7 +60,7 @@ TEST(UtilsTest, endianSwap32_1)
 TEST(UtilsTest, endianSwap32_2)
 {
 
-    std::vector<uint8_t> const input32Vector(input32.array, input32.array + 4);
+    ByteArray const input32Vector(input32.array, input32.array + 4);
 
     uint32_t const output = endianSwap32(input32Vector);
 
@@ -100,14 +100,14 @@ TEST(UtilsTest, gbkDecode2)
 
 TEST(UtilsTest, escape)
 {
-    std::vector<uint8_t> const data = escape(unescapedData);
+    ByteArray const data = escape(unescapedData);
     EXPECT_EQ(data.size(), escapedData.size());
     EXPECT_EQ(data, escapedData);
 }
 
 TEST(UtilsTest, reverseEscape)
 {
-    std::vector<uint8_t> const data = reverseEscape(escapedData);
+    ByteArray const data = reverseEscape(escapedData);
     EXPECT_EQ(data.size(), unescapedData.size());
     EXPECT_EQ(data, unescapedData);
 }

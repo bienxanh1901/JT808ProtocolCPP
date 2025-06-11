@@ -1,9 +1,9 @@
 #ifndef TERMINALPROPERTIESQUERYRESPONSESCHEMA_H
 #define TERMINALPROPERTIESQUERYRESPONSESCHEMA_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 namespace Schema {
-static nlohmann::json TerminalPropertiesQueryResponseSchema = R"(
+static Json TerminalPropertiesQueryResponseSchema = R"(
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Query Terminal Property Response",

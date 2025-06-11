@@ -1,9 +1,9 @@
 #ifndef TEXTMESSAGEDISPATCHSCHEMA_H
 #define TEXTMESSAGEDISPATCHSCHEMA_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 namespace Schema {
-static nlohmann::json TextMessageDispatchSchema = R"(
+static Json TextMessageDispatchSchema = R"(
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Text Message Dispatch",

@@ -1,9 +1,9 @@
 #ifndef PHONEBOOKSETTINGSCHEMA_H
 #define PHONEBOOKSETTINGSCHEMA_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 namespace Schema {
-static nlohmann::json PhoneBookSettingSchema = R"(
+static Json PhoneBookSettingSchema = R"(
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Phonebook Setting",

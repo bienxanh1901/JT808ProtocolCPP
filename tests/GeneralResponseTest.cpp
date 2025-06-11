@@ -15,8 +15,8 @@ protected:
     {
         m_body = new GeneralResponse(123, TerminalAuthenticationMsgId, GeneralResponse::Succeeded);
         m_rawData = {0x0, 0x7b, 0x1, 0x2, 0x0};
-        m_object = nlohmann::json::object(
-            {{"seq", 123}, {"id", TerminalAuthenticationMsgId}, {"result", GeneralResponse::Succeeded}});
+        m_object =
+            Json::object({{"seq", 123}, {"id", TerminalAuthenticationMsgId}, {"result", GeneralResponse::Succeeded}});
     }
 };
 
@@ -28,11 +28,11 @@ TEST_F(GeneralResponseTest, TestParseSuccess)
 TEST_F(GeneralResponseTest, TestParseFailed1)
 {
     GeneralResponse body;
-    body.parse(std::vector<uint8_t>(3));
+    body.parse(ByteArray(3));
 
     EXPECT_FALSE(body.isValid());
 
-    body.parse(std::vector<uint8_t>(20));
+    body.parse(ByteArray(20));
 
     EXPECT_FALSE(body.isValid());
 }

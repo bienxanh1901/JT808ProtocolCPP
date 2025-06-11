@@ -2,12 +2,12 @@
 #define LOCATIONINFORMATIONSCHEMA_H
 
 #include "BasicLocationInformationSchema.h"
+#include "JT808/Common.h"
 #include "JT808/Schema/ExtraLocationInformationSchema.h"
-#include "nlohmann/json.hpp"
 
 namespace Schema {
 
-static nlohmann::json LocationInformationSchema =
-    nlohmann::json::object({{"basic", BasicLocationInformationSchema}, {"extra", ExtraLocationInformationSchema}});
+static Json LocationInformationSchema =
+    Json::object({{"basic", BasicLocationInformationSchema}, {"extra", ExtraLocationInformationSchema}});
 }
 #endif // LOCATIONINFORMATIONSCHEMA_H

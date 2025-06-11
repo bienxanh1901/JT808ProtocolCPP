@@ -1,9 +1,9 @@
 #ifndef INFORMATIONSERVICEMENUSETTINGSCHEMA_H
 #define INFORMATIONSERVICEMENUSETTINGSCHEMA_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 namespace Schema {
-static nlohmann::json InformationServiceMenuSettingSchema = R"(
+static Json InformationServiceMenuSettingSchema = R"(
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Information Service Menu Setting ",

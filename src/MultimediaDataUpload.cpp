@@ -1,13 +1,12 @@
 #include "JT808/MessageBody/MultimediaDataUpload.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/BasicLocationInformation.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/MessageBody/Multimedia.h"
 #include "JT808/Schema/MultimediaDataUploadSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <utility>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -17,7 +16,7 @@ MultimediaDataUpload::MultimediaDataUpload()
 }
 
 MultimediaDataUpload::MultimediaDataUpload(MultimediaEventInformation info, BasicLocationInformation location,
-                                           const std::vector<uint8_t>& media)
+                                           const ByteArray& media)
     : MessageBodyBase(Schema::MultimediaDataUploadSchema)
     , m_info(info)
     , m_location(std::move(location))
@@ -25,7 +24,7 @@ MultimediaDataUpload::MultimediaDataUpload(MultimediaEventInformation info, Basi
 {
 }
 
-void MultimediaDataUpload::parse(const std::vector<uint8_t>& data)
+void MultimediaDataUpload::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -45,10 +44,10 @@ void MultimediaDataUpload::parse(const uint8_t* data, int size)
     setIsValid(true);
 }
 
-std::vector<uint8_t> MultimediaDataUpload::package()
+ByteArray MultimediaDataUpload::package()
 {
     // info
-    std::vector<uint8_t> result(m_info.package());
+    ByteArray result(m_info.package());
     // location
     Utils::append(m_location.package(), result);
     // media
@@ -62,21 +61,21 @@ bool MultimediaDataUpload::operator==(const MultimediaDataUpload& other) const
     return m_info == other.m_info && m_location == other.m_location && m_media == other.m_media;
 }
 
-void MultimediaDataUpload::fromJson(const nlohmann::json& data)
+void MultimediaDataUpload::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_info.fromJson(data["info"]);
         m_location.fromJson(data["location"]);
-        m_media = data["multimedia"].get<std::vector<uint8_t>>();
+        m_media = data["multimedia"].get<ByteArray>();
         setIsValid(true);
     } else {
         setIsValid(false);
     }
 }
 
-nlohmann::json MultimediaDataUpload::toJson()
+Json MultimediaDataUpload::toJson()
 {
-    nlohmann::json result;
+    Json result;
     result["info"] = m_info.toJson();
     result["location"] = m_location.toJson();
     result["multimedia"] = m_media;
@@ -103,12 +102,12 @@ void MultimediaDataUpload::setLocation(const BasicLocationInformation& newLocati
     m_location = newLocation;
 }
 
-std::vector<uint8_t> MultimediaDataUpload::media() const
+ByteArray MultimediaDataUpload::media() const
 {
     return m_media;
 }
 
-void MultimediaDataUpload::setMedia(const std::vector<uint8_t>& newMedia)
+void MultimediaDataUpload::setMedia(const ByteArray& newMedia)
 {
     m_media = newMedia;
 }

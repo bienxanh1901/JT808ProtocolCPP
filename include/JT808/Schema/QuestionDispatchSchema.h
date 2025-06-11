@@ -1,9 +1,9 @@
 #ifndef QUESTIONDISPATCHSCHEMA_H
 #define QUESTIONDISPATCHSCHEMA_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 namespace Schema {
-static nlohmann::json QuestionDispatchSchema = R"(
+static Json QuestionDispatchSchema = R"(
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Question Dispatch",

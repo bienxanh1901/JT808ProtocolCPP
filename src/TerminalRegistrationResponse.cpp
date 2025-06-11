@@ -1,12 +1,11 @@
 #include "JT808/MessageBody/TerminalRegistrationResponse.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/TerminalRegistrationResponseSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <string>
 #include <utility>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -23,7 +22,7 @@ TerminalRegistrationResponse::TerminalRegistrationResponse(uint16_t seq, Respons
 {
 }
 
-void TerminalRegistrationResponse::parse(const std::vector<uint8_t>& data)
+void TerminalRegistrationResponse::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -44,9 +43,9 @@ void TerminalRegistrationResponse::parse(const uint8_t* data, int size)
     setIsValid(true);
 }
 
-std::vector<uint8_t> TerminalRegistrationResponse::package()
+ByteArray TerminalRegistrationResponse::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // seq
     Utils::appendU16(m_seq, result);
     // result
@@ -64,7 +63,7 @@ bool TerminalRegistrationResponse::operator==(const TerminalRegistrationResponse
     return m_seq == other.m_seq && m_result == other.m_result && m_authCode == other.m_authCode;
 }
 
-void TerminalRegistrationResponse::fromJson(const nlohmann::json& data)
+void TerminalRegistrationResponse::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_seq = data["seq"];
@@ -79,9 +78,9 @@ void TerminalRegistrationResponse::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json TerminalRegistrationResponse::toJson()
+Json TerminalRegistrationResponse::toJson()
 {
-    nlohmann::json result(nlohmann::json::object({{"seq", m_seq}, {"result", m_result}}));
+    Json result(Json::object({{"seq", m_seq}, {"result", m_result}}));
     if (m_result == Succeeded) {
         result["auth_code"] = m_authCode;
     }

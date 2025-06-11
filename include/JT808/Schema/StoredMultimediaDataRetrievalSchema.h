@@ -1,9 +1,9 @@
 #ifndef STOREDMULTIMEDIADATARETRIEVALSCHEMA_H
 #define STOREDMULTIMEDIADATARETRIEVALSCHEMA_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 namespace Schema {
-static nlohmann::json StoredMultimediaDataRetrievalSchema = R"(
+static Json StoredMultimediaDataRetrievalSchema = R"(
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Storage Multimedia Data Retrieval",

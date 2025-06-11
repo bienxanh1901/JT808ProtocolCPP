@@ -1,9 +1,9 @@
 #include "JT808/MessageBody/StoredMultimediaDataRetrievalResponse.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/MessageBody/Multimedia.h"
 #include "JT808/Schema/StoredMultimediaDataRetrievalResponseSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
@@ -22,7 +22,7 @@ StoredMultimediaDataRetrievalResponse::StoredMultimediaDataRetrievalResponse(
 {
 }
 
-void StoredMultimediaDataRetrievalResponse::parse(const std::vector<uint8_t>& data)
+void StoredMultimediaDataRetrievalResponse::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -49,9 +49,9 @@ void StoredMultimediaDataRetrievalResponse::parse(const uint8_t* data, int size)
     setIsValid(true);
 }
 
-std::vector<uint8_t> StoredMultimediaDataRetrievalResponse::package()
+ByteArray StoredMultimediaDataRetrievalResponse::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // seq
     Utils::appendU16(m_seq, result);
     // length
@@ -69,7 +69,7 @@ bool StoredMultimediaDataRetrievalResponse::operator==(const StoredMultimediaDat
     return m_result == other.m_result;
 }
 
-void StoredMultimediaDataRetrievalResponse::fromJson(const nlohmann::json& data)
+void StoredMultimediaDataRetrievalResponse::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_seq = data["seq"];
@@ -86,10 +86,9 @@ void StoredMultimediaDataRetrievalResponse::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json StoredMultimediaDataRetrievalResponse::toJson()
+Json StoredMultimediaDataRetrievalResponse::toJson()
 {
-    nlohmann::json result(
-        nlohmann::json::object({{"seq", m_seq}, {"length", m_result.size()}, {"result", nlohmann::json::array({})}}));
+    Json result(Json::object({{"seq", m_seq}, {"length", m_result.size()}, {"result", Json::array({})}}));
     for (auto& item : m_result) {
         result["result"].push_back(item.toJson());
     }

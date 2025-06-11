@@ -1,7 +1,7 @@
 #include "JT808/MessageBody/ExtraLocationInformation.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/LocationInformationCommon.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
@@ -24,7 +24,7 @@ int ExtraLocationInformation::parse(const uint8_t* data, int size)
     int pos = 0;
     uint8_t id = 0;
     uint8_t length = 0;
-    std::vector<uint8_t> value;
+    ByteArray value;
 
     while (pos <= size - 2) {
         id = data[pos++];
@@ -92,9 +92,9 @@ int ExtraLocationInformation::parse(const uint8_t* data, int size)
     return pos;
 }
 
-std::vector<uint8_t> ExtraLocationInformation::package()
+ByteArray ExtraLocationInformation::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     for (auto& id : m_ids) {
         if (id.second == 1) {
             result.push_back(id.first);
@@ -172,7 +172,7 @@ std::vector<uint8_t> ExtraLocationInformation::package()
     return result;
 }
 
-void ExtraLocationInformation::fromJson(const nlohmann::json& data)
+void ExtraLocationInformation::fromJson(const Json& data)
 {
 
     for (auto& id : m_ids) {
@@ -242,16 +242,16 @@ void ExtraLocationInformation::fromJson(const nlohmann::json& data)
     if (data.contains("custom")) {
         m_customLength = 0;
         for (auto& item : data["custom"]) {
-            m_custom[item["id"]] = item["data"].get<std::vector<uint8_t>>();
+            m_custom[item["id"]] = item["data"].get<ByteArray>();
             m_customLength += item["length"].get<int>();
         }
         m_ids[CustomInfoLengthExtraId] = 1;
     }
 }
 
-nlohmann::json ExtraLocationInformation::toJson()
+Json ExtraLocationInformation::toJson()
 {
-    nlohmann::json result = nlohmann::json::object({});
+    Json result = Json::object({});
 
     for (auto& id : m_ids) {
         if (id.second == 1) {
@@ -300,10 +300,9 @@ nlohmann::json ExtraLocationInformation::toJson()
     }
 
     if (!m_custom.empty()) {
-        result["custom"] = nlohmann::json::array({});
+        result["custom"] = Json::array({});
         for (auto& item : m_custom) {
-            result.push_back(
-                nlohmann::json::object({{"id", item.first}, {"data", item.second}, {"length", item.second.size()}}));
+            result.push_back(Json::object({{"id", item.first}, {"data", item.second}, {"length", item.second.size()}}));
         }
     }
     return result;

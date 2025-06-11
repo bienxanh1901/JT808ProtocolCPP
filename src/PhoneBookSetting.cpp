@@ -1,8 +1,8 @@
 #include "JT808/MessageBody/PhoneBookSetting.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/PhoneBookSettingSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
@@ -20,7 +20,7 @@ PhoneBookSetting::PhoneBookSetting(SettingType type, const std::vector<ContactIt
 {
 }
 
-void PhoneBookSetting::parse(const std::vector<uint8_t>& data)
+void PhoneBookSetting::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -46,9 +46,9 @@ void PhoneBookSetting::parse(const uint8_t* data, int size)
     setIsValid(true);
 }
 
-std::vector<uint8_t> PhoneBookSetting::package()
+ByteArray PhoneBookSetting::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // type
     result.push_back(m_type);
     // length
@@ -66,7 +66,7 @@ bool PhoneBookSetting::operator==(const PhoneBookSetting& other) const
     return m_type == other.m_type && m_contacts == other.m_contacts;
 }
 
-void PhoneBookSetting::fromJson(const nlohmann::json& data)
+void PhoneBookSetting::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_type = SettingType(data["type"]);
@@ -83,9 +83,9 @@ void PhoneBookSetting::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json PhoneBookSetting::toJson()
+Json PhoneBookSetting::toJson()
 {
-    nlohmann::json result({{"type", m_type}, {"length", m_contacts.size()}, {"contacts", {}}});
+    Json result({{"type", m_type}, {"length", m_contacts.size()}, {"contacts", {}}});
     for (auto& item : m_contacts) {
         result["contacts"].push_back(item.toJson());
     }
@@ -139,9 +139,9 @@ int PhoneBookSetting::ContactItem::parse(const uint8_t* data, int /*size*/)
     return pos;
 }
 
-std::vector<uint8_t> PhoneBookSetting::ContactItem::package() const
+ByteArray PhoneBookSetting::ContactItem::package() const
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // type
     result.push_back(type);
     // phone length
@@ -156,14 +156,14 @@ std::vector<uint8_t> PhoneBookSetting::ContactItem::package() const
     return result;
 }
 
-void PhoneBookSetting::ContactItem::fromJson(const nlohmann::json& data)
+void PhoneBookSetting::ContactItem::fromJson(const Json& data)
 {
     type = data["type"];
     phone = data["phone"];
     name = data["name"];
 }
 
-nlohmann::json PhoneBookSetting::ContactItem::toJson()
+Json PhoneBookSetting::ContactItem::toJson()
 {
     return {{"type", type}, {"phone", phone}, {"name", name}};
 }

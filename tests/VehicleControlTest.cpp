@@ -11,7 +11,7 @@ protected:
     {
         m_body = new VehicleControl({1});
         m_rawData = {0x01};
-        m_object = nlohmann::json::object({{"flag", 1}});
+        m_object = Json::object({{"flag", 1}});
     }
 };
 

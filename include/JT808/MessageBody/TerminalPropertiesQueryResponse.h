@@ -1,14 +1,11 @@
 #ifndef TERMINALPROPERTIESQUERYRESPONSE_H
 #define TERMINALPROPERTIESQUERYRESPONSE_H
 
+#include "JT808/Common.h"
 #include "MessageBodyBase.h"
 #include "TerminalProperties.h"
 #include <cstdint>
 #include <string>
-#include <vector>
-
-#include "nlohmann/json.hpp"
-
 namespace JT808::MessageBody {
 
 /**
@@ -21,13 +18,13 @@ public:
     TerminalPropertiesQueryResponse(const TerminalType& type, std::string manufacturer, std::string model,
                                     std::string id, std::string iccid, std::string hwVersion, std::string fwVersion,
                                     const GNSSProperties& gnssProp, const CommunicationModuleProperties& commProp);
-    void parse(const std::vector<uint8_t>& data) override;
+    void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;
-    std::vector<uint8_t> package() override;
+    ByteArray package() override;
     bool operator==(const TerminalPropertiesQueryResponse& other) const;
 
-    void fromJson(const nlohmann::json& data) override;
-    nlohmann::json toJson() override;
+    void fromJson(const Json& data) override;
+    Json toJson() override;
 
     TerminalType type() const;
     void setType(const TerminalType& newType);

@@ -1,12 +1,10 @@
 #ifndef TERMINALREGISTRATIONRESPONSE_H
 #define TERMINALREGISTRATIONRESPONSE_H
 
+#include "JT808/Common.h"
 #include "MessageBodyBase.h"
 #include <cstdint>
 #include <string>
-#include <vector>
-
-#include "nlohmann/json.hpp"
 
 namespace JT808::MessageBody {
 
@@ -30,13 +28,13 @@ public:
 
     TerminalRegistrationResponse();
     TerminalRegistrationResponse(uint16_t seq, ResponseResults result, std::string authCode = "");
-    void parse(const std::vector<uint8_t>& data) override;
+    void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;
-    std::vector<uint8_t> package() override;
+    ByteArray package() override;
     bool operator==(const TerminalRegistrationResponse& other) const;
 
-    void fromJson(const nlohmann::json& data) override;
-    nlohmann::json toJson() override;
+    void fromJson(const Json& data) override;
+    Json toJson() override;
 
     ResponseResults result() const;
     void setResult(ResponseResults newResult);

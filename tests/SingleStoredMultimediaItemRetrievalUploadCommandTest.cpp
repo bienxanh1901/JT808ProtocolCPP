@@ -12,7 +12,7 @@ protected:
     {
         m_body = new SingleStoredMultimediaItemRetrievalUploadCommand(123, 1);
         m_rawData = {0x0, 0x0, 0x0, 0x7b, 0x1};
-        m_object = nlohmann::json::object({{"id", 123}, {"delete", 1}});
+        m_object = Json::object({{"id", 123}, {"delete", 1}});
     }
 };
 

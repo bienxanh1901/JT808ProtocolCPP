@@ -1,11 +1,10 @@
 #include "JT808/MessageBody/TerminalAuthentication.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/TerminalAuthenticationSchema.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <string>
 #include <utility>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -20,7 +19,7 @@ TerminalAuthentication::TerminalAuthentication(std::string authCode)
 {
 }
 
-void TerminalAuthentication::parse(const std::vector<uint8_t>& data)
+void TerminalAuthentication::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -31,9 +30,9 @@ void TerminalAuthentication::parse(const uint8_t* data, int size)
     setIsValid(true);
 }
 
-std::vector<uint8_t> TerminalAuthentication::package()
+ByteArray TerminalAuthentication::package()
 {
-    std::vector<uint8_t> result(m_authCode.begin(), m_authCode.end());
+    ByteArray result(m_authCode.begin(), m_authCode.end());
 
     return result;
 }
@@ -43,7 +42,7 @@ bool TerminalAuthentication::operator==(const TerminalAuthentication& other) con
     return m_authCode == other.m_authCode;
 }
 
-void TerminalAuthentication::fromJson(const nlohmann::json& data)
+void TerminalAuthentication::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_authCode = data["auth_code"];
@@ -53,9 +52,9 @@ void TerminalAuthentication::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json TerminalAuthentication::toJson()
+Json TerminalAuthentication::toJson()
 {
-    return nlohmann::json::object({{"auth_code", m_authCode}});
+    return Json::object({{"auth_code", m_authCode}});
 }
 
 std::string TerminalAuthentication::authCode() const

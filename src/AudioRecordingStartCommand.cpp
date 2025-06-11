@@ -1,11 +1,10 @@
 #include "JT808/MessageBody/AudioRecordingStartCommand.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/MessageBody/Multimedia.h"
 #include "JT808/Schema/AudioRecordingStartCommandSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -24,7 +23,7 @@ AudioRecordingStartCommand::AudioRecordingStartCommand(Commands command, uint16_
 {
 }
 
-void AudioRecordingStartCommand::parse(const std::vector<uint8_t>& data)
+void AudioRecordingStartCommand::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -46,9 +45,9 @@ void AudioRecordingStartCommand::parse(const uint8_t* data, int /*size*/)
     setIsValid(true);
 }
 
-std::vector<uint8_t> AudioRecordingStartCommand::package()
+ByteArray AudioRecordingStartCommand::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
 
     // command
     result.push_back(m_command);
@@ -68,7 +67,7 @@ bool AudioRecordingStartCommand::operator==(const AudioRecordingStartCommand& ot
         && m_rate == other.m_rate;
 }
 
-void AudioRecordingStartCommand::fromJson(const nlohmann::json& data)
+void AudioRecordingStartCommand::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_command = Commands(data["command"]);
@@ -81,7 +80,7 @@ void AudioRecordingStartCommand::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json AudioRecordingStartCommand::toJson()
+Json AudioRecordingStartCommand::toJson()
 {
     return {{"command", m_command}, {"time", m_time}, {"saving", m_saving}, {"rate", m_rate}};
 }

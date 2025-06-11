@@ -1,10 +1,9 @@
 #include "JT808/MessageBody/DataCompressionReport.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/DataCompressionReportSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -13,13 +12,13 @@ DataCompressionReport::DataCompressionReport()
 {
 }
 
-DataCompressionReport::DataCompressionReport(const std::vector<uint8_t>& data)
+DataCompressionReport::DataCompressionReport(const ByteArray& data)
     : MessageBodyBase(Schema::DataCompressionReportSchema)
     , m_data(data)
 {
 }
 
-void DataCompressionReport::parse(const std::vector<uint8_t>& data)
+void DataCompressionReport::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -37,9 +36,9 @@ void DataCompressionReport::parse(const uint8_t* data, int /*size*/)
     setIsValid(true);
 }
 
-std::vector<uint8_t> DataCompressionReport::package()
+ByteArray DataCompressionReport::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // length
     Utils::appendU32(m_data.size(), result);
     // data
@@ -53,27 +52,27 @@ bool DataCompressionReport::operator==(const DataCompressionReport& other) const
     return m_data == other.m_data;
 }
 
-void DataCompressionReport::fromJson(const nlohmann::json& data)
+void DataCompressionReport::fromJson(const Json& data)
 {
     if (validate(data)) {
-        m_data = data["data"].get<std::vector<uint8_t>>();
+        m_data = data["data"].get<ByteArray>();
         setIsValid(true);
     } else {
         setIsValid(false);
     }
 }
 
-nlohmann::json DataCompressionReport::toJson()
+Json DataCompressionReport::toJson()
 {
     return {{"data", m_data}};
 }
 
-std::vector<uint8_t> DataCompressionReport::data() const
+ByteArray DataCompressionReport::data() const
 {
     return m_data;
 }
 
-void DataCompressionReport::setData(const std::vector<uint8_t>& newData)
+void DataCompressionReport::setData(const ByteArray& newData)
 {
     m_data = newData;
 }

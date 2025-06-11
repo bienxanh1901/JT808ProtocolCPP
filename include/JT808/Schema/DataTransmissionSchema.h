@@ -1,9 +1,9 @@
 #ifndef DATATRANSMISSIONSCHEMA_H
 #define DATATRANSMISSIONSCHEMA_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 namespace Schema {
-static nlohmann::json DataTransmissionSchema = R"(
+static Json DataTransmissionSchema = R"(
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Data Transmission",

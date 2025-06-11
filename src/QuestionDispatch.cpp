@@ -1,8 +1,8 @@
 #include "JT808/MessageBody/QuestionDispatch.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/QuestionDispatchSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <string>
 #include <utility>
@@ -23,7 +23,7 @@ QuestionDispatch::QuestionDispatch(Flag flag, std::string question, const std::v
 {
 }
 
-void QuestionDispatch::parse(const std::vector<uint8_t>& data)
+void QuestionDispatch::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -52,9 +52,9 @@ void QuestionDispatch::parse(const uint8_t* data, int size)
     setIsValid(true);
 }
 
-std::vector<uint8_t> QuestionDispatch::package()
+ByteArray QuestionDispatch::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // flag
     result.push_back(m_flag.value);
     // length
@@ -74,7 +74,7 @@ bool QuestionDispatch::operator==(const QuestionDispatch& other) const
     return m_flag.value == other.m_flag.value && m_question == other.m_question && m_answers == other.m_answers;
 }
 
-void QuestionDispatch::fromJson(const nlohmann::json& data)
+void QuestionDispatch::fromJson(const Json& data)
 {
     if (validate(data)) {
         Answer item = {0};
@@ -92,9 +92,9 @@ void QuestionDispatch::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json QuestionDispatch::toJson()
+Json QuestionDispatch::toJson()
 {
-    nlohmann::json result(nlohmann::json::object(
+    Json result(Json::object(
         {{"flag", m_flag.value}, {"question", m_question}, {"length", m_answers.size()}, {"answers", {}}}));
     for (auto& item : m_answers) {
         result["answers"].push_back(item.toJson());
@@ -154,9 +154,9 @@ int QuestionDispatch::Answer::parse(const uint8_t* data, int /*size*/)
     return pos;
 }
 
-std::vector<uint8_t> QuestionDispatch::Answer::package() const
+ByteArray QuestionDispatch::Answer::package() const
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // id
     result.push_back(id);
     // length
@@ -166,13 +166,13 @@ std::vector<uint8_t> QuestionDispatch::Answer::package() const
     return result;
 }
 
-void QuestionDispatch::Answer::fromJson(const nlohmann::json& data)
+void QuestionDispatch::Answer::fromJson(const Json& data)
 {
     id = data["id"];
     content = data["answer"];
 }
 
-nlohmann::json QuestionDispatch::Answer::toJson()
+Json QuestionDispatch::Answer::toJson()
 {
     return {{"id", id}, {"answer", content}};
 }

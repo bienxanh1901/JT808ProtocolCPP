@@ -1,10 +1,10 @@
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
+#include "JT808/Common.h"
 #include <cstdint>
 #include <memory>
 #include <string>
-#include <vector>
 
 #include "JT808/MessageBody/MessageBodyBase.h"
 
@@ -94,14 +94,20 @@ public:
 
         bool operator==(const Header& other) const;
         int parse(const uint8_t* data, int size);
-        std::vector<uint8_t> package() const;
+        ByteArray package() const;
+
+        void fromJson(const Json& data);
+        Json toJson();
     };
 
-    Message() = default;
+    Message();
     Message(Header header, std::unique_ptr<MessageBody::MessageBodyBase> body);
 
-    void parse(const std::vector<uint8_t>& data);
-    std::vector<uint8_t> package();
+    void fromJson(const Json& data);
+    Json toJson();
+
+    void parse(const ByteArray& data);
+    ByteArray package();
     bool isValid() const;
     Header header() const;
     MessageBody::MessageBodyBase* body() const;
@@ -112,15 +118,17 @@ public:
 private:
     using MethodPtr = void (Message::*)();
     void validateChecksum(uint8_t checksum);
-    bool parseHeader(const std::vector<uint8_t>& data);
-    bool parseBody(const std::vector<uint8_t>& data);
-    std::vector<uint8_t> packageHeader();
-    std::vector<uint8_t> packageBody();
+    bool parseHeader(const ByteArray& data);
+    bool parseBody(const ByteArray& data);
+    bool validateJson(const Json& data);
+    ByteArray packageHeader();
+    ByteArray packageBody();
 
     bool m_isValid = true;
     Header m_header = {0};
     uint8_t m_checksum = 0;
     std::unique_ptr<MessageBody::MessageBodyBase> m_body;
+    JsonValidator m_validator;
 };
 }
 

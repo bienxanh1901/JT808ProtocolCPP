@@ -1,10 +1,9 @@
 #include "JT808/MessageBody/QuestionResponse.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/QuestionResponseSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -20,7 +19,7 @@ QuestionResponse::QuestionResponse(uint16_t seq, uint8_t id)
 {
 }
 
-void QuestionResponse::parse(const std::vector<uint8_t>& data)
+void QuestionResponse::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -38,9 +37,9 @@ void QuestionResponse::parse(const uint8_t* data, int /*size*/)
     setIsValid(true);
 }
 
-std::vector<uint8_t> QuestionResponse::package()
+ByteArray QuestionResponse::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // seq
     Utils::appendU16(m_seq, result);
     // id
@@ -54,7 +53,7 @@ bool QuestionResponse::operator==(const QuestionResponse& other) const
     return m_seq == other.m_seq && m_id == other.m_id;
 }
 
-void QuestionResponse::fromJson(const nlohmann::json& data)
+void QuestionResponse::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_seq = data["seq"];
@@ -65,7 +64,7 @@ void QuestionResponse::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json QuestionResponse::toJson()
+Json QuestionResponse::toJson()
 {
     return {{"seq", m_seq}, {"id", m_id}};
 }

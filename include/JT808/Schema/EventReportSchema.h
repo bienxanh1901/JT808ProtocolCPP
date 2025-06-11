@@ -1,9 +1,9 @@
 #ifndef EVENTREPORTSCHEMA_H
 #define EVENTREPORTSCHEMA_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 namespace Schema {
-static nlohmann::json EventReportSchema = R"(
+static Json EventReportSchema = R"(
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Event Report",

@@ -19,15 +19,15 @@ protected:
         m_rawData = {0x0,  0x0, 0x30, 0x39, 0x0, 0x0,  0xd4, 0x31, 0x0,  0xa4, 0x1c, 0xa9, 0x3f, 0x92,
                      0x90, 0xf, 0x0,  0xa,  0x0, 0x19, 0x0,  0x2d, 0x70, 0x1,  0x1,  0x0,  0x0,  0x0};
 
-        m_object = nlohmann::json::object({{"basic",
-                                            nlohmann::json::object({{"alarm", 12345},
-                                                                    {"status", 54321},
-                                                                    {"latitude", 10755241},
-                                                                    {"longitude", 1066569743},
-                                                                    {"altitude", 10},
-                                                                    {"speed", 25},
-                                                                    {"bearing", 45},
-                                                                    {"time", "700101000000"}})}});
+        m_object = Json::object({{"basic",
+                                  Json::object({{"alarm", 12345},
+                                                {"status", 54321},
+                                                {"latitude", 10755241},
+                                                {"longitude", 1066569743},
+                                                {"altitude", 10},
+                                                {"speed", 25},
+                                                {"bearing", 45},
+                                                {"time", "700101000000"}})}});
     }
 };
 

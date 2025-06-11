@@ -20,12 +20,12 @@ protected:
         m_rawData = {0xa,  0x0, 0x0, 0x0, 0x1,  0x0, 0x0, 0x0, 0x2,  0x0, 0x0,  0x0, 0x3, 0x0,
                      0x0,  0x0, 0x4, 0x0, 0x0,  0x0, 0x5, 0x0, 0x0,  0x0, 0x20, 0x0, 0x0, 0x0,
                      0x91, 0x0, 0x0, 0x0, 0x13, 0x0, 0x0, 0x0, 0x11, 0x0, 0x0,  0x0, 0x12};
-        m_object = nlohmann::json::object(
-            {{"length", 10},
-             {"ids",
-              nlohmann::json::array({HeartBeatInterval, TCPMsgResponseTimeout, TCPMsgRetransmissTime,
-                                     UDPMsgResponseTimeout, UDPMsgRetransmissTime, LocationReportStrategy, GNSSBaudrate,
-                                     MainServerAddress, MainServerUserName, MainServerPassword})}});
+        m_object =
+            Json::object({{"length", 10},
+                          {"ids",
+                           Json::array({HeartBeatInterval, TCPMsgResponseTimeout, TCPMsgRetransmissTime,
+                                        UDPMsgResponseTimeout, UDPMsgRetransmissTime, LocationReportStrategy,
+                                        GNSSBaudrate, MainServerAddress, MainServerUserName, MainServerPassword})}});
     }
 };
 

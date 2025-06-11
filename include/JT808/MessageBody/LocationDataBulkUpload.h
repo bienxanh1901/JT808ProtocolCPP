@@ -1,12 +1,11 @@
 #ifndef LOCATIONDATABULKUPLOAD_H
 #define LOCATIONDATABULKUPLOAD_H
 
+#include "JT808/Common.h"
 #include "LocationInformation.h"
 #include "MessageBodyBase.h"
 #include <cstdint>
 #include <vector>
-
-#include "nlohmann/json.hpp"
 
 namespace JT808::MessageBody {
 
@@ -21,13 +20,13 @@ public:
 
     LocationDataBulkUpload();
     LocationDataBulkUpload(DataType type, const std::vector<LocationInformation>& locations);
-    void parse(const std::vector<uint8_t>& data) override;
+    void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;
-    std::vector<uint8_t> package() override;
+    ByteArray package() override;
     bool operator==(const LocationDataBulkUpload& other) const;
 
-    void fromJson(const nlohmann::json& data) override;
-    nlohmann::json toJson() override;
+    void fromJson(const Json& data) override;
+    Json toJson() override;
 
     DataType type() const;
     void setType(DataType newType);

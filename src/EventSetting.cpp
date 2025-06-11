@@ -1,4 +1,5 @@
 #include "JT808/MessageBody/EventSetting.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/EventSettingSchema.h"
 #include "JT808/Utils.h"
@@ -19,7 +20,7 @@ EventSetting::EventSetting(AreaSettingTypes type, const std::vector<Event>& even
 {
 }
 
-void EventSetting::parse(const std::vector<uint8_t>& data)
+void EventSetting::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -46,9 +47,9 @@ void EventSetting::parse(const uint8_t* data, int size)
     setIsValid(true);
 }
 
-std::vector<uint8_t> EventSetting::package()
+ByteArray EventSetting::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // type
     result.push_back(m_type);
     if (m_type > DeleteAllEvents) {
@@ -67,7 +68,7 @@ bool EventSetting::operator==(const EventSetting& other) const
     return m_type == other.m_type && m_events == other.m_events;
 }
 
-void EventSetting::fromJson(const nlohmann::json& data)
+void EventSetting::fromJson(const Json& data)
 {
     if (validate(data)) {
         Event item = {0};
@@ -87,9 +88,9 @@ void EventSetting::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json EventSetting::toJson()
+Json EventSetting::toJson()
 {
-    nlohmann::json result({{"type", m_type}});
+    Json result({{"type", m_type}});
     if (m_type > DeleteAllEvents) {
         result["length"] = m_events.size();
         result["events"] = {};
@@ -143,9 +144,9 @@ int EventSetting::Event::parse(const uint8_t* data, int /*size*/)
     return pos;
 }
 
-std::vector<uint8_t> EventSetting::Event::package() const
+ByteArray EventSetting::Event::package() const
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // id
     result.push_back(id);
     // length
@@ -156,13 +157,13 @@ std::vector<uint8_t> EventSetting::Event::package() const
     return result;
 }
 
-void EventSetting::Event::fromJson(const nlohmann::json& data)
+void EventSetting::Event::fromJson(const Json& data)
 {
     id = data["id"];
     content = data["content"];
 }
 
-nlohmann::json EventSetting::Event::toJson()
+Json EventSetting::Event::toJson()
 {
     return {{"id", id}, {"content", content}};
 }

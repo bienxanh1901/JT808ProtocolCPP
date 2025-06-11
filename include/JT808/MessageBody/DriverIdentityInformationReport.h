@@ -1,12 +1,10 @@
 #ifndef DRIVERIDENTITYINFORMATIONREPORT_H
 #define DRIVERIDENTITYINFORMATIONREPORT_H
 
+#include "JT808/Common.h"
 #include "MessageBodyBase.h"
 #include <cstdint>
 #include <string>
-#include <vector>
-
-#include "nlohmann/json.hpp"
 
 namespace JT808::MessageBody {
 
@@ -34,13 +32,13 @@ public:
     DriverIdentityInformationReport();
     DriverIdentityInformationReport(Status status, std::string time, ICResult icResult, std::string driverName,
                                     std::string certificate, std::string organization, std::string certExpiry);
-    void parse(const std::vector<uint8_t>& data) override;
+    void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;
-    std::vector<uint8_t> package() override;
+    ByteArray package() override;
     bool operator==(const DriverIdentityInformationReport& other) const;
 
-    void fromJson(const nlohmann::json& data) override;
-    nlohmann::json toJson() override;
+    void fromJson(const Json& data) override;
+    Json toJson() override;
 
     Status status() const;
     void setStatus(Status newStatus);

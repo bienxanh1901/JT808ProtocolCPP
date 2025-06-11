@@ -1,9 +1,8 @@
 #include "JT808/MessageBody/EventReport.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/EventReportSchema.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -18,7 +17,7 @@ EventReport::EventReport(uint8_t id)
 {
 }
 
-void EventReport::parse(const std::vector<uint8_t>& data)
+void EventReport::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -30,9 +29,9 @@ void EventReport::parse(const uint8_t* data, int /*size*/)
     setIsValid(true);
 }
 
-std::vector<uint8_t> EventReport::package()
+ByteArray EventReport::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
 
     result.push_back(m_id);
 
@@ -44,7 +43,7 @@ bool EventReport::operator==(const EventReport& other) const
     return m_id == other.m_id;
 }
 
-void EventReport::fromJson(const nlohmann::json& data)
+void EventReport::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_id = data["id"];
@@ -54,7 +53,7 @@ void EventReport::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json EventReport::toJson()
+Json EventReport::toJson()
 {
     return {{"id", m_id}};
 }

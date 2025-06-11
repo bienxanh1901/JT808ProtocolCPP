@@ -11,7 +11,7 @@ protected:
     {
         m_body = new ManualAlarmConfirmation(123, {.value = 1});
         m_rawData = {0x0, 0x7b, 0x0, 0x0, 0x0, 0x1};
-        m_object = nlohmann::json::object({{"seq", 123}, {"type", 1}});
+        m_object = Json::object({{"seq", 123}, {"type", 1}});
     }
 };
 

@@ -1,12 +1,11 @@
 #include "JT808/MessageBody/TerminalControl.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/TerminalControlSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <string>
 #include <utility>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -22,7 +21,7 @@ TerminalControl::TerminalControl(Commands command, std::string param)
 {
 }
 
-void TerminalControl::parse(const std::vector<uint8_t>& data)
+void TerminalControl::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -41,9 +40,9 @@ void TerminalControl::parse(const uint8_t* data, int size)
     setIsValid(true);
 }
 
-std::vector<uint8_t> TerminalControl::package()
+ByteArray TerminalControl::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
 
     // command
     result.push_back(m_command);
@@ -60,7 +59,7 @@ bool TerminalControl::operator==(const TerminalControl& other) const
     return m_command == other.m_command && m_param == other.m_param;
 }
 
-void TerminalControl::fromJson(const nlohmann::json& data)
+void TerminalControl::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_command = data["command"];
@@ -71,9 +70,9 @@ void TerminalControl::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json TerminalControl::toJson()
+Json TerminalControl::toJson()
 {
-    nlohmann::json result({{"command", m_command}});
+    Json result({{"command", m_command}});
     if (m_command <= ServerConnect) {
         result["param"] = m_param;
     }

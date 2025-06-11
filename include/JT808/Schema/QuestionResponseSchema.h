@@ -1,9 +1,9 @@
 #ifndef QUESTIONRESPONSESCHEMA_H
 #define QUESTIONRESPONSESCHEMA_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 namespace Schema {
-static nlohmann::json QuestionResponseSchema = R"(
+static Json QuestionResponseSchema = R"(
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Question Response",

@@ -1,10 +1,9 @@
 #include "JT808/MessageBody/DataTransmission.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/DataTransmissionSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -13,14 +12,14 @@ DataTransmission::DataTransmission()
 {
 }
 
-DataTransmission::DataTransmission(uint8_t type, const std::vector<uint8_t>& data)
+DataTransmission::DataTransmission(uint8_t type, const ByteArray& data)
     : MessageBodyBase(Schema::DataTransmissionSchema)
     , m_type(type)
     , m_data(data)
 {
 }
 
-void DataTransmission::parse(const std::vector<uint8_t>& data)
+void DataTransmission::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -36,9 +35,9 @@ void DataTransmission::parse(const uint8_t* data, int size)
     setIsValid(true);
 }
 
-std::vector<uint8_t> DataTransmission::package()
+ByteArray DataTransmission::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // type
     result.push_back(m_type);
     // data
@@ -52,18 +51,18 @@ bool DataTransmission::operator==(const DataTransmission& other) const
     return m_type == other.m_type && m_data == other.m_data;
 }
 
-void DataTransmission::fromJson(const nlohmann::json& data)
+void DataTransmission::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_type = data["type"];
-        m_data = data["data"].get<std::vector<uint8_t>>();
+        m_data = data["data"].get<ByteArray>();
         setIsValid(true);
     } else {
         setIsValid(false);
     }
 }
 
-nlohmann::json DataTransmission::toJson()
+Json DataTransmission::toJson()
 {
     return {{"type", m_type}, {"data", m_data}};
 }
@@ -78,12 +77,12 @@ void DataTransmission::setType(uint8_t newType)
     m_type = newType;
 }
 
-std::vector<uint8_t> DataTransmission::data() const
+ByteArray DataTransmission::data() const
 {
     return m_data;
 }
 
-void DataTransmission::setData(const std::vector<uint8_t>& newData)
+void DataTransmission::setData(const ByteArray& newData)
 {
     m_data = newData;
 }

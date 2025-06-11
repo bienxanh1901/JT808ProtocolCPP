@@ -22,14 +22,13 @@ protected:
                      0x5,  0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x2,  0x5,  0x57, 0x6f, 0x72, 0x6c, 0x64, 0x3,  0xd,
                      0x4a, 0x54, 0x38, 0x30, 0x38, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x63, 0x6f, 0x6c};
 
-        m_object = nlohmann::json::object(
-            {{"type", EventSetting::AppendEvents},
-             {"length", 4},
-             {"events",
-              nlohmann::json::array({nlohmann::json::object({{"id", 0}, {"content", "HelloWorld"}}),
-                                     nlohmann::json::object({{"id", 1}, {"content", "Hello"}}),
-                                     nlohmann::json::object({{"id", 2}, {"content", "World"}}),
-                                     nlohmann::json::object({{"id", 3}, {"content", "JT808Protocol"}})})}});
+        m_object = Json::object({{"type", EventSetting::AppendEvents},
+                                 {"length", 4},
+                                 {"events",
+                                  Json::array({Json::object({{"id", 0}, {"content", "HelloWorld"}}),
+                                               Json::object({{"id", 1}, {"content", "Hello"}}),
+                                               Json::object({{"id", 2}, {"content", "World"}}),
+                                               Json::object({{"id", 3}, {"content", "JT808Protocol"}})})}});
     }
 };
 
