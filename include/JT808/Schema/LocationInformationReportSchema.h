@@ -1,16 +1,15 @@
 #ifndef LOCATIONINFORMATIONREPORTSCHEMA_H
 #define LOCATIONINFORMATIONREPORTSCHEMA_H
 
+#include "JT808/Common.h"
 #include "LocationInformationSchema.h"
-#include "nlohmann/json.hpp"
 
 namespace Schema {
-static nlohmann::json LocationInformationReportSchema =
-    nlohmann::json::object({{"$schema", "http://json-schema.org/draft-07/schema#"},
-                            {"title", "Location Information Report"},
-                            {"properties", LocationInformationSchema},
-                            {"required", {"basic"}},
-                            {"type", "object"}});
+static Json LocationInformationReportSchema = Json::object({{"$schema", "http://json-schema.org/draft-07/schema#"},
+                                                            {"title", "Location Information Report"},
+                                                            {"properties", LocationInformationSchema},
+                                                            {"required", {"basic"}},
+                                                            {"type", "object"}});
 
 }
 #endif // LOCATIONINFORMATIONREPORTSCHEMA_H

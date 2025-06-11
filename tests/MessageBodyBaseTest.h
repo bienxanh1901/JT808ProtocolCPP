@@ -1,12 +1,9 @@
 #ifndef MESSAGEBODYBASETEST_H
 #define MESSAGEBODYBASETEST_H
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
-#include <cstdint>
 #include <gtest/gtest.h>
 #include <iostream>
 #include <ostream>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -35,10 +32,10 @@ protected:
 
     virtual void TestPackage()
     {
-        std::vector<uint8_t> result = m_body->package();
+        ByteArray result = m_body->package();
 
-        Utils::printHexArray(result, std::cout);
-        std::cout << '\n';
+        // Utils::printHexArray(result, std::cout);
+        // std::cout << '\n';
 
         EXPECT_EQ(result.size(), m_rawData.size());
         EXPECT_EQ(result, m_rawData);
@@ -54,12 +51,12 @@ protected:
 
     virtual void TestToJson()
     {
-        nlohmann::json object = m_body->toJson();
+        Json object = m_body->toJson();
         EXPECT_EQ(m_object, object);
     }
 
-    std::vector<uint8_t> m_rawData;
-    nlohmann::json m_object;
+    ByteArray m_rawData;
+    Json m_object;
     T* m_body;
 };
 

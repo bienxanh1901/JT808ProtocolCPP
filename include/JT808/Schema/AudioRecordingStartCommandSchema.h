@@ -1,9 +1,9 @@
 #ifndef AUDIORECORDINGSTARTCOMMANDSCHEMA_H
 #define AUDIORECORDINGSTARTCOMMANDSCHEMA_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 namespace Schema {
-static nlohmann::json AudioRecordingStartCommandSchema = R"(
+static Json AudioRecordingStartCommandSchema = R"(
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Audio Recording Start Command",

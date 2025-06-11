@@ -1,9 +1,8 @@
 #ifndef LOCATIONINFORMATIONCOMMON_H
 #define LOCATIONINFORMATIONCOMMON_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 #include <cstdint>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -137,10 +136,10 @@ struct OverspeedAlarm
 
     bool operator==(const OverspeedAlarm& other) const;
     void parse(const uint8_t* data, int size);
-    std::vector<uint8_t> package();
+    ByteArray package();
 
-    void fromJson(const nlohmann::json& data);
-    nlohmann::json toJson();
+    void fromJson(const Json& data);
+    Json toJson();
 };
 
 /**
@@ -154,10 +153,10 @@ struct InOutAlarm
 
     bool operator==(const InOutAlarm& other) const;
     void parse(const uint8_t* data, int size);
-    std::vector<uint8_t> package();
+    ByteArray package();
 
-    void fromJson(const nlohmann::json& data);
-    nlohmann::json toJson();
+    void fromJson(const Json& data);
+    Json toJson();
 };
 
 /**
@@ -171,10 +170,10 @@ struct PathTimeAlarm
 
     bool operator==(const PathTimeAlarm& other) const;
     void parse(const uint8_t* data, int size);
-    std::vector<uint8_t> package();
+    ByteArray package();
 
-    void fromJson(const nlohmann::json& data);
-    nlohmann::json toJson();
+    void fromJson(const Json& data);
+    Json toJson();
 };
 
 /**
@@ -202,8 +201,8 @@ union ExtendedVehicleSignalFlags {
     } bits;
     uint32_t value = 0;
 
-    void fromJson(const nlohmann::json& data);
-    nlohmann::json toJson();
+    void fromJson(const Json& data);
+    Json toJson();
 };
 
 /**
@@ -218,8 +217,8 @@ union IOStatusFlags {
     } bits;
     uint16_t value = 0;
 
-    void fromJson(const nlohmann::json& data);
-    nlohmann::json toJson();
+    void fromJson(const Json& data);
+    Json toJson();
 };
 
 union AnalogFlag {
@@ -230,8 +229,8 @@ union AnalogFlag {
     } bits;
     uint32_t value = 0;
 
-    void fromJson(const nlohmann::json& data);
-    nlohmann::json toJson();
+    void fromJson(const Json& data);
+    Json toJson();
 };
 }
 #endif // LOCATIONINFORMATIONCOMMON_H

@@ -1,9 +1,8 @@
 #include "JT808/MessageBody/InformationServiceCancel.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/InformationServiceCancelSchema.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -19,7 +18,7 @@ InformationServiceCancel::InformationServiceCancel(uint8_t id, uint8_t flag)
 {
 }
 
-void InformationServiceCancel::parse(const std::vector<uint8_t>& data)
+void InformationServiceCancel::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -34,9 +33,9 @@ void InformationServiceCancel::parse(const uint8_t* data, int /*size*/)
     setIsValid(true);
 }
 
-std::vector<uint8_t> InformationServiceCancel::package()
+ByteArray InformationServiceCancel::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
 
     result.push_back(m_id);
     result.push_back(m_flag);
@@ -49,7 +48,7 @@ bool InformationServiceCancel::operator==(const InformationServiceCancel& other)
     return m_flag == other.m_flag && m_id == other.m_id;
 }
 
-void InformationServiceCancel::fromJson(const nlohmann::json& data)
+void InformationServiceCancel::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_id = data["id"];
@@ -60,7 +59,7 @@ void InformationServiceCancel::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json InformationServiceCancel::toJson()
+Json InformationServiceCancel::toJson()
 {
     return {{"id", m_id}, {"flag", m_flag}};
 }

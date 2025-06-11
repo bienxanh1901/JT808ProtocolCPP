@@ -1,10 +1,9 @@
 #include "JT808/MessageBody/TerminalUpgradePackageResult.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/MessageBody/TerminalUpgradePackage.h"
 #include "JT808/Schema/TerminalUpgradePackageResultSchema.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -20,7 +19,7 @@ TerminalUpgradePackageResult::TerminalUpgradePackageResult(UpgradeTypes type, Up
 {
 }
 
-void TerminalUpgradePackageResult::parse(const std::vector<uint8_t>& data)
+void TerminalUpgradePackageResult::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -36,9 +35,9 @@ void TerminalUpgradePackageResult::parse(const uint8_t* data, int /*size*/)
     setIsValid(true);
 }
 
-std::vector<uint8_t> TerminalUpgradePackageResult::package()
+ByteArray TerminalUpgradePackageResult::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // type
     result.push_back(m_type);
     // result
@@ -52,7 +51,7 @@ bool TerminalUpgradePackageResult::operator==(const TerminalUpgradePackageResult
     return m_type == other.m_type && m_result == other.m_result;
 }
 
-void TerminalUpgradePackageResult::fromJson(const nlohmann::json& data)
+void TerminalUpgradePackageResult::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_type = UpgradeTypes(data["type"]);
@@ -63,7 +62,7 @@ void TerminalUpgradePackageResult::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json TerminalUpgradePackageResult::toJson()
+Json TerminalUpgradePackageResult::toJson()
 {
     return {{"type", m_type}, {"result", m_result}};
 }

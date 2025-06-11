@@ -1,11 +1,9 @@
 #ifndef DRIVINGRECORDCOMMAND_H
 #define DRIVINGRECORDCOMMAND_H
 
+#include "JT808/Common.h"
 #include "MessageBodyBase.h"
 #include <cstdint>
-#include <vector>
-
-#include "nlohmann/json.hpp"
 
 namespace JT808::MessageBody {
 
@@ -16,23 +14,23 @@ class DrivingRecordCommand : public MessageBodyBase
 {
 public:
     DrivingRecordCommand();
-    DrivingRecordCommand(uint8_t command, const std::vector<uint8_t>& param);
-    void parse(const std::vector<uint8_t>& data) override;
+    DrivingRecordCommand(uint8_t command, const ByteArray& param);
+    void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;
-    std::vector<uint8_t> package() override;
+    ByteArray package() override;
     bool operator==(const DrivingRecordCommand& other) const;
 
-    void fromJson(const nlohmann::json& data) override;
-    nlohmann::json toJson() override;
+    void fromJson(const Json& data) override;
+    Json toJson() override;
 
     uint8_t command() const;
     void setCommand(uint8_t newCommand);
-    std::vector<uint8_t> param() const;
-    void setParam(const std::vector<uint8_t>& newParam);
+    ByteArray param() const;
+    void setParam(const ByteArray& newParam);
 
 private:
     uint8_t m_command = 0;
-    std::vector<uint8_t> m_param;
+    ByteArray m_param;
 };
 
 }

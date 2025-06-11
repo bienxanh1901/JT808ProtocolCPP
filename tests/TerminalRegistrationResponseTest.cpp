@@ -12,7 +12,7 @@ protected:
         m_body = new TerminalRegistrationResponse(123, TerminalRegistrationResponse::Succeeded, "HelloJT808Protocol");
         m_rawData = {0x0,  0x7b, 0x0,  0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x4a, 0x54, 0x38,
                      0x30, 0x38, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x63, 0x6f, 0x6c};
-        m_object = nlohmann::json::object(
+        m_object = Json::object(
             {{"seq", 123}, {"result", TerminalRegistrationResponse::Succeeded}, {"auth_code", "HelloJT808Protocol"}});
     }
 };

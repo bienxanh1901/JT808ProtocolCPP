@@ -1,10 +1,10 @@
 #include "JT808/MessageBody/SettingRoute.h"
 #include "JT808/BCD.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/AreaSettingProperties.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/SettingRouteSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <string>
 #include <utility>
@@ -28,7 +28,7 @@ SettingRoute::SettingRoute(uint32_t id, AreaProperties flag, std::string startTi
 {
 }
 
-void SettingRoute::parse(const std::vector<uint8_t>& data)
+void SettingRoute::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -67,9 +67,9 @@ void SettingRoute::parse(const uint8_t* data, int size)
     setIsValid(true);
 }
 
-std::vector<uint8_t> SettingRoute::package()
+ByteArray SettingRoute::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // id
     Utils::appendU32(m_id, result);
     // flag
@@ -95,7 +95,7 @@ bool SettingRoute::operator==(const SettingRoute& other) const
         && m_endTime == other.m_endTime && m_points == other.m_points;
 }
 
-void SettingRoute::fromJson(const nlohmann::json& data)
+void SettingRoute::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_id = data["id"];
@@ -120,9 +120,9 @@ void SettingRoute::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json SettingRoute::toJson()
+Json SettingRoute::toJson()
 {
-    nlohmann::json result({{"id", m_id}, {"flag", m_flag.value}});
+    Json result({{"id", m_id}, {"flag", m_flag.value}});
     if (m_flag.bits.areaTime == 1) {
         result["start_time"] = m_startTime;
         result["end_time"] = m_endTime;
@@ -231,9 +231,9 @@ int SettingRoute::Point::parse(const uint8_t* data, int /*size*/)
     return pos;
 }
 
-std::vector<uint8_t> SettingRoute::Point::package() const
+ByteArray SettingRoute::Point::package() const
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // point id
     Utils::appendU32(pointId, result);
     // route id
@@ -259,7 +259,7 @@ std::vector<uint8_t> SettingRoute::Point::package() const
     return result;
 }
 
-void SettingRoute::Point::fromJson(const nlohmann::json& data)
+void SettingRoute::Point::fromJson(const Json& data)
 {
     pointId = data["point_id"];
     routeId = data["route_id"];
@@ -279,14 +279,14 @@ void SettingRoute::Point::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json SettingRoute::Point::toJson()
+Json SettingRoute::Point::toJson()
 {
-    nlohmann::json result({{"point_id", pointId},
-                           {"route_id", routeId},
-                           {"lat", lat},
-                           {"lng", lng},
-                           {"width", width},
-                           {"flag", flag.value}});
+    Json result({{"point_id", pointId},
+                 {"route_id", routeId},
+                 {"lat", lat},
+                 {"lng", lng},
+                 {"width", width},
+                 {"flag", flag.value}});
 
     if (flag.bits.drivingTime == 1) {
         result["passed"] = maxDrivingTime;

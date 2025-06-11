@@ -1,10 +1,9 @@
 #include "JT808/MessageBody/GeneralResponse.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/GeneralResponseSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -21,7 +20,7 @@ GeneralResponse::GeneralResponse(uint16_t seq, uint16_t id, GeneralResponse::Res
 {
 }
 
-void GeneralResponse::parse(const std::vector<uint8_t>& data)
+void GeneralResponse::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -46,9 +45,9 @@ void GeneralResponse::parse(const uint8_t* data, int size)
     setIsValid(true);
 }
 
-std::vector<uint8_t> GeneralResponse::package()
+ByteArray GeneralResponse::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // seq
     Utils::appendU16(m_seq, result);
     // id
@@ -65,7 +64,7 @@ bool GeneralResponse::operator==(const GeneralResponse& other) const
     return m_seq == other.m_seq && m_id == other.m_id && m_result == other.m_result;
 }
 
-void GeneralResponse::fromJson(const nlohmann::json& data)
+void GeneralResponse::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_seq = data["seq"];
@@ -77,9 +76,9 @@ void GeneralResponse::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json GeneralResponse::toJson()
+Json GeneralResponse::toJson()
 {
-    return nlohmann::json::object({{"seq", m_seq}, {"id", m_id}, {"result", m_result}});
+    return Json::object({{"seq", m_seq}, {"id", m_id}, {"result", m_result}});
 }
 
 uint16_t GeneralResponse::id() const

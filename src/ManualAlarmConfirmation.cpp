@@ -1,10 +1,9 @@
 #include "JT808/MessageBody/ManualAlarmConfirmation.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/ManualAlarmConfirmationSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
-#include <vector>
 
 namespace JT808::MessageBody {
 ManualAlarmConfirmation::ManualAlarmConfirmation()
@@ -19,7 +18,7 @@ ManualAlarmConfirmation::ManualAlarmConfirmation(uint16_t seq, ManualAlarmConfir
 {
 }
 
-void ManualAlarmConfirmation::parse(const std::vector<uint8_t>& data)
+void ManualAlarmConfirmation::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -35,9 +34,9 @@ void ManualAlarmConfirmation::parse(const uint8_t* data, int /*size*/)
     setIsValid(true);
 }
 
-std::vector<uint8_t> ManualAlarmConfirmation::package()
+ByteArray ManualAlarmConfirmation::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // seq
     Utils::appendU16(m_seq, result);
     // type
@@ -51,7 +50,7 @@ bool ManualAlarmConfirmation::operator==(const ManualAlarmConfirmation& other) c
     return m_seq == other.m_seq && m_type.value == other.m_type.value;
 }
 
-void ManualAlarmConfirmation::fromJson(const nlohmann::json& data)
+void ManualAlarmConfirmation::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_seq = data["seq"];
@@ -62,7 +61,7 @@ void ManualAlarmConfirmation::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json ManualAlarmConfirmation::toJson()
+Json ManualAlarmConfirmation::toJson()
 {
     return {{"seq", m_seq}, {"type", m_type.value}};
 }

@@ -1,10 +1,10 @@
 #ifndef EXTRALOCATIONINFORMATIONSCHEMA_H
 #define EXTRALOCATIONINFORMATIONSCHEMA_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 namespace Schema {
 
-static nlohmann::json ExtraLocationInformationSchema = R"(
+static Json ExtraLocationInformationSchema = R"(
 {
     "type": "object",
     "properties": {

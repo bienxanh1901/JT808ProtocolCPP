@@ -1,9 +1,9 @@
 #ifndef AREASETTINGPROPERTIESSCHEMA_H
 #define AREASETTINGPROPERTIESSCHEMA_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 namespace Schema {
-static nlohmann::json CircularAreaSchema = R"(
+static Json CircularAreaSchema = R"(
 {
     "properties": {
         "id": {
@@ -53,7 +53,7 @@ static nlohmann::json CircularAreaSchema = R"(
 
 )"_json;
 
-static nlohmann::json RectangularAreaSchema = R"(
+static Json RectangularAreaSchema = R"(
 {
     "properties": {
         "id": {

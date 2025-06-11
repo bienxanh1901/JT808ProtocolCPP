@@ -1,12 +1,10 @@
 #ifndef TERMINALPARAMETERSETTING_H
 #define TERMINALPARAMETERSETTING_H
 
+#include "JT808/Common.h"
 #include "MessageBodyBase.h"
 #include "TerminalParameter.h"
 #include <cstdint>
-#include <vector>
-
-#include "nlohmann/json.hpp"
 
 namespace JT808::MessageBody {
 
@@ -14,16 +12,16 @@ class TerminalParameterSetting : public MessageBodyBase
 {
 public:
     TerminalParameterSetting();
-    TerminalParameterSetting(const nlohmann::json& schema);
+    TerminalParameterSetting(const Json& schema);
     TerminalParameterSetting(TerminalParameters params);
-    TerminalParameterSetting(const nlohmann::json& schema, TerminalParameters params);
-    void parse(const std::vector<uint8_t>& data) override;
+    TerminalParameterSetting(const Json& schema, TerminalParameters params);
+    void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;
-    std::vector<uint8_t> package() override;
+    ByteArray package() override;
     bool operator==(const TerminalParameterSetting& other) const;
 
-    void fromJson(const nlohmann::json& data) override;
-    nlohmann::json toJson() override;
+    void fromJson(const Json& data) override;
+    Json toJson() override;
 
     TerminalParameters params() const;
     void setParams(const TerminalParameters& newParams);

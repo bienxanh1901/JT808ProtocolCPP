@@ -1,8 +1,8 @@
 #include "JT808/MessageBody/ImmediateCameraCaptureCommandResponse.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/ImmediateCameraCaptureCommandResponseSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <vector>
 
@@ -22,7 +22,7 @@ ImmediateCameraCaptureCommandResponse::ImmediateCameraCaptureCommandResponse(uin
 {
 }
 
-void ImmediateCameraCaptureCommandResponse::parse(const std::vector<uint8_t>& data)
+void ImmediateCameraCaptureCommandResponse::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -51,9 +51,9 @@ void ImmediateCameraCaptureCommandResponse::parse(const uint8_t* data, int /*siz
     setIsValid(true);
 }
 
-std::vector<uint8_t> ImmediateCameraCaptureCommandResponse::package()
+ByteArray ImmediateCameraCaptureCommandResponse::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // seq
     Utils::appendU16(m_seq, result);
     // result
@@ -74,7 +74,7 @@ bool ImmediateCameraCaptureCommandResponse::operator==(const ImmediateCameraCapt
     return m_seq == other.m_seq && m_result == other.m_result && m_ids == other.m_ids;
 }
 
-void ImmediateCameraCaptureCommandResponse::fromJson(const nlohmann::json& data)
+void ImmediateCameraCaptureCommandResponse::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_seq = data["seq"];
@@ -88,7 +88,7 @@ void ImmediateCameraCaptureCommandResponse::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json ImmediateCameraCaptureCommandResponse::toJson()
+Json ImmediateCameraCaptureCommandResponse::toJson()
 {
     return {{"seq", m_seq}, {"result", m_result}, {"length", m_ids.size()}, {"ids", m_ids}};
 }

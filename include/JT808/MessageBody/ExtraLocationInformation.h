@@ -1,12 +1,10 @@
 #ifndef EXTRALOCATIONINFORMATION_H
 #define EXTRALOCATIONINFORMATION_H
 
+#include "JT808/Common.h"
+#include "LocationInformationCommon.h"
 #include <cstdint>
 #include <map>
-#include <vector>
-
-#include "LocationInformationCommon.h"
-#include "nlohmann/json.hpp"
 
 namespace JT808::MessageBody {
 class ExtraLocationInformation
@@ -16,10 +14,10 @@ public:
     ExtraLocationInformation();
     bool operator==(const ExtraLocationInformation& other) const;
     int parse(const uint8_t* data, int size);
-    std::vector<uint8_t> package();
+    ByteArray package();
 
-    void fromJson(const nlohmann::json& data);
-    nlohmann::json toJson();
+    void fromJson(const Json& data);
+    Json toJson();
 
 private:
     uint32_t m_mileage = 0;
@@ -36,7 +34,7 @@ private:
     uint8_t m_gnssSatNum = 0;
     uint16_t m_customLength = 0;
 
-    std::map<uint8_t, std::vector<uint8_t>> m_custom;
+    std::map<uint8_t, ByteArray> m_custom;
 
     std::map<uint8_t, uint8_t> m_ids = {
         {MileageExtraId, 0},         {FuelMeterExtraId, 0},  {SpeedExtraId, 0},         {ManualAlarmConfirmationId, 0},

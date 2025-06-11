@@ -1,10 +1,10 @@
 #ifndef CALLBACKPHONESCHEMA_H
 #define CALLBACKPHONESCHEMA_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 
 namespace Schema {
-static nlohmann::json CallbackPhoneSchema = R"(
+static Json CallbackPhoneSchema = R"(
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Callback Phone",

@@ -1,13 +1,12 @@
 #include "JT808/MessageBody/LocationInformationReport.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/BasicLocationInformation.h"
 #include "JT808/MessageBody/ExtraLocationInformation.h"
 #include "JT808/MessageBody/LocationInformation.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/LocationInformationReportSchema.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <utility>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -29,7 +28,7 @@ LocationInformationReport::LocationInformationReport(LocationInformation info)
 {
 }
 
-void LocationInformationReport::parse(const std::vector<uint8_t>& data)
+void LocationInformationReport::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -42,7 +41,7 @@ void LocationInformationReport::parse(const uint8_t* data, int size)
     setIsValid(true);
 }
 
-std::vector<uint8_t> LocationInformationReport::package()
+ByteArray LocationInformationReport::package()
 {
     return m_info.package();
 }
@@ -52,7 +51,7 @@ bool LocationInformationReport::operator==(const LocationInformationReport& othe
     return m_info == other.m_info;
 }
 
-void LocationInformationReport::fromJson(const nlohmann::json& data)
+void LocationInformationReport::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_info.fromJson(data);
@@ -62,7 +61,7 @@ void LocationInformationReport::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json LocationInformationReport::toJson()
+Json LocationInformationReport::toJson()
 {
     return m_info.toJson();
 }

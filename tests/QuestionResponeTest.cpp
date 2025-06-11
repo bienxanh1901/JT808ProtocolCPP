@@ -11,7 +11,7 @@ protected:
     {
         m_body = new QuestionResponse(123, 2);
         m_rawData = {0x0, 0x7b, 0x2};
-        m_object = nlohmann::json::object({{"seq", 123}, {"id", 2}});
+        m_object = Json::object({{"seq", 123}, {"id", 2}});
     }
 };
 

@@ -1,12 +1,11 @@
 #include "JT808/MessageBody/TextMessageDispatch.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/TextMessageDispatchSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <string>
 #include <utility>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -22,7 +21,7 @@ TextMessageDispatch::TextMessageDispatch(Flag flag, std::string text)
 {
 }
 
-void TextMessageDispatch::parse(const std::vector<uint8_t>& data)
+void TextMessageDispatch::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -38,9 +37,9 @@ void TextMessageDispatch::parse(const uint8_t* data, int size)
     setIsValid(true);
 }
 
-std::vector<uint8_t> TextMessageDispatch::package()
+ByteArray TextMessageDispatch::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // flag
     result.push_back(m_flag.value);
     // information
@@ -54,7 +53,7 @@ bool TextMessageDispatch::operator==(const TextMessageDispatch& other) const
     return m_flag.value == other.m_flag.value && m_text == other.m_text;
 }
 
-void TextMessageDispatch::fromJson(const nlohmann::json& data)
+void TextMessageDispatch::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_flag.value = data["flag"];
@@ -65,7 +64,7 @@ void TextMessageDispatch::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json TextMessageDispatch::toJson()
+Json TextMessageDispatch::toJson()
 {
     return {{"flag", m_flag.value}, {"text", m_text}};
 }

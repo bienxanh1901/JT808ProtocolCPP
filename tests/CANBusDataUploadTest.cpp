@@ -17,11 +17,11 @@ protected:
         m_body = new CANBusDataUpload("1601300000", data);
         m_rawData = {0x0,  0x2,  0x16, 0x1,  0x30, 0x0, 0x0,  0x7b, 0x0,  0x0,  0x80, 0x31, 0x33, 0x32, 0x34, 0x35,
                      0x36, 0x37, 0x38, 0x6f, 0x0,  0x0, 0x60, 0x31, 0x33, 0x32, 0x34, 0x35, 0x36, 0x37, 0x38};
-        m_object = nlohmann::json::object(
+        m_object = Json::object(
             {{"length", 2},
              {"time", "1601300000"},
              {"can_data",
-              nlohmann::json::array(
+              Json::array(
                   {{{"channel", 1}, {"frame_type", 0}, {"data_method", 0}, {"id", 123}, {"data", "13245678"}},
                    {{"channel", 0}, {"frame_type", 1}, {"data_method", 1}, {"id", 111}, {"data", "13245678"}}})}});
     }

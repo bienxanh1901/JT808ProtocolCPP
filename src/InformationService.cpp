@@ -5,7 +5,6 @@
 #include <cstdint>
 #include <string>
 #include <utility>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -21,7 +20,7 @@ InformationService::InformationService(uint8_t type, std::string info)
 {
 }
 
-void InformationService::parse(const std::vector<uint8_t>& data)
+void InformationService::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -41,9 +40,9 @@ void InformationService::parse(const uint8_t* data, int /*size*/)
     setIsValid(true);
 }
 
-std::vector<uint8_t> InformationService::package()
+ByteArray InformationService::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // type
     result.push_back(m_type);
     // length
@@ -59,7 +58,7 @@ bool InformationService::operator==(const InformationService& other) const
     return m_type == other.m_type && m_info == other.m_info;
 }
 
-void InformationService::fromJson(const nlohmann::json& data)
+void InformationService::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_type = data["type"];
@@ -70,7 +69,7 @@ void InformationService::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json InformationService::toJson()
+Json InformationService::toJson()
 {
     return {{"type", m_type}, {"info", m_info}};
 }

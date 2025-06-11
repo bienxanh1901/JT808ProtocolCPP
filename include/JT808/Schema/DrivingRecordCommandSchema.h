@@ -1,9 +1,9 @@
 #ifndef DRIVINGRECORDCOMMANDSCHEMA_H
 #define DRIVINGRECORDCOMMANDSCHEMA_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 namespace Schema {
-static nlohmann::json DrivingRecordCommandSchema = R"(
+static Json DrivingRecordCommandSchema = R"(
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Driving Record Data Collection Command ",

@@ -26,7 +26,7 @@ uint16_t endianSwap16(const uint16_t& val)
  * @param data
  * @return
  */
-uint16_t endianSwap16(const std::vector<uint8_t>& data)
+uint16_t endianSwap16(const ByteArray& data)
 {
     U16Array const tmp = {.array = {data[0], data[1]}};
 
@@ -60,7 +60,7 @@ uint32_t endianSwap32(const uint32_t& val)
  * @param data
  * @return
  */
-uint32_t endianSwap32(const std::vector<uint8_t>& data)
+uint32_t endianSwap32(const ByteArray& data)
 {
     U32Array const tmp = {.array = {data[0], data[1], data[2], data[3]}};
 
@@ -158,14 +158,14 @@ void printHexArray(const uint8_t* data, int size, std::ostream& out)
     out << "]";
 }
 
-void printHexArray(const std::vector<uint8_t>& data, std::ostream& out)
+void printHexArray(const ByteArray& data, std::ostream& out)
 {
     printHexArray(data.data(), data.size(), out);
 }
 
-std::vector<uint8_t> escape(const std::vector<uint8_t>& data)
+ByteArray escape(const ByteArray& data)
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
 
     for (auto& val : data) {
         if (val == ProtocolSign) {
@@ -182,9 +182,9 @@ std::vector<uint8_t> escape(const std::vector<uint8_t>& data)
     return result;
 }
 
-std::vector<uint8_t> reverseEscape(const std::vector<uint8_t>& data)
+ByteArray reverseEscape(const ByteArray& data)
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
 
     for (int i = 0; i < data.size(); i++) {
         if (data[i] == ProtocolEscape && data[i + 1] == ProtocolEscapeSign) {
@@ -212,61 +212,61 @@ uint8_t calculateChecksum(const uint8_t* data, int len)
     return checksum;
 }
 
-uint8_t calculateChecksum(const std::vector<uint8_t>& data)
+uint8_t calculateChecksum(const ByteArray& data)
 {
     return calculateChecksum(data.data(), data.size());
 }
 
-void appendU16(uint16_t val, std::vector<uint8_t>& data)
+void appendU16(uint16_t val, ByteArray& data)
 {
     U16Array u16Array {.value = Utils::endianSwap16(val)};
     append(u16Array.array, 2, data);
 }
 
-void appendU32(uint32_t val, std::vector<uint8_t>& data)
+void appendU32(uint32_t val, ByteArray& data)
 {
     U32Array u32Array {.value = Utils::endianSwap32(val)};
     append(u32Array.array, 4, data);
 }
 
-void appendBCD(const std::string& val, std::vector<uint8_t>& data)
+void appendBCD(const std::string& val, ByteArray& data)
 {
     append(BCD::fromString(val), data);
 }
 
-void appendGBK(const std::string& val, std::vector<uint8_t>& data)
+void appendGBK(const std::string& val, ByteArray& data)
 {
     append(gbkEncode(val), data);
 }
 
-void appendNull(std::vector<uint8_t>& data, int length)
+void appendNull(ByteArray& data, int length)
 {
-    Utils::append(std::vector<uint8_t>(length, 0x00), data);
+    Utils::append(ByteArray(length, 0x00), data);
 }
 
-void append(const std::string& val, std::vector<uint8_t>& data)
-{
-    data.insert(data.end(), val.begin(), val.end());
-}
-
-void append(const std::vector<uint8_t>& val, std::vector<uint8_t>& data)
+void append(const std::string& val, ByteArray& data)
 {
     data.insert(data.end(), val.begin(), val.end());
 }
 
-void append(const uint8_t* val, int size, std::vector<uint8_t>& data)
+void append(const ByteArray& val, ByteArray& data)
+{
+    data.insert(data.end(), val.begin(), val.end());
+}
+
+void append(const uint8_t* val, int size, ByteArray& data)
 {
     data.insert(data.end(), val, val + size);
 }
 
-void append(const std::vector<uint16_t>& val, std::vector<uint8_t>& data)
+void append(const std::vector<uint16_t>& val, ByteArray& data)
 {
     for (const auto& item : val) {
         appendU16(item, data);
     }
 }
 
-void append(const std::vector<uint32_t>& val, std::vector<uint8_t>& data)
+void append(const std::vector<uint32_t>& val, ByteArray& data)
 {
     for (const auto& item : val) {
         appendU32(item, data);

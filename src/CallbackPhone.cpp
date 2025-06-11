@@ -1,12 +1,11 @@
 #include "JT808/MessageBody/CallbackPhone.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/CallbackPhoneSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <string>
 #include <utility>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -22,7 +21,7 @@ CallbackPhone::CallbackPhone(PhoneType type, std::string phone)
 {
 }
 
-void CallbackPhone::parse(const std::vector<uint8_t>& data)
+void CallbackPhone::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -38,9 +37,9 @@ void CallbackPhone::parse(const uint8_t* data, int size)
     setIsValid(true);
 }
 
-std::vector<uint8_t> CallbackPhone::package()
+ByteArray CallbackPhone::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // type
     result.push_back(m_type);
     // phone
@@ -54,7 +53,7 @@ bool CallbackPhone::operator==(const CallbackPhone& other) const
     return m_type == other.m_type && m_phone == other.m_phone;
 }
 
-void CallbackPhone::fromJson(const nlohmann::json& data)
+void CallbackPhone::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_type = data["type"];
@@ -65,7 +64,7 @@ void CallbackPhone::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json CallbackPhone::toJson()
+Json CallbackPhone::toJson()
 {
     return {{"type", m_type}, {"phone", m_phone}};
 }

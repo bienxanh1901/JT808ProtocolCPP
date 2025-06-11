@@ -1,14 +1,12 @@
 #include "JT808/MessageBody/DriverIdentityInformationReport.h"
 #include "JT808/BCD.h"
-
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/DriverIdentityInformationReportSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <string>
 #include <utility>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -31,7 +29,7 @@ DriverIdentityInformationReport::DriverIdentityInformationReport(Status status, 
 {
 }
 
-void DriverIdentityInformationReport::parse(const std::vector<uint8_t>& data)
+void DriverIdentityInformationReport::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -69,9 +67,9 @@ void DriverIdentityInformationReport::parse(const uint8_t* data, int /*size*/)
     setIsValid(true);
 }
 
-std::vector<uint8_t> DriverIdentityInformationReport::package()
+ByteArray DriverIdentityInformationReport::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
 
     // status
     result.push_back(m_status);
@@ -105,7 +103,7 @@ bool DriverIdentityInformationReport::operator==(const DriverIdentityInformation
         && m_organization == other.m_organization && m_certExpiry == other.m_certExpiry;
 }
 
-void DriverIdentityInformationReport::fromJson(const nlohmann::json& data)
+void DriverIdentityInformationReport::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_status = Status(data["status"]);
@@ -124,9 +122,9 @@ void DriverIdentityInformationReport::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json DriverIdentityInformationReport::toJson()
+Json DriverIdentityInformationReport::toJson()
 {
-    nlohmann::json result({{"status", m_status}, {"time", m_time}, {"ic_result", m_icResult}});
+    Json result({{"status", m_status}, {"time", m_time}, {"ic_result", m_icResult}});
 
     if (m_icResult == Successful) {
         result["driver_name"] = m_driverName;

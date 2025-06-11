@@ -1,9 +1,9 @@
 #ifndef TERMINALREGISTRATIONSCHEMA_H
 #define TERMINALREGISTRATIONSCHEMA_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 namespace Schema {
-static nlohmann::json TerminalRegistrationSchema = R"(
+static Json TerminalRegistrationSchema = R"(
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Terminal Registration",

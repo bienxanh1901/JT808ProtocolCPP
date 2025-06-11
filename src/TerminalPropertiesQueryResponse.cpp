@@ -1,14 +1,13 @@
 #include "JT808/MessageBody/TerminalPropertiesQueryResponse.h"
 #include "JT808/BCD.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/MessageBody/TerminalProperties.h"
 #include "JT808/Schema/TerminalPropertiesQueryResponseSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
 #include <string>
 #include <utility>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -35,7 +34,7 @@ TerminalPropertiesQueryResponse::TerminalPropertiesQueryResponse(const TerminalT
 {
 }
 
-void TerminalPropertiesQueryResponse::parse(const std::vector<uint8_t>& data)
+void TerminalPropertiesQueryResponse::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -80,9 +79,9 @@ void TerminalPropertiesQueryResponse::parse(const uint8_t* data, int /*size*/)
     setIsValid(true);
 }
 
-std::vector<uint8_t> TerminalPropertiesQueryResponse::package()
+ByteArray TerminalPropertiesQueryResponse::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // type
     Utils::appendU16(m_type.value, result);
     // manufacturer
@@ -123,7 +122,7 @@ bool TerminalPropertiesQueryResponse::operator==(const TerminalPropertiesQueryRe
         && m_commProp.value == other.commProp().value;
 }
 
-void TerminalPropertiesQueryResponse::fromJson(const nlohmann::json& data)
+void TerminalPropertiesQueryResponse::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_type.value = data["type"];
@@ -141,7 +140,7 @@ void TerminalPropertiesQueryResponse::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json TerminalPropertiesQueryResponse::toJson()
+Json TerminalPropertiesQueryResponse::toJson()
 {
     return {
         {"type", m_type.value},

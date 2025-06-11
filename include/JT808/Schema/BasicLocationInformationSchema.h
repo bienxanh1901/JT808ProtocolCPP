@@ -1,9 +1,9 @@
 #ifndef BASICLOCATIONINFORMATIONSCHEMA_H
 #define BASICLOCATIONINFORMATIONSCHEMA_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 namespace Schema {
-static nlohmann::json BasicLocationInformationSchema = R"(
+static Json BasicLocationInformationSchema = R"(
 {
     "type": "object",
     "properties": {

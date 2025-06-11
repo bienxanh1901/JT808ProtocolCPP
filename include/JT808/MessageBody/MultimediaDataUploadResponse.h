@@ -1,11 +1,10 @@
 #ifndef MULTIMEDIADATAUPLOADRESPONSE_H
 #define MULTIMEDIADATAUPLOADRESPONSE_H
 
+#include "JT808/Common.h"
 #include "MessageBodyBase.h"
 #include <cstdint>
 #include <vector>
-
-#include "nlohmann/json.hpp"
 
 namespace JT808::MessageBody {
 
@@ -17,13 +16,13 @@ class MultimediaDataUploadResponse : public MessageBodyBase
 public:
     MultimediaDataUploadResponse();
     MultimediaDataUploadResponse(uint32_t id, std::vector<uint16_t>& retxIds);
-    void parse(const std::vector<uint8_t>& data) override;
+    void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;
-    std::vector<uint8_t> package() override;
+    ByteArray package() override;
     bool operator==(const MultimediaDataUploadResponse& other) const;
 
-    void fromJson(const nlohmann::json& data) override;
-    nlohmann::json toJson() override;
+    void fromJson(const Json& data) override;
+    Json toJson() override;
 
     uint16_t id() const;
     void setId(uint16_t newId);

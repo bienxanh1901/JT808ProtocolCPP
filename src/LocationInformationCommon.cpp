@@ -1,8 +1,7 @@
 #include "JT808/MessageBody/LocationInformationCommon.h"
+#include "JT808/Common.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -19,9 +18,9 @@ void OverspeedAlarm::parse(const uint8_t* data, int /*size*/)
     }
 }
 
-std::vector<uint8_t> OverspeedAlarm::package()
+ByteArray OverspeedAlarm::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
 
     if (type > LocationTypes::UnknownLocationType) {
         result.push_back(5);
@@ -35,7 +34,7 @@ std::vector<uint8_t> OverspeedAlarm::package()
     return result;
 }
 
-void OverspeedAlarm::fromJson(const nlohmann::json& data)
+void OverspeedAlarm::fromJson(const Json& data)
 {
     type = data["type"];
     if (type != UnknownLocationType) {
@@ -43,9 +42,9 @@ void OverspeedAlarm::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json OverspeedAlarm::toJson()
+Json OverspeedAlarm::toJson()
 {
-    nlohmann::json result = nlohmann::json::object({{"type", type}});
+    Json result = Json::object({{"type", type}});
     if (type != UnknownLocationType) {
         result["id"] = id;
     }
@@ -65,9 +64,9 @@ void InOutAlarm::parse(const uint8_t* data, int /*size*/)
     direction = DirectionTypes(data[5]);
 }
 
-std::vector<uint8_t> InOutAlarm::package()
+ByteArray InOutAlarm::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     result.push_back(6);
     result.push_back(type);
     Utils::appendU32(id, result);
@@ -76,16 +75,16 @@ std::vector<uint8_t> InOutAlarm::package()
     return result;
 }
 
-void InOutAlarm::fromJson(const nlohmann::json& data)
+void InOutAlarm::fromJson(const Json& data)
 {
     type = data["type"];
     id = data["id"];
     direction = data["direction"];
 }
 
-nlohmann::json InOutAlarm::toJson()
+Json InOutAlarm::toJson()
 {
-    return nlohmann::json::object({{"type", type}, {"id", id}, {"direction", direction}});
+    return Json::object({{"type", type}, {"id", id}, {"direction", direction}});
 }
 
 bool PathTimeAlarm::operator==(const PathTimeAlarm& other) const
@@ -100,9 +99,9 @@ void PathTimeAlarm::parse(const uint8_t* data, int /*size*/)
     result = PathTimeResults(data[6]);
 }
 
-std::vector<uint8_t> PathTimeAlarm::package()
+ByteArray PathTimeAlarm::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     result.push_back(7);
     Utils::appendU32(id, result);
     Utils::appendU16(time, result);
@@ -110,19 +109,19 @@ std::vector<uint8_t> PathTimeAlarm::package()
     return result;
 }
 
-void PathTimeAlarm::fromJson(const nlohmann::json& data)
+void PathTimeAlarm::fromJson(const Json& data)
 {
     id = data["id"];
     time = data["time"];
     result = data["result"];
 }
 
-nlohmann::json PathTimeAlarm::toJson()
+Json PathTimeAlarm::toJson()
 {
-    return nlohmann::json::object({{"id", id}, {"time", time}, {"result", result}});
+    return Json::object({{"id", id}, {"time", time}, {"result", result}});
 }
 
-void ExtendedVehicleSignalFlags::fromJson(const nlohmann::json& data)
+void ExtendedVehicleSignalFlags::fromJson(const Json& data)
 {
     bits.highBeam = data["high_beam"];
     bits.lowBeam = data["low_beam"];
@@ -141,50 +140,50 @@ void ExtendedVehicleSignalFlags::fromJson(const nlohmann::json& data)
     bits.cluth = data["cluth"];
 }
 
-nlohmann::json ExtendedVehicleSignalFlags::toJson()
+Json ExtendedVehicleSignalFlags::toJson()
 {
-    return nlohmann::json::object({{"high_beam", (int)bits.highBeam},
-                                   {"low_beam", (int)bits.lowBeam},
-                                   {"right_turn", (int)bits.righTurn},
-                                   {"left_turn", (int)bits.leftTurn},
-                                   {"brake", (int)bits.brake},
-                                   {"reverse", (int)bits.reverse},
-                                   {"fog", (int)bits.fog},
-                                   {"side_marker", (int)bits.sideMarker},
-                                   {"horn", (int)bits.horn},
-                                   {"air_conditioner", (int)bits.airConditioner},
-                                   {"neutral", (int)bits.neutral},
-                                   {"retarder", (int)bits.retarder},
-                                   {"abs", (int)bits.abs},
-                                   {"heater", (int)bits.heater},
-                                   {"cluth", (int)bits.cluth}
+    return Json::object({{"high_beam", (int)bits.highBeam},
+                         {"low_beam", (int)bits.lowBeam},
+                         {"right_turn", (int)bits.righTurn},
+                         {"left_turn", (int)bits.leftTurn},
+                         {"brake", (int)bits.brake},
+                         {"reverse", (int)bits.reverse},
+                         {"fog", (int)bits.fog},
+                         {"side_marker", (int)bits.sideMarker},
+                         {"horn", (int)bits.horn},
+                         {"air_conditioner", (int)bits.airConditioner},
+                         {"neutral", (int)bits.neutral},
+                         {"retarder", (int)bits.retarder},
+                         {"abs", (int)bits.abs},
+                         {"heater", (int)bits.heater},
+                         {"cluth", (int)bits.cluth}
 
     });
 }
 
-void IOStatusFlags::fromJson(const nlohmann::json& data)
+void IOStatusFlags::fromJson(const Json& data)
 {
     bits.deepSleep = data["deep_sleep"];
     bits.sleep = data["sleep"];
 }
 
-nlohmann::json IOStatusFlags::toJson()
+Json IOStatusFlags::toJson()
 {
-    return nlohmann::json::object({
+    return Json::object({
         {"deep_sleep", (int)bits.deepSleep},
         {"sleep", (int)bits.sleep},
     });
 }
 
-void AnalogFlag::fromJson(const nlohmann::json& data)
+void AnalogFlag::fromJson(const Json& data)
 {
     bits.ad0 = data["ad0"];
     bits.ad1 = data["ad1"];
 }
 
-nlohmann::json AnalogFlag::toJson()
+Json AnalogFlag::toJson()
 {
-    return nlohmann::json::object({
+    return Json::object({
         {"ad0", (int)bits.ad0},
         {"ad1", (int)bits.ad1},
     });

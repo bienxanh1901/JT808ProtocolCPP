@@ -2,12 +2,11 @@
 #define SETTINGROUTE_H
 
 #include "AreaSettingProperties.h"
+#include "JT808/Common.h"
 #include "MessageBodyBase.h"
 #include <cstdint>
 #include <string>
 #include <vector>
-
-#include "nlohmann/json.hpp"
 
 namespace JT808::MessageBody {
 
@@ -41,22 +40,22 @@ public:
 
         bool operator==(const Point& other) const;
         int parse(const uint8_t* data, int size);
-        std::vector<uint8_t> package() const;
+        ByteArray package() const;
 
-        void fromJson(const nlohmann::json& data);
-        nlohmann::json toJson();
+        void fromJson(const Json& data);
+        Json toJson();
     };
 
     SettingRoute();
     SettingRoute(uint32_t id, AreaProperties flag, std::string startTime, std::string endTime,
                  const std::vector<Point>& points);
-    void parse(const std::vector<uint8_t>& data) override;
+    void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;
-    std::vector<uint8_t> package() override;
+    ByteArray package() override;
     bool operator==(const SettingRoute& other) const;
 
-    void fromJson(const nlohmann::json& data) override;
-    nlohmann::json toJson() override;
+    void fromJson(const Json& data) override;
+    Json toJson() override;
 
     uint32_t id() const;
     void setId(uint32_t newId);

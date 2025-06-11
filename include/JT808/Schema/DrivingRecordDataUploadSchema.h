@@ -1,9 +1,9 @@
 #ifndef DRIVINGRECORDDATAUPLOADSCHEMA_H
 #define DRIVINGRECORDDATAUPLOADSCHEMA_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 namespace Schema {
-static nlohmann::json DrivingRecordDataUploadSchema = R"(
+static Json DrivingRecordDataUploadSchema = R"(
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Driving Record Data Upload ",

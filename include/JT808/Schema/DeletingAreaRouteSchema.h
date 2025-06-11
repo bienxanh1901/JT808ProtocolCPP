@@ -1,9 +1,9 @@
 #ifndef DELETINGAREAROUTESCHEMA_H
 #define DELETINGAREAROUTESCHEMA_H
 
-#include "nlohmann/json.hpp"
+#include "JT808/Common.h"
 namespace Schema {
-static nlohmann::json DeletingAreaRouteSchema = R"(
+static Json DeletingAreaRouteSchema = R"(
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "DeletingAreaRoute",

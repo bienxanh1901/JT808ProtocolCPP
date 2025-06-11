@@ -2,11 +2,8 @@
 #define MULTIMEDIA_H
 
 #include "BasicLocationInformation.h"
-
+#include "JT808/Common.h"
 #include <cstdint>
-#include <vector>
-
-#include "nlohmann/json.hpp"
 
 namespace JT808::MessageBody {
 
@@ -55,10 +52,10 @@ struct MultimediaEventInformation
 
     bool operator==(const MultimediaEventInformation& other) const;
     void parse(const uint8_t* data, int size);
-    std::vector<uint8_t> package() const;
+    ByteArray package() const;
 
-    void fromJson(const nlohmann::json& data);
-    nlohmann::json toJson();
+    void fromJson(const Json& data);
+    Json toJson();
 };
 
 struct MultimediaRetrievalData
@@ -71,10 +68,10 @@ struct MultimediaRetrievalData
 
     bool operator==(const MultimediaRetrievalData& other) const;
     void parse(const uint8_t* data, int size);
-    std::vector<uint8_t> package();
+    ByteArray package();
 
-    void fromJson(const nlohmann::json& data);
-    nlohmann::json toJson();
+    void fromJson(const Json& data);
+    Json toJson();
 };
 
 }

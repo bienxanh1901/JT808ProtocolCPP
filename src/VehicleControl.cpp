@@ -1,9 +1,8 @@
 #include "JT808/MessageBody/VehicleControl.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/VehicleControlSchema.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -18,7 +17,7 @@ VehicleControl::VehicleControl(Flag flag)
 {
 }
 
-void VehicleControl::parse(const std::vector<uint8_t>& data)
+void VehicleControl::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -30,9 +29,9 @@ void VehicleControl::parse(const uint8_t* data, int /*size*/)
     setIsValid(true);
 }
 
-std::vector<uint8_t> VehicleControl::package()
+ByteArray VehicleControl::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
 
     result.push_back(m_flag.value);
 
@@ -44,7 +43,7 @@ bool VehicleControl::operator==(const VehicleControl& other) const
     return m_flag.value == other.m_flag.value;
 }
 
-void VehicleControl::fromJson(const nlohmann::json& data)
+void VehicleControl::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_flag.value = data["flag"];
@@ -54,7 +53,7 @@ void VehicleControl::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json VehicleControl::toJson()
+Json VehicleControl::toJson()
 {
     return {{"flag", m_flag.value}};
 }

@@ -1,12 +1,10 @@
 #ifndef TERMINALREGISTRATION_H
 #define TERMINALREGISTRATION_H
 
+#include "JT808/Common.h"
 #include "MessageBodyBase.h"
 #include <cstdint>
 #include <string>
-#include <vector>
-
-#include "nlohmann/json.hpp"
 
 namespace JT808::MessageBody {
 
@@ -34,13 +32,13 @@ public:
     TerminalRegistration(uint16_t province, uint16_t city, std::string manufacturer, std::string model, std::string id,
                          LicensePlateColors color, std::string licenseNumber);
 
-    void parse(const std::vector<uint8_t>& data) override;
+    void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;
-    std::vector<uint8_t> package() override;
+    ByteArray package() override;
     bool operator==(const TerminalRegistration& other) const;
 
-    void fromJson(const nlohmann::json& data) override;
-    nlohmann::json toJson() override;
+    void fromJson(const Json& data) override;
+    Json toJson() override;
 
     uint16_t province() const;
     void setProvince(uint16_t newProvince);

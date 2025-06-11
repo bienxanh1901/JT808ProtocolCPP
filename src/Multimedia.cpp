@@ -1,8 +1,7 @@
 #include "JT808/MessageBody/Multimedia.h"
+#include "JT808/Common.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -28,9 +27,9 @@ void MultimediaEventInformation::parse(const uint8_t* data, int /*size*/)
     channel = MediaType(data[pos]);
 }
 
-std::vector<uint8_t> MultimediaEventInformation::package() const
+ByteArray MultimediaEventInformation::package() const
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // id
     Utils::appendU32(id, result);
     // type
@@ -45,7 +44,7 @@ std::vector<uint8_t> MultimediaEventInformation::package() const
     return result;
 }
 
-void MultimediaEventInformation::fromJson(const nlohmann::json& data)
+void MultimediaEventInformation::fromJson(const Json& data)
 {
     id = data["id"];
     type = data["type"];
@@ -54,7 +53,7 @@ void MultimediaEventInformation::fromJson(const nlohmann::json& data)
     channel = data["channel"];
 }
 
-nlohmann::json MultimediaEventInformation::toJson()
+Json MultimediaEventInformation::toJson()
 {
     return {
         {"id", id}, {"type", type}, {"format", format}, {"event", event}, {"channel", channel},
@@ -83,9 +82,9 @@ void MultimediaRetrievalData::parse(const uint8_t* data, int /*size*/)
     location.parse(data + pos, 28);
 }
 
-std::vector<uint8_t> MultimediaRetrievalData::package()
+ByteArray MultimediaRetrievalData::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // id
     Utils::appendU32(id, result);
     // type
@@ -100,7 +99,7 @@ std::vector<uint8_t> MultimediaRetrievalData::package()
     return result;
 }
 
-void MultimediaRetrievalData::fromJson(const nlohmann::json& data)
+void MultimediaRetrievalData::fromJson(const Json& data)
 {
     id = data["id"];
     type = data["type"];
@@ -109,9 +108,9 @@ void MultimediaRetrievalData::fromJson(const nlohmann::json& data)
     location.fromJson(data["location"]);
 }
 
-nlohmann::json MultimediaRetrievalData::toJson()
+Json MultimediaRetrievalData::toJson()
 {
-    return nlohmann::json::object({
+    return Json::object({
         {"id", id},
         {"type", type},
         {"event", event},

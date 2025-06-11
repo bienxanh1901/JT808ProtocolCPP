@@ -1,7 +1,7 @@
 #include "JT808/BCD.h"
+#include "JT808/Common.h"
 #include <cstdint>
 #include <string>
-#include <vector>
 
 namespace {
 uint8_t charTodigit(const char& digit)
@@ -23,9 +23,9 @@ uint8_t fromHex(const uint8_t& src)
     return ((src / 10) << 4) + (src % 10);
 }
 
-std::vector<uint8_t> fromString(const std::string& src)
+ByteArray fromString(const std::string& src)
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     int pos = 0;
 
     if (src.size() % 2 != 0) {
@@ -46,7 +46,7 @@ uint8_t toHex(const uint8_t& src)
     return ((src >> 4) * 10) + (src & 0x0f);
 }
 
-std::string toString(const std::vector<uint8_t>& src)
+std::string toString(const ByteArray& src)
 {
     std::string result;
     uint8_t tmp = 0;

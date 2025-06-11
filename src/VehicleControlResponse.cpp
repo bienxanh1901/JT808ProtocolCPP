@@ -1,13 +1,12 @@
 #include "JT808/MessageBody/VehicleControlResponse.h"
+#include "JT808/Common.h"
 #include "JT808/MessageBody/BasicLocationInformation.h"
 #include "JT808/MessageBody/ExtraLocationInformation.h"
 #include "JT808/MessageBody/LocationInformation.h"
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Schema/VehicleControlResponseSchema.h"
 #include "JT808/Utils.h"
-#include "nlohmann/json.hpp"
 #include <cstdint>
-#include <vector>
 
 namespace JT808::MessageBody {
 
@@ -31,7 +30,7 @@ VehicleControlResponse::VehicleControlResponse(uint16_t seq, const BasicLocation
 {
 }
 
-void VehicleControlResponse::parse(const std::vector<uint8_t>& data)
+void VehicleControlResponse::parse(const ByteArray& data)
 {
     parse(data.data(), data.size());
 }
@@ -46,9 +45,9 @@ void VehicleControlResponse::parse(const uint8_t* data, int size)
     setIsValid(true);
 }
 
-std::vector<uint8_t> VehicleControlResponse::package()
+ByteArray VehicleControlResponse::package()
 {
-    std::vector<uint8_t> result;
+    ByteArray result;
     // seq
     Utils::appendU16(m_seq, result);
     // location information
@@ -62,7 +61,7 @@ bool VehicleControlResponse::operator==(const VehicleControlResponse& other) con
     return m_seq == other.m_seq && m_info == other.m_info;
 }
 
-void VehicleControlResponse::fromJson(const nlohmann::json& data)
+void VehicleControlResponse::fromJson(const Json& data)
 {
     if (validate(data)) {
         m_seq = data["seq"];
@@ -73,9 +72,9 @@ void VehicleControlResponse::fromJson(const nlohmann::json& data)
     }
 }
 
-nlohmann::json VehicleControlResponse::toJson()
+Json VehicleControlResponse::toJson()
 {
-    return nlohmann::json::object({{"seq", m_seq}, {"location", m_info.toJson()}});
+    return Json::object({{"seq", m_seq}, {"location", m_info.toJson()}});
 }
 
 uint16_t VehicleControlResponse::seq() const
