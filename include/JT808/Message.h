@@ -104,6 +104,9 @@ public:
     Message();
     Message(Header header, std::unique_ptr<MessageBody::MessageBodyBase> body);
 
+    MessageIds id();
+    void setId(MessageIds id);
+
     void fromJson(const Json& data);
     Json toJson();
 

@@ -35,6 +35,16 @@ Message::Message(Header header, std::unique_ptr<MessageBody::MessageBodyBase> bo
     m_validator.set_root_schema(Schema::MessageSchema);
 }
 
+MessageIds Message::id()
+{
+    return m_header.id;
+}
+
+void Message::setId(MessageIds id)
+{
+    m_header.id = id;
+}
+
 void Message::fromJson(const Json& data)
 {
     if (validateJson(data)) {
