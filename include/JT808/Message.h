@@ -1,12 +1,13 @@
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
-#include "JT808/Common.h"
+#include "Common.h"
+#include "MessageIds.h"
 #include <cstdint>
 #include <memory>
 #include <string>
 
-#include "JT808/MessageBody/MessageBodyBase.h"
+#include "MessageBody/MessageBodyBase.h"
 
 namespace JT808 {
 
@@ -86,7 +87,7 @@ public:
      */
     struct Header
     {
-        uint16_t id = 0;
+        MessageIds id = PlatformGeneralResponseMsgId;
         BodyProperties bodyProps = {0};
         std::string phone;
         uint16_t seq = 0;
@@ -125,7 +126,7 @@ private:
     ByteArray packageBody();
 
     bool m_isValid = true;
-    Header m_header = {0};
+    Header m_header;
     uint8_t m_checksum = 0;
     std::unique_ptr<MessageBody::MessageBodyBase> m_body;
     JsonValidator m_validator;

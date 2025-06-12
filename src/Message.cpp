@@ -192,7 +192,7 @@ int Message::Header::parse(const uint8_t* data, int size)
 
     if (size >= MinimumMsgSize) {
         // Message ID
-        id = Utils::endianSwap16(data);
+        id = MessageIds(Utils::endianSwap16(data));
         pos += sizeof(id);
         // bodyProps
         bodyProps.value = Utils::endianSwap16(data + pos);
