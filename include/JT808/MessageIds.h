@@ -2,6 +2,7 @@
 #define MESSAGEIDS_H
 
 #include <cstdint>
+#include <string>
 
 namespace JT808 {
 enum MessageIds : uint16_t
@@ -73,7 +74,9 @@ enum MessageIds : uint16_t
     SingleStoredMultimediaItemRetrievalUploadCommandMsgId = 0x8805,
     DownwardDataTransmissionMsgId = 0x8900,
     PlatformRSAPublicKeyMsgId = 0x8A00
-
 };
+
+std::string MessageIdString(MessageIds id);
+
 }
 #endif // MESSAGEIDS_H
