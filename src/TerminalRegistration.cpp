@@ -58,7 +58,7 @@ void TerminalRegistration::parse(const uint8_t* data, int size)
     m_color = LicensePlateColors(data[pos++]);
     // license number
     if (m_color != NoLicensePlate) {
-        m_licenseNumber.assign(data + pos, data + size);
+        m_licenseNumber = Utils::gbkDecode(data + pos, size - pos);
     }
 
     setIsValid(true);
@@ -87,7 +87,7 @@ ByteArray TerminalRegistration::package()
     result.push_back(m_color);
     // license number
     if (m_color != NoLicensePlate) {
-        Utils::append(m_licenseNumber, result);
+        Utils::appendGBK(m_licenseNumber, result);
     }
 
     return result;

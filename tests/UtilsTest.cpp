@@ -2,7 +2,6 @@
 #include <cstdint>
 #include <gtest/gtest.h>
 #include <string>
-#include <vector>
 
 namespace {
 JT808::Utils::U16Array input16 {.value = 0x1234};
@@ -76,8 +75,11 @@ TEST(UtilsTest, endianSwap32_3)
 
 TEST(UtilsTest, gbkEncodeDecode)
 {
-    std::string const input("你好");
-    std::string const expectedOutput("\xC4\xE3\xBA\xC3");
+    // std::string const input("你好");
+    // std::string const expectedOutput("\xC4\xE3\xBA\xC3");
+
+    std::string const input("粤B12345");
+    std::string const expectedOutput("\xD4\xC1\x42\x31\x32\x33\x34\x35");
 
     std::string output = gbkEncode(input);
     EXPECT_STREQ(output.c_str(), expectedOutput.c_str());
@@ -90,8 +92,8 @@ TEST(UtilsTest, gbkEncodeDecode)
 
 TEST(UtilsTest, gbkDecode2)
 {
-    std::string const input("你好");
-    uint8_t const expectedOutput[4] = {0xC4, 0xE3, 0xBA, 0xC3};
+    std::string const input("粤B12345");
+    uint8_t const expectedOutput[8] = {0xD4, 0xC1, 0x42, 0x31, 0x32, 0x33, 0x34, 0x35};
 
     std::string const output = gbkDecode(expectedOutput, sizeof(expectedOutput));
 

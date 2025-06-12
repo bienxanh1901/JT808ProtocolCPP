@@ -34,8 +34,8 @@ protected:
     {
         ByteArray result = m_body->package();
 
-        // Utils::printHexArray(result, std::cout);
-        // std::cout << '\n';
+        Utils::printHexArray(result, std::cout);
+        std::cout << '\n';
 
         EXPECT_EQ(result.size(), m_rawData.size());
         EXPECT_EQ(result, m_rawData);
