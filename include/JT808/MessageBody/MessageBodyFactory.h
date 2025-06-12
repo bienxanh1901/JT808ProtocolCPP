@@ -148,7 +148,7 @@ public:
             return it->second();
         } else {
             Json schema;
-            return std::make_unique<MessageBody::MessageBodyBase>(schema);
+            return std::make_unique<MessageBody::MessageBodyBase>();
         }
     }
 };

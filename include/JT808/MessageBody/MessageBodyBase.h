@@ -10,6 +10,7 @@ class MessageBodyBase
 {
 
 public:
+    MessageBodyBase();
     MessageBodyBase(const Json& schema);
     virtual void parse(const ByteArray& data);
     virtual void parse(const uint8_t* data, int size);

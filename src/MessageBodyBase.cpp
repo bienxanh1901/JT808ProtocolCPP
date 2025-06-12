@@ -15,6 +15,8 @@ void MessageBodyBase::setIsValid(bool newIsValid)
     m_isValid = newIsValid;
 }
 
+MessageBodyBase::MessageBodyBase() { }
+
 MessageBodyBase::MessageBodyBase(const Json& schema)
 {
     m_validator.set_root_schema(schema);
@@ -44,7 +46,7 @@ ByteArray MessageBodyBase::package()
 
 void MessageBodyBase::fromJson(const Json& data)
 {
-    m_isValid = validate(data);
+    m_isValid = true;
 }
 
 Json MessageBodyBase::toJson()
