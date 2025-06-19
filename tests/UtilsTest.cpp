@@ -75,9 +75,6 @@ TEST(UtilsTest, endianSwap32_3)
 
 TEST(UtilsTest, gbkEncodeDecode)
 {
-    // std::string const input("你好");
-    // std::string const expectedOutput("\xC4\xE3\xBA\xC3");
-
     std::string const input("粤B12345");
     std::string const expectedOutput("\xD4\xC1\x42\x31\x32\x33\x34\x35");
 

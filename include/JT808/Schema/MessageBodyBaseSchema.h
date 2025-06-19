@@ -3,28 +3,19 @@
 
 #include "JT808/Common.h"
 namespace Schema {
-static Json GeneralResponseSchema = R"(
+static Json MessageBodyBaseSchema = R"(
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "title": "General Response Body",
+    "title": "MessageBodyBase",
     "properties": {
-        "seq": {
-            "description": "Response Serial Number",
-            "type": "number"
-        },
-        "id": {
-            "description": "Message Id",
-            "type": "number",
-            "minumum": 1
-        },
-        "result": {
-            "description": "Response Result",
-            "type": "number",
-            "minimum": 0,
-            "maximum": 4
+        "data": {
+            "description": "Body data",
+            "type": "array",
+            "items": {
+                "type": "number"
+            }
         }
     },
-    "required": ["seq", "id", "result"],
     "type": "object"
 }
 

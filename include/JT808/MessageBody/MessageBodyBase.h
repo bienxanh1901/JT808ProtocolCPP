@@ -27,6 +27,7 @@ protected:
 
 private:
     bool m_isValid = false;
+    ByteArray m_data;
     JsonValidator m_validator;
 };
 

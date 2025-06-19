@@ -1,5 +1,6 @@
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Common.h"
+#include "JT808/Schema/MessageBodyBaseSchema.h"
 #include "nlohmann/json-schema.hpp"
 #include <cstdint>
 
@@ -15,7 +16,10 @@ void MessageBodyBase::setIsValid(bool newIsValid)
     m_isValid = newIsValid;
 }
 
-MessageBodyBase::MessageBodyBase() { }
+MessageBodyBase::MessageBodyBase()
+{
+    m_validator.set_root_schema(Schema::MessageBodyBaseSchema);
+}
 
 MessageBodyBase::MessageBodyBase(const Json& schema)
 {
@@ -34,23 +38,26 @@ void MessageBodyBase::parse(const ByteArray& data)
     parse(data.data(), data.size());
 }
 
-void MessageBodyBase::parse(const uint8_t* /*data*/, int /*size*/)
+void MessageBodyBase::parse(const uint8_t* data, int size)
 {
+    m_data.assign(data, data + size);
     m_isValid = true;
 }
 
 ByteArray MessageBodyBase::package()
 {
-    return {};
+    return m_data;
 }
 
 void MessageBodyBase::fromJson(const Json& data)
 {
+    m_data = data["data"].get<ByteArray>();
     m_isValid = true;
 }
 
 Json MessageBodyBase::toJson()
 {
-    return {};
+
+    return Json::object({{"data", m_data}});
 }
 }
