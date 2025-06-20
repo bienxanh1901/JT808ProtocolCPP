@@ -8,6 +8,16 @@
 
 namespace JT808::MessageBody {
 
+LocationInformation::LocationInformation(const uint8_t* data, int size)
+{
+    parse(data, size);
+}
+
+LocationInformation::LocationInformation(const Json& data)
+{
+    fromJson(data);
+}
+
 LocationInformation::LocationInformation(BasicLocationInformation basic, ExtraLocationInformation extra)
     : m_basic(std::move(basic))
     , m_extra(std::move(extra))

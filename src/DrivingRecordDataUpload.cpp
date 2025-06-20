@@ -12,6 +12,18 @@ DrivingRecordDataUpload::DrivingRecordDataUpload()
 {
 }
 
+DrivingRecordDataUpload::DrivingRecordDataUpload(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::DrivingRecordDataUploadSchema)
+{
+    parse(data, size);
+}
+
+DrivingRecordDataUpload::DrivingRecordDataUpload(const Json& data)
+    : MessageBodyBase(Schema::DrivingRecordDataUploadSchema)
+{
+    fromJson(data);
+}
+
 DrivingRecordDataUpload::DrivingRecordDataUpload(uint16_t seq, uint8_t command, const ByteArray& data)
     : MessageBodyBase(Schema::DrivingRecordDataUploadSchema)
     , m_seq(seq)

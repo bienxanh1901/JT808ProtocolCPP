@@ -11,7 +11,9 @@ class ExtraLocationInformation
 {
 
 public:
-    ExtraLocationInformation();
+    ExtraLocationInformation() = default;
+    ExtraLocationInformation(const uint8_t* data, int size);
+    ExtraLocationInformation(const Json& data);
     bool operator==(const ExtraLocationInformation& other) const;
     int parse(const uint8_t* data, int size);
     ByteArray package();
@@ -27,9 +29,9 @@ private:
     OverspeedAlarm m_overspeedAlarm;
     InOutAlarm m_inOutAlarm;
     PathTimeAlarm m_pathTimeAlarm;
-    ExtendedVehicleSignalFlags m_extendedSignal = {0};
-    IOStatusFlags m_ioStatus = {0};
-    AnalogFlag m_analog = {0};
+    ExtendedVehicleSignalFlags m_extendedSignal = {.value = 0};
+    IOStatusFlags m_ioStatus = {.value = 0};
+    AnalogFlag m_analog = {.value = 0};
     uint8_t m_rssi = 0;
     uint8_t m_gnssSatNum = 0;
     uint16_t m_customLength = 0;

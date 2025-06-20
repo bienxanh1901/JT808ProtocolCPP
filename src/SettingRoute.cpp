@@ -17,6 +17,18 @@ SettingRoute::SettingRoute()
 {
 }
 
+SettingRoute::SettingRoute(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::SettingRouteSchema)
+{
+    parse(data, size);
+}
+
+SettingRoute::SettingRoute(const Json& data)
+    : MessageBodyBase(Schema::SettingRouteSchema)
+{
+    fromJson(data);
+}
+
 SettingRoute::SettingRoute(uint32_t id, AreaProperties flag, std::string startTime, std::string endTime,
                            const std::vector<Point>& points)
     : MessageBodyBase(Schema::SettingRouteSchema)
@@ -58,7 +70,7 @@ void SettingRoute::parse(const uint8_t* data, int size)
     // points
     for (int i = 0; i < length; i++) {
 
-        Point item = {0};
+        Point item;
         pos1 = item.parse(data + pos, size);
         pos += pos1;
         m_points.push_back(item);
@@ -108,8 +120,7 @@ void SettingRoute::fromJson(const Json& data)
 
         if (data["length"] > 0) {
             for (auto& point : data["points"]) {
-                Point item = {0};
-                item.fromJson(point);
+                Point item(point);
                 m_points.push_back(item);
             }
         }
@@ -185,6 +196,32 @@ std::vector<SettingRoute::Point> SettingRoute::points() const
 void SettingRoute::setPoints(const std::vector<Point>& newPoints)
 {
     m_points = newPoints;
+}
+
+SettingRoute::Point::Point(const uint8_t* data, int size)
+{
+    parse(data, size);
+}
+
+SettingRoute::Point::Point(const Json& data)
+{
+    fromJson(data);
+}
+
+SettingRoute::Point::Point(uint32_t pointId, uint32_t routeId, uint32_t lat, uint32_t lng, uint8_t width,
+                           RouteProperties flag, uint16_t maxDrivingTime, uint16_t minDrivingTime, uint16_t maxSpeed,
+                           uint8_t overspeedDuration)
+    : pointId(pointId)
+    , routeId(routeId)
+    , lat(lat)
+    , lng(lng)
+    , width(width)
+    , flag(flag)
+    , maxDrivingTime(maxDrivingTime)
+    , minDrivingTime(minDrivingTime)
+    , maxSpeed(maxSpeed)
+    , overspeedDuration(overspeedDuration)
+{
 }
 
 bool SettingRoute::Point::operator==(const Point& other) const

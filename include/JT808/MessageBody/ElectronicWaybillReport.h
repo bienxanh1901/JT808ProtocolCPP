@@ -14,6 +14,8 @@ class ElectronicWaybillReport : public MessageBodyBase
 {
 public:
     ElectronicWaybillReport();
+    ElectronicWaybillReport(const uint8_t* data, int size);
+    ElectronicWaybillReport(const Json& data);
     ElectronicWaybillReport(const ByteArray& data);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

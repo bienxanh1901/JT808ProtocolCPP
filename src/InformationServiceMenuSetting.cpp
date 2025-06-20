@@ -13,6 +13,18 @@ InformationServiceMenuSetting::InformationServiceMenuSetting()
 {
 }
 
+InformationServiceMenuSetting::InformationServiceMenuSetting(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::InformationServiceMenuSettingSchema)
+{
+    parse(data, size);
+}
+
+InformationServiceMenuSetting::InformationServiceMenuSetting(const Json& data)
+    : MessageBodyBase(Schema::InformationServiceMenuSettingSchema)
+{
+    fromJson(data);
+}
+
 InformationServiceMenuSetting::InformationServiceMenuSetting(AreaSettingType type, const std::vector<MenuItem>& menus)
     : MessageBodyBase(Schema::InformationServiceMenuSettingSchema)
     , m_type(type)
@@ -37,7 +49,7 @@ void InformationServiceMenuSetting::parse(const uint8_t* data, int size)
     length = data[pos++];
     // menus
     for (int i = 0; i < length; i++) {
-        MenuItem item = {0};
+        MenuItem item;
         pos1 = item.parse(data + pos, size);
         pos += pos1;
         m_menus.push_back(item);
@@ -71,9 +83,8 @@ void InformationServiceMenuSetting::fromJson(const Json& data)
     if (validate(data)) {
         m_type = AreaSettingType(data["type"]);
         if (data["length"] > 0) {
-            MenuItem item = {0};
             for (auto& menu : data["menus"]) {
-                item.fromJson(menu);
+                MenuItem item(menu);
                 m_menus.push_back(item);
             }
         }
@@ -111,6 +122,22 @@ std::vector<InformationServiceMenuSetting::MenuItem> InformationServiceMenuSetti
 void InformationServiceMenuSetting::setMenus(const std::vector<MenuItem>& newMenus)
 {
     m_menus = newMenus;
+}
+
+InformationServiceMenuSetting::MenuItem::MenuItem(const uint8_t* data, int size)
+{
+    parse(data, size);
+}
+
+InformationServiceMenuSetting::MenuItem::MenuItem(const Json& data)
+{
+    fromJson(data);
+}
+
+InformationServiceMenuSetting::MenuItem::MenuItem(uint8_t type, std::string info)
+    : type(type)
+    , info(std::move(info))
+{
 }
 
 bool InformationServiceMenuSetting::MenuItem::operator==(const MenuItem& other) const

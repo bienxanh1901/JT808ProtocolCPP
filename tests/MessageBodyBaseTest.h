@@ -23,8 +23,8 @@ protected:
 
     virtual void TestParse()
     {
-        T body;
-        body.parse(m_rawData);
+        T body(m_rawData.data(), m_rawData.size());
+        // body.parse(m_rawData);
 
         EXPECT_TRUE(body.isValid());
         EXPECT_TRUE(m_body->operator==(body));
@@ -43,8 +43,8 @@ protected:
 
     virtual void TestFromJson()
     {
-        T body;
-        body.fromJson(m_object);
+        T body(m_object);
+        // body.fromJson(m_object);
         EXPECT_TRUE(body.isValid());
         EXPECT_TRUE(m_body->operator==(body));
     }

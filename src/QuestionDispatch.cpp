@@ -15,6 +15,18 @@ QuestionDispatch::QuestionDispatch()
 {
 }
 
+QuestionDispatch::QuestionDispatch(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::QuestionDispatchSchema)
+{
+    parse(data, size);
+}
+
+QuestionDispatch::QuestionDispatch(const Json& data)
+    : MessageBodyBase(Schema::QuestionDispatchSchema)
+{
+    fromJson(data);
+}
+
 QuestionDispatch::QuestionDispatch(Flag flag, std::string question, const std::vector<Answer>& answers)
     : MessageBodyBase(Schema::QuestionDispatchSchema)
     , m_flag(flag)
@@ -43,7 +55,7 @@ void QuestionDispatch::parse(const uint8_t* data, int size)
 
     // answers
     while (pos < size - 1) {
-        Answer item = {0};
+        Answer item;
         pos1 = item.parse(data + pos, size);
         pos += pos1;
         m_answers.push_back(item);
@@ -77,13 +89,11 @@ bool QuestionDispatch::operator==(const QuestionDispatch& other) const
 void QuestionDispatch::fromJson(const Json& data)
 {
     if (validate(data)) {
-        Answer item = {0};
-
         m_flag.value = data["flag"];
         m_question = data["question"];
 
         for (auto& answer : data["answers"]) {
-            item.fromJson(answer);
+            Answer item(answer);
             m_answers.push_back(item);
         }
         setIsValid(true);
@@ -131,6 +141,22 @@ std::vector<QuestionDispatch::Answer> QuestionDispatch::answers() const
 void QuestionDispatch::setAnswers(const std::vector<Answer>& newAnswers)
 {
     m_answers = newAnswers;
+}
+
+QuestionDispatch::Answer::Answer(const uint8_t* data, int size)
+{
+    parse(data, size);
+}
+
+QuestionDispatch::Answer::Answer(const Json& data)
+{
+    fromJson(data);
+}
+
+QuestionDispatch::Answer::Answer(uint8_t id, std::string content)
+    : id(id)
+    , content(content)
+{
 }
 
 bool QuestionDispatch::Answer::operator==(const Answer& other) const

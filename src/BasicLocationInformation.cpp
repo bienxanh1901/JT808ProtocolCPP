@@ -9,6 +9,16 @@
 
 namespace JT808::MessageBody {
 
+BasicLocationInformation::BasicLocationInformation(const uint8_t* data, int size)
+{
+    parse(data, size);
+}
+
+BasicLocationInformation::BasicLocationInformation(const Json& data)
+{
+    fromJson(data);
+}
+
 BasicLocationInformation::BasicLocationInformation(const AlarmFlags& alarm, const StatusFlags& status, uint32_t lat,
                                                    uint32_t lng, uint16_t alt, uint16_t speed, uint16_t bearing,
                                                    std::string time)

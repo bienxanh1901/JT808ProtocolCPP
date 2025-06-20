@@ -88,10 +88,10 @@ public:
     struct Header
     {
         MessageIds id = PlatformGeneralResponseMsgId;
-        BodyProperties bodyProps = {0};
+        BodyProperties bodyProps;
         std::string phone;
         uint16_t seq = 0;
-        PackageEncapsulation pkgEncap = {0};
+        PackageEncapsulation pkgEncap;
 
         bool operator==(const Header& other) const;
         int parse(const uint8_t* data, int size);
@@ -102,9 +102,11 @@ public:
     };
 
     Message();
+    Message(const Json& data);
+    Message(const ByteArray& data);
     Message(Header header, std::unique_ptr<MessageBody::MessageBodyBase> body);
 
-    MessageIds id();
+    MessageIds id() const;
     void setId(MessageIds id);
 
     void fromJson(const Json& data);

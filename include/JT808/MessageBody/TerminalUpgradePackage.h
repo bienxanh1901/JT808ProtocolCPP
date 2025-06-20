@@ -25,6 +25,8 @@ class TerminalUpgradePackage : public MessageBodyBase
 {
 public:
     TerminalUpgradePackage();
+    TerminalUpgradePackage(const uint8_t* data, int size);
+    TerminalUpgradePackage(const Json& data);
     TerminalUpgradePackage(UpgradeTypes type, std::string manufacturer, std::string version, const ByteArray& firmware);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

@@ -33,6 +33,10 @@ public:
         std::string phone;
         std::string name;
 
+        ContactItem() = default;
+        ContactItem(const uint8_t* data, int size);
+        ContactItem(const Json& data);
+        ContactItem(uint8_t type, std::string phone, std::string name);
         bool operator==(const ContactItem& other) const;
         int parse(const uint8_t* data, int size);
         ByteArray package() const;
@@ -42,6 +46,8 @@ public:
     };
 
     PhoneBookSetting();
+    PhoneBookSetting(const uint8_t* data, int size);
+    PhoneBookSetting(const Json& data);
     PhoneBookSetting(SettingType type, const std::vector<ContactItem>& contacts);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

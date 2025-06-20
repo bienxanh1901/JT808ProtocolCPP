@@ -16,26 +16,21 @@ StoredMultimediaDataRetrieval::StoredMultimediaDataRetrieval()
 {
 }
 
-StoredMultimediaDataRetrieval::StoredMultimediaDataRetrieval(const Json& schema)
-    : MessageBodyBase(schema)
+StoredMultimediaDataRetrieval::StoredMultimediaDataRetrieval(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::StoredMultimediaDataRetrievalSchema)
 {
+    parse(data, size);
+}
+
+StoredMultimediaDataRetrieval::StoredMultimediaDataRetrieval(const Json& data)
+    : MessageBodyBase(Schema::StoredMultimediaDataRetrievalSchema)
+{
+    fromJson(data);
 }
 
 StoredMultimediaDataRetrieval::StoredMultimediaDataRetrieval(MediaType type, uint8_t channel, EventCode event,
                                                              std::string startTime, std::string endTime)
     : MessageBodyBase(Schema::StoredMultimediaDataRetrievalSchema)
-    , m_type(type)
-    , m_channel(channel)
-    , m_event(event)
-    , m_startTime(std::move(startTime))
-    , m_endTime(std::move(endTime))
-{
-}
-
-StoredMultimediaDataRetrieval::StoredMultimediaDataRetrieval(const Json& schema, MediaType type, uint8_t channel,
-                                                             EventCode event, std::string startTime,
-                                                             std::string endTime)
-    : MessageBodyBase(schema)
     , m_type(type)
     , m_channel(channel)
     , m_event(event)

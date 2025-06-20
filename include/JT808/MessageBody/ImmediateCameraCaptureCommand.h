@@ -24,6 +24,8 @@ public:
     };
 
     ImmediateCameraCaptureCommand();
+    ImmediateCameraCaptureCommand(const uint8_t* data, int size);
+    ImmediateCameraCaptureCommand(const Json& data);
     ImmediateCameraCaptureCommand(uint8_t channel, uint16_t command, uint16_t period, SavingMethods saving,
                                   Resolutions resolution, uint8_t quality, uint8_t brightness, uint8_t contrast,
                                   uint8_t saturation, uint8_t chroma);

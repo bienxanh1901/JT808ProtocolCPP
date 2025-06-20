@@ -13,11 +13,10 @@ class StoredMultimediaDataRetrieval : public MessageBodyBase
 {
 public:
     StoredMultimediaDataRetrieval();
-    StoredMultimediaDataRetrieval(const Json& schema);
+    StoredMultimediaDataRetrieval(const uint8_t* data, int size);
+    StoredMultimediaDataRetrieval(const Json& data);
     StoredMultimediaDataRetrieval(MediaType type, uint8_t channel, EventCode event, std::string startTime,
                                   std::string endTime);
-    StoredMultimediaDataRetrieval(const Json& schema, MediaType type, uint8_t channel, EventCode event,
-                                  std::string startTime, std::string endTime);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;
     ByteArray package() override;

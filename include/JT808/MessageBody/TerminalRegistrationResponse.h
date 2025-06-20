@@ -27,6 +27,8 @@ public:
     };
 
     TerminalRegistrationResponse();
+    TerminalRegistrationResponse(const uint8_t* data, int size);
+    TerminalRegistrationResponse(const Json& data);
     TerminalRegistrationResponse(uint16_t seq, ResponseResults result, std::string authCode = "");
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

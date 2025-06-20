@@ -15,6 +15,8 @@ class TerminalAuthentication : public MessageBodyBase
 {
 public:
     TerminalAuthentication();
+    TerminalAuthentication(const uint8_t* data, int size);
+    TerminalAuthentication(const Json& data);
     TerminalAuthentication(std::string authCode);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

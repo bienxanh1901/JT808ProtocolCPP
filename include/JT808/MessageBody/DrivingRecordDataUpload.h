@@ -11,6 +11,8 @@ class DrivingRecordDataUpload : public MessageBodyBase
 {
 public:
     DrivingRecordDataUpload();
+    DrivingRecordDataUpload(const uint8_t* data, int size);
+    DrivingRecordDataUpload(const Json& data);
     DrivingRecordDataUpload(uint16_t seq, uint8_t command, const ByteArray& param);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

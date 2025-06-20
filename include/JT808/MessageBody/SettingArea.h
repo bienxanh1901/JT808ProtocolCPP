@@ -13,6 +13,9 @@ class SettingArea : public MessageBodyBase
 {
 public:
     SettingArea(AreaType areaType = CircularArea);
+    SettingArea(const uint8_t* data, int size);
+    SettingArea(AreaType areaType, const uint8_t* data, int size);
+    SettingArea(AreaType areaType, const Json& data);
     SettingArea(AreaType areaType, AreaSettingType type, const std::vector<AreaItem>& areas);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

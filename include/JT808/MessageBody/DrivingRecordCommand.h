@@ -14,6 +14,8 @@ class DrivingRecordCommand : public MessageBodyBase
 {
 public:
     DrivingRecordCommand();
+    DrivingRecordCommand(const uint8_t* data, int size);
+    DrivingRecordCommand(const Json& data);
     DrivingRecordCommand(uint8_t command, const ByteArray& param);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

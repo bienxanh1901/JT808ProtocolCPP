@@ -14,6 +14,18 @@ CallbackPhone::CallbackPhone()
 {
 }
 
+CallbackPhone::CallbackPhone(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::CallbackPhoneSchema)
+{
+    parse(data, size);
+}
+
+CallbackPhone::CallbackPhone(const Json& data)
+    : MessageBodyBase(Schema::CallbackPhoneSchema)
+{
+    fromJson(data);
+}
+
 CallbackPhone::CallbackPhone(PhoneType type, std::string phone)
     : MessageBodyBase(Schema::CallbackPhoneSchema)
     , m_type(type)

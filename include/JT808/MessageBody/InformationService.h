@@ -12,6 +12,8 @@ class InformationService : public MessageBodyBase
 {
 public:
     InformationService();
+    InformationService(const uint8_t* data, int size);
+    InformationService(const Json& data);
     InformationService(uint8_t type, std::string info);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

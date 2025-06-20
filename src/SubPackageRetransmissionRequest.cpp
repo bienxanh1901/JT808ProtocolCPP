@@ -13,6 +13,18 @@ SubPackageRetransmissionRequest::SubPackageRetransmissionRequest()
 {
 }
 
+SubPackageRetransmissionRequest::SubPackageRetransmissionRequest(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::SubPackageRetransmissionRequestSchema)
+{
+    parse(data, size);
+}
+
+SubPackageRetransmissionRequest::SubPackageRetransmissionRequest(const Json& data)
+    : MessageBodyBase(Schema::SubPackageRetransmissionRequestSchema)
+{
+    fromJson(data);
+}
+
 SubPackageRetransmissionRequest::SubPackageRetransmissionRequest(uint16_t seq, const std::vector<uint16_t>& ids)
     : MessageBodyBase(Schema::SubPackageRetransmissionRequestSchema)
     , m_seq(seq)

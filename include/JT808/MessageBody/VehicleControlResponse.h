@@ -14,6 +14,8 @@ class VehicleControlResponse : public MessageBodyBase
 {
 public:
     VehicleControlResponse();
+    VehicleControlResponse(const uint8_t* data, int size);
+    VehicleControlResponse(const Json& data);
     VehicleControlResponse(uint8_t seq, const LocationInformation& location);
     VehicleControlResponse(uint16_t seq, const BasicLocationInformation& basic, const ExtraLocationInformation& extra);
     void parse(const ByteArray& data) override;

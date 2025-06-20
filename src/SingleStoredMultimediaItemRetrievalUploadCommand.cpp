@@ -12,6 +12,19 @@ SingleStoredMultimediaItemRetrievalUploadCommand::SingleStoredMultimediaItemRetr
 {
 }
 
+SingleStoredMultimediaItemRetrievalUploadCommand::SingleStoredMultimediaItemRetrievalUploadCommand(const uint8_t* data,
+                                                                                                   int size)
+    : MessageBodyBase(Schema::SingleStoredMultimediaItemRetrievalUploadCommandSchema)
+{
+    parse(data, size);
+}
+
+SingleStoredMultimediaItemRetrievalUploadCommand::SingleStoredMultimediaItemRetrievalUploadCommand(const Json& data)
+    : MessageBodyBase(Schema::SingleStoredMultimediaItemRetrievalUploadCommandSchema)
+{
+    fromJson(data);
+}
+
 SingleStoredMultimediaItemRetrievalUploadCommand::SingleStoredMultimediaItemRetrievalUploadCommand(uint32_t id,
                                                                                                    uint8_t isDelete)
     : MessageBodyBase(Schema::SingleStoredMultimediaItemRetrievalUploadCommandSchema)

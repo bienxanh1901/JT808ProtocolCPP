@@ -11,6 +11,8 @@ class QuestionResponse : public MessageBodyBase
 {
 public:
     QuestionResponse();
+    QuestionResponse(const uint8_t* data, int size);
+    QuestionResponse(const Json& data);
     QuestionResponse(uint16_t seq, uint8_t m_id);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

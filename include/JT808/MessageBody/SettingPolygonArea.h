@@ -18,6 +18,10 @@ public:
         uint32_t lat = 0;
         uint32_t lng = 0;
 
+        Point() = default;
+        Point(const uint8_t* data, int size);
+        Point(const Json& data);
+        Point(uint32_t lat, uint32_t lng);
         bool operator==(const Point& other) const;
         int parse(const uint8_t* data, int size);
         ByteArray package() const;
@@ -27,6 +31,8 @@ public:
     };
 
     SettingPolygonArea();
+    SettingPolygonArea(const uint8_t* data, int size);
+    SettingPolygonArea(const Json& data);
     SettingPolygonArea(uint32_t id, AreaProperties flag, std::string startTime, std::string endTime, uint16_t maxSpeed,
                        uint8_t overspeedDuration, const std::vector<Point>& points);
     void parse(const ByteArray& data) override;
@@ -54,7 +60,7 @@ public:
 
 private:
     uint32_t m_id = 0;
-    AreaProperties m_flag = {0};
+    AreaProperties m_flag;
     std::string m_startTime;
     std::string m_endTime;
     uint16_t m_maxSpeed = 0;

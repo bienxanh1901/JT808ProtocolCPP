@@ -16,6 +16,18 @@ CANBusDataUpload::CANBusDataUpload()
 {
 }
 
+CANBusDataUpload::CANBusDataUpload(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::CANBusDataUploadSchema)
+{
+    parse(data, size);
+}
+
+CANBusDataUpload::CANBusDataUpload(const Json& data)
+    : MessageBodyBase(Schema::CANBusDataUploadSchema)
+{
+    fromJson(data);
+}
+
 CANBusDataUpload::CANBusDataUpload(std::string time, const std::vector<ItemData>& data)
     : MessageBodyBase(Schema::CANBusDataUploadSchema)
     , m_time(std::move(time))
@@ -39,8 +51,7 @@ void CANBusDataUpload::parse(const uint8_t* data, int /*size*/)
     pos += 5;
     // data
     for (int i = 0; i < length; i++) {
-        ItemData item = {0};
-        item.parse(data + pos, 12);
+        ItemData item(data + pos, 12);
         pos += 12;
         m_data.push_back(item);
     }
@@ -75,8 +86,7 @@ void CANBusDataUpload::fromJson(const Json& data)
 
         if (data["length"] > 0) {
             for (auto& can : data["can_data"]) {
-                ItemData item = {0};
-                item.fromJson(can);
+                ItemData item(can);
                 m_data.push_back(item);
             }
         }
@@ -115,6 +125,22 @@ std::vector<CANBusDataUpload::ItemData> CANBusDataUpload::data() const
 void CANBusDataUpload::setData(const std::vector<ItemData>& newData)
 {
     m_data = newData;
+}
+
+CANBusDataUpload::ItemData::ItemData(const uint8_t* data, int size)
+{
+    parse(data, size);
+}
+
+CANBusDataUpload::ItemData::ItemData(const Json& data)
+{
+    fromJson(data);
+}
+
+CANBusDataUpload::ItemData::ItemData(CANId id, std::string canData)
+    : id(id)
+    , canData(canData)
+{
 }
 
 bool CANBusDataUpload::ItemData::operator==(const ItemData& other) const

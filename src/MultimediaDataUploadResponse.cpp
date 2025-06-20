@@ -13,6 +13,18 @@ MultimediaDataUploadResponse::MultimediaDataUploadResponse()
 {
 }
 
+MultimediaDataUploadResponse::MultimediaDataUploadResponse(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::MultimediaDataUploadResponseSchema)
+{
+    parse(data, size);
+}
+
+MultimediaDataUploadResponse::MultimediaDataUploadResponse(const Json& data)
+    : MessageBodyBase(Schema::MultimediaDataUploadResponseSchema)
+{
+    fromJson(data);
+}
+
 MultimediaDataUploadResponse::MultimediaDataUploadResponse(uint32_t id, std::vector<uint16_t>& retxIds)
     : MessageBodyBase(Schema::MultimediaDataUploadResponseSchema)
     , m_id(id)

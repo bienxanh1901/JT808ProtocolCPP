@@ -15,6 +15,8 @@ class MultimediaDataUploadResponse : public MessageBodyBase
 {
 public:
     MultimediaDataUploadResponse();
+    MultimediaDataUploadResponse(const uint8_t* data, int size);
+    MultimediaDataUploadResponse(const Json& data);
     MultimediaDataUploadResponse(uint32_t id, std::vector<uint16_t>& retxIds);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

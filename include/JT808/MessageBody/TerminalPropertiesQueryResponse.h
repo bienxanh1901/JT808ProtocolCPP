@@ -15,6 +15,8 @@ class TerminalPropertiesQueryResponse : public MessageBodyBase
 {
 public:
     TerminalPropertiesQueryResponse();
+    TerminalPropertiesQueryResponse(const uint8_t* data, int size);
+    TerminalPropertiesQueryResponse(const Json& data);
     TerminalPropertiesQueryResponse(const TerminalType& type, std::string manufacturer, std::string model,
                                     std::string id, std::string iccid, std::string hwVersion, std::string fwVersion,
                                     const GNSSProperties& gnssProp, const CommunicationModuleProperties& commProp);
@@ -46,15 +48,15 @@ public:
     void setCommProp(const CommunicationModuleProperties& newCommProp);
 
 private:
-    TerminalType m_type = {0};
+    TerminalType m_type;
     std::string m_manufacturer;
     std::string m_model;
     std::string m_id;
     std::string m_iccid;
     std::string m_hwVersion;
     std::string m_fwVersion;
-    GNSSProperties m_gnssProp = {0};
-    CommunicationModuleProperties m_commProp = {0};
+    GNSSProperties m_gnssProp;
+    CommunicationModuleProperties m_commProp;
 };
 
 }

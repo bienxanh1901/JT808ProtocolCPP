@@ -1,10 +1,8 @@
 
 #include "JT808/MessageBody/LocationDataBulkUpload.h"
 #include "JT808/MessageBody/BasicLocationInformation.h"
-#include "JT808/MessageBody/ExtraLocationInformation.h"
 #include "JT808/MessageBody/LocationInformation.h"
 #include "MessageBodyBaseTest.h"
-#include "nlohmann/json.hpp"
 #include <gtest/gtest.h>
 #include <vector>
 
@@ -16,10 +14,10 @@ protected:
     {
         BasicLocationInformation basic({.value = 12345}, {.value = 54321}, 10755241, 1066569743, 10, 25, 45,
                                        "700101000000");
-        ExtraLocationInformation extra;
 
-        std::vector<LocationInformation> const locations = {
-            {basic, extra}, {basic, extra}, {basic, extra}, {basic, extra}, {basic, extra}};
+        LocationInformation location(basic, ExtraLocationInformation());
+
+        std::vector<LocationInformation> const locations(5, location);
 
         Json const location_json = Json::object({{"basic",
                                                   Json::object({{"alarm", 12345},

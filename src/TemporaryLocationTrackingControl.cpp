@@ -12,6 +12,18 @@ TemporaryLocationTrackingControl::TemporaryLocationTrackingControl()
 {
 }
 
+TemporaryLocationTrackingControl::TemporaryLocationTrackingControl(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::TemporaryLocationTrackingControlSchema)
+{
+    parse(data, size);
+}
+
+TemporaryLocationTrackingControl::TemporaryLocationTrackingControl(const Json& data)
+    : MessageBodyBase(Schema::TemporaryLocationTrackingControlSchema)
+{
+    fromJson(data);
+}
+
 TemporaryLocationTrackingControl::TemporaryLocationTrackingControl(uint16_t period, uint32_t expiry)
     : MessageBodyBase(Schema::TemporaryLocationTrackingControlSchema)
     , m_period(period)

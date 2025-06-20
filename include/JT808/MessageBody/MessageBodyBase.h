@@ -2,6 +2,7 @@
 #define MESSAGEBODYBASE_H
 
 #include "JT808/Common.h"
+#include "JT808/Schema/MessageBodyBaseSchema.h"
 #include <cstdint>
 
 namespace JT808::MessageBody {
@@ -10,8 +11,7 @@ class MessageBodyBase
 {
 
 public:
-    MessageBodyBase();
-    MessageBodyBase(const Json& schema);
+    MessageBodyBase(const Json& schema = Schema::MessageBodyBaseSchema);
     virtual void parse(const ByteArray& data);
     virtual void parse(const uint8_t* data, int size);
     virtual ByteArray package();

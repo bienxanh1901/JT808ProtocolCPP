@@ -12,6 +12,18 @@ DataCompressionReport::DataCompressionReport()
 {
 }
 
+DataCompressionReport::DataCompressionReport(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::DataCompressionReportSchema)
+{
+    parse(data, size);
+}
+
+DataCompressionReport::DataCompressionReport(const Json& data)
+    : MessageBodyBase(Schema::DataCompressionReportSchema)
+{
+    fromJson(data);
+}
+
 DataCompressionReport::DataCompressionReport(const ByteArray& data)
     : MessageBodyBase(Schema::DataCompressionReportSchema)
     , m_data(data)

@@ -43,7 +43,7 @@ union AreaProperties {
 struct AreaItem
 {
     uint32_t id = 0;
-    AreaProperties flag = {0};
+    AreaProperties flag;
     // for Circular Area
     uint32_t centerLat = 0;
     uint32_t centerLng = 0;
@@ -58,6 +58,13 @@ struct AreaItem
     uint16_t maxSpeed = 0;
     uint8_t overspeedDuration = 0;
 
+    AreaItem() = default;
+    AreaItem(AreaType type, const uint8_t* data, int size);
+    AreaItem(AreaType type, const Json& data);
+    AreaItem(uint32_t id, AreaProperties flag, uint32_t centerLat, uint32_t centerLng, uint32_t radius,
+             std::string startTime, std::string endTime, uint16_t maxSpeed = 0, uint8_t overspeedDuration = 0);
+    AreaItem(uint32_t id, AreaProperties flag, uint32_t ltLat, uint32_t ltLng, uint32_t rbLat, uint32_t rbLng,
+             std::string startTime, std::string endTime, uint16_t maxSpeed = 0, uint8_t overspeedDuration = 0);
     bool operator==(const AreaItem& other) const;
     int parse(AreaType type, const uint8_t* data, int size);
     ByteArray package(AreaType type) const;

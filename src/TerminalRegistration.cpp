@@ -15,6 +15,18 @@ TerminalRegistration::TerminalRegistration()
 {
 }
 
+TerminalRegistration::TerminalRegistration(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::TerminalRegistrationSchema)
+{
+    parse(data, size);
+}
+
+TerminalRegistration::TerminalRegistration(const Json& data)
+    : MessageBodyBase(Schema::TerminalRegistrationSchema)
+{
+    fromJson(data);
+}
+
 TerminalRegistration::TerminalRegistration(uint16_t province, uint16_t city, std::string manufacturer,
                                            std::string model, std::string id, LicensePlateColors color,
                                            std::string licenseNumber)

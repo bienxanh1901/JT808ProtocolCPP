@@ -26,6 +26,8 @@ public:
     };
 
     TextMessageDispatch();
+    TextMessageDispatch(const uint8_t* data, int size);
+    TextMessageDispatch(const Json& data);
     TextMessageDispatch(Flag flag, std::string text);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;
@@ -42,7 +44,7 @@ public:
     void setText(const std::string& newText);
 
 private:
-    Flag m_flag = {0};
+    Flag m_flag;
     std::string m_text;
 };
 

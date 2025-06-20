@@ -14,6 +14,18 @@ TerminalRegistrationResponse::TerminalRegistrationResponse()
 {
 }
 
+TerminalRegistrationResponse::TerminalRegistrationResponse(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::TerminalRegistrationResponseSchema)
+{
+    parse(data, size);
+}
+
+TerminalRegistrationResponse::TerminalRegistrationResponse(const Json& data)
+    : MessageBodyBase(Schema::TerminalRegistrationResponseSchema)
+{
+    fromJson(data);
+}
+
 TerminalRegistrationResponse::TerminalRegistrationResponse(uint16_t seq, ResponseResults result, std::string authCode)
     : MessageBodyBase(Schema::TerminalRegistrationResponseSchema)
     , m_seq(seq)

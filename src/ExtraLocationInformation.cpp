@@ -7,7 +7,15 @@
 
 namespace JT808::MessageBody {
 
-ExtraLocationInformation::ExtraLocationInformation() { }
+ExtraLocationInformation::ExtraLocationInformation(const uint8_t* data, int size)
+{
+    parse(data, size);
+}
+
+ExtraLocationInformation::ExtraLocationInformation(const Json& data)
+{
+    fromJson(data);
+}
 
 bool ExtraLocationInformation::operator==(const ExtraLocationInformation& other) const
 {
@@ -16,7 +24,7 @@ bool ExtraLocationInformation::operator==(const ExtraLocationInformation& other)
         && m_inOutAlarm == other.m_inOutAlarm && m_pathTimeAlarm == other.m_pathTimeAlarm
         && m_extendedSignal.value == other.m_extendedSignal.value && m_ioStatus.value == other.m_ioStatus.value
         && m_analog.value == other.m_analog.value && m_rssi == other.m_rssi && m_gnssSatNum == other.m_gnssSatNum
-        && m_customLength == other.m_customLength && m_custom == other.m_custom && m_ids == other.m_ids;
+        && m_customLength == other.m_customLength && m_custom == other.m_custom;
 }
 
 int ExtraLocationInformation::parse(const uint8_t* data, int size)

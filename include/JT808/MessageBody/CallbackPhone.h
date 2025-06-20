@@ -18,6 +18,8 @@ public:
     };
 
     CallbackPhone();
+    CallbackPhone(const uint8_t* data, int size);
+    CallbackPhone(const Json& data);
     CallbackPhone(PhoneType type, std::string phone);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

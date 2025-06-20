@@ -13,6 +13,18 @@ ImmediateCameraCaptureCommand::ImmediateCameraCaptureCommand()
 {
 }
 
+ImmediateCameraCaptureCommand::ImmediateCameraCaptureCommand(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::ImmediateCameraCaptureCommandSchema)
+{
+    parse(data, size);
+}
+
+ImmediateCameraCaptureCommand::ImmediateCameraCaptureCommand(const Json& data)
+    : MessageBodyBase(Schema::ImmediateCameraCaptureCommandSchema)
+{
+    fromJson(data);
+}
+
 ImmediateCameraCaptureCommand::ImmediateCameraCaptureCommand(uint8_t channel, uint16_t command, uint16_t period,
                                                              SavingMethods saving, Resolutions resolution,
                                                              uint8_t quality, uint8_t brightness, uint8_t contrast,

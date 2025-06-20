@@ -11,6 +11,8 @@ class SingleStoredMultimediaItemRetrievalUploadCommand : public MessageBodyBase
 {
 public:
     SingleStoredMultimediaItemRetrievalUploadCommand();
+    SingleStoredMultimediaItemRetrievalUploadCommand(const uint8_t* data, int size);
+    SingleStoredMultimediaItemRetrievalUploadCommand(const Json& data);
     SingleStoredMultimediaItemRetrievalUploadCommand(uint32_t id, uint8_t isDelete);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

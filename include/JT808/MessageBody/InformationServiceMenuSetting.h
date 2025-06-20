@@ -25,6 +25,10 @@ public:
         uint8_t type = 0;
         std::string info;
 
+        MenuItem() = default;
+        MenuItem(const uint8_t* data, int size);
+        MenuItem(const Json& data);
+        MenuItem(uint8_t type, std::string info);
         bool operator==(const MenuItem& other) const;
         int parse(const uint8_t* data, int size);
         ByteArray package() const;
@@ -33,6 +37,8 @@ public:
     };
 
     InformationServiceMenuSetting();
+    InformationServiceMenuSetting(const uint8_t* data, int size);
+    InformationServiceMenuSetting(const Json& data);
     InformationServiceMenuSetting(AreaSettingType type, const std::vector<MenuItem>& menus);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

@@ -28,6 +28,18 @@ Message::Message()
     m_validator.set_root_schema(Schema::MessageSchema);
 }
 
+Message::Message(const Json& data)
+{
+    m_validator.set_root_schema(Schema::MessageSchema);
+    fromJson(data);
+}
+
+Message::Message(const ByteArray& data)
+{
+    m_validator.set_root_schema(Schema::MessageSchema);
+    parse(data);
+}
+
 Message::Message(Header header, std::unique_ptr<MessageBody::MessageBodyBase> body)
     : m_header(std::move(header))
     , m_body(std::move(body))
@@ -35,7 +47,7 @@ Message::Message(Header header, std::unique_ptr<MessageBody::MessageBodyBase> bo
     m_validator.set_root_schema(Schema::MessageSchema);
 }
 
-MessageIds Message::id()
+MessageIds Message::id() const
 {
     return m_header.id;
 }

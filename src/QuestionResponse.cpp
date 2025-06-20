@@ -12,6 +12,18 @@ QuestionResponse::QuestionResponse()
 {
 }
 
+QuestionResponse::QuestionResponse(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::QuestionResponseSchema)
+{
+    parse(data, size);
+}
+
+QuestionResponse::QuestionResponse(const Json& data)
+    : MessageBodyBase(Schema::QuestionResponseSchema)
+{
+    fromJson(data);
+}
+
 QuestionResponse::QuestionResponse(uint16_t seq, uint8_t id)
     : MessageBodyBase(Schema::QuestionResponseSchema)
     , m_seq(seq)

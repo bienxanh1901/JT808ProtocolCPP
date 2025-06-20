@@ -15,16 +15,16 @@ protected:
         std::string const user("JimiIOT");
         std::string const pass("JimiIOT");
 
-        TerminalParameters const params = {{.id = HeartBeatInterval, .num = {.value = 60}},
-                                           {.id = TCPMsgResponseTimeout, .num = {.value = 30}},
-                                           {.id = TCPMsgRetransmissTime, .num = {.value = 30}},
-                                           {.id = UDPMsgResponseTimeout, .num = {.value = 30}},
-                                           {.id = UDPMsgRetransmissTime, .num = {.value = 30}},
-                                           {.id = LocationReportStrategy, .num = {.value = RegularReportStrategy}},
-                                           {.id = GNSSBaudrate, .num = {.value = GNSSBRT115200}},
-                                           {.id = MainServerAddress, .str = addr},
-                                           {.id = MainServerUserName, .str = user},
-                                           {.id = MainServerPassword, .str = pass}};
+        TerminalParameters const params = {{HeartBeatInterval, {.value = 60}},
+                                           {TCPMsgResponseTimeout, {.value = 30}},
+                                           {TCPMsgRetransmissTime, {.value = 30}},
+                                           {UDPMsgResponseTimeout, {.value = 30}},
+                                           {UDPMsgRetransmissTime, {.value = 30}},
+                                           {LocationReportStrategy, {.value = RegularReportStrategy}},
+                                           {GNSSBaudrate, {.value = GNSSBRT115200}},
+                                           {MainServerAddress, addr},
+                                           {MainServerUserName, user},
+                                           {MainServerPassword, pass}};
 
         m_body = new TerminalParameterSetting(params);
         m_rawData = {0xa,  0x0,  0x0,  0x0,  0x1,  0x4,  0x0,  0x0,  0x0,  0x3c, 0x0,  0x0,  0x0,  0x2,  0x4,

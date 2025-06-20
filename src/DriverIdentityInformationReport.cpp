@@ -15,6 +15,18 @@ DriverIdentityInformationReport::DriverIdentityInformationReport()
 {
 }
 
+DriverIdentityInformationReport::DriverIdentityInformationReport(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::DriverIdentityInformationReportSchema)
+{
+    parse(data, size);
+}
+
+DriverIdentityInformationReport::DriverIdentityInformationReport(const Json& data)
+    : MessageBodyBase(Schema::DriverIdentityInformationReportSchema)
+{
+    fromJson(data);
+}
+
 DriverIdentityInformationReport::DriverIdentityInformationReport(Status status, std::string time, ICResult icResult,
                                                                  std::string driverName, std::string certificate,
                                                                  std::string organization, std::string certExpiry)

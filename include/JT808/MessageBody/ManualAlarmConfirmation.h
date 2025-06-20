@@ -29,6 +29,8 @@ class ManualAlarmConfirmation : public MessageBodyBase
 {
 public:
     ManualAlarmConfirmation();
+    ManualAlarmConfirmation(const uint8_t* data, int size);
+    ManualAlarmConfirmation(const Json& data);
     ManualAlarmConfirmation(uint16_t seq, ManualAlarmConfirmationTypes type);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;
@@ -46,7 +48,7 @@ public:
 
 private:
     uint16_t m_seq = 0;
-    ManualAlarmConfirmationTypes m_type = {0};
+    ManualAlarmConfirmationTypes m_type;
 };
 
 }

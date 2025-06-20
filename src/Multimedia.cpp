@@ -5,6 +5,26 @@
 
 namespace JT808::MessageBody {
 
+MultimediaEventInformation::MultimediaEventInformation(const uint8_t* data, int size)
+{
+    parse(data, size);
+}
+
+MultimediaEventInformation::MultimediaEventInformation(const Json& data)
+{
+    fromJson(data);
+}
+
+MultimediaEventInformation::MultimediaEventInformation(uint32_t id, MediaType type, MediaFormat format, EventCode event,
+                                                       uint8_t channel)
+    : id(id)
+    , type(type)
+    , format(format)
+    , event(event)
+    , channel(channel)
+{
+}
+
 bool MultimediaEventInformation::operator==(const MultimediaEventInformation& other) const
 {
     return id == other.id && type == other.type && format == other.format && event == other.event
@@ -58,6 +78,26 @@ Json MultimediaEventInformation::toJson()
     return {
         {"id", id}, {"type", type}, {"format", format}, {"event", event}, {"channel", channel},
     };
+}
+
+MultimediaRetrievalData::MultimediaRetrievalData(const uint8_t* data, int size)
+{
+    parse(data, size);
+}
+
+MultimediaRetrievalData::MultimediaRetrievalData(const Json& data)
+{
+    fromJson(data);
+}
+
+MultimediaRetrievalData::MultimediaRetrievalData(uint32_t id, MediaType type, uint8_t channel, EventCode event,
+                                                 BasicLocationInformation location)
+    : id(id)
+    , type(type)
+    , channel(channel)
+    , event(event)
+    , location(location)
+{
 }
 
 bool MultimediaRetrievalData::operator==(const MultimediaRetrievalData& other) const

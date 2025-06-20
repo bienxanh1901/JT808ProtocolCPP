@@ -11,6 +11,8 @@ class EventReport : public MessageBodyBase
 {
 public:
     EventReport();
+    EventReport(const uint8_t* data, int size);
+    EventReport(const Json& data);
     EventReport(uint8_t id);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

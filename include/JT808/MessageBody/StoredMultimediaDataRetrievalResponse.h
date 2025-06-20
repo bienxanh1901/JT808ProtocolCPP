@@ -13,6 +13,8 @@ class StoredMultimediaDataRetrievalResponse : public MessageBodyBase
 {
 public:
     StoredMultimediaDataRetrievalResponse();
+    StoredMultimediaDataRetrievalResponse(const uint8_t* data, int size);
+    StoredMultimediaDataRetrievalResponse(const Json& data);
     StoredMultimediaDataRetrievalResponse(uint16_t seq, const std::vector<MultimediaRetrievalData>& result);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

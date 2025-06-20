@@ -134,6 +134,9 @@ struct OverspeedAlarm
     LocationTypes type = UnknownLocationType;
     uint32_t id = 0;
 
+    OverspeedAlarm() = default;
+    OverspeedAlarm(const uint8_t* data, int size);
+    OverspeedAlarm(const Json& data);
     bool operator==(const OverspeedAlarm& other) const;
     void parse(const uint8_t* data, int size);
     ByteArray package();
@@ -151,6 +154,10 @@ struct InOutAlarm
     uint32_t id = 0;
     DirectionTypes direction = In;
 
+    InOutAlarm() = default;
+    InOutAlarm(const uint8_t* data, int size);
+    InOutAlarm(const Json& data);
+
     bool operator==(const InOutAlarm& other) const;
     void parse(const uint8_t* data, int size);
     ByteArray package();
@@ -167,6 +174,10 @@ struct PathTimeAlarm
     uint32_t id = 0;
     uint16_t time = 0;
     PathTimeResults result = NoEnough;
+
+    PathTimeAlarm() = default;
+    PathTimeAlarm(const uint8_t* data, int size);
+    PathTimeAlarm(const Json& data);
 
     bool operator==(const PathTimeAlarm& other) const;
     void parse(const uint8_t* data, int size);

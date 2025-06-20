@@ -13,6 +13,18 @@ DeletingAreaRoute::DeletingAreaRoute()
 {
 }
 
+DeletingAreaRoute::DeletingAreaRoute(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::DeletingAreaRouteSchema)
+{
+    parse(data, size);
+}
+
+DeletingAreaRoute::DeletingAreaRoute(const Json& data)
+    : MessageBodyBase(Schema::DeletingAreaRouteSchema)
+{
+    fromJson(data);
+}
+
 DeletingAreaRoute::DeletingAreaRoute(const std::vector<uint32_t>& ids)
     : MessageBodyBase(Schema::DeletingAreaRouteSchema)
     , m_ids(ids)

@@ -20,6 +20,8 @@ public:
     };
 
     VehicleControl();
+    VehicleControl(const uint8_t* data, int size);
+    VehicleControl(const Json& data);
     VehicleControl(Flag flag);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;
@@ -33,7 +35,7 @@ public:
     void setFlag(const Flag& newFlag);
 
 private:
-    Flag m_flag = {0};
+    Flag m_flag;
 };
 
 }

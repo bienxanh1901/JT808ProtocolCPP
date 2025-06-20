@@ -15,6 +15,8 @@ class SubPackageRetransmissionRequest : public MessageBodyBase
 {
 public:
     SubPackageRetransmissionRequest();
+    SubPackageRetransmissionRequest(const uint8_t* data, int size);
+    SubPackageRetransmissionRequest(const Json& data);
     SubPackageRetransmissionRequest(uint16_t seq, const std::vector<uint16_t>& ids);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

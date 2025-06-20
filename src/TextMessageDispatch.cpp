@@ -14,6 +14,18 @@ TextMessageDispatch::TextMessageDispatch()
 {
 }
 
+TextMessageDispatch::TextMessageDispatch(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::TextMessageDispatchSchema)
+{
+    parse(data, size);
+}
+
+TextMessageDispatch::TextMessageDispatch(const Json& data)
+    : MessageBodyBase(Schema::TextMessageDispatchSchema)
+{
+    fromJson(data);
+}
+
 TextMessageDispatch::TextMessageDispatch(Flag flag, std::string text)
     : MessageBodyBase(Schema::TextMessageDispatchSchema)
     , m_flag(flag)

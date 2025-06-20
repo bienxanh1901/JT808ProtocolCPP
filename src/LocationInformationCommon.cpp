@@ -5,6 +5,16 @@
 
 namespace JT808::MessageBody {
 
+OverspeedAlarm::OverspeedAlarm(const uint8_t* data, int size)
+{
+    parse(data, size);
+}
+
+OverspeedAlarm::OverspeedAlarm(const Json& data)
+{
+    fromJson(data);
+}
+
 bool OverspeedAlarm::operator==(const OverspeedAlarm& other) const
 {
     return type == other.type && id == other.id;
@@ -52,6 +62,16 @@ Json OverspeedAlarm::toJson()
     return result;
 }
 
+InOutAlarm::InOutAlarm(const uint8_t* data, int size)
+{
+    parse(data, size);
+}
+
+InOutAlarm::InOutAlarm(const Json& data)
+{
+    fromJson(data);
+}
+
 bool InOutAlarm::operator==(const InOutAlarm& other) const
 {
     return type == other.type && id == other.id && direction == other.direction;
@@ -85,6 +105,16 @@ void InOutAlarm::fromJson(const Json& data)
 Json InOutAlarm::toJson()
 {
     return Json::object({{"type", type}, {"id", id}, {"direction", direction}});
+}
+
+PathTimeAlarm::PathTimeAlarm(const uint8_t* data, int size)
+{
+    parse(data, size);
+}
+
+PathTimeAlarm::PathTimeAlarm(const Json& data)
+{
+    fromJson(data);
 }
 
 bool PathTimeAlarm::operator==(const PathTimeAlarm& other) const

@@ -12,6 +12,8 @@ class MultimediaEventInformationUpload : public MessageBodyBase
 {
 public:
     MultimediaEventInformationUpload();
+    MultimediaEventInformationUpload(const uint8_t* data, int size);
+    MultimediaEventInformationUpload(const Json& data);
     MultimediaEventInformationUpload(MultimediaEventInformation info);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

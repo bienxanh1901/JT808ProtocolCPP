@@ -22,6 +22,8 @@ public:
     };
 
     ImmediateCameraCaptureCommandResponse();
+    ImmediateCameraCaptureCommandResponse(const uint8_t* data, int size);
+    ImmediateCameraCaptureCommandResponse(const Json& data);
     ImmediateCameraCaptureCommandResponse(uint16_t seq, ResponseResults result, const std::vector<uint32_t>& ids);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

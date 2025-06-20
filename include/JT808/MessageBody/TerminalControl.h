@@ -29,6 +29,8 @@ public:
     };
 
     TerminalControl();
+    TerminalControl(const uint8_t* data, int size);
+    TerminalControl(const Json& data);
     TerminalControl(Commands command, std::string param = "");
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

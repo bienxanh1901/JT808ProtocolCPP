@@ -12,6 +12,18 @@ RSAPublicKey::RSAPublicKey()
 {
 }
 
+RSAPublicKey::RSAPublicKey(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::RSAPublicKeySchema)
+{
+    parse(data, size);
+}
+
+RSAPublicKey::RSAPublicKey(const Json& data)
+    : MessageBodyBase(Schema::RSAPublicKeySchema)
+{
+    fromJson(data);
+}
+
 RSAPublicKey::RSAPublicKey(const ByteArray& data)
     : MessageBodyBase(Schema::RSAPublicKeySchema)
     , m_data(data)

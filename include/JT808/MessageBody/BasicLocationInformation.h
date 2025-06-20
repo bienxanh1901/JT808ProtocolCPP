@@ -14,6 +14,8 @@ class BasicLocationInformation
 
 public:
     BasicLocationInformation() = default;
+    BasicLocationInformation(const uint8_t* data, int size);
+    BasicLocationInformation(const Json& data);
     BasicLocationInformation(const AlarmFlags& alarm, const StatusFlags& status, uint32_t lat, uint32_t lng,
                              uint16_t alt, uint16_t speed, uint16_t bearing, std::string time);
     bool operator==(const BasicLocationInformation& other) const;
@@ -41,8 +43,8 @@ public:
     void setTime(const std::string& newTime);
 
 private:
-    AlarmFlags m_alarm = {0};
-    StatusFlags m_status = {0};
+    AlarmFlags m_alarm;
+    StatusFlags m_status;
     uint32_t m_lat = 0;
     uint32_t m_lng = 0;
     uint16_t m_alt = 0;

@@ -13,6 +13,18 @@ EventSetting::EventSetting()
 {
 }
 
+EventSetting::EventSetting(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::EventSettingSchema)
+{
+    parse(data, size);
+}
+
+EventSetting::EventSetting(const Json& data)
+    : MessageBodyBase(Schema::EventSettingSchema)
+{
+    fromJson(data);
+}
+
 EventSetting::EventSetting(AreaSettingTypes type, const std::vector<Event>& events)
     : MessageBodyBase(Schema::EventSettingSchema)
     , m_type(type)
@@ -37,7 +49,7 @@ void EventSetting::parse(const uint8_t* data, int size)
         uint8_t const length = data[pos++];
         // events
         for (int i = 0; i < length; i++) {
-            Event item = {0};
+            Event item;
             pos1 = item.parse(data + pos, size);
             pos += pos1;
             m_events.push_back(item);
@@ -71,13 +83,11 @@ bool EventSetting::operator==(const EventSetting& other) const
 void EventSetting::fromJson(const Json& data)
 {
     if (validate(data)) {
-        Event item = {0};
-
         m_type = AreaSettingTypes(data["type"]);
         if (m_type > DeleteAllEvents) {
             if (data["length"] > 0) {
                 for (auto& event : data["events"]) {
-                    item.fromJson(event);
+                    Event item(event);
                     m_events.push_back(item);
                 }
             }
@@ -120,6 +130,22 @@ std::vector<EventSetting::Event> EventSetting::events() const
 void EventSetting::setEvents(const std::vector<Event>& newEvents)
 {
     m_events = newEvents;
+}
+
+EventSetting::Event::Event(const uint8_t* data, int size)
+{
+    parse(data, size);
+}
+
+EventSetting::Event::Event(const Json& data)
+{
+    fromJson(data);
+}
+
+EventSetting::Event::Event(uint8_t id, std::string content)
+    : id(id)
+    , content(std::move(content))
+{
 }
 
 bool EventSetting::Event::operator==(const Event& other) const

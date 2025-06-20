@@ -13,6 +13,18 @@ TerminalAuthentication::TerminalAuthentication()
 {
 }
 
+TerminalAuthentication::TerminalAuthentication(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::TerminalAuthenticationSchema)
+{
+    parse(data, size);
+}
+
+TerminalAuthentication::TerminalAuthentication(const Json& data)
+    : MessageBodyBase(Schema::TerminalAuthenticationSchema)
+{
+    fromJson(data);
+}
+
 TerminalAuthentication::TerminalAuthentication(std::string authCode)
     : MessageBodyBase(Schema::TerminalAuthenticationSchema)
     , m_authCode(std::move(authCode))

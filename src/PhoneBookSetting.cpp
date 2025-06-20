@@ -13,6 +13,18 @@ PhoneBookSetting::PhoneBookSetting()
 {
 }
 
+PhoneBookSetting::PhoneBookSetting(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::PhoneBookSettingSchema)
+{
+    parse(data, size);
+}
+
+PhoneBookSetting::PhoneBookSetting(const Json& data)
+    : MessageBodyBase(Schema::PhoneBookSettingSchema)
+{
+    fromJson(data);
+}
+
 PhoneBookSetting::PhoneBookSetting(SettingType type, const std::vector<ContactItem>& contacts)
     : MessageBodyBase(Schema::PhoneBookSettingSchema)
     , m_type(type)
@@ -37,7 +49,7 @@ void PhoneBookSetting::parse(const uint8_t* data, int size)
     length = data[pos++];
     // contacts
     for (int i = 0; i < length; i++) {
-        ContactItem item = {0};
+        ContactItem item;
         pos1 = item.parse(data + pos, size);
         pos += pos1;
         m_contacts.push_back(item);
@@ -71,9 +83,8 @@ void PhoneBookSetting::fromJson(const Json& data)
     if (validate(data)) {
         m_type = SettingType(data["type"]);
         if (data["length"] > 0) {
-            ContactItem item = {0};
             for (auto& contact : data["contacts"]) {
-                item.fromJson(contact);
+                ContactItem item(contact);
                 m_contacts.push_back(item);
             }
         }
@@ -111,6 +122,23 @@ std::vector<PhoneBookSetting::ContactItem> PhoneBookSetting::contacts() const
 void PhoneBookSetting::setContacts(const std::vector<ContactItem>& newContacts)
 {
     m_contacts = newContacts;
+}
+
+PhoneBookSetting::ContactItem::ContactItem(const uint8_t* data, int size)
+{
+    parse(data, size);
+}
+
+PhoneBookSetting::ContactItem::ContactItem(const Json& data)
+{
+    fromJson(data);
+}
+
+PhoneBookSetting::ContactItem::ContactItem(uint8_t type, std::string phone, std::string name)
+    : type(type)
+    , phone(std::move(phone))
+    , name(std::move(name))
+{
 }
 
 bool PhoneBookSetting::ContactItem::operator==(const ContactItem& other) const

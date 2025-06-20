@@ -11,6 +11,8 @@ class DeletingAreaRoute : public MessageBodyBase
 {
 public:
     DeletingAreaRoute();
+    DeletingAreaRoute(const uint8_t* data, int size);
+    DeletingAreaRoute(const Json& data);
     DeletingAreaRoute(const std::vector<uint32_t>& ids);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

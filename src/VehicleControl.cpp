@@ -11,6 +11,18 @@ VehicleControl::VehicleControl()
 {
 }
 
+VehicleControl::VehicleControl(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::VehicleControlSchema)
+{
+    parse(data, size);
+}
+
+VehicleControl::VehicleControl(const Json& data)
+    : MessageBodyBase(Schema::VehicleControlSchema)
+{
+    fromJson(data);
+}
+
 VehicleControl::VehicleControl(Flag flag)
     : MessageBodyBase(Schema::VehicleControlSchema)
     , m_flag(flag)

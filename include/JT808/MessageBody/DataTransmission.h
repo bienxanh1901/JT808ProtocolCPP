@@ -11,6 +11,8 @@ class DataTransmission : public MessageBodyBase
 {
 public:
     DataTransmission();
+    DataTransmission(const uint8_t* data, int size);
+    DataTransmission(const Json& data);
     DataTransmission(uint8_t type, const ByteArray& data);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

@@ -8,7 +8,7 @@ class DeletingAreaRouteTest : public MessageBodyBaseTest<DeletingAreaRoute>
 protected:
     void SetUp() override
     {
-        m_body = new DeletingAreaRoute({123, 456, 678});
+        m_body = new DeletingAreaRoute(std::vector<uint32_t>({123, 456, 678}));
         m_rawData = {0x3, 0x0, 0x0, 0x0, 0x7b, 0x0, 0x0, 0x1, 0xc8, 0x0, 0x0, 0x2, 0xa6};
         m_object = Json::object({{"length", 3}, {"ids", {123, 456, 678}}});
     }

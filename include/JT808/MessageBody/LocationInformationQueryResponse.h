@@ -14,6 +14,8 @@ class LocationInformationQueryResponse : public MessageBodyBase
 {
 public:
     LocationInformationQueryResponse();
+    LocationInformationQueryResponse(const uint8_t* data, int size);
+    LocationInformationQueryResponse(const Json& data);
     LocationInformationQueryResponse(uint16_t seq, LocationInformation location);
     LocationInformationQueryResponse(uint16_t seq, const BasicLocationInformation& basic,
                                      const ExtraLocationInformation& extra);

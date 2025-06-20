@@ -14,6 +14,18 @@ LocationDataBulkUpload::LocationDataBulkUpload()
 {
 }
 
+LocationDataBulkUpload::LocationDataBulkUpload(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::LocationDataBulkUploadSchema)
+{
+    parse(data, size);
+}
+
+LocationDataBulkUpload::LocationDataBulkUpload(const Json& data)
+    : MessageBodyBase(Schema::LocationDataBulkUploadSchema)
+{
+    fromJson(data);
+}
+
 LocationDataBulkUpload::LocationDataBulkUpload(DataType type, const std::vector<LocationInformation>& locations)
     : MessageBodyBase(Schema::LocationDataBulkUploadSchema)
     , m_type(type)
@@ -37,9 +49,8 @@ void LocationDataBulkUpload::parse(const uint8_t* data, int /*size*/)
     // locations
     for (int i = 0; i < length; i++) {
         uint16_t const itemLength = Utils::endianSwap16(data + pos);
-        LocationInformation item;
         pos += sizeof(itemLength);
-        item.parse(data + pos, itemLength);
+        LocationInformation item(data + pos, itemLength);
         pos += itemLength;
         m_locations.push_back(item);
     }
@@ -76,8 +87,7 @@ void LocationDataBulkUpload::fromJson(const Json& data)
 
         if (data["length"] > 0) {
             for (auto& location : data["locations"]) {
-                LocationInformation item;
-                item.fromJson(location);
+                LocationInformation item(location);
                 m_locations.push_back(item);
             }
         }

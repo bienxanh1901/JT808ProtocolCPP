@@ -16,6 +16,18 @@ TerminalPropertiesQueryResponse::TerminalPropertiesQueryResponse()
 {
 }
 
+TerminalPropertiesQueryResponse::TerminalPropertiesQueryResponse(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::TerminalPropertiesQueryResponseSchema)
+{
+    parse(data, size);
+}
+
+TerminalPropertiesQueryResponse::TerminalPropertiesQueryResponse(const Json& data)
+    : MessageBodyBase(Schema::TerminalPropertiesQueryResponseSchema)
+{
+    fromJson(data);
+}
+
 TerminalPropertiesQueryResponse::TerminalPropertiesQueryResponse(const TerminalType& type, std::string manufacturer,
                                                                  std::string model, std::string id, std::string iccid,
                                                                  std::string hwVersion, std::string fwVersion,

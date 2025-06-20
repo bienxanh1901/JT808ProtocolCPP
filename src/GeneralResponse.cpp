@@ -12,6 +12,18 @@ GeneralResponse::GeneralResponse()
 {
 }
 
+GeneralResponse::GeneralResponse(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::GeneralResponseSchema)
+{
+    parse(data, size);
+}
+
+GeneralResponse::GeneralResponse(const Json& data)
+    : MessageBodyBase(Schema::GeneralResponseSchema)
+{
+    fromJson(data);
+}
+
 GeneralResponse::GeneralResponse(uint16_t seq, uint16_t id, GeneralResponse::ResponseResults result)
     : MessageBodyBase(Schema::GeneralResponseSchema)
     , m_seq(seq)

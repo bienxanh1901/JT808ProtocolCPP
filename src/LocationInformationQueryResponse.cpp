@@ -16,6 +16,18 @@ LocationInformationQueryResponse::LocationInformationQueryResponse()
 {
 }
 
+LocationInformationQueryResponse::LocationInformationQueryResponse(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::LocationInformationQueryResponseSchema)
+{
+    parse(data, size);
+}
+
+LocationInformationQueryResponse::LocationInformationQueryResponse(const Json& data)
+    : MessageBodyBase(Schema::LocationInformationQueryResponseSchema)
+{
+    fromJson(data);
+}
+
 LocationInformationQueryResponse::LocationInformationQueryResponse(uint16_t seq, LocationInformation location)
     : MessageBodyBase(Schema::LocationInformationQueryResponseSchema)
     , m_seq(seq)

@@ -19,6 +19,8 @@ public:
     };
 
     LocationDataBulkUpload();
+    LocationDataBulkUpload(const uint8_t* data, int size);
+    LocationDataBulkUpload(const Json& data);
     LocationDataBulkUpload(DataType type, const std::vector<LocationInformation>& locations);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

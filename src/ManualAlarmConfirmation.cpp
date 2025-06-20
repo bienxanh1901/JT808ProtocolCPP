@@ -11,6 +11,18 @@ ManualAlarmConfirmation::ManualAlarmConfirmation()
 {
 }
 
+ManualAlarmConfirmation::ManualAlarmConfirmation(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::ManualAlarmConfirmationSchema)
+{
+    parse(data, size);
+}
+
+ManualAlarmConfirmation::ManualAlarmConfirmation(const Json& data)
+    : MessageBodyBase(Schema::ManualAlarmConfirmationSchema)
+{
+    fromJson(data);
+}
+
 ManualAlarmConfirmation::ManualAlarmConfirmation(uint16_t seq, ManualAlarmConfirmationTypes type)
     : MessageBodyBase(Schema::ManualAlarmConfirmationSchema)
     , m_seq(seq)

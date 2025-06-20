@@ -12,9 +12,9 @@ class TerminalParameterSetting : public MessageBodyBase
 {
 public:
     TerminalParameterSetting();
-    TerminalParameterSetting(const Json& schema);
+    TerminalParameterSetting(const uint8_t* data, int size);
+    TerminalParameterSetting(const Json& data);
     TerminalParameterSetting(TerminalParameters params);
-    TerminalParameterSetting(const Json& schema, TerminalParameters params);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;
     ByteArray package() override;

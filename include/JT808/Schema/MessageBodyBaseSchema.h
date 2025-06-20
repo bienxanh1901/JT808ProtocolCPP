@@ -1,7 +1,9 @@
-#ifndef GENERALRESPONSESCHEMA_H
-#define GENERALRESPONSESCHEMA_H
+#ifndef MESSAGEBODYBASESCHEMA_H
+#define MESSAGEBODYBASESCHEMA_H
 
 #include "JT808/Common.h"
+#include "nlohmann/json.hpp"
+
 namespace Schema {
 static Json MessageBodyBaseSchema = R"(
 {
@@ -22,4 +24,4 @@ static Json MessageBodyBaseSchema = R"(
 )"_json;
 
 }
-#endif // GENERALRESPONSESCHEMA_H
+#endif // MESSAGEBODYBASESCHEMA_H

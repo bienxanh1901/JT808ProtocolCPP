@@ -12,6 +12,18 @@ DataTransmission::DataTransmission()
 {
 }
 
+DataTransmission::DataTransmission(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::DataTransmissionSchema)
+{
+    parse(data, size);
+}
+
+DataTransmission::DataTransmission(const Json& data)
+    : MessageBodyBase(Schema::DataTransmissionSchema)
+{
+    fromJson(data);
+}
+
 DataTransmission::DataTransmission(uint8_t type, const ByteArray& data)
     : MessageBodyBase(Schema::DataTransmissionSchema)
     , m_type(type)

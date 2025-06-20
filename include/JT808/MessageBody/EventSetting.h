@@ -26,6 +26,10 @@ public:
         uint8_t id = 0;
         std::string content;
 
+        Event() = default;
+        Event(const uint8_t* data, int size);
+        Event(const Json& data);
+        Event(uint8_t id, std::string content);
         bool operator==(const Event& other) const;
         int parse(const uint8_t* data, int size);
         ByteArray package() const;
@@ -34,6 +38,8 @@ public:
     };
 
     EventSetting();
+    EventSetting(const uint8_t* data, int size);
+    EventSetting(const Json& data);
     EventSetting(AreaSettingTypes type, const std::vector<Event>& events);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

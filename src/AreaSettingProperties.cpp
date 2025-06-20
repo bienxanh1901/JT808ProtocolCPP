@@ -6,6 +6,45 @@
 
 namespace JT808::MessageBody {
 
+AreaItem::AreaItem(AreaType type, const uint8_t* data, int size)
+{
+    parse(type, data, size);
+}
+
+AreaItem::AreaItem(AreaType type, const Json& data)
+{
+    fromJson(type, data);
+}
+
+AreaItem::AreaItem(uint32_t id, AreaProperties flag, uint32_t centerLat, uint32_t centerLng, uint32_t radius,
+                   std::string startTime, std::string endTime, uint16_t maxSpeed, uint8_t overspeedDuration)
+    : id(id)
+    , flag(flag)
+    , centerLat(centerLat)
+    , centerLng(centerLng)
+    , radius(radius)
+    , startTime(std::move(startTime))
+    , endTime(std::move(endTime))
+    , maxSpeed(maxSpeed)
+    , overspeedDuration(overspeedDuration)
+{
+}
+
+AreaItem::AreaItem(uint32_t id, AreaProperties flag, uint32_t ltLat, uint32_t ltLng, uint32_t rbLat, uint32_t rbLng,
+                   std::string startTime, std::string endTime, uint16_t maxSpeed, uint8_t overspeedDuration)
+    : id(id)
+    , flag(flag)
+    , ltLat(ltLat)
+    , ltLng(ltLng)
+    , rbLat(rbLat)
+    , rbLng(rbLng)
+    , startTime(std::move(startTime))
+    , endTime(std::move(endTime))
+    , maxSpeed(maxSpeed)
+    , overspeedDuration(overspeedDuration)
+{
+}
+
 bool AreaItem::operator==(const AreaItem& other) const
 {
     return id == other.id && flag.value == other.flag.value && centerLat == other.centerLat

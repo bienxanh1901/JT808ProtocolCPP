@@ -11,6 +11,8 @@ class DataCompressionReport : public MessageBodyBase
 {
 public:
     DataCompressionReport();
+    DataCompressionReport(const uint8_t* data, int size);
+    DataCompressionReport(const Json& data);
     DataCompressionReport(const ByteArray& data);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

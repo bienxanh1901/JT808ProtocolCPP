@@ -32,12 +32,18 @@ public:
         uint32_t lat = 0;
         uint32_t lng = 0;
         uint8_t width = 0;
-        RouteProperties flag = {0};
+        RouteProperties flag;
         uint16_t maxDrivingTime = 0;
         uint16_t minDrivingTime = 0;
         uint16_t maxSpeed = 0;
         uint8_t overspeedDuration = 0;
 
+        Point() = default;
+        Point(const uint8_t* data, int size);
+        Point(const Json& data);
+        Point(uint32_t pointId, uint32_t routeId, uint32_t lat, uint32_t lng, uint8_t width, RouteProperties flag,
+              uint16_t maxDrivingTime = 0, uint16_t minDrivingTime = 0, uint16_t maxSpeed = 0,
+              uint8_t overspeedDuration = 0);
         bool operator==(const Point& other) const;
         int parse(const uint8_t* data, int size);
         ByteArray package() const;
@@ -47,6 +53,8 @@ public:
     };
 
     SettingRoute();
+    SettingRoute(const uint8_t* data, int size);
+    SettingRoute(const Json& data);
     SettingRoute(uint32_t id, AreaProperties flag, std::string startTime, std::string endTime,
                  const std::vector<Point>& points);
     void parse(const ByteArray& data) override;
@@ -70,7 +78,7 @@ public:
 
 private:
     uint32_t m_id = 0;
-    AreaProperties m_flag = {0};
+    AreaProperties m_flag;
     std::string m_startTime;
     std::string m_endTime;
     std::vector<Point> m_points;

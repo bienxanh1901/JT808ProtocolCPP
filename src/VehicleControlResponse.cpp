@@ -15,6 +15,18 @@ VehicleControlResponse::VehicleControlResponse()
 {
 }
 
+VehicleControlResponse::VehicleControlResponse(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::VehicleControlResponseSchema)
+{
+    parse(data, size);
+}
+
+VehicleControlResponse::VehicleControlResponse(const Json& data)
+    : MessageBodyBase(Schema::VehicleControlResponseSchema)
+{
+    fromJson(data);
+}
+
 VehicleControlResponse::VehicleControlResponse(uint8_t seq, const LocationInformation& location)
     : MessageBodyBase(Schema::VehicleControlResponseSchema)
     , m_seq(seq)

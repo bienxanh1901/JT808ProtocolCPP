@@ -26,9 +26,12 @@ public:
 
     struct ItemData
     {
-        CANId id = {0};
+        CANId id;
         std::string canData;
-
+        ItemData() = default;
+        ItemData(const uint8_t* data, int size);
+        ItemData(const Json& data);
+        ItemData(CANId id, std::string canData);
         bool operator==(const ItemData& other) const;
         void parse(const uint8_t* data, int size);
         ByteArray package();
@@ -38,6 +41,8 @@ public:
     };
 
     CANBusDataUpload();
+    CANBusDataUpload(const uint8_t* data, int size);
+    CANBusDataUpload(const Json& data);
     CANBusDataUpload(std::string time, const std::vector<ItemData>& data);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

@@ -13,6 +13,18 @@ TerminalParameterQuery::TerminalParameterQuery()
 {
 }
 
+TerminalParameterQuery::TerminalParameterQuery(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::TerminalParameterQuerySchema)
+{
+    parse(data, size);
+}
+
+TerminalParameterQuery::TerminalParameterQuery(const Json& data)
+    : MessageBodyBase(Schema::TerminalParameterQuerySchema)
+{
+    fromJson(data);
+}
+
 TerminalParameterQuery::TerminalParameterQuery(const std::vector<uint32_t>& ids)
     : MessageBodyBase(Schema::TerminalParameterQuerySchema)
     , m_ids(ids)

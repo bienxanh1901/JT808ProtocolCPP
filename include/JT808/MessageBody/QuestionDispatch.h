@@ -29,6 +29,10 @@ public:
         uint8_t id = 0;
         std::string content;
 
+        Answer() = default;
+        Answer(const uint8_t* data, int size);
+        Answer(const Json& data);
+        Answer(uint8_t id, std::string content);
         bool operator==(const Answer& other) const;
         int parse(const uint8_t* data, int size);
         ByteArray package() const;
@@ -38,6 +42,8 @@ public:
     };
 
     QuestionDispatch();
+    QuestionDispatch(const uint8_t* data, int size);
+    QuestionDispatch(const Json& data);
     QuestionDispatch(Flag flag, std::string question, const std::vector<Answer>& answers);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;
@@ -56,7 +62,7 @@ public:
     void setAnswers(const std::vector<Answer>& newAnswers);
 
 private:
-    Flag m_flag = {0};
+    Flag m_flag;
     std::string m_question;
     std::vector<Answer> m_answers;
 };

@@ -17,6 +17,18 @@ SettingPolygonArea::SettingPolygonArea()
 {
 }
 
+SettingPolygonArea::SettingPolygonArea(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::SettingPolygonAreaSchema)
+{
+    parse(data, size);
+}
+
+SettingPolygonArea::SettingPolygonArea(const Json& data)
+    : MessageBodyBase(Schema::SettingPolygonAreaSchema)
+{
+    fromJson(data);
+}
+
 SettingPolygonArea::SettingPolygonArea(uint32_t id, AreaProperties flag, std::string startTime, std::string endTime,
                                        uint16_t maxSpeed, uint8_t overspeedDuration, const std::vector<Point>& points)
     : MessageBodyBase(Schema::SettingPolygonAreaSchema)
@@ -40,7 +52,7 @@ void SettingPolygonArea::parse(const uint8_t* data, int size)
     int pos = 0;
     int pos1 = 0;
     uint16_t length = 0;
-    Point item = {0};
+    Point item;
     // id
     m_id = Utils::endianSwap32(data + pos);
     pos += sizeof(m_id);
@@ -124,10 +136,8 @@ void SettingPolygonArea::fromJson(const Json& data)
         }
 
         if (data["length"] > 0) {
-            Point item = {0};
-
             for (auto& point : data["points"]) {
-                item.fromJson(point);
+                Point item(point);
                 m_points.push_back(item);
             }
         }
@@ -228,6 +238,22 @@ std::vector<SettingPolygonArea::Point> SettingPolygonArea::points() const
 void SettingPolygonArea::setPoints(const std::vector<Point>& newPoints)
 {
     m_points = newPoints;
+}
+
+SettingPolygonArea::Point::Point(const uint8_t* data, int size)
+{
+    parse(data, size);
+}
+
+SettingPolygonArea::Point::Point(const Json& data)
+{
+    fromJson(data);
+}
+
+SettingPolygonArea::Point::Point(uint32_t lat, uint32_t lng)
+    : lat(lat)
+    , lng(lng)
+{
 }
 
 bool SettingPolygonArea::Point::operator==(const Point& other) const

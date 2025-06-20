@@ -13,6 +13,8 @@ class MultimediaDataUpload : public MessageBodyBase
 {
 public:
     MultimediaDataUpload();
+    MultimediaDataUpload(const uint8_t* data, int size);
+    MultimediaDataUpload(const Json& data);
     MultimediaDataUpload(MultimediaEventInformation info, BasicLocationInformation location, const ByteArray& media);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;
@@ -30,7 +32,7 @@ public:
     void setMedia(const ByteArray& newMedia);
 
 private:
-    MultimediaEventInformation m_info = {0};
+    MultimediaEventInformation m_info;
     BasicLocationInformation m_location;
     ByteArray m_media;
 };

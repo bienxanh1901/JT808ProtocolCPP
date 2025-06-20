@@ -1,6 +1,5 @@
 #include "JT808/MessageBody/MessageBodyBase.h"
 #include "JT808/Common.h"
-#include "JT808/Schema/MessageBodyBaseSchema.h"
 #include "nlohmann/json-schema.hpp"
 #include <cstdint>
 
@@ -14,11 +13,6 @@ bool MessageBodyBase::isValid() const
 void MessageBodyBase::setIsValid(bool newIsValid)
 {
     m_isValid = newIsValid;
-}
-
-MessageBodyBase::MessageBodyBase()
-{
-    m_validator.set_root_schema(Schema::MessageBodyBaseSchema);
 }
 
 MessageBodyBase::MessageBodyBase(const Json& schema)

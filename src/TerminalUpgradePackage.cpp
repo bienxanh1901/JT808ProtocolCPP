@@ -14,6 +14,18 @@ TerminalUpgradePackage::TerminalUpgradePackage()
 {
 }
 
+TerminalUpgradePackage::TerminalUpgradePackage(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::TerminalUpgradePackageSchema)
+{
+    parse(data, size);
+}
+
+TerminalUpgradePackage::TerminalUpgradePackage(const Json& data)
+    : MessageBodyBase(Schema::TerminalUpgradePackageSchema)
+{
+    fromJson(data);
+}
+
 TerminalUpgradePackage::TerminalUpgradePackage(UpgradeTypes type, std::string manufacturer, std::string version,
                                                const ByteArray& firmware)
     : MessageBodyBase(Schema::TerminalUpgradePackageSchema)

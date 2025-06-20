@@ -29,6 +29,8 @@ class TerminalRegistration : public MessageBodyBase
 {
 public:
     TerminalRegistration();
+    TerminalRegistration(const uint8_t* data, int size);
+    TerminalRegistration(const Json& data);
     TerminalRegistration(uint16_t province, uint16_t city, std::string manufacturer, std::string model, std::string id,
                          LicensePlateColors color, std::string licenseNumber);
 

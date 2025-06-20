@@ -13,6 +13,18 @@ ImmediateCameraCaptureCommandResponse::ImmediateCameraCaptureCommandResponse()
 {
 }
 
+ImmediateCameraCaptureCommandResponse::ImmediateCameraCaptureCommandResponse(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::ImmediateCameraCaptureCommandResponseSchema)
+{
+    parse(data, size);
+}
+
+ImmediateCameraCaptureCommandResponse::ImmediateCameraCaptureCommandResponse(const Json& data)
+    : MessageBodyBase(Schema::ImmediateCameraCaptureCommandResponseSchema)
+{
+    fromJson(data);
+}
+
 ImmediateCameraCaptureCommandResponse::ImmediateCameraCaptureCommandResponse(uint16_t seq, ResponseResults result,
                                                                              const std::vector<uint32_t>& ids)
     : MessageBodyBase(Schema::ImmediateCameraCaptureCommandResponseSchema)

@@ -11,22 +11,9 @@ class SettingRectangularAreaTest : public MessageBodyBaseTest<SettingArea>
 protected:
     void SetUp() override
     {
-        std::vector<AreaItem> const areas {{.id = 0,
-                                            .flag = {.value = 1},
-                                            .ltLat = 10755241,
-                                            .ltLng = 1066569743,
-                                            .rbLat = 10855241,
-                                            .rbLng = 1076569743,
-                                            .startTime = "250501000000",
-                                            .endTime = "250531000000"},
-                                           {.id = 1,
-                                            .flag = {.value = 2},
-                                            .ltLat = 10755241,
-                                            .ltLng = 1066569743,
-                                            .rbLat = 10855241,
-                                            .rbLng = 1076569743,
-                                            .maxSpeed = 80,
-                                            .overspeedDuration = 30}};
+        std::vector<AreaItem> const areas {
+            {0, {.value = 1}, 10755241, 1066569743, 10855241, 1076569743, "250501000000", "250531000000"},
+            {1, {.value = 2}, 10755241, 1066569743, 10855241, 1076569743, "", "", 80, 30}};
         m_body = new SettingArea(RectangularArea, AppendArea, areas);
         m_rawData = {0x1,  0x2,  0x0,  0x0,  0x0,  0x0,  0x0,  0x1,  0x0,  0xa4, 0x1c, 0xa9, 0x3f, 0x92, 0x90, 0xf,
                      0x0,  0xa5, 0xa3, 0x49, 0x40, 0x2b, 0x26, 0x8f, 0x25, 0x5,  0x1,  0x0,  0x0,  0x0,  0x25, 0x5,
@@ -55,8 +42,7 @@ protected:
 
     void TestParse() override
     {
-        SettingArea body(RectangularArea);
-        body.parse(m_rawData);
+        SettingArea const body(RectangularArea, m_rawData.data(), m_rawData.size());
 
         EXPECT_TRUE(body.isValid());
         EXPECT_TRUE(m_body->operator==(body));
@@ -75,9 +61,7 @@ TEST_F(SettingRectangularAreaTest, TestPackage)
 
 TEST_F(SettingRectangularAreaTest, TestFromJsom)
 {
-    SettingArea body(RectangularArea);
-    ;
-    body.fromJson(m_object);
+    SettingArea const body(RectangularArea, m_object);
     EXPECT_TRUE(body.isValid());
     EXPECT_TRUE(m_body->operator==(body));
 }

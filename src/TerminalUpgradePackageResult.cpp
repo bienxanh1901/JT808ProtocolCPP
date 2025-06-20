@@ -12,6 +12,18 @@ TerminalUpgradePackageResult::TerminalUpgradePackageResult()
 {
 }
 
+TerminalUpgradePackageResult::TerminalUpgradePackageResult(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::TerminalUpgradePackageResultSchema)
+{
+    parse(data, size);
+}
+
+TerminalUpgradePackageResult::TerminalUpgradePackageResult(const Json& data)
+    : MessageBodyBase(Schema::TerminalUpgradePackageResultSchema)
+{
+    fromJson(data);
+}
+
 TerminalUpgradePackageResult::TerminalUpgradePackageResult(UpgradeTypes type, UpgradeResults result)
     : MessageBodyBase(Schema::TerminalUpgradePackageResultSchema)
     , m_type(type)

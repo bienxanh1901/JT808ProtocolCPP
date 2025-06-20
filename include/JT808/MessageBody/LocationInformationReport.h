@@ -14,6 +14,8 @@ class LocationInformationReport : public MessageBodyBase
 {
 public:
     LocationInformationReport();
+    LocationInformationReport(const uint8_t* data, int size);
+    LocationInformationReport(const Json& data);
     LocationInformationReport(const BasicLocationInformation& basic, const ExtraLocationInformation& extra);
     LocationInformationReport(LocationInformation info);
     void parse(const ByteArray& data) override;

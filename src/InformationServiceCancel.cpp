@@ -11,6 +11,18 @@ InformationServiceCancel::InformationServiceCancel()
 {
 }
 
+InformationServiceCancel::InformationServiceCancel(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::InformationServiceCancelSchema)
+{
+    parse(data, size);
+}
+
+InformationServiceCancel::InformationServiceCancel(const Json& data)
+    : MessageBodyBase(Schema::InformationServiceCancelSchema)
+{
+    fromJson(data);
+}
+
 InformationServiceCancel::InformationServiceCancel(uint8_t id, uint8_t flag)
     : MessageBodyBase(Schema::InformationServiceCancelSchema)
     , m_id(id)

@@ -13,6 +13,18 @@ AudioRecordingStartCommand::AudioRecordingStartCommand()
 {
 }
 
+AudioRecordingStartCommand::AudioRecordingStartCommand(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::AudioRecordingStartCommandSchema)
+{
+    parse(data, size);
+}
+
+AudioRecordingStartCommand::AudioRecordingStartCommand(const Json& data)
+    : MessageBodyBase(Schema::AudioRecordingStartCommandSchema)
+{
+    fromJson(data);
+}
+
 AudioRecordingStartCommand::AudioRecordingStartCommand(Commands command, uint16_t time, SavingMethods saving,
                                                        AudioSamplingRates rate)
     : MessageBodyBase(Schema::AudioRecordingStartCommandSchema)

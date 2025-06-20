@@ -14,19 +14,20 @@ TerminalParameterSetting::TerminalParameterSetting()
 {
 }
 
-TerminalParameterSetting::TerminalParameterSetting(const Json& schema)
-    : MessageBodyBase(schema)
+TerminalParameterSetting::TerminalParameterSetting(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::TerminalParameterSettingSchema)
 {
+    parse(data, size);
+}
+
+TerminalParameterSetting::TerminalParameterSetting(const Json& data)
+    : MessageBodyBase(Schema::TerminalParameterSettingSchema)
+{
+    fromJson(data);
 }
 
 TerminalParameterSetting::TerminalParameterSetting(TerminalParameters params)
     : MessageBodyBase(Schema::TerminalParameterSettingSchema)
-    , m_params(std::move(params))
-{
-}
-
-TerminalParameterSetting::TerminalParameterSetting(const Json& schema, TerminalParameters params)
-    : MessageBodyBase(schema)
     , m_params(std::move(params))
 {
 }
@@ -44,7 +45,7 @@ void TerminalParameterSetting::parse(const uint8_t* data, int size)
     uint8_t const length = data[pos++];
     // params
     for (int i = 0; i < length; i++) {
-        TerminalParameter param = {0};
+        TerminalParameter param;
         pos1 = param.parse(data + pos, size);
         m_params.push_back(param);
         pos += pos1;
@@ -76,8 +77,7 @@ void TerminalParameterSetting::fromJson(const Json& data)
     if (validate(data)) {
         if (data["length"] > 0) {
             for (auto& item : data["params"]) {
-                TerminalParameter param = {0};
-                param.fromJson(item);
+                TerminalParameter param(item);
                 m_params.push_back(param);
             }
         }

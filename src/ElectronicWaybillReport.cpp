@@ -13,6 +13,18 @@ ElectronicWaybillReport::ElectronicWaybillReport()
 {
 }
 
+ElectronicWaybillReport::ElectronicWaybillReport(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::ElectronicWaybillReportSchema)
+{
+    parse(data, size);
+}
+
+ElectronicWaybillReport::ElectronicWaybillReport(const Json& data)
+    : MessageBodyBase(Schema::ElectronicWaybillReportSchema)
+{
+    fromJson(data);
+}
+
 ElectronicWaybillReport::ElectronicWaybillReport(const ByteArray& data)
     : MessageBodyBase(Schema::ElectronicWaybillReportSchema)
     , m_data(data)

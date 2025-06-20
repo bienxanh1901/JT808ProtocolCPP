@@ -11,6 +11,8 @@ class InformationServiceCancel : public MessageBodyBase
 {
 public:
     InformationServiceCancel();
+    InformationServiceCancel(const uint8_t* data, int size);
+    InformationServiceCancel(const Json& data);
     InformationServiceCancel(uint8_t id, uint8_t flag);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

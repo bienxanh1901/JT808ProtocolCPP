@@ -30,6 +30,8 @@ public:
     };
 
     DriverIdentityInformationReport();
+    DriverIdentityInformationReport(const uint8_t* data, int size);
+    DriverIdentityInformationReport(const Json& data);
     DriverIdentityInformationReport(Status status, std::string time, ICResult icResult, std::string driverName,
                                     std::string certificate, std::string organization, std::string certExpiry);
     void parse(const ByteArray& data) override;

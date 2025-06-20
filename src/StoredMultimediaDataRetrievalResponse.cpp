@@ -14,6 +14,18 @@ StoredMultimediaDataRetrievalResponse::StoredMultimediaDataRetrievalResponse()
 {
 }
 
+StoredMultimediaDataRetrievalResponse::StoredMultimediaDataRetrievalResponse(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::StoredMultimediaDataRetrievalResponseSchema)
+{
+    parse(data, size);
+}
+
+StoredMultimediaDataRetrievalResponse::StoredMultimediaDataRetrievalResponse(const Json& data)
+    : MessageBodyBase(Schema::StoredMultimediaDataRetrievalResponseSchema)
+{
+    fromJson(data);
+}
+
 StoredMultimediaDataRetrievalResponse::StoredMultimediaDataRetrievalResponse(
     uint16_t seq, const std::vector<MultimediaRetrievalData>& result)
     : MessageBodyBase(Schema::StoredMultimediaDataRetrievalResponseSchema)
@@ -39,7 +51,7 @@ void StoredMultimediaDataRetrievalResponse::parse(const uint8_t* data, int size)
     pos += sizeof(length);
     // item
     for (int i = 0; i < length; i++) {
-        MultimediaRetrievalData item = {0};
+        MultimediaRetrievalData item;
         item.parse(data + pos, size);
         pos += 35;
 
@@ -75,8 +87,7 @@ void StoredMultimediaDataRetrievalResponse::fromJson(const Json& data)
         m_seq = data["seq"];
         if (data["length"] > 0) {
             for (auto& media : data["result"]) {
-                MultimediaRetrievalData item = {0};
-                item.fromJson(media);
+                MultimediaRetrievalData item(media);
                 m_result.push_back(item);
             }
         }

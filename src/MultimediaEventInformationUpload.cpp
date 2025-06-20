@@ -12,6 +12,18 @@ MultimediaEventInformationUpload::MultimediaEventInformationUpload()
 {
 }
 
+MultimediaEventInformationUpload::MultimediaEventInformationUpload(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::MultimediaEventInformationUploadSchema)
+{
+    parse(data, size);
+}
+
+MultimediaEventInformationUpload::MultimediaEventInformationUpload(const Json& data)
+    : MessageBodyBase(Schema::MultimediaEventInformationUploadSchema)
+{
+    fromJson(data);
+}
+
 MultimediaEventInformationUpload::MultimediaEventInformationUpload(MultimediaEventInformation info)
     : MessageBodyBase(Schema::MultimediaEventInformationUploadSchema)
     , m_info(info)

@@ -9,7 +9,7 @@ class VehicleControlTest : public MessageBodyBaseTest<VehicleControl>
 protected:
     void SetUp() override
     {
-        m_body = new VehicleControl({1});
+        m_body = new VehicleControl({.value = 1});
         m_rawData = {0x01};
         m_object = Json::object({{"flag", 1}});
     }

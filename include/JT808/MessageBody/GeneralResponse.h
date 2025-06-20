@@ -23,6 +23,8 @@ public:
     };
 
     GeneralResponse();
+    GeneralResponse(const uint8_t* data, int size);
+    GeneralResponse(const Json& data);
     GeneralResponse(uint16_t seq, uint16_t id, ResponseResults result);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

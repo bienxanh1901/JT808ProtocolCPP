@@ -13,6 +13,18 @@ InformationService::InformationService()
 {
 }
 
+InformationService::InformationService(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::InformationServiceSchema)
+{
+    parse(data, size);
+}
+
+InformationService::InformationService(const Json& data)
+    : MessageBodyBase(Schema::InformationServiceSchema)
+{
+    fromJson(data);
+}
+
 InformationService::InformationService(uint8_t type, std::string info)
     : MessageBodyBase(Schema::InformationServiceSchema)
     , m_type(type)

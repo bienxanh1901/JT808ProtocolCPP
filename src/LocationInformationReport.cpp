@@ -15,6 +15,18 @@ LocationInformationReport::LocationInformationReport()
 {
 }
 
+LocationInformationReport::LocationInformationReport(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::LocationInformationReportSchema)
+{
+    parse(data, size);
+}
+
+LocationInformationReport::LocationInformationReport(const Json& data)
+    : MessageBodyBase(Schema::LocationInformationReportSchema)
+{
+    fromJson(data);
+}
+
 LocationInformationReport::LocationInformationReport(const BasicLocationInformation& basic,
                                                      const ExtraLocationInformation& extra)
     : MessageBodyBase(Schema::LocationInformationReportSchema)

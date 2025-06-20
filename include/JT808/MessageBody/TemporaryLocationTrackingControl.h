@@ -11,6 +11,8 @@ class TemporaryLocationTrackingControl : public MessageBodyBase
 {
 public:
     TemporaryLocationTrackingControl();
+    TemporaryLocationTrackingControl(const uint8_t* data, int size);
+    TemporaryLocationTrackingControl(const Json& data);
     TemporaryLocationTrackingControl(uint16_t period, uint32_t expiry);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

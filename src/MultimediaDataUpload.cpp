@@ -15,6 +15,18 @@ MultimediaDataUpload::MultimediaDataUpload()
 {
 }
 
+MultimediaDataUpload::MultimediaDataUpload(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::MultimediaDataUploadSchema)
+{
+    parse(data, size);
+}
+
+MultimediaDataUpload::MultimediaDataUpload(const Json& data)
+    : MessageBodyBase(Schema::MultimediaDataUploadSchema)
+{
+    fromJson(data);
+}
+
 MultimediaDataUpload::MultimediaDataUpload(MultimediaEventInformation info, BasicLocationInformation location,
                                            const ByteArray& media)
     : MessageBodyBase(Schema::MultimediaDataUploadSchema)

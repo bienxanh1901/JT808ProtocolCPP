@@ -14,6 +14,18 @@ TerminalControl::TerminalControl()
 {
 }
 
+TerminalControl::TerminalControl(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::TerminalControlSchema)
+{
+    parse(data, size);
+}
+
+TerminalControl::TerminalControl(const Json& data)
+    : MessageBodyBase(Schema::TerminalControlSchema)
+{
+    fromJson(data);
+}
+
 TerminalControl::TerminalControl(Commands command, std::string param)
     : MessageBodyBase(Schema::TerminalControlSchema)
     , m_command(command)

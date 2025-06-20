@@ -2,16 +2,18 @@
 #define TERMINALPARAMETERQUERYRESPONSE_H
 
 #include "JT808/Common.h"
+#include "MessageBodyBase.h"
 #include "TerminalParameter.h"
-#include "TerminalParameterSetting.h"
 #include <cstdint>
 
 namespace JT808::MessageBody {
 
-class TerminalParameterQueryResponse : public TerminalParameterSetting
+class TerminalParameterQueryResponse : public MessageBodyBase
 {
 public:
     TerminalParameterQueryResponse();
+    TerminalParameterQueryResponse(const uint8_t* data, int size);
+    TerminalParameterQueryResponse(const Json& data);
     TerminalParameterQueryResponse(uint16_t seq, const TerminalParameters& params);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;
@@ -24,8 +26,12 @@ public:
     uint16_t seq() const;
     void setSeq(uint16_t newSeq);
 
+    TerminalParameters params() const;
+    void setParams(const TerminalParameters& newParams);
+
 private:
     uint16_t m_seq = 0;
+    TerminalParameters m_params;
 };
 
 }

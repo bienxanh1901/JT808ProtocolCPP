@@ -25,8 +25,7 @@ protected:
 
 TEST_F(MessageTest, TestParseSuccess)
 {
-    Message message;
-    message.parse(m_rawData);
+    Message message(m_rawData);
     EXPECT_TRUE(message.isValid());
 
     Message::Header const header(message.header());
@@ -65,8 +64,7 @@ TEST_F(MessageTest, TestPackage)
 
 TEST_F(MessageTest, TestFromJsom)
 {
-    Message message;
-    message.fromJson(m_object);
+    Message message(m_object);
     EXPECT_TRUE(message.isValid());
 
     Message::Header const header(message.header());
@@ -86,8 +84,7 @@ TEST_F(MessageTest, TestFromJsom)
 
 TEST_F(MessageTest, TestToJson)
 {
-    Message message;
-    message.parse(m_rawData);
+    Message message(m_rawData);
 
     Json object = message.toJson();
     EXPECT_EQ(m_object, object);

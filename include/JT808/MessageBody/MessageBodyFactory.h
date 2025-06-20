@@ -147,7 +147,6 @@ public:
         if (it != factoryMap.end()) {
             return it->second();
         } else {
-            Json schema;
             return std::make_unique<MessageBody::MessageBodyBase>();
         }
     }

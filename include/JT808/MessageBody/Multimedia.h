@@ -50,6 +50,10 @@ struct MultimediaEventInformation
     EventCode event = PlaformCommand;
     uint8_t channel = 0;
 
+    MultimediaEventInformation() = default;
+    MultimediaEventInformation(const uint8_t* data, int size);
+    MultimediaEventInformation(const Json& data);
+    MultimediaEventInformation(uint32_t id, MediaType type, MediaFormat format, EventCode event, uint8_t channel);
     bool operator==(const MultimediaEventInformation& other) const;
     void parse(const uint8_t* data, int size);
     ByteArray package() const;
@@ -66,6 +70,11 @@ struct MultimediaRetrievalData
     EventCode event = PlaformCommand;
     BasicLocationInformation location;
 
+    MultimediaRetrievalData() = default;
+    MultimediaRetrievalData(const uint8_t* data, int size);
+    MultimediaRetrievalData(const Json& data);
+    MultimediaRetrievalData(uint32_t id, MediaType type, uint8_t channel, EventCode event,
+                            BasicLocationInformation location);
     bool operator==(const MultimediaRetrievalData& other) const;
     void parse(const uint8_t* data, int size);
     ByteArray package();

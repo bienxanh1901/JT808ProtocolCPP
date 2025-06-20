@@ -12,6 +12,18 @@ DrivingRecordCommand::DrivingRecordCommand()
 {
 }
 
+DrivingRecordCommand::DrivingRecordCommand(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::DrivingRecordCommandSchema)
+{
+    parse(data, size);
+}
+
+DrivingRecordCommand::DrivingRecordCommand(const Json& data)
+    : MessageBodyBase(Schema::DrivingRecordCommandSchema)
+{
+    fromJson(data);
+}
+
 DrivingRecordCommand::DrivingRecordCommand(uint8_t command, const ByteArray& param)
     : MessageBodyBase(Schema::DrivingRecordCommandSchema)
     , m_command(command)

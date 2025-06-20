@@ -22,6 +22,8 @@ public:
     };
 
     TerminalUpgradePackageResult();
+    TerminalUpgradePackageResult(const uint8_t* data, int size);
+    TerminalUpgradePackageResult(const Json& data);
     TerminalUpgradePackageResult(UpgradeTypes type, UpgradeResults result);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

@@ -26,14 +26,16 @@ public:
     };
 
     AudioRecordingStartCommand();
+    AudioRecordingStartCommand(const uint8_t* data, int size);
+    AudioRecordingStartCommand(const Json& data);
     AudioRecordingStartCommand(Commands command, uint16_t time, SavingMethods saving, AudioSamplingRates rate);
-    void parse(const ByteArray& data) override;
-    void parse(const uint8_t* data, int size) override;
-    ByteArray package() override;
+    void parse(const ByteArray& data) final override;
+    void parse(const uint8_t* data, int size) final override;
+    ByteArray package() final override;
     bool operator==(const AudioRecordingStartCommand& other) const;
 
-    void fromJson(const Json& data) override;
-    Json toJson() override;
+    void fromJson(const Json& data) final override;
+    Json toJson() final override;
 
     Commands command() const;
     void setCommand(Commands newCommand);

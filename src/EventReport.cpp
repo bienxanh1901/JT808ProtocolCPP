@@ -11,6 +11,18 @@ EventReport::EventReport()
 {
 }
 
+EventReport::EventReport(const uint8_t* data, int size)
+    : MessageBodyBase(Schema::EventReportSchema)
+{
+    parse(data, size);
+}
+
+EventReport::EventReport(const Json& data)
+    : MessageBodyBase(Schema::EventReportSchema)
+{
+    fromJson(data);
+}
+
 EventReport::EventReport(uint8_t id)
     : MessageBodyBase(Schema::EventReportSchema)
     , m_id(id)

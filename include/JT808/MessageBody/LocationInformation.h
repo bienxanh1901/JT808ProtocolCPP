@@ -13,7 +13,9 @@ class LocationInformation
 {
 public:
     LocationInformation() = default;
-    LocationInformation(BasicLocationInformation basic, ExtraLocationInformation extra);
+    LocationInformation(const uint8_t* data, int size);
+    LocationInformation(const Json& data);
+    LocationInformation(BasicLocationInformation basic, ExtraLocationInformation extra = ExtraLocationInformation());
     bool operator==(const LocationInformation& other) const;
     int parse(const uint8_t* data, int size);
     ByteArray package();

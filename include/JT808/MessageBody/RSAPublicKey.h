@@ -11,6 +11,8 @@ class RSAPublicKey : public MessageBodyBase
 {
 public:
     RSAPublicKey();
+    RSAPublicKey(const uint8_t* data, int size);
+    RSAPublicKey(const Json& data);
     RSAPublicKey(const ByteArray& data);
     void parse(const ByteArray& data) override;
     void parse(const uint8_t* data, int size) override;

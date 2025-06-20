@@ -16,6 +16,27 @@ SettingArea::SettingArea(AreaType areaType)
 {
 }
 
+SettingArea::SettingArea(const uint8_t* data, int size)
+{
+    parse(data, size);
+}
+
+SettingArea::SettingArea(AreaType areaType, const uint8_t* data, int size)
+    : MessageBodyBase(areaType == CircularArea ? Schema::CircularAreaSettingSchema
+                                               : Schema::RectangularAreaSettingSchema)
+    , m_areaType(areaType)
+{
+    parse(data, size);
+}
+
+SettingArea::SettingArea(AreaType areaType, const Json& data)
+    : MessageBodyBase(areaType == CircularArea ? Schema::CircularAreaSettingSchema
+                                               : Schema::RectangularAreaSettingSchema)
+    , m_areaType(areaType)
+{
+    fromJson(data);
+}
+
 SettingArea::SettingArea(AreaType areaType, AreaSettingType type, const std::vector<AreaItem>& areas)
     : MessageBodyBase(areaType == CircularArea ? Schema::CircularAreaSettingSchema
                                                : Schema::RectangularAreaSettingSchema)
@@ -40,7 +61,7 @@ void SettingArea::parse(const uint8_t* data, int size)
     length = data[pos++];
 
     for (int i = 0; i < length; i++) {
-        AreaItem item = {0};
+        AreaItem item;
         pos1 = item.parse(m_areaType, data + pos, size);
         pos += pos1;
         m_areas.push_back(item);
@@ -74,8 +95,7 @@ void SettingArea::fromJson(const Json& data)
         m_type = AreaSettingType(data["type"]);
         if (data["length"] > 0) {
             for (auto& area : data["areas"]) {
-                AreaItem item = {0};
-                item.fromJson(m_areaType, area);
+                AreaItem item(m_areaType, area);
 
                 m_areas.push_back(item);
             }

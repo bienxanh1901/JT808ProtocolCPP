@@ -89,6 +89,34 @@ std::map<uint32_t, JT808::DataType> paramTypes = {
     {VehicleLicensePlateNumber, STRING},
     {CANBusIDSetting, BYTEARRAY}};
 
+TerminalParameter::TerminalParameter(const uint8_t* data, int size)
+{
+    parse(data, size);
+}
+
+TerminalParameter::TerminalParameter(const Json& data)
+{
+    fromJson(data);
+}
+
+TerminalParameter::TerminalParameter(uint32_t id, std::string str)
+    : id(id)
+    , str(std::move(str))
+{
+}
+
+TerminalParameter::TerminalParameter(uint32_t id, const ByteArray& other)
+    : id(id)
+    , other(other)
+{
+}
+
+TerminalParameter::TerminalParameter(uint32_t id, TerminalParameterValue num)
+    : id(id)
+    , num(num)
+{
+}
+
 bool TerminalParameter::operator==(const TerminalParameter& other) const
 {
     return id == other.id && num.value == other.num.value && str == other.str;

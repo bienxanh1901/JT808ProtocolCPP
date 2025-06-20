@@ -193,7 +193,7 @@ union TerminalParameterValue {
         uint32_t collectInterval = 0;
         uint32_t canId = 0;
     } canSetting;
-    uint64_t value;
+    uint64_t value = 0;
 };
 
 struct TerminalParameter
@@ -203,6 +203,12 @@ struct TerminalParameter
     std::string str;
     ByteArray other;
 
+    TerminalParameter() = default;
+    TerminalParameter(const uint8_t* data, int size);
+    TerminalParameter(const Json& data);
+    TerminalParameter(uint32_t id, TerminalParameterValue num);
+    TerminalParameter(uint32_t id, std::string str);
+    TerminalParameter(uint32_t id, const ByteArray& other);
     bool operator==(const TerminalParameter& other) const;
     int parse(const uint8_t* data, int size);
     ByteArray package();
